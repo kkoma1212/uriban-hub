@@ -1,0 +1,590 @@
+.content-input-frame {
+  --input-green: #1e4536;
+  --input-green-bright: #2b6149;
+  --input-dock-height: 76px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  height: var(--input-available-height, calc(100dvh - 9rem));
+  max-height: 900px;
+  padding-bottom: var(--input-dock-height);
+}
+.content-input-fields {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+}
+.content-input-support {
+  flex: 0 1 auto;
+  max-height: 48%;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  display: grid;
+  gap: 8px;
+}
+.content-input-aside {
+  display: contents;
+}
+.content-input-preview {
+  display: none;
+}
+.content-input-actions {
+  position: fixed;
+  z-index: 45;
+  left: var(--input-dock-left, 1rem);
+  bottom: var(--input-keyboard-bottom, 0px);
+  width: var(--input-dock-width, calc(100% - 2rem));
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0 max(12px, env(safe-area-inset-bottom));
+  background: var(--color-app-surface-raised);
+  border-top: 1px solid var(--color-app-border);
+}
+.content-input-actions > .ui-button {
+  min-height: 48px;
+}
+.content-input-actions > .content-input-submit {
+  flex: 1;
+}
+.content-input-submit {
+  background: var(--input-green, #1e4536);
+  color: #fff;
+  border: 1px solid transparent;
+  font-weight: 800;
+  min-width: 0;
+  line-height: 1.35;
+}
+.content-input-submit:hover {
+  background: #2b6149;
+}
+.content-input-submit[data-incomplete="true"] {
+  background: var(--color-app-surface-muted);
+  color: var(--color-app-muted);
+  border-color: var(--color-app-border);
+}
+.content-input-memo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 116px;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--color-app-surface-raised);
+  border: 1px solid var(--color-app-border);
+  border-radius: 18px;
+  padding: 14px 16px 10px;
+  box-shadow:
+    0 1px 2px #14201905,
+    0 4px 14px #14201905;
+}
+.content-input-title {
+  flex: none;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  border: 0;
+  border-bottom: 1px solid var(--color-app-border);
+  background: transparent;
+  border-radius: 0;
+  padding: 0 0 10px;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--color-app-text);
+}
+.content-input-textarea {
+  display: block;
+  flex: 1;
+  min-height: 36px;
+  width: 100%;
+  resize: none;
+  overflow: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 10px 0 4px;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--color-app-text);
+}
+.content-input-title::placeholder,
+.content-input-textarea::placeholder {
+  color: var(--color-app-muted);
+  opacity: 1;
+}
+.content-input-title:focus,
+.content-input-textarea:focus {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+.content-input-memo-footer {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-app-muted);
+  padding-top: 6px;
+}
+.content-input-memo-footer button,
+.content-input-memo-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 4px 8px;
+  border-radius: 9px;
+  background: var(--color-app-surface-muted);
+  font-weight: 700;
+  font-size: 12px;
+}
+.content-input-memo-footer label {
+  min-height: 44px;
+  min-width: 44px;
+  cursor: pointer;
+}
+.content-input-kinds {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  flex: none;
+}
+.content-input-kinds > button {
+  display: flex;
+  min-height: 62px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3px;
+  border-radius: 14px;
+  border: 1px solid var(--color-app-border);
+  background: var(--color-app-surface-raised);
+  font-size: 13.5px;
+  font-weight: 750;
+  color: var(--color-app-text);
+}
+.content-input-kinds > button[aria-pressed="true"] {
+  background: #1e4536;
+  border-color: #1e4536;
+  color: #fff;
+}
+.content-input-kinds > button:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+.content-input-kinds > button:disabled {
+  opacity: 0.65;
+}
+.content-input-recipient {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid var(--color-app-border);
+  background: var(--color-app-surface-raised);
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--color-app-text);
+}
+.content-input-recipient strong {
+  flex: 1;
+}
+.content-input-recipient span {
+  font-size: 12px;
+  color: var(--color-app-muted);
+}
+.content-input-options {
+  padding: 10px 12px;
+  border: 1px solid var(--color-app-border);
+  border-radius: 16px;
+  background: var(--color-app-surface-raised);
+}
+.content-input-options summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  min-height: 24px;
+}
+.content-input-error {
+  flex: none;
+  padding: 8px 10px;
+  border: 1px solid var(--color-danger-border, #fecaca);
+  border-radius: 10px;
+  background: var(--color-danger-surface, #fff1f2);
+  color: var(--color-danger-text, #be123c);
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+.content-input-days {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.content-input-days button {
+  display: flex;
+  min-height: 48px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: var(--color-app-surface-muted);
+  font-size: 14px;
+  font-weight: 800;
+}
+.content-input-days button small {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-app-muted);
+}
+.content-input-days button[aria-pressed="true"] {
+  border: 2px solid var(--color-role-primary);
+  background: var(--color-app-surface);
+  color: var(--color-app-text);
+}
+.content-input-student-preview {
+  display: grid;
+  gap: 14px;
+}
+.content-input-preview-label {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-app-text);
+}
+.content-input-board {
+  padding: 4px;
+  border-radius: 18px;
+  background: #b58c5c;
+}
+.content-input-board-face {
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: radial-gradient(120% 90% at 20% 0%, #ffffff12, transparent 60%), #244d3c;
+  color: #f3f1ea;
+}
+.content-input-board-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #d8e1d9;
+}
+.content-input-chalk {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-top: 12px;
+  font-family: Gaegu, "Pretendard Variable", cursive;
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.content-input-new-dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  flex: none;
+  align-self: center;
+  border-radius: 50%;
+  background: #f5c842;
+}
+.content-input-board-date {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #d8e1d9;
+}
+.content-input-post {
+  padding: 16px 18px;
+  border: 1px solid var(--color-app-border);
+  border-radius: 20px;
+  background: var(--color-app-surface-raised);
+}
+.content-input-post-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-app-muted);
+  font-size: 13px;
+}
+.content-input-post-meta > span:first-child {
+  padding: 3px 9px;
+  border-radius: 8px;
+  background: var(--color-app-surface-muted);
+  font-weight: 700;
+}
+.content-input-post h3 {
+  margin-top: 10px;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.content-input-post-content {
+  margin-top: 8px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--color-app-muted);
+}
+.content-input-post-date {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-app-text);
+}
+.content-input-post-footer {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-app-border);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-app-muted);
+}
+.content-input-preview-audience {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-app-muted);
+}
+.content-input-review-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: #1216146b;
+  backdrop-filter: blur(2px);
+}
+.content-input-review {
+  display: flex;
+  flex-direction: column;
+  max-height: 92dvh;
+  width: 100%;
+  max-width: 520px;
+  border: 1px solid var(--color-app-border);
+  border-radius: 24px 24px 0 0;
+  background: var(--color-app-surface);
+  padding: 10px 16px max(16px, env(safe-area-inset-bottom));
+  color: var(--color-app-text);
+}
+.content-input-review-handle {
+  width: 40px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--color-app-border);
+  margin: 0 auto 12px;
+}
+.content-input-review > h2 {
+  font-size: 19px;
+  font-weight: 800;
+}
+.content-input-review-body {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 12px 0;
+}
+.content-input-review-body .content-input-preview-label,
+.content-input-review-body .content-input-board {
+  display: none;
+}
+.content-input-review-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 8px;
+  padding-top: 10px;
+}
+.content-input-review-actions > .ui-button {
+  min-height: 48px;
+}
+.content-input-composer {
+  min-width: 0;
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid var(--color-app-border);
+  border-radius: 20px;
+  background: var(--color-app-surface);
+}
+.content-input-composer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.content-input-composer-header h1 {
+  font-size: 26px;
+  font-weight: 800;
+}
+.content-input-form {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+}
+.content-input-composer-status {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-app-muted);
+}
+@media (max-width: 1279px) {
+  .content-input-composer {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    padding: 10px 16px;
+    background: var(--color-app-surface);
+    overflow: hidden;
+  }
+  .content-input-composer-header {
+    height: 44px;
+    margin-bottom: 8px;
+  }
+  .content-input-composer-header h1 {
+    font-size: 24px;
+  }
+  .content-input-composer-status:not([data-save-failed="true"]) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+  .content-input-composer .content-input-actions {
+    z-index: 65;
+  }
+  .content-input-frame[data-keyboard-open="true"] .content-input-memo {
+    min-height: 80px;
+    padding-top: 8px;
+  }
+}
+@media (min-width: 640px) {
+  .content-input-review-backdrop {
+    align-items: center;
+    padding: 24px;
+  }
+  .content-input-review {
+    border-radius: 24px;
+    padding: 18px 22px;
+    max-height: 88dvh;
+  }
+}
+@media (min-width: 1280px) {
+  .content-input-frame {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 440px;
+    gap: 24px;
+    height: max(32rem, var(--input-available-height, calc(100dvh - 14rem)));
+    max-height: 800px;
+    padding-bottom: 0;
+  }
+  .content-input-fields {
+    padding-right: 1px;
+  }
+  .content-input-aside {
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+    flex-direction: column;
+    gap: 16px;
+    border: 1px solid var(--color-app-border);
+    border-radius: 20px;
+    background: var(--color-app-surface-muted);
+    padding: 20px;
+  }
+  .content-input-preview {
+    display: block;
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  /* 넘치면 크롬이 이 칸을 키보드 초점 대상으로 만든다 — 다른 조작과 같은 3px 초점 테두리를 준다(wave1 2026-10-04). */
+  .content-input-preview:focus-visible {
+    border-radius: 12px;
+    outline: 3px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+  .content-input-actions {
+    position: static;
+    width: auto;
+    padding: 12px 0 0;
+    background: transparent;
+    flex: none;
+    margin-top: auto;
+  }
+  .content-input-kinds > button {
+    min-height: 66px;
+    font-size: 14px;
+  }
+  .content-input-memo {
+    min-height: 180px;
+  }
+  .content-input-title {
+    font-size: 21px;
+  }
+  .content-input-support {
+    max-height: 45%;
+  }
+}
+
+.content-input-date-other {
+  position: relative;
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: var(--color-app-surface-muted);
+  font-size: 12px;
+  font-weight: 700;
+  overflow: hidden;
+}
+.content-input-date-other input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+}
+.content-input-date-other:focus-within {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+.content-input-date-other[data-selected="true"] {
+  border: 2px solid var(--color-role-primary);
+}
+/* 휴대폰·태블릿에서는 입력 막대가 아래에 고정돼 맨 끝(서비스 정보 줄의 문의 링크 등)을 가린다.
+   막대 높이만큼 아래 여백을 둬서 끝까지 내리면 누를 수 있게 한다(총검수 B4-04). */
+@media (max-width: 1279px) {
+  body:has(.content-input-actions) [data-app-footer="true"] {
+    padding-bottom: calc(var(--input-dock-height, 76px) + 12px + env(safe-area-inset-bottom));
+  }
+}

@@ -1,0 +1,28 @@
+packages:
+  - apps/*
+  - packages/*
+
+allowBuilds:
+  "@scarf/scarf": false
+  cpu-features: false
+  esbuild: true
+  protobufjs: false
+  ssh2: false
+
+peerDependencyRules:
+  allowedVersions:
+    "@nestjs/platform-fastify@11.2.7>@fastify/static": "10.1.2"
+
+overrides:
+  brace-expansion@>=2.0.0 <2.1.7: 2.1.7
+  brace-expansion@>=5.0.0 <5.0.12: 5.0.12
+  browserslist@<4.28.7: 4.29.3
+  fast-uri@>=3.0.0 <3.1.8: ^3.1.8
+  fast-uri@>=4.0.0 <4.1.5: ^4.1.5
+  fastify@>=5.0.0 <5.12.5: 5.12.5
+  find-my-way@9.6.0: 9.7.0
+  js-yaml@>=4.0.0 <4.3.2: 4.3.2
+  js-yaml@>=5.0.0 <5.4.1: 5.4.2
+  nanoid@<3.3.18: 3.3.19
+  postcss@<8.5.23: 8.5.28
+  undici@>=7.0.0 <7.29.1: 7.30.0

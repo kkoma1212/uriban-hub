@@ -1,0 +1,74 @@
+/* 반 대화: 말풍선·입력창은 도움 대화(help-request-layout.css)를 그대로 쓰고, 여러 사람 표시만 더한다. */
+.class-chat-author {
+  margin: 0 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-app-muted);
+}
+.class-chat-author-teacher {
+  color: #2b6149;
+}
+.class-chat-bubble-row {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 2px;
+}
+.help-bubble-group-mine .class-chat-bubble-row {
+  justify-content: flex-end;
+}
+.class-chat-hidden {
+  opacity: 0.72;
+}
+.class-chat-hidden-label {
+  margin-bottom: 2px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--color-danger);
+}
+.class-chat-actions {
+  position: relative;
+  flex: none;
+}
+.class-chat-more {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--color-app-muted);
+}
+.class-chat-more:hover,
+.class-chat-more[aria-expanded="true"] {
+  background: var(--color-app-surface-muted);
+}
+.class-chat-menu {
+  top: 36px;
+  left: 0;
+  right: auto;
+  min-width: 200px;
+}
+.class-chat-badge {
+  display: inline-grid;
+  min-width: 20px;
+  height: 20px;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--color-danger);
+  padding: 0 6px;
+  font-size: 12px;
+  color: #fff;
+}
+.class-chat-reports {
+  flex: none;
+  max-height: 40%;
+  overflow-y: auto;
+  border-bottom: 1px solid var(--color-app-border);
+  padding: 8px 12px;
+}
+.class-chat-report {
+  border-radius: 14px;
+  background: var(--color-app-surface);
+  padding: 10px 12px;
+}

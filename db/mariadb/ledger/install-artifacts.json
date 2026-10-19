@@ -1,0 +1,647 @@
+{
+  "schema_version": 1,
+  "candidateOnly": true,
+  "runtimeActivationApplied": false,
+  "scope": "isolated_synthetic_install_plan_only",
+  "baseline_composes": [
+    {
+      "source_path": "compose.mariadb-driver-qa.yaml",
+      "byte_length": 8605,
+      "sha256": "a52189a39f9e182f666102b54e8d16cb07595128d86b86eabaa8362f11f70ef9"
+    },
+    {
+      "source_path": "compose.mariadb-semantic-qa.yaml",
+      "byte_length": 8448,
+      "sha256": "60c759c0ec237afa63402d0a277ce597ef4c0c0966ddb7b6dae850f1369a8eb1"
+    }
+  ],
+  "ledger_controls": [
+    {
+      "source_path": "db/mariadb/ledger/0000_create_schema_migrations.sql",
+      "byte_length": 1245,
+      "sha256": "1848bcab724c4a865e4d8fe3ee0bfc31cac7ae9c0991f970a74d8540d5256f5d"
+    },
+    {
+      "source_path": "db/mariadb/ledger/0001_identity_foundation_applied.sql",
+      "byte_length": 915,
+      "sha256": "acecb42a1dee5cd664b8670d0bdcf8290fd9f0db7fcd965bad5d2f5d88f7a563"
+    }
+  ],
+  "baseline": [
+    {
+      "id": "development-identities",
+      "ledger_version": null,
+      "kind": "provisioning",
+      "after": null,
+      "mount_file": "010-development-identities.sql",
+      "source_path": "OPERATIONS/mariadb-dev/bootstrap/010-development-identities.sql",
+      "byte_length": 1235,
+      "sha256": "9d4f0d59ab51bb686cec2865fbdc966d418fdfd86952cd15474bcb50a450eb20"
+    },
+    {
+      "id": "identity-foundation",
+      "ledger_version": 1,
+      "kind": "schema",
+      "after": "development-identities",
+      "mount_file": "020-identity-foundation.sql",
+      "source_path": "db/mariadb/migrations/0001_identity_foundation.sql",
+      "byte_length": 8231,
+      "sha256": "8dd18cce674a69209e2cd96df27796ddb22681dfb21a769669fc8f821611987a"
+    },
+    {
+      "id": "identity-foundation-grants",
+      "ledger_version": 2,
+      "kind": "runtime_grant",
+      "after": "identity-foundation",
+      "mount_file": "030-identity-foundation-grants.sql",
+      "source_path": "db/mariadb/permissions/0001_identity_foundation_grants.sql",
+      "byte_length": 1365,
+      "sha256": "03dbcdb11f2a44e0febba9d40bcbeb74866ccb40e6e015ed6b34e4f058cdc9a3"
+    },
+    {
+      "id": "class-membership-definer-account",
+      "ledger_version": 3,
+      "kind": "provisioning",
+      "after": "identity-foundation-grants",
+      "mount_file": "040-class-membership-definer-account.sql",
+      "source_path": "db/mariadb/permissions/0002_class_membership_definer_account.sql",
+      "byte_length": 716,
+      "sha256": "536eb5b8f54fe1335d4d1e5583ed85230f91521a31025a54304a6fee4e2ef2de"
+    },
+    {
+      "id": "class-membership",
+      "ledger_version": 4,
+      "kind": "schema",
+      "after": "class-membership-definer-account",
+      "mount_file": "050-class-membership.sql",
+      "source_path": "db/mariadb/migrations/0002_class_membership.sql",
+      "byte_length": 21677,
+      "sha256": "23ace7320aaa963a3d16d5ca6bc029a99860d602ca8d29b58b8652bbaf5ca2d1"
+    },
+    {
+      "id": "class-membership-helper-grants",
+      "ledger_version": 5,
+      "kind": "owner_grant",
+      "after": "class-membership",
+      "mount_file": "055-class-membership-helper-grants.sql",
+      "source_path": "db/mariadb/permissions/0002_class_membership_helper_grants.sql",
+      "byte_length": 2362,
+      "sha256": "4f2f8f0bae8f998481ed8c938b856785fe963af39903ef67fa0face1378ffb76"
+    },
+    {
+      "id": "class-invariant-boundary",
+      "ledger_version": 6,
+      "kind": "schema",
+      "after": "class-membership-helper-grants",
+      "mount_file": "060-class-invariant-boundary.sql",
+      "source_path": "db/mariadb/migrations/0002_class_invariant_boundary.sql",
+      "byte_length": 8188,
+      "sha256": "3dd93aef18698a39a326d6462b5066646b5edc01850f41018d3becb50a796a19"
+    },
+    {
+      "id": "class-membership-helper-execute-grants",
+      "ledger_version": 7,
+      "kind": "owner_grant",
+      "after": "class-invariant-boundary",
+      "mount_file": "070-class-membership-helper-execute-grants.sql",
+      "source_path": "db/mariadb/permissions/0002_class_membership_helper_execute_grants.sql",
+      "byte_length": 722,
+      "sha256": "60dab6f47817b0bb1901520b1942f1c38c6a861aa4b474aa1f2b6e7e5d497804"
+    },
+    {
+      "id": "class-transition-lifecycle-routines",
+      "ledger_version": 8,
+      "kind": "schema",
+      "after": "class-membership-helper-execute-grants",
+      "mount_file": "080-class-transition-lifecycle-routines.sql",
+      "source_path": "db/mariadb/migrations/0002_class_transition_lifecycle_routines.sql",
+      "byte_length": 24434,
+      "sha256": "5844ca92d12a6901236c26cdd83dbf80a385487f442330351d1f7d61427f0322"
+    },
+    {
+      "id": "class-transition-membership-routines",
+      "ledger_version": 9,
+      "kind": "schema",
+      "after": "class-transition-lifecycle-routines",
+      "mount_file": "090-class-transition-membership-routines.sql",
+      "source_path": "db/mariadb/migrations/0002_class_transition_membership_routines.sql",
+      "byte_length": 12730,
+      "sha256": "b12e78a07aaf3c46837eb4bef45df04b3ceec0ac2a934e0c3d5015bdffc192ae"
+    },
+    {
+      "id": "class-transition-member-admin-routines",
+      "ledger_version": 10,
+      "kind": "schema",
+      "after": "class-transition-membership-routines",
+      "mount_file": "100-class-transition-member-admin-routines.sql",
+      "source_path": "db/mariadb/migrations/0002_class_transition_member_admin_routines.sql",
+      "byte_length": 28311,
+      "sha256": "9c300524f07e0ef69353a19df70d3da8bc96601985d13e8f14ed5137ddd82765"
+    },
+    {
+      "id": "class-transition-account-routine",
+      "ledger_version": 11,
+      "kind": "schema",
+      "after": "class-transition-member-admin-routines",
+      "mount_file": "110-class-transition-account-routine.sql",
+      "source_path": "db/mariadb/migrations/0002_class_transition_account_routine.sql",
+      "byte_length": 12215,
+      "sha256": "734107576f1e0cf2655ad8b35550bd8b6b4c8a0daf12c0fc3766491230b84d8f"
+    },
+    {
+      "id": "class-transition-operator-routine",
+      "ledger_version": 12,
+      "kind": "schema",
+      "after": "class-transition-account-routine",
+      "mount_file": "120-class-transition-operator-routine.sql",
+      "source_path": "db/mariadb/migrations/0002_class_transition_operator_routine.sql",
+      "byte_length": 9619,
+      "sha256": "526c3faf570df3efaed36d091114b241b8da48240066a14d579964f5185ede2a"
+    },
+    {
+      "id": "class-membership-transition-owner-execute-grants",
+      "ledger_version": 13,
+      "kind": "owner_grant",
+      "after": "class-transition-operator-routine",
+      "mount_file": "125-class-membership-transition-owner-execute-grants.sql",
+      "source_path": "db/mariadb/permissions/0002_class_membership_transition_owner_execute_grants.sql",
+      "byte_length": 1969,
+      "sha256": "28d9709b1b4284e59fec29ce2563c407228404e3f837365c051fdfd05d81b799"
+    },
+    {
+      "id": "class-membership-definer-dml-grants",
+      "ledger_version": 14,
+      "kind": "owner_grant",
+      "after": "class-membership-transition-owner-execute-grants",
+      "mount_file": "130-class-membership-definer-dml-grants.sql",
+      "source_path": "db/mariadb/permissions/0002_class_membership_definer_dml_grants.sql",
+      "byte_length": 2082,
+      "sha256": "58e2fc3b7969650a0234aa25678b16e6502fbdf874360e2be7dc37d35851e9cd"
+    },
+    {
+      "id": "content-meals",
+      "ledger_version": 15,
+      "kind": "schema",
+      "after": "class-membership-definer-dml-grants",
+      "mount_file": "140-content-meals.sql",
+      "source_path": "db/mariadb/migrations/0003_content_meals.sql",
+      "byte_length": 10664,
+      "sha256": "1c400e199641035f260b5e3edd921e7b18aa4e0cf4ca455a87b25493ba0d70e7"
+    },
+    {
+      "id": "audit-import-logs",
+      "ledger_version": 16,
+      "kind": "schema",
+      "after": "content-meals",
+      "mount_file": "150-audit-import-logs.sql",
+      "source_path": "db/mariadb/migrations/0004_audit_import_logs.sql",
+      "byte_length": 19062,
+      "sha256": "72d5a86cd5905198109c424f84a9a79496dc13ca6e884348036a921b1f9e5ab5"
+    },
+    {
+      "id": "audit-trigger-grants",
+      "ledger_version": 17,
+      "kind": "owner_grant",
+      "after": "audit-import-logs",
+      "mount_file": "155-audit-trigger-grants.sql",
+      "source_path": "db/mariadb/permissions/0004_audit_trigger_grants.sql",
+      "byte_length": 419,
+      "sha256": "af706eb7e0d1ecfa89b67637ed249f7b42d2f348cef4e7e93bbffd568e458790"
+    },
+    {
+      "id": "audit-actor-trigger",
+      "ledger_version": 18,
+      "kind": "schema",
+      "after": "audit-trigger-grants",
+      "mount_file": "160-audit-actor-trigger.sql",
+      "source_path": "db/mariadb/migrations/0004_audit_actor_trigger.sql",
+      "byte_length": 606,
+      "sha256": "78bc2b0cd8630cd3230a1dc3dd9377c9a731309b95fbfb06ca9c25ce15e47ad5"
+    },
+    {
+      "id": "attendance-notifications",
+      "ledger_version": 19,
+      "kind": "schema",
+      "after": "audit-actor-trigger",
+      "mount_file": "170-attendance-notifications.sql",
+      "source_path": "db/mariadb/migrations/0005_attendance_notifications.sql",
+      "byte_length": 11951,
+      "sha256": "eede31fa4664d344bbb14747cf4f937ae20785a0f70fdf580572c64f199bc863"
+    },
+    {
+      "id": "in-app-reminders",
+      "ledger_version": 20,
+      "kind": "schema",
+      "after": "attendance-notifications",
+      "mount_file": "180-in-app-reminders.sql",
+      "source_path": "db/mariadb/migrations/0006_in_app_reminders.sql",
+      "byte_length": 14102,
+      "sha256": "e99e8acf16aad2b697e8c1befad27a4d380f0f88fed037db755c99b712b61408"
+    },
+    {
+      "id": "reminder-trigger-grants",
+      "ledger_version": 21,
+      "kind": "owner_grant",
+      "after": "in-app-reminders",
+      "mount_file": "185-reminder-trigger-grants.sql",
+      "source_path": "db/mariadb/permissions/0006_reminder_trigger_grants.sql",
+      "byte_length": 445,
+      "sha256": "d8afb1f0109e7f6ad716743f28b4806559f20da7dce7691b1d48f247b1a3a1da"
+    },
+    {
+      "id": "reminder-resolution-trigger",
+      "ledger_version": 22,
+      "kind": "schema",
+      "after": "reminder-trigger-grants",
+      "mount_file": "190-reminder-resolution-trigger.sql",
+      "source_path": "db/mariadb/migrations/0006_reminder_resolution_trigger.sql",
+      "byte_length": 614,
+      "sha256": "7715015cd7d1504b77614798035fd17ec15d2b7aedd6336b6102fe971e237c51"
+    },
+    {
+      "id": "content-audiences",
+      "ledger_version": 23,
+      "kind": "schema",
+      "after": "reminder-resolution-trigger",
+      "mount_file": "200-content-audiences.sql",
+      "source_path": "db/mariadb/migrations/0007_content_audiences.sql",
+      "byte_length": 11068,
+      "sha256": "f0265c13e252456ed7b4f2660f11a202878668e79d27de5d409b3f2e057a05c3"
+    },
+    {
+      "id": "content-audience-trigger-grants",
+      "ledger_version": 24,
+      "kind": "owner_grant",
+      "after": "content-audiences",
+      "mount_file": "205-content-audience-trigger-grants.sql",
+      "source_path": "db/mariadb/permissions/0007_content_audience_trigger_grants.sql",
+      "byte_length": 585,
+      "sha256": "7dd1202ad0ef0aff54806928249826e4ce3fe86b660c168300927f28e2cb5c0d"
+    },
+    {
+      "id": "content-audience-triggers",
+      "ledger_version": 25,
+      "kind": "schema",
+      "after": "content-audience-trigger-grants",
+      "mount_file": "210-content-audience-triggers.sql",
+      "source_path": "db/mariadb/migrations/0007_content_audience_triggers.sql",
+      "byte_length": 846,
+      "sha256": "4f9717b36b1790a913c2b03cc09465357018e608f045189e34509ad994242a01"
+    },
+    {
+      "id": "school-schedules",
+      "ledger_version": 26,
+      "kind": "schema",
+      "after": "content-audience-triggers",
+      "mount_file": "220-school-schedules.sql",
+      "source_path": "db/mariadb/migrations/0008_school_schedules.sql",
+      "byte_length": 7602,
+      "sha256": "73ac94f88f5c8cdc02bab380d8c68477f2c19d48b3540c41e90db563f2f2a7ee"
+    },
+    {
+      "id": "student-assessments",
+      "ledger_version": 27,
+      "kind": "schema",
+      "after": "school-schedules",
+      "mount_file": "230-student-assessments.sql",
+      "source_path": "db/mariadb/migrations/0009_student_assessments.sql",
+      "byte_length": 4154,
+      "sha256": "0f01a607db14a8d01fce5a4eeea18347186e269b5110c1a66c48ca6b4fa2a96d"
+    },
+    {
+      "id": "polls",
+      "ledger_version": 28,
+      "kind": "schema",
+      "after": "student-assessments",
+      "mount_file": "240-polls.sql",
+      "source_path": "db/mariadb/migrations/0010_polls.sql",
+      "byte_length": 15298,
+      "sha256": "81e5ac7ceda69486faf2198ec73febf0c0f53df29be6415d4648a29c73d4be1b"
+    },
+    {
+      "id": "seat-draws",
+      "ledger_version": 29,
+      "kind": "schema",
+      "after": "polls",
+      "mount_file": "250-seat-draws.sql",
+      "source_path": "db/mariadb/migrations/0011_seat_draws.sql",
+      "byte_length": 17404,
+      "sha256": "3b33705e54f81a0672158b025f5c75643602be482357a252c4e2016bc2511e38"
+    },
+    {
+      "id": "seat-draw-trigger-grants",
+      "ledger_version": 30,
+      "kind": "owner_grant",
+      "after": "seat-draws",
+      "mount_file": "255-seat-draw-trigger-grants.sql",
+      "source_path": "db/mariadb/permissions/0011_seat_draw_trigger_grants.sql",
+      "byte_length": 837,
+      "sha256": "ca2accd89c429612cb33c955cc0a70df01c2cacd246e703ed8380ba1325f2e7d"
+    },
+    {
+      "id": "seat-draw-triggers",
+      "ledger_version": 31,
+      "kind": "schema",
+      "after": "seat-draw-trigger-grants",
+      "mount_file": "260-seat-draw-triggers.sql",
+      "source_path": "db/mariadb/migrations/0011_seat_draw_triggers.sql",
+      "byte_length": 3380,
+      "sha256": "c7aa02c69e176898ca0f8a91fbe7b5ec066ecbb74b27f26ba6d0877045ffc8b5"
+    },
+    {
+      "id": "team-draws",
+      "ledger_version": 32,
+      "kind": "schema",
+      "after": "seat-draw-triggers",
+      "mount_file": "270-team-draws.sql",
+      "source_path": "db/mariadb/migrations/0012_team_draws.sql",
+      "byte_length": 18089,
+      "sha256": "fb7793ec7d96855017e32950d60dbe3ded91ff7c9e898274ecf34c9f88107cd4"
+    },
+    {
+      "id": "team-draw-trigger-grants",
+      "ledger_version": 33,
+      "kind": "owner_grant",
+      "after": "team-draws",
+      "mount_file": "275-team-draw-trigger-grants.sql",
+      "source_path": "db/mariadb/permissions/0012_team_draw_trigger_grants.sql",
+      "byte_length": 566,
+      "sha256": "b710f14017ee4750d5e109c4332b5702ec9a6287fbbbd40902f7613245bdbd68"
+    },
+    {
+      "id": "team-draw-triggers",
+      "ledger_version": 34,
+      "kind": "schema",
+      "after": "team-draw-trigger-grants",
+      "mount_file": "280-team-draw-triggers.sql",
+      "source_path": "db/mariadb/migrations/0012_team_draw_triggers.sql",
+      "byte_length": 1601,
+      "sha256": "721ea65c9d042dba1e17e4655356e76f48721e40b57c2ac49b468f2984e61681"
+    },
+    {
+      "id": "duty-rosters",
+      "ledger_version": 35,
+      "kind": "schema",
+      "after": "team-draw-triggers",
+      "mount_file": "290-duty-rosters.sql",
+      "source_path": "db/mariadb/migrations/0013_duty_rosters.sql",
+      "byte_length": 17063,
+      "sha256": "744bda973e18d0a6a3609105c8f12358cd369230b7085a20f98261f4af78c7ee"
+    },
+    {
+      "id": "audit-action-catalog",
+      "ledger_version": 36,
+      "kind": "schema",
+      "after": "duty-rosters",
+      "mount_file": "300-audit-action-catalog.sql",
+      "source_path": "db/mariadb/migrations/0014_audit_action_catalog.sql",
+      "byte_length": 3009,
+      "sha256": "ca4e63cfe3cfce27748ed87c06afce59548ab31fecda541a96c144316f5cd9bd"
+    },
+    {
+      "id": "elections",
+      "ledger_version": 37,
+      "kind": "schema",
+      "after": "audit-action-catalog",
+      "mount_file": "310-elections.sql",
+      "source_path": "db/mariadb/migrations/0015_elections.sql",
+      "byte_length": 4521,
+      "sha256": "022120712e20cc8e69b55463601aba361dab697d95f1f21ae87f40cf11720ec9"
+    },
+    {
+      "id": "election-trigger-grants",
+      "ledger_version": 38,
+      "kind": "owner_grant",
+      "after": "elections",
+      "mount_file": "315-election-trigger-grants.sql",
+      "source_path": "db/mariadb/permissions/0015_election_trigger_grants.sql",
+      "byte_length": 329,
+      "sha256": "0e83aede6bf08dc0d0d2f457f6aaa410c01bb5bd54062eb2c49c9b3cbcaedb2b"
+    },
+    {
+      "id": "election-tie-break-trigger",
+      "ledger_version": 39,
+      "kind": "schema",
+      "after": "election-trigger-grants",
+      "mount_file": "320-election-tie-break-trigger.sql",
+      "source_path": "db/mariadb/migrations/0015_election_tie_break_trigger.sql",
+      "byte_length": 446,
+      "sha256": "4c1911ed70e75cabe633eac3301b3685c9a0d390629750fd2a479b9f3174a952"
+    },
+    {
+      "id": "layout-draft-autosaves",
+      "ledger_version": 40,
+      "kind": "schema",
+      "after": "election-tie-break-trigger",
+      "mount_file": "330-layout-draft-autosaves.sql",
+      "source_path": "db/mariadb/migrations/0016_layout_draft_autosaves.sql",
+      "byte_length": 1572,
+      "sha256": "5cf4197d59175d053a5ed7fd514d0a3c4229b5503f43404fb39913c8afaf5473"
+    },
+    {
+      "id": "classroom-layout-templates",
+      "ledger_version": 41,
+      "kind": "schema",
+      "after": "layout-draft-autosaves",
+      "mount_file": "340-classroom-layout-templates.sql",
+      "source_path": "db/mariadb/migrations/0017_classroom_layout_templates.sql",
+      "byte_length": 1696,
+      "sha256": "02af4f1ac640624101a3dc85c267e37cffa4bc0f0dce3111092d8734f2af1201"
+    },
+    {
+      "id": "public-holidays",
+      "ledger_version": 42,
+      "kind": "schema",
+      "after": "classroom-layout-templates",
+      "mount_file": "350-public-holidays.sql",
+      "source_path": "db/mariadb/migrations/0018_public_holidays.sql",
+      "byte_length": 5734,
+      "sha256": "2115ddc0cae517afa3dcafeeb0a04792a39bcb3fe1a1c0a57e9eba3adb30bc3c"
+    },
+    {
+      "id": "guardian-consent-requests",
+      "ledger_version": 43,
+      "kind": "schema",
+      "after": "public-holidays",
+      "mount_file": "360-guardian-consent-requests.sql",
+      "source_path": "db/mariadb/migrations/0019_guardian_consent_requests.sql",
+      "byte_length": 4354,
+      "sha256": "4f659a8554db5ab41815c1652c00e3a3a6c4a023a942d626a7f51e39b679d3aa"
+    },
+    {
+      "id": "admin-auth",
+      "ledger_version": 44,
+      "kind": "schema",
+      "after": "guardian-consent-requests",
+      "mount_file": "370-admin-auth.sql",
+      "source_path": "db/mariadb/migrations/0020_admin_auth.sql",
+      "byte_length": 15260,
+      "sha256": "92b22534d5060f3f0c5b7e04b3857185f3c82b06b0051e277db872e2aa89bcef"
+    },
+    {
+      "id": "admin-signup-approvals",
+      "ledger_version": 45,
+      "kind": "schema",
+      "after": "admin-auth",
+      "mount_file": "380-admin-signup-approvals.sql",
+      "source_path": "db/mariadb/migrations/0021_admin_signup_approvals.sql",
+      "byte_length": 5660,
+      "sha256": "4c458c039e3c68c6c9d3de13f63207b590bd510875387a5ed4a63f44318476af"
+    },
+    {
+      "id": "admin-inquiries-system-state",
+      "ledger_version": 46,
+      "kind": "schema",
+      "after": "admin-signup-approvals",
+      "mount_file": "390-admin-inquiries-system-state.sql",
+      "source_path": "db/mariadb/migrations/0022_admin_inquiries_system_state.sql",
+      "byte_length": 2858,
+      "sha256": "4eb9cc0260fbb4f7a8478486a25b0339c084854b58f424f8f9a398ee6e93c6df"
+    },
+    {
+      "id": "admin-terms-management",
+      "ledger_version": 47,
+      "kind": "schema",
+      "after": "admin-inquiries-system-state",
+      "mount_file": "400-admin-terms-management.sql",
+      "source_path": "db/mariadb/migrations/0023_admin_terms_management.sql",
+      "byte_length": 3235,
+      "sha256": "24ec754c852362f79069427272f70eb2c4314dac6ea48a540ab0a7202f2d8dcd"
+    },
+    {
+      "id": "admin-account-management",
+      "ledger_version": 48,
+      "kind": "schema",
+      "after": "admin-terms-management",
+      "mount_file": "410-admin-account-management.sql",
+      "source_path": "db/mariadb/migrations/0024_admin_account_management.sql",
+      "byte_length": 3703,
+      "sha256": "e52e45ed84b4f61bf37af973c8863a595b3e72564ccedeffb3eec0d2dcf3f14e"
+    },
+    {
+      "id": "admin-history-grants",
+      "ledger_version": 49,
+      "kind": "owner_grant",
+      "after": "admin-account-management",
+      "mount_file": "415-admin-history-grants.sql",
+      "source_path": "db/mariadb/permissions/0024_admin_history_trigger_grants.sql",
+      "byte_length": 218,
+      "sha256": "ef449b012aa733aebaf8f6fccacb0b96564b5bcc67a86a26da23b0e98ada7f46"
+    },
+    {
+      "id": "admin-history-trigger",
+      "ledger_version": 50,
+      "kind": "schema",
+      "after": "admin-history-grants",
+      "mount_file": "420-admin-history-trigger.sql",
+      "source_path": "db/mariadb/migrations/0024_admin_history_trigger.sql",
+      "byte_length": 3233,
+      "sha256": "ffec4f1440188bd842a6ca68dd46e3c1ddc11011a45c9db729d4ce5f527ec778"
+    },
+    {
+      "id": "identity-school",
+      "ledger_version": 51,
+      "kind": "schema",
+      "after": "admin-history-trigger",
+      "mount_file": "430-identity-school.sql",
+      "source_path": "db/mariadb/migrations/0025_identity_school_followups.sql",
+      "byte_length": 3013,
+      "sha256": "b07c54fc4c826b06ec3a627ee774958d2bfeaf065f757e4d630c43ccf73af86f"
+    },
+    {
+      "id": "checked-transfer",
+      "ledger_version": 52,
+      "kind": "schema",
+      "after": "identity-school",
+      "mount_file": "440-checked-transfer.sql",
+      "source_path": "db/mariadb/migrations/0026_checked_teacher_transfer.sql",
+      "byte_length": 10219,
+      "sha256": "289bba577e631dcacf85b78abae6e6e944b3e56303761eb5623116b7c9a5a0fc"
+    },
+    {
+      "id": "checked-transfer-owner",
+      "ledger_version": 53,
+      "kind": "owner_grant",
+      "after": "checked-transfer",
+      "mount_file": "445-checked-transfer-owner.sql",
+      "source_path": "db/mariadb/permissions/0026_checked_teacher_transfer_owner.sql",
+      "byte_length": 201,
+      "sha256": "dc64994953dbda284e549111ce1f10f1f3a456396249709589f4e449c017d9f3"
+    },
+    {
+      "id": "retention-actor",
+      "ledger_version": 54,
+      "kind": "schema",
+      "after": "checked-transfer-owner",
+      "mount_file": "450-retention-actor.sql",
+      "source_path": "db/mariadb/migrations/0027_retention_system_actor.sql",
+      "byte_length": 788,
+      "sha256": "1aed7ef6f7fed9e60680461d3b6540df62746029c2fea1b739351f5c398b5a3a"
+    }
+  ],
+  "followups": [
+    {
+      "id": "class_access_approval",
+      "steps": [
+        {
+          "id": "class-access-approval-owner",
+          "ledger_version": 55,
+          "kind": "owner_grant",
+          "requires": ["admin-signup-approvals", "class-membership-helper-grants"],
+          "required_owner_delta": "classhub_routine@%:users:SELECT:signup_approved_at",
+          "source_path": "db/mariadb/permissions/0030_class_access_approval_owner.sql",
+          "byte_length": 584,
+          "sha256": "0f2a758d71e8e23c5c071c40aa20d85a7cbf68c0bdf5c9f4134359cede764061"
+        },
+        {
+          "id": "class-access-approval-routines",
+          "ledger_version": 56,
+          "kind": "routine_replacement",
+          "requires": [
+            "class-access-approval-owner",
+            "class-transition-lifecycle-routines",
+            "class-transition-membership-routines"
+          ],
+          "session_mode": "preserve_existing_routine_sql_mode",
+          "routine_targets": ["create_class_with_teacher_and_invite", "request_class_membership"],
+          "source_path": "db/mariadb/migrations/0030_class_access_approval.sql",
+          "byte_length": 16029,
+          "sha256": "6274342075bcfaf0a67b0ac24d625f482a650333ac03fd103e80a287e9f775d6"
+        }
+      ]
+    },
+    {
+      "id": "archive_reason",
+      "steps": [
+        {
+          "id": "archive-reason",
+          "ledger_version": 57,
+          "kind": "routine_replacement",
+          "requires": ["class-transition-lifecycle-routines"],
+          "session_mode": "preserve_existing_routine_sql_mode",
+          "routine_targets": ["archive_class"],
+          "source_path": "db/mariadb/migrations/0031_archive_reason.sql",
+          "byte_length": 9262,
+          "sha256": "371ccc51aef70cf2f95ff3a24e452a04d845d99472f5f2e435cf6fd72a9cc8e5"
+        }
+      ]
+    },
+    {
+      "id": "transaction_lock_keys",
+      "steps": [
+        {
+          "id": "transaction-lock-keys",
+          "ledger_version": 58,
+          "kind": "operational_schema",
+          "requires": [],
+          "operational_table": "transaction_lock_keys",
+          "required_committed_seed_rows": 5,
+          "runtime_grants_included": false,
+          "source_path": "db/mariadb/migrations/0032_transaction_lock_keys.sql",
+          "byte_length": 1312,
+          "sha256": "3b68bb0c5986a3d40ad80c83c74f6d7ab566762eb6f80ea3991ed78ac48004a7"
+        }
+      ]
+    }
+  ]
+}

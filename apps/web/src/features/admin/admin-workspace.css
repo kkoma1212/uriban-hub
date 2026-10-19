@@ -1,0 +1,494 @@
+/*
+ * 관리자 작업 공간 틀(2026-09-30 사용자 요청: LEXI 관리자처럼). 넓은 화면은 왼쪽 고정 메뉴 + 위쪽 막대 +
+ * 넓은 본문, 1100px 아래는 메뉴가 서랍으로 열린다. 색은 앱 공통 변수(관리자 보라·다크 모드 포함)만 쓴다.
+ */
+.admin-workspace {
+  --admin-sidebar-width: 15rem;
+  min-height: 100dvh;
+  background: var(--color-app-canvas);
+  color: var(--color-app-text);
+}
+
+.admin-trend-tooltip {
+  pointer-events: none;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  z-index: 10;
+  margin-bottom: 0.25rem;
+  display: none;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  border-radius: 0.375rem;
+  background: var(--color-app-text);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 700;
+  color: var(--color-app-surface);
+}
+.admin-trend-bar {
+  position: relative;
+  display: flex;
+  height: 100%;
+  min-width: 0;
+  flex: 1;
+  align-items: flex-end;
+}
+.admin-trend-bar > div {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  background: var(--color-role-primary);
+}
+@media (hover: hover) {
+  .admin-trend-bar:hover > .admin-trend-tooltip {
+    display: block;
+  }
+}
+
+.admin-sidebar {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  z-index: 40;
+  display: flex;
+  width: var(--admin-sidebar-width);
+  flex-direction: column;
+  gap: 1.25rem;
+  overflow-y: auto;
+  border-inline-end: 1px solid var(--color-app-border);
+  background: var(--color-app-surface);
+  padding: calc(env(safe-area-inset-top, 0px) + 1.25rem) 0.875rem 1.25rem;
+}
+
+.admin-sidebar-brand {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: 0.75rem;
+  padding-inline: 0.375rem;
+  color: var(--color-app-text);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.admin-sidebar-brand-mark {
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: none;
+  place-items: center;
+  border-radius: 0.625rem;
+  background: var(--color-role-soft);
+  color: var(--color-role-primary);
+}
+
+.admin-nav-group {
+  display: grid;
+  gap: 0.125rem;
+}
+
+.admin-nav-group-label {
+  margin: 0 0 0.25rem;
+  padding-inline: 0.625rem;
+  color: var(--color-app-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.admin-nav-item {
+  display: flex;
+  min-height: 2.75rem;
+  width: 100%;
+  align-items: center;
+  gap: 0.625rem;
+  border: 0;
+  border-radius: 0.625rem;
+  background: transparent;
+  padding-inline: 0.625rem;
+  color: var(--color-app-text);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-align: start;
+  cursor: pointer;
+}
+
+.admin-nav-item:hover {
+  background: var(--color-app-surface-muted);
+}
+
+.admin-nav-item[aria-selected="true"] {
+  background: var(--color-role-soft);
+  color: var(--color-role-primary);
+  font-weight: 800;
+}
+
+.admin-nav-item:focus-visible,
+.admin-topbar-button:focus-visible,
+.admin-account-menu > summary:focus-visible {
+  outline: 3px solid var(--color-role-primary);
+  outline-offset: 2px;
+}
+
+.admin-nav-item > svg {
+  flex: none;
+}
+
+.admin-sidebar-footer {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: auto;
+  border-top: 1px solid var(--color-app-border);
+  padding-top: 1rem;
+  color: var(--color-app-muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.admin-body {
+  display: flex;
+  min-width: 0;
+  min-height: 100dvh;
+  flex-direction: column;
+  margin-inline-start: var(--admin-sidebar-width);
+}
+
+.admin-topbar {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 30;
+  display: flex;
+  min-height: 4rem;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--color-app-border);
+  background: var(--color-app-surface);
+  padding: 0.625rem 2rem;
+}
+
+.admin-topbar-button {
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid var(--color-app-border);
+  border-radius: 0.625rem;
+  background: var(--color-app-surface);
+  color: var(--color-app-text);
+  cursor: pointer;
+}
+
+.admin-breadcrumb {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  color: var(--color-app-muted);
+}
+
+.admin-breadcrumb h1 {
+  margin: 0;
+  overflow: hidden;
+  color: var(--color-app-text);
+  font-size: 1rem;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-topbar-search {
+  display: flex;
+  width: min(18rem, 32vw);
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--color-app-border);
+  border-radius: 0.625rem;
+  background: var(--color-app-canvas);
+  padding-inline: 0.75rem;
+}
+
+.admin-topbar-search:focus-within {
+  outline: 3px solid var(--color-role-primary);
+  outline-offset: 1px;
+}
+
+.admin-topbar-search input {
+  /* 44px 조작 영역 기준(account-experience QA가 1024px에서 40px을 잡았다). */
+  min-height: 2.75rem;
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: var(--color-app-text);
+  font: inherit;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.admin-account-menu {
+  position: relative;
+}
+
+.admin-account-menu > summary {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.625rem;
+  padding-inline: 0.5rem;
+  list-style: none;
+  cursor: pointer;
+}
+
+.admin-account-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.admin-account-initial {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  flex: none;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--color-role-soft);
+  color: var(--color-role-primary);
+  font-weight: 800;
+}
+
+.admin-account-panel {
+  position: absolute;
+  inset-inline-end: 0;
+  top: calc(100% + 0.375rem);
+  z-index: 50;
+  display: grid;
+  width: 16rem;
+  gap: 0.5rem;
+  border: 1px solid var(--color-app-border);
+  border-radius: 0.875rem;
+  background: var(--color-app-surface-raised);
+  padding: 0.875rem;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.14);
+}
+
+.admin-content {
+  width: 100%;
+  max-width: 90rem;
+  flex: 1;
+  margin-inline: auto;
+  padding: 1.75rem 2rem 2.5rem;
+}
+
+/* 세션 안내 상자는 예전 틀용 위 여백(mt-5)을 가진다 — 이 틀에서는 본문 여백만 쓴다. */
+.admin-content > :first-child {
+  margin-top: 0;
+}
+
+.admin-drawer-backdrop {
+  display: none;
+}
+
+@media (max-width: 1099.98px) {
+  .admin-sidebar {
+    width: min(17rem, 86vw);
+    transform: translateX(-102%);
+    visibility: hidden;
+    box-shadow: 0 0 40px rgb(0 0 0 / 0.2);
+  }
+  .admin-workspace[data-drawer-open="true"] .admin-sidebar {
+    transform: none;
+    visibility: visible;
+  }
+  .admin-workspace[data-drawer-open="true"] .admin-drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 35;
+    display: block;
+    background: rgb(0 0 0 / 0.36);
+  }
+  .admin-body {
+    margin-inline-start: 0;
+  }
+  .admin-topbar-button {
+    display: grid;
+  }
+  .admin-topbar {
+    padding-inline: 1rem;
+  }
+  .admin-content {
+    padding: 1.25rem 1rem 2rem;
+  }
+}
+
+@media (max-width: 819.98px) {
+  .admin-topbar-search,
+  .admin-breadcrumb-group,
+  .admin-account-name {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .admin-sidebar {
+    transition:
+      transform 180ms ease,
+      visibility 180ms;
+  }
+  /* 열 때는 바로 보이게 해야 첫 메뉴에 초점을 줄 수 있다(총검수 C3-07). 닫을 때만 늦춘다. */
+  .admin-workspace[data-drawer-open="true"] .admin-sidebar {
+    transition:
+      transform 180ms ease,
+      visibility 0s;
+  }
+}
+
+/* 좁은 폭에서 표가 1/3만 보이고 옆으로 밀라는 표시가 없었다(총검수 C3-08). 표 위에 붙는 안내. */
+@media (max-width: 639.98px) {
+  [data-admin-table-scroll]::before {
+    content: "← 옆으로 밀어 더 보기 →";
+    position: sticky;
+    left: 0;
+    display: block;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-app-muted);
+  }
+}
+[data-admin-table-scroll]:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* 계정 검색이 첫 동작이다. 모바일 보안 이동은 검색 아래 작은 보조 동작으로 둔다. */
+@media (max-width: 639.98px) {
+  [data-member-security-entry] > div {
+    margin-top: 0.75rem;
+    flex-direction: row;
+    justify-content: flex-end;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
+  }
+}
+
+.admin-sidebar-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.admin-sidebar-heading .admin-sidebar-brand {
+  min-width: 0;
+  flex: 1;
+}
+.admin-drawer-close {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid var(--color-app-border);
+  border-radius: 0.625rem;
+  background: var(--color-app-surface);
+  color: var(--color-app-text);
+  cursor: pointer;
+}
+.admin-drawer-close:focus-visible {
+  outline: 3px solid var(--color-role-primary);
+  outline-offset: 2px;
+}
+
+/* 관리자 세션 표시. 계정 화면에서도 이 관리자 전용 스타일을 불러온다. */
+.admin-session {
+  margin-top: 1.25rem;
+  border: 1px solid var(--color-role-border);
+  border-radius: 1rem;
+  background: var(--color-role-soft);
+  padding: 1rem;
+}
+.admin-session > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.admin-session > div > div {
+  min-width: 0;
+}
+.admin-session > div > div > p:first-child {
+  font-weight: 800;
+  color: var(--color-role-primary);
+}
+.admin-session > div > div > p:nth-child(2) {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  color: var(--color-app-text);
+}
+.admin-session > div > div > p:last-child {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--color-app-text);
+}
+.admin-session-explanation {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  color: var(--color-app-text);
+}
+.admin-session > div > button {
+  min-height: 2.75rem;
+  flex-shrink: 0;
+}
+.admin-session > p[role] {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+.admin-session > p[role="status"] {
+  display: none;
+  font-weight: 600;
+  color: var(--color-app-text);
+}
+.admin-session > p[role="alert"] {
+  color: var(--color-danger-text);
+}
+@media (width < 40rem) {
+  .admin-session[data-stable="true"] {
+    padding: 0.75rem;
+  }
+  .admin-session[data-stable="true"] > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    justify-content: normal;
+    gap: 0.5rem;
+  }
+  .admin-session[data-stable="true"] > div > div > p:first-child,
+  .admin-session[data-stable="true"] > div > div > p:nth-child(2) {
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+  }
+  .admin-session[data-stable="true"] > div > div > p:nth-child(2) {
+    margin-top: 0.125rem;
+  }
+  .admin-session[data-explain="false"] > .admin-session-explanation {
+    display: none;
+  }
+  .admin-session > div > div > p:last-child {
+    display: none;
+  }
+  .admin-session > p[role="status"] {
+    display: block;
+  }
+}

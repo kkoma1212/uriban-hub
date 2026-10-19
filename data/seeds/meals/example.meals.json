@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "items": [
+    {
+      "operation": "upsert",
+      "edu_office_code": "B10",
+      "school_code": "7010123",
+      "meal_date": "2026-07-14",
+      "meal_type": "lunch",
+      "menu_json": [
+        {
+          "name": "김치볶음밥",
+          "allergens": ["1", "2"]
+        }
+      ]
+    }
+  ]
+}

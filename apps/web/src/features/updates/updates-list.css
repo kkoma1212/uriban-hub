@@ -1,0 +1,102 @@
+.updates-list-content [data-content-past="true"] {
+  background: var(--color-app-surface-muted);
+  box-shadow: none;
+}
+
+.updates-list-content [data-content-past="true"]:focus-visible {
+  outline: 2px solid var(--color-app-text);
+}
+
+@media (min-width: 1280px) {
+  .updates-list-content .content-card {
+    padding: 12px;
+  }
+  .updates-list-content [data-content-title] {
+    margin-top: 6px;
+    font-size: 16px;
+  }
+  .updates-list-content [data-content-excerpt] {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    margin-top: 6px;
+    line-height: 22px;
+  }
+  .updates-list-content [data-content-footer] {
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+
+  .updates-master-detail > .content-split-main,
+  .updates-master-detail > .content-split-aside {
+    min-height: 0;
+    border: 0;
+  }
+
+  .updates-master-detail > .content-split-aside {
+    border-radius: 20px;
+    background: var(--color-app-surface);
+    box-shadow: 0 3px 14px rgb(0 0 0 / 4%);
+  }
+
+  .updates-master-detail [data-content-detail="embedded"] article,
+  .updates-master-detail
+    [data-content-detail="embedded"]
+    > [data-detail-backbar]
+    + *
+    > div
+    > section {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 10px;
+    box-shadow: none;
+  }
+
+  .updates-master-detail
+    [data-content-detail="embedded"]
+    > [data-detail-backbar]
+    + *
+    > div
+    > section {
+    border-top: 1px solid var(--color-app-border);
+  }
+
+  .updates-pane-header,
+  .updates-master-detail [data-content-detail="embedded"] > [data-detail-backbar] {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    min-height: 60px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0;
+    border-bottom: 1px solid var(--color-app-border);
+    background: var(--color-app-surface);
+    padding: 8px 12px;
+  }
+
+  /*
+   * 목록 카드는 다른 탭처럼 칸 끝선(필터 줄과 같은 선)에서 시작한다. 좌우 여백을 따로 두면 카드만
+   * 12px 들어가 머리 상자와 시작·끝선이 어긋났다(2026-09-30 사용자 지적). 위쪽만 머리와의 간격이다.
+   */
+  .updates-list-content {
+    padding: 12px 0 0;
+  }
+
+  /* 목록 머리(날짜·개수·학생별 미해결)도 카드와 같은 둥근 상자로 — 네모 띠만 튀었다. */
+  .updates-pane-header {
+    border-bottom: 0;
+    border-radius: 20px;
+    box-shadow: 0 3px 18px rgb(0 0 0 / 5%);
+  }
+
+  .updates-master-detail [data-content-detail="embedded"] > [data-detail-backbar] + * {
+    padding: 12px;
+  }
+}
+
+.content-filter[aria-current="page"] .updates-unresolved-count {
+  color: var(--color-danger-on-inverse);
+}

@@ -1,0 +1,35 @@
+-- Isolated synthetic review candidate only. No production activation.
+-- Apply after the shell/schema candidate and existing admin-retention ACL; account host/database must be reviewed.
+GRANT EXECUTE ON PROCEDURE classhub_mariadb_phase1_dev.class_archive_schema_inventory TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.class_chat_reports TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.class_chat_messages TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.class_chat_mutes TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.class_chat_rooms TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.help_request_messages TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.help_requests TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.in_app_reminder_recipients TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.in_app_reminder_batches TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.push_deliveries TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.schedule_notice_links TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.schedule_supply_links TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.notice_reads TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.notice_recipients TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.supply_checks TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.supply_recipients TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.poll_votes TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.poll_options TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.polls TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.election_tallies TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.election_participants TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.election_candidates TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.elections TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.attendance_notifications TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.notices TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.supplies TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.schedules TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.student_assessment_records TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.class_invite_codes TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.class_member_status_history TO 'classhub_retention'@'%';
+GRANT SELECT, DELETE ON classhub_mariadb_phase1_dev.class_members TO 'classhub_retention'@'%';
+GRANT SELECT, UPDATE (name, academic_year, grade, edu_office_code, school_code, expected_student_count, created_by_user_id, suspended_reason, suspended_at, suspended_by_operator_id, archived_by_user_id, archived_by_operator_id, retention_purged_at, updated_at, row_version) ON classhub_mariadb_phase1_dev.classes TO 'classhub_retention'@'%';
+GRANT UPDATE (status, winner_candidate_id) ON classhub_mariadb_phase1_dev.elections TO 'classhub_retention'@'%';

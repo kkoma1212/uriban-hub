@@ -1,0 +1,51 @@
+/*
+ * 학생 출결 연락 폼은 공용 작성 틀(content-input-frame)을 스크롤되는 본문 안에 둔다. 공용 틀은
+ * 창 높이에 맞춰 스스로 높이를 정하고 안쪽 칸이 휠을 붙잡아서, 본문 안에서는 틀이 보이는 곳보다
+ * 길어지고 휠로도 내려갈 수 없었다(2026-09-29 사용자 "스크롤이 안돼. 락걸려있는것같아",
+ * 1440×900 실측: 본문 818/623px인데 휠 0px 이동, 보내기 버튼이 보이는 곳 밖).
+ * 이 폼만 내용 높이대로 두고 안쪽 스크롤을 없애 본문 하나로 스크롤한다.
+ */
+[data-attendance-surface="student-form"] .content-input-frame {
+  height: auto;
+  max-height: none;
+}
+
+[data-attendance-surface="student-form"] :is(.content-input-fields, .content-input-preview) {
+  overflow: visible;
+}
+
+[data-attendance-surface="student-form"] .content-input-support {
+  max-height: none;
+  overflow: visible;
+}
+
+/*
+ * PC: 보내기 버튼을 오른쪽 칸 맨 아래가 아니라 미리보기 카드 바로 밑에 둔다 — 스크롤해서 내려가
+ * 누를 필요가 없게(2026-09-29 사용자 "너무 하단에 있는걸 위로 올리라").
+ */
+@media (min-width: 1280px) {
+  [data-attendance-surface="student-form"] .content-input-preview {
+    flex: none;
+  }
+  [data-attendance-surface="student-form"] .content-input-actions {
+    margin-top: 0;
+  }
+}
+
+/*
+ * 휴대폰·태블릿: 공용 틀의 고정 보내기 바(z 45)가 하단 바(z 40)를 덮어, 출결 탭에서 다른 화면으로
+ * 나갈 수 없었다(2026-10-05 사용자 실기기 검수 "하단 바가 없어지고 나가기 버튼도 없어").
+ * 출결은 글쓰기 창이 아니라 탭 화면이므로 보내기 버튼을 내용 끝에 둔다(사용자 선택).
+ */
+@media (max-width: 1279px) {
+  [data-attendance-surface="student-form"] .content-input-frame {
+    padding-bottom: 0;
+  }
+  [data-attendance-surface="student-form"] .content-input-actions {
+    position: static;
+    width: auto;
+    padding: 4px 0 0;
+    border-top: 0;
+    background: transparent;
+  }
+}

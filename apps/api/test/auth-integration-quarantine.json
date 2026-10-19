@@ -1,0 +1,12 @@
+[
+  {
+    "path": "test/layout-drafts.auth.integration.spec.ts",
+    "reason": "P-016: 자리·모둠 임시저장 기능은 제품 범위에서 제외됨. 원본 스펙 보존.",
+    "date": "2026-09-12"
+  },
+  {
+    "path": "test/layout-templates.auth.integration.spec.ts",
+    "reason": "P-016: 교실 배치 템플릿 기능은 제품 범위에서 제외됨. 원본 스펙 보존.",
+    "date": "2026-09-12"
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "name": "@classhub/api-client",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest --passWithNoTests",
+    "test:run": "vitest run --passWithNoTests",
+    "generate": "node ../../scripts/generate-openapi-client.mjs && tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "openapi-typescript": "7.13.0"
+  }
+}

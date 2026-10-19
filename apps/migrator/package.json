@@ -1,0 +1,17 @@
+{
+  "name": "@classhub/migrator",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "files": [
+    "run-migrations.mjs"
+  ],
+  "scripts": {
+    "start": "node run-migrations.mjs up"
+  },
+  "dependencies": {
+    "@classhub/db": "workspace:*",
+    "node-pg-migrate": "8.0.4",
+    "pg": "8.22.0"
+  }
+}

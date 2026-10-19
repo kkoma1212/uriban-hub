@@ -1,0 +1,69 @@
+# Version-control, editor, agent, and local runtime state
+.git
+.git/**
+.agents
+.agents/**
+.codex
+.codex/**
+.vscode
+.idea
+
+# Credentials and environment-specific configuration must never enter build context
+.env
+.env.*
+**/.env
+**/.env.*
+.npmrc
+**/.npmrc
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+
+# Local databases, backups, logs, and generated evidence
+.local-backups
+.local-backups/**
+.local-runtime
+.local-runtime/**
+**/.local-backups
+**/.local-backups/**
+*.dump
+*.backup
+*.sql.gz
+*.log
+coverage
+**/coverage
+browser-qa
+browser-qa/**
+OPERATIONS/evidence
+OPERATIONS/evidence/**
+
+# Host dependencies and build output are rebuilt inside Linux stages
+node_modules
+**/node_modules
+dist
+**/dist
+Web
+Web/**
+.pnpm-store
+**/.pnpm-store
+
+# Product-irrelevant briefing, screenshots, and local review artifacts
+브리핑 자료
+브리핑 자료/**
+브리핑 자료 이미지
+브리핑 자료 이미지/**
+CODEX_수정지시서_20260712.md
+QUALITY
+QUALITY/**
+PRD
+PRD/**
+
+# Common temporary and OS files
+*.tmp
+*.temp
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

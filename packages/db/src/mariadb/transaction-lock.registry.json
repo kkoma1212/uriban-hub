@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "sourceAlgorithm": "pg_hashtextextended",
+  "sourceSeed": "0",
+  "encoding": "utf8",
+  "digestDomain": "classhub:mariadb:transaction-lock:v1:pg-hashtextextended:0",
+  "identities": [
+    "classhub:operator-lifecycle",
+    "classhub:meal-import",
+    "classhub:school-import",
+    "classhub:school-schedule-import",
+    "classhub:public-holiday-import"
+  ]
+}

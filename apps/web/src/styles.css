@@ -1,0 +1,872 @@
+@import "tailwindcss";
+
+/*
+ * 2026-09-27 확정 시안(칠판 + 소식 흐름)의 본문 글꼴은 Pretendard Variable 1.3.9(OFL)다.
+ * 글꼴 선언은 late-fonts.css로 떼어 main.tsx에서 늦게 불러온다 — 첫 화면 CSS 예산
+ * (check-build-output.mjs)을 넘지 않게 하기 위해서다. 불러오기 전에는 기기의 한국어 기본 글꼴로 보인다.
+ * 2026-10-01 사용자 결정: 보조 웹 글꼴 Noto Sans KR을 뺐다 — Pretendard와 함께 두 벌의 한국어 글꼴
+ * 조각을 받느라 휴대폰 첫 접속이 느렸다(느린 4G 측정 4.9초 → 3.8초, 약 280KB 절약).
+ * 외부 폰트 서버 요청 없이 번들에서 제공한다.
+ */
+
+@theme {
+  --font-sans:
+    "Pretendard Variable", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui,
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --color-brand-navy: #172554;
+  --color-brand-primary: #335cff;
+  --color-brand-primary-hover: #294de0;
+  --color-brand-primary-active: #233fc2;
+  --color-brand-primary-strong: #2747d6;
+  --color-danger: #be123c;
+  /* 선택된 칩(바탕 = 글자색, 테마와 반대 명암) 위의 위험 숫자 — 반대 테마의 danger를 쓴다. */
+  --color-danger-on-inverse: #fda4af;
+  --color-danger-hover: #9f1239;
+  --color-danger-text: #9f1239;
+  --color-danger-border: #e11d48;
+  --color-danger-surface: #fff1f2;
+  --color-warning-text: #854d0e;
+  --color-warning-border: #d97706;
+  --color-warning-surface: #fffbeb;
+  --color-success-text: #065f46;
+  --color-success-border: #059669;
+  --color-success-surface: #ecfdf5;
+  /*
+   * 밝은 테마 중립색은 **따뜻한 아이보리**다(2026-08-25 Hex 결정 — 승인된 Round 5 시안).
+   *
+   * 경위: 2026-08-07에는 연보라(#f6f4fb)를 골랐다. 그 전에 무채색 회색으로 옮겼다가
+   * "회색은 진짜 아닌 것 같다"는 판단으로 되돌린 결과였다. 그 뒤 Round 5 시안이
+   * 세 번째 답을 냈다 — 회색도 보라도 아닌 따뜻한 아이보리. 화면으로 비교한 뒤
+   * 시안 쪽을 채택했다.
+   *
+   * ⚠️ 어두운 테마는 **바꾸지 않았다.** 시안의 다크 캔버스(#15131d)가 제품 값(#14131c)과
+   * 사실상 같아서, 갈아 봐야 눈에 보이는 차이 없이 회귀 위험만 는다.
+   *
+   * 카드 경계는 app-border, 입력창 경계는 아래의 input-border 토큰으로 구분한다.
+   *
+   * 📌 아직 안 옮긴 것: 로그인·가입 화면이 쓰는 `--color-surface`·`--color-auth-surface`·
+   * `--color-text-muted` 는 푸른 계열 그대로다. 앱 안쪽과 로그인 화면의 색조가 갈리므로
+   * 다음 단계에서 함께 본다.
+   */
+  --color-app-canvas: #f6f4f0;
+  --color-app-surface: #ffffff;
+  --color-app-surface-raised: #ffffff;
+  --color-app-surface-muted: #faf9f7;
+  --color-app-text: #20201d;
+  --color-app-muted: #625f59;
+  --color-app-border: #ddd8d0;
+  /*
+   * 입력창 경계는 카드 경계와 요구 수준이 다르다. 카드는 장식이지만 입력창 테두리는
+   * "여기가 입력하는 곳"을 알리는 유일한 단서라 WCAG 1.4.11의 3:1 대상이다.
+   * 카드용 --color-app-border를 그대로 쓰던 시절 실제 대비가 안쪽 흰색과 1.39,
+   * 바깥 캔버스와 1.28이었다. 채우기(#ffffff)와 캔버스의 대비도 1.09라
+   * 테두리 말고는 입력창을 알아볼 단서가 없었다(2026-08-09 실측 — 그때 중립색은
+   * 연보라였다. 2026-08-25에 아이보리로 옮겼지만 밝기가 비슷해 이 판단은 그대로다).
+   * 이 값은 흰 채우기와 3.73, 캔버스와 3.42다. 카드 경계는 건드리지 않는다.
+   */
+  --color-input-border: #888196;
+  /*
+   * 기본 역할색 = 학생 화면 색이다(교사는 아래 [data-app-role="teacher"]가 덮는다).
+   * 이전 #5b4fc4는 hue 246°의 인디고로, 조사에서 "AI 제품 표식"으로 읽히는 바로 그
+   * 계열이었다(클래스팅이 같은 색을 `.gradient-ai` 클래스에 쓴다).
+   * 2026-09-26 CI v1(칠판 로고)에 맞춰 학생 = 칠판 초록, 교사 = 나무 틀 갈색으로 옮긴다
+   * (planning/brand-ci-20260926). 노란 분필색은 '바뀐 것' 전용이라 역할색으로 쓰지 않는다. 글꼴은 역할과 무관하게 Pretendard로
+   * 통일하고, 역할별 톤은 이 색 토큰으로 구분한다.
+   */
+  --color-role-primary: #2b6149;
+  --color-role-soft: #e6f0ea;
+  --color-role-border: #a9cbb6;
+  --color-surface: #f8fafc;
+  --color-auth-surface: #f4f7fb;
+  --color-ink: #0f172a;
+  --color-text-muted: #5b6b82;
+  --color-border-subtle: #dbe3ef;
+  /*
+   * 내용 분류색 — 2026-08-26 확정 시안(final-poc/tokens.css)에서 옮겨 왔다.
+   * 시안은 공지·할 일·투표·일정·급식·학생·공간 일곱을 두고, 이것을 역할색(교사/학생)·
+   * 상태색(성공·경고·위험)과 **일부러 분리**한다. 큰 정보 면은 역할색으로 칠하지 않고
+   * 작은 icon·상단선·soft 배경만 분류색으로 구분한다는 것이 시안의 규칙이다.
+   *
+   * ⚠️ 이름은 옮기지 않았다 — supplies 는 시안의 "할 일"(cat-task)에 해당하지만
+   * rename 은 호출부 20여 곳을 건드리므로 값만 바꿨다. 이름과 뜻이 어긋난 자리다.
+   * ⚠️ home-important·home-latest 는 이 블록에 넣지 않았다. 그 둘은 실제로 분류가 아니라
+   * 경고 상자(duty-roles-panel.tsx)와 강조 문구(seat-grid.tsx)에 쓰여 성격이 상태색에
+   * 가깝다. 가르는 것은 2026-08-26 owner 판단으로 이번 범위에서 뺐다.
+   */
+  --color-home-meal: #87422d;
+  --color-home-meal-soft: #fff0ea;
+  --color-home-meal-line: #d7a392;
+  --color-home-supplies: #006b66;
+  --color-home-supplies-soft: #e8f6f4;
+  --color-home-supplies-line: #9ccfc9;
+  --color-home-notice: #7a3457;
+  --color-home-notice-soft: #faeef4;
+  --color-home-notice-line: #d9b0c4;
+  --color-home-poll: #755b00;
+  --color-home-poll-soft: #fff7dd;
+  --color-home-poll-line: #d5c071;
+  --color-home-people: #365f80;
+  --color-home-people-soft: #edf3f7;
+  --color-home-people-line: #afc4d3;
+  --color-home-spatial: #705f9e;
+  --color-home-spatial-soft: #f0edf8;
+  --color-home-spatial-line: #c9c0e0;
+  --color-home-important: #be123c;
+  --color-home-important-soft: #fff1f2;
+  --color-home-important-line: #fecdd3;
+  /*
+   * 알림·일정 아이콘은 각각 #6d28d9(보라)·#4338ca(인디고)였다. 급식(빨강)·
+   * 준비물(초록)·중요(진홍)는 교육 서비스에서 흔한 색인데 이 둘만 보라 계열이라
+   * 한 화면에서 튀었다. 알림은 파랑, 일정은 청록으로 옮긴다 — 조사한 국내외 20개
+   * 제품이 쓰는 계열이고, 서로 구별되면서 나머지 셋과도 겹치지 않는다.
+   */
+  --color-home-latest: #0b50d0;
+  --color-home-latest-soft: #ecf2fe;
+  --color-home-latest-line: #b1cefb;
+  --color-home-schedule: #59682b;
+  --color-home-schedule-soft: #f3f6e8;
+  --color-home-schedule-line: #b8c78d;
+  --color-home-brand-soft: #eef3f8;
+  --color-home-brand-line: #d8e1ea;
+  /*
+   * 달력 날짜의 의미색(2026-08-25 Round 5 승인 시안). 표시 우선순위는
+   * 법정공휴일 > 일요일 > 토요일 > 평일이고, 공휴일과 일요일은 **같은 빨강**을 쓴다
+   * (종이 달력의 관습이고, 둘을 갈라 칠하면 "쉬는 날"이 두 색으로 쪼개진다).
+   * 토요일은 실제 달력에서 익숙한 연한 파랑이다.
+   *
+   * 상태색(danger)을 재활용하지 않는 이유: 공휴일은 오류가 아니다. 같은 토큰을 쓰면
+   * 다크 팔레트나 대비를 danger 쪽 사정으로 조정할 때 달력이 조용히 끌려간다.
+   */
+  --color-calendar-holiday: #a51f36;
+  --color-calendar-holiday-soft: #fff3f5;
+  --color-calendar-holiday-line: #e3a4b0;
+  --color-calendar-saturday: #416f9f;
+  --color-calendar-saturday-soft: #f0f6fc;
+  --color-calendar-saturday-line: #b8cce0;
+  /*
+   * 모서리와 그림자는 승인된 Round 5 시안 값이다(2026-08-25 Hex 결정).
+   * 시안 계약: control 10px · card 14px · shell 18px.
+   *
+   * 경위: 처음엔 카드 26px·바깥틀 30px였고, 카드 안에 카드가 들어가는 구조에서
+   * 안쪽까지 크게 둥글어 "말랑한 장난감" 인상을 줬다. 그래서 16px·20px로 줄였고,
+   * 이번에 시안 값 14px·18px로 한 번 더 좁혔다. control 10px는 이미 시안과 같았다.
+   *
+   * 그림자는 **얕게** 바꿨다. 제품이 쓰던 `0 18px 48px`는 시안에서 카드가 아니라
+   * 대화상자(floating)에 쓰는 값이다. 카드마다 대화상자 깊이의 그림자가 깔리면
+   * 화면에 층이 너무 많아진다 — 시안의 카드 그림자는 `0 10px 30px`다.
+   */
+  --radius-control: 0.625rem;
+  --radius-card: 0.875rem;
+  --radius-shell: 1.125rem;
+  --shadow-card: 0 10px 30px rgb(39 32 68 / 8%);
+}
+
+:root {
+  color: var(--color-app-text);
+  background: var(--color-app-canvas);
+  color-scheme: light;
+  font-family: var(--font-sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+[data-theme="dark"] {
+  --color-danger: #fda4af;
+  /* 어두운 테마의 선택 칩은 밝다(#eef2ef) — 분홍은 대비 1.67이라 진한 빨강(5.4)을 쓴다. */
+  --color-danger-on-inverse: #be123c;
+  --color-danger-hover: #fb7185;
+  --color-danger-text: #fda4af;
+  --color-danger-border: #fb7185;
+  --color-danger-surface: #3a1d29;
+  --color-warning-text: #fde68a;
+  --color-warning-border: #d97706;
+  --color-warning-surface: #332812;
+  --color-success-text: #a7f3d0;
+  --color-success-border: #10b981;
+  --color-success-surface: #123228;
+  /* 라이트값 #2747d6은 다크 카드(app-surface-raised) 위에서 2.22:1까지 떨어진다. */
+  --color-brand-primary-strong: #93c5fd;
+  /*
+   * 2026-09-27 확정 시안(칠판 + 소식 흐름)에 맞춰 연보라 기운을 빼고 칠판 초록과 어울리는
+   * 무채색에 가까운 어두운 바탕으로 옮긴다. 대비 기준은 styles.spec.ts가 계속 잰다.
+   */
+  --color-app-canvas: #121614;
+  --color-app-surface: #1a1f1c;
+  --color-app-surface-raised: #212723;
+  --color-app-surface-muted: #29302c;
+  --color-app-text: #eef2ef;
+  --color-app-muted: #aeb8b2;
+  --color-app-border: #353d38;
+  /* 입력창 경계는 채우기(#212723)·캔버스(#121614) 모두와 3:1 이상이어야 한다. */
+  --color-input-border: #7b8680;
+  --color-role-primary: #8fc7ae;
+  --color-role-soft: #173026;
+  --color-role-border: #2f5243;
+  --color-home-meal: #f1b19b;
+  --color-home-meal-soft: #212723;
+  --color-home-meal-line: #353d38;
+  --color-home-supplies: #76d6cd;
+  --color-home-supplies-soft: #212723;
+  --color-home-supplies-line: #353d38;
+  --color-home-notice: #f0a9ca;
+  --color-home-notice-soft: #212723;
+  --color-home-notice-line: #353d38;
+  --color-home-poll: #f1d36a;
+  --color-home-poll-soft: #212723;
+  --color-home-poll-line: #353d38;
+  --color-home-people: #afc9e8;
+  --color-home-people-soft: #212723;
+  --color-home-people-line: #353d38;
+  --color-home-spatial: #a99bd4;
+  --color-home-spatial-soft: #212723;
+  --color-home-spatial-line: #353d38;
+  --color-home-important: #fda4af;
+  --color-home-important-soft: #3a1d29;
+  --color-home-important-line: #663244;
+  --color-home-latest: #9bbcff;
+  --color-home-latest-soft: #212723;
+  --color-home-latest-line: #353d38;
+  --color-home-schedule: #c6d78c;
+  --color-home-schedule-soft: #212723;
+  --color-home-schedule-line: #353d38;
+  --color-home-brand-soft: #212723;
+  --color-home-brand-line: #353d38;
+  --color-calendar-holiday: #ff9aad;
+  --color-calendar-holiday-soft: #3c1d28;
+  --color-calendar-holiday-line: #8e4656;
+  --color-calendar-saturday: #a9c8ea;
+  --color-calendar-saturday-soft: #1d2d3d;
+  --color-calendar-saturday-line: #45647f;
+  color-scheme: dark;
+}
+
+/*
+ * Compatibility guard for status utilities that have not yet moved to semantic
+ * tokens. The extra theme selector wins over Tailwind's one-class utilities
+ * without changing their light-theme appearance.
+ */
+[data-theme="dark"] :is(.text-rose-600, .text-rose-700, .text-rose-800, .text-rose-900) {
+  color: var(--color-danger-text);
+}
+
+[data-theme="dark"] :is(.bg-rose-50, .bg-rose-100) {
+  background-color: var(--color-danger-surface);
+}
+
+[data-theme="dark"] :is(.border-rose-100, .border-rose-200) {
+  border-color: var(--color-danger-border);
+}
+
+[data-theme="dark"]
+  :is(.text-amber-600, .text-amber-700, .text-amber-800, .text-amber-900, .text-amber-950) {
+  color: var(--color-warning-text);
+}
+
+[data-theme="dark"] :is(.bg-amber-50, .bg-amber-100, .bg-amber-200) {
+  background-color: var(--color-warning-surface);
+}
+
+[data-theme="dark"] :is(.border-amber-200, .border-amber-300) {
+  border-color: var(--color-warning-border);
+}
+
+[data-theme="dark"]
+  :is(
+    .text-emerald-600,
+    .text-emerald-700,
+    .text-emerald-800,
+    .text-emerald-900,
+    .text-emerald-950
+  ) {
+  color: var(--color-success-text);
+}
+
+[data-theme="dark"] :is(.bg-emerald-50, .bg-emerald-100) {
+  background-color: var(--color-success-surface);
+}
+
+[data-theme="dark"] :is(.border-emerald-200, .border-emerald-300) {
+  border-color: var(--color-success-border);
+}
+
+[data-app-role="teacher"] {
+  --color-role-primary: #7a4e24;
+  --color-role-soft: #f4ece2;
+  --color-role-border: #d9c2a5;
+}
+
+/* 2026-09-27 확정 시안: 교사도 칠판 초록 한 색(어두운 테마도 학생과 같은 값). */
+[data-theme="dark"] [data-app-role="teacher"] {
+  --color-role-primary: #8fc7ae;
+  --color-role-soft: #173026;
+  --color-role-border: #2f5243;
+}
+
+/* 페이지 스크롤 막대 자리를 늘 비워 둔다: 홈처럼 페이지째 스크롤하는 화면만 막대 폭의 절반(약 8px)만큼
+   가운데 정렬 본문이 왼쪽으로 밀려 다른 탭과 시작선이 어긋났다(2026-10-04 화면 검수 실측 269 vs 277px).
+   휴대폰처럼 막대가 화면 위에 뜨는 환경에는 영향이 없다. */
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0;
+  min-width: 0;
+  min-height: 100vh;
+}
+
+#root {
+  min-width: 0;
+  min-height: 100vh;
+}
+
+::selection {
+  background: var(--color-role-border);
+}
+
+@layer components {
+  /*
+   * 탭 띠와 정보 상자에 쓰는 옅은 면.
+   *
+   * 쓰는 곳(9곳): 학생 관리 탭 띠 · 학생 프로필 정보 상자 3 · 급식·일정·준비물
+   * 기간 탭 · 공지·준비물 확인 상태 탭 · 통합 알림 필터.
+   *
+   * **2026-08-25 — 값을 적어 두던 것을 토큰 참조로 바꿨다.** 예전 주석은 "중립색을
+   * 또 옮길 때 이 면들만 따로 붙잡을 수 있게" 값을 박아 두라고 했다. 그 대비가
+   * 실제로 쓸모 있었던 것이 이번이다 — 다만 결론은 갈라내기가 아니라 **합치기**였다.
+   * 승인된 시안은 같은 자리(`.segmented`)에 별도 색을 쓰지 않고 옅은 면 + 경계선으로
+   * 띠를 세운다. 그래서 이 면도 중립 토큰을 따라가는 것이 맞고, 따라가야 다음에
+   * 중립색을 옮길 때 이 아홉 자리가 뒤처지지 않는다.
+   *
+   * 클래스 이름은 남긴다. 아홉 자리가 참조하고 있어 이름을 바꾸는 것은 이 결정과
+   * 무관한 잡음이다.
+   */
+  .panel-surface-tinted {
+    background: var(--color-app-surface-muted);
+  }
+
+  /*
+   * 카드 표면은 전부 흰색 하나로 통일한다.
+   *
+   * 이전에는 카드마다 다른 파스텔 그라데이션이 깔려 있었다(처리할일=주황,
+   * 오늘정보=파랑, 급식=분홍, 준비물=초록, 공지=보라…). 한 화면에 파스텔 배경이
+   * 다섯 개씩 나와서 "색을 정하지 못한 화면"으로 보였고, 이게 "AI가 만든 티"의
+   * 가장 큰 원인이었다.
+   *
+   * 근거: 국내외 학급·교실 앱 20개를 조사했는데 카드 배경에 색을 까는 제품이
+   * 한 곳도 없었다(2026-08-07). 전부 흰 카드에 색은 아이콘·배지·버튼에만 쓴다.
+   * 클래스팅은 보라 그라데이션을 `.gradient-ai`라는 이름으로 AI 기능 표식에만 쓴다.
+   *
+   * 참조는 화면 2곳(홈 오늘 정보 · 공지)이고, 이름은 남겨 뒀다 —
+   * 나중에 표면별로 다시 갈라 볼 여지를 남긴다. 참조가 0건이 된
+   * -tasks · -members는 2026-10-03 걷어냈다(총검수 D2-06).
+   *
+   * 여기 있던 셋(-supplies · -schedule · -meal)은 참조가 0건이라 걷어냈다
+   * (2026-08-07 Hex 결정). 이 개편이 만든 잔재가 아니라 그 전부터 0건이었다.
+   * 되살릴 일이 생기면 위 넷과 같은 줄에 이름만 더하면 된다.
+   */
+  .teacher-home-today-surface,
+  .feature-surface-notice {
+    background: var(--color-app-surface-raised);
+  }
+
+  .ui-button,
+  .ui-icon-button {
+    display: inline-flex;
+    min-height: var(--app-control-height-compact);
+    min-width: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-control);
+    font-weight: 700;
+    line-height: 1.5;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      color 160ms ease,
+      transform 120ms ease;
+  }
+
+  .ui-button {
+    min-height: var(--app-control-height);
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  .ui-icon-button {
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: none;
+    padding: 0;
+  }
+
+  .ui-button-primary {
+    border-color: var(--color-role-primary);
+    color: var(--color-app-canvas);
+    background: var(--color-role-primary);
+    box-shadow: 0 1px 2px rgb(15 23 42 / 8%);
+  }
+
+  .ui-button-primary:hover:not(:disabled) {
+    border-color: color-mix(in srgb, var(--color-role-primary) 86%, #000);
+    background: color-mix(in srgb, var(--color-role-primary) 86%, #000);
+  }
+
+  .ui-button-secondary {
+    border-color: var(--color-app-border);
+    color: var(--color-app-text);
+    background: var(--color-app-surface-raised);
+    box-shadow: 0 1px 2px rgb(15 23 42 / 5%);
+  }
+
+  .ui-button-secondary:hover:not(:disabled) {
+    border-color: var(--color-role-border);
+    background: var(--color-app-surface-muted);
+  }
+
+  .ui-button-tertiary {
+    color: var(--color-app-muted);
+    background: transparent;
+  }
+
+  .ui-button-tertiary:hover:not(:disabled) {
+    color: var(--color-app-text);
+    background: var(--color-app-surface);
+  }
+
+  .ui-button-danger {
+    border-color: var(--color-danger);
+    color: var(--color-danger);
+    background: var(--color-app-surface-raised);
+  }
+
+  .ui-button-danger:hover:not(:disabled) {
+    border-color: var(--color-danger);
+    background: var(--color-danger-surface);
+  }
+
+  .ui-button-danger-solid {
+    border-color: var(--color-danger);
+    color: var(--color-app-canvas);
+    background: var(--color-danger);
+  }
+
+  .ui-button-danger-solid:hover:not(:disabled) {
+    border-color: var(--color-danger-hover);
+    background: var(--color-danger-hover);
+  }
+
+  .ui-button-on-dark {
+    border-color: rgb(255 255 255 / 12%);
+    color: #fff;
+    background: rgb(255 255 255 / 10%);
+  }
+
+  .ui-button-on-dark:hover:not(:disabled) {
+    background: rgb(255 255 255 / 19%);
+  }
+
+  .ui-button:active:not(:disabled) {
+    transform: translateY(1px) scale(0.99);
+  }
+
+  .ui-icon-button:active:not(:disabled) {
+    opacity: 0.78;
+  }
+
+  /*
+   * 색깔 클래스(ui-button-primary 등)만 쓰고 기본 ui-button 을 빠뜨리면 눌리지 않는
+   * 버튼이 눌리는 것처럼 진하게 보인다. 실제로 2026-08-12 선거 화면에서 다섯 곳이
+   * 그랬다. 색깔 클래스에도 같은 흐림을 걸어 그 실수가 화면까지 새지 않게 한다.
+   */
+  [class*="ui-button"]:disabled,
+  .ui-icon-button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .ui-button[aria-busy="true"],
+  .ui-icon-button[aria-busy="true"] {
+    cursor: progress;
+  }
+
+  .auth-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--color-app-text);
+    font-size: 0.875rem;
+    font-weight: 750;
+  }
+
+  :is(.auth-input, .ui-input) {
+    --input-background: var(--color-app-surface-raised);
+    --input-border: var(--color-input-border);
+    --input-color: var(--color-app-text);
+    --input-placeholder: var(--color-app-muted);
+    --input-hover-border: var(--color-role-primary);
+    --input-focus-background: var(--color-app-surface-raised);
+    --input-disabled-background: var(--color-app-surface-muted);
+    --input-autofill-background: var(--color-app-surface-raised);
+
+    width: 100%;
+    min-width: 0;
+    height: var(--app-control-height);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-control);
+    padding: 0 0.875rem;
+    color: var(--input-color);
+    background-color: var(--input-background);
+    font-size: 1rem;
+    line-height: 1.5;
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      background-color 160ms ease,
+      color 160ms ease;
+  }
+
+  .ui-input-compact {
+    height: var(--app-control-height-compact);
+    padding-inline: 0.75rem;
+  }
+
+  select:is(.auth-input, .ui-input):not([multiple]):not([size]) {
+    appearance: none;
+    padding-inline-end: 2.75rem;
+    background-image:
+      linear-gradient(45deg, transparent 50%, currentColor 50%),
+      linear-gradient(135deg, currentColor 50%, transparent 50%);
+    background-position:
+      right 1.25rem center,
+      right 0.9375rem center;
+    background-repeat: no-repeat;
+    background-size: 0.3125rem 0.3125rem;
+  }
+
+  textarea:is(.auth-input, .ui-input) {
+    height: auto;
+    min-height: 7.5rem;
+    padding-block: 0.75rem;
+    resize: vertical;
+  }
+
+  select:is(.auth-input, .ui-input)[multiple] {
+    height: auto;
+    min-height: 7.5rem;
+    padding-block: 0.5rem;
+  }
+
+  .ui-input-dark {
+    --input-background: #020617;
+    --input-border: #334155;
+    --input-color: #f8fafc;
+    --input-placeholder: #94a3b8;
+    --input-hover-border: #64748b;
+    --input-focus-background: #020617;
+    --input-disabled-background: #0f172a;
+    --input-autofill-background: #0f172a;
+  }
+
+  :is(.auth-input, .ui-input)::placeholder {
+    color: var(--input-placeholder);
+    opacity: 1;
+  }
+
+  :is(.auth-input, .ui-input):hover:not(:disabled):not([aria-invalid="true"]) {
+    border-color: var(--input-hover-border);
+  }
+
+  :is(.auth-input, .ui-input):focus-visible {
+    border-color: var(--color-role-primary);
+    background-color: var(--input-focus-background);
+  }
+
+  :is(.auth-input, .ui-input)[aria-invalid="true"] {
+    border-color: var(--color-danger);
+    background-color: var(--color-danger-surface);
+  }
+
+  :is(.auth-input, .ui-input):disabled {
+    color: var(--input-placeholder);
+    background-color: var(--input-disabled-background);
+    opacity: 1;
+    cursor: not-allowed;
+  }
+
+  :is(.auth-input, .ui-input):-webkit-autofill,
+  :is(.auth-input, .ui-input):-webkit-autofill:hover,
+  :is(.auth-input, .ui-input):-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--input-color);
+    caret-color: var(--input-color);
+    box-shadow: 0 0 0 1000px var(--input-autofill-background) inset;
+    transition: background-color 9999s ease-out;
+  }
+
+  .auth-checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: none;
+    accent-color: var(--color-brand-primary);
+  }
+
+  .auth-consent-row {
+    display: grid;
+    grid-template-columns: 1.25rem minmax(0, 1fr);
+    min-height: 2.75rem;
+    cursor: pointer;
+    align-items: center;
+    column-gap: 0.75rem;
+    row-gap: 0.25rem;
+    color: var(--color-app-muted);
+  }
+
+  .auth-consent-copy {
+    min-width: 0;
+    word-break: keep-all;
+  }
+
+  .auth-consent-meta {
+    grid-column: 2;
+    justify-self: end;
+    white-space: nowrap;
+  }
+
+  @media (min-width: 400px) {
+    .auth-consent-row {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .auth-consent-meta {
+      grid-column: auto;
+      margin-left: auto;
+      justify-self: auto;
+    }
+  }
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="tabpanel"]:focus-visible {
+  outline: 3px solid var(--color-brand-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px var(--color-app-surface-raised);
+}
+
+[data-primary-navigation-item] {
+  transition-property: color, background-color;
+}
+
+[data-primary-navigation-item]:focus-visible {
+  outline-color: var(--color-app-text);
+}
+
+input:focus-visible {
+  outline: 3px solid var(--color-brand-primary);
+  outline-offset: 2px;
+}
+
+/*
+ * Windows 고대비(forced-colors)는 box-shadow를 제거하므로 컴포넌트의
+ * `focus-visible:outline-none` + ring 조합이 초점 표시를 완전히 잃는다.
+ * outline을 강제로 복원해 시스템 Highlight 색으로 다시 칠하게 한다.
+ * 활성 내비게이션·탭도 배경색 대신 시스템이 그릴 윤곽선을 얻는다.
+ */
+@media (forced-colors: active) {
+  select:is(.auth-input, .ui-input):not([multiple]):not([size]) {
+    appearance: auto;
+    background-image: none;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid CanvasText !important;
+    outline-offset: 2px !important;
+  }
+
+  [aria-current="page"],
+  [role="tab"][aria-selected="true"] {
+    outline: 2px solid CanvasText;
+    outline-offset: -2px;
+  }
+
+  /*
+   * 고대비에서는 시스템이 면과 글자색을 정한다 — 공휴일 빨강·토요일 파랑은 여기서
+   * 사라진다. 그래서 "쉬는 날"의 의미는 색이 아니라 요일 머리글(일·토), 날짜 칸의
+   * 접근 가능한 이름, 그리고 칸 안에 적힌 공휴일 이름이 진다. 면·경계는 시스템 색으로
+   * 되돌려 반쯤 남은 색 얼룩이 생기지 않게 한다.
+   */
+  [data-calendar-day-kind="holiday"],
+  [data-calendar-day-kind="saturday"],
+  [data-calendar-day-kind="sunday"] {
+    border-color: ButtonText;
+    background: Canvas;
+    color: CanvasText;
+  }
+}
+
+.meal-month {
+  min-width: 0;
+  margin-top: 1.5rem;
+}
+
+.meal-month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.meal-month-nav button {
+  flex-shrink: 0;
+  font-size: 1.5rem;
+}
+
+.meal-month-empty,
+.meal-month-calendar {
+  margin-top: 1rem;
+  border: 1px solid var(--color-app-border);
+  background: var(--color-app-surface-muted);
+}
+
+.meal-month-empty {
+  border-radius: 1rem;
+  padding: 0.75rem 1rem;
+  color: var(--color-app-muted);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.meal-month-calendar {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 1rem;
+  padding: 0.5rem;
+}
+
+.meal-month-weekdays,
+.meal-month-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.meal-month-weekdays {
+  color: var(--color-app-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.meal-month-weekdays span {
+  padding-block: 0.5rem;
+}
+
+.meal-month-days {
+  gap: 0.25rem;
+}
+
+.meal-month-day {
+  display: flex;
+  min-width: 0;
+  min-height: 3.5rem;
+  touch-action: manipulation;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.75rem;
+  background: transparent;
+  color: var(--color-app-text);
+  font-size: 0.875rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.meal-month-day:hover {
+  background: var(--color-app-surface-raised);
+}
+
+.meal-month-day[data-selected="true"] {
+  background: var(--color-role-primary);
+  color: var(--color-app-canvas);
+  box-shadow: 0 1px 2px rgb(15 23 42 / 10%);
+}
+
+/*
+ * 오늘은 테두리로 표시한다. 배경으로 칠하면 "선택된 날"(role-primary 배경)과 자리를
+ * 다투는데, 오늘이면서 선택된 날이 흔하다. 테두리는 두 상태가 겹쳐도 둘 다 보인다.
+ */
+.meal-month-day[data-today="true"] {
+  box-shadow: inset 0 0 0 2px var(--color-success-border);
+}
+
+.meal-month-day[data-today="true"]:not([data-selected="true"]) {
+  background: var(--color-success-surface);
+  color: var(--color-success-text);
+}
+
+.meal-month-dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  margin-top: 0.25rem;
+  border-radius: 9999px;
+  background: var(--color-role-primary);
+}
+
+.meal-month-day[data-selected="true"] .meal-month-dot {
+  background: var(--color-app-canvas);
+}
+
+@media (min-width: 640px) {
+  .meal-month-calendar {
+    padding: 0.75rem;
+  }
+}
+
+.ui-input-dark:focus-visible {
+  outline-color: #8fa6ff;
+}
+
+/* Conceal retained user content and every portal before session revalidation. */
+body[data-session-privacy] > :not([data-session-privacy-panel]) {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .animate-spin {
+    animation-name: none !important;
+  }
+}

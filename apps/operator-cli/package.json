@@ -1,0 +1,21 @@
+{
+  "name": "@classhub/operator-cli",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/main.ts",
+    "build": "corepack pnpm --filter @classhub/neis build && tsc -p tsconfig.build.json",
+    "start": "node dist/main.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest --passWithNoTests",
+    "test:run": "vitest run --passWithNoTests",
+    "test:integration": "vitest run --config vitest.integration.config.ts"
+  },
+  "dependencies": {
+    "@classhub/db": "workspace:*",
+    "@classhub/neis": "workspace:*",
+    "kysely": "0.29.3",
+    "parse5": "8.0.1"
+  }
+}

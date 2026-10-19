@@ -1,0 +1,3465 @@
+{
+  "schema_version": 1,
+  "id": "active54-static-dependencies-20260908",
+  "reviewed_artifact_count": 53,
+  "scope_id": "mariadb-active-54-v1",
+  "scope_sha256": "19207eb406c6f8622be050579f6694ba5cc5839dd05a3a93ad8222a65987ee09",
+  "historical_catalog_sha256": "ba16d89ac7b1b66aa2f5dc0944605fb21215c67275b09dc3e7ac92dcd646756b",
+  "current_application_catalog_sha256": "ab41271803e80590ac1255c9c93a59e196f6876c5f148a47a8b5e320524411c8",
+  "reviewed_followups": [
+    "class_access_approval",
+    "signup_role",
+    "admin_user_status",
+    "admin_member_status"
+  ],
+  "assessment": {
+    "direct_static_dependencies_reviewed": true,
+    "runtime_activation_applied": false,
+    "installation_semantics": "requires are direct static object and explicitly reviewed column/predicate/owner-read dependencies; after remains execution order only",
+    "invocation_semantics": "activation_requires may follow the routine definition and must all be present before product connections are allowed; never turn these later grants into cyclic install requirements",
+    "integrity_boundary": "all 53 source files, both artifact mappings, the active scope and extracted unique typed references are pinned; changing any of them requires a new review",
+    "internal_statement_order": "intra-file CREATE/FK/ALTER order and column CHECK bodies remain exact pinned SQL; this scanner is not a complete MariaDB parser"
+  },
+  "external_preconditions": [
+    "An empty owned classhub_mariadb_phase1_dev database already exists; bootstrap ALTER DATABASE is not CREATE DATABASE.",
+    "Executing provisioning identity can CREATE USER/GRANT and create foreign locked DEFINER routines/triggers; application identities never execute installation SQL.",
+    "MariaDB 11.4 with InnoDB, reviewed collations, SQL functions and SQL mode; quoted literal scanning assumes ordinary backslash escaping used by these exact creation files.",
+    "Routine replacements retain the existing SQL mode; actual ACL/SHOW CREATE, trigger activation and parser checks remain runtime evidence requirements.",
+    "No product traffic until every selected artifact plus activation_requires is installed and actual grants are attested.",
+    "Caller-owned READ-COMMITTED transactions and user-before-class locks, audit atomicity, stable administrator anchor and minimum-super-admin policy are application/runtime contracts, not proved by this graph.",
+    "The audit catalog commits 51 base actions and 5 election actions, preserving all 56 labels even when the retired feature tables are absent."
+  ],
+  "separate_review": [
+    {
+      "category": "current_runtime_acl",
+      "paths": ["db/mariadb/permissions/0039_current_runtime_acl.sql"],
+      "status": "separate_actual_grant_catalog_and_database_attestation_required"
+    },
+    {
+      "category": "worker",
+      "paths": ["db/mariadb/permissions/0034_worker_audit_lock_acl.sql"],
+      "status": "optional_worker_identity_audit_and_lock_envelope_not_part_of_this_53_artifact_review"
+    },
+    {
+      "category": "retention",
+      "paths": ["db/mariadb/scope/0035_retained_retention_lock_keys.sql"],
+      "status": "retained_operational_lock_seeds_and_retention_runtime_callers_require_their_own_mapping_and_review"
+    },
+    {
+      "category": "optional_followups",
+      "ids": ["archive_reason", "transaction_lock_keys"],
+      "status": "must_be_reviewed_separately_when_selected"
+    },
+    {
+      "category": "ledger_execution",
+      "paths": ["db/mariadb/ledger/0000_create_schema_migrations.sql"],
+      "status": "durable_journal_executor_resume_and_irreversible_application_authorization_not_proved_here"
+    }
+  ],
+  "retired_tables": [
+    "class_duty_roles",
+    "classroom_layout_templates",
+    "duty_assignments",
+    "duty_rosters",
+    "layout_draft_autosaves",
+    "seat_draw_assignments",
+    "seat_draw_slots",
+    "seat_draws",
+    "team_draw_assignments",
+    "team_draw_groups",
+    "team_draws"
+  ],
+  "artifacts": [
+    {
+      "id": "development-identities",
+      "source_path": "OPERATIONS/mariadb-dev/bootstrap/010-development-identities.sql",
+      "byte_length": 1235,
+      "sha256": "9d4f0d59ab51bb686cec2865fbdc966d418fdfd86952cd15474bcb50a450eb20",
+      "requires": [],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "principal",
+          "object": "classhub_migrator",
+          "line": 12
+        },
+        {
+          "kind": "principal",
+          "object": "classhub_app",
+          "line": 15
+        },
+        {
+          "kind": "principal",
+          "object": "classhub_worker",
+          "line": 18
+        },
+        {
+          "kind": "principal",
+          "object": "classhub_operator",
+          "line": 21
+        },
+        {
+          "kind": "principal",
+          "object": "classhub_retention",
+          "line": 24
+        }
+      ],
+      "references": [
+        {
+          "kind": "grantee",
+          "object": "classhub_migrator",
+          "line": 33,
+          "provider": "development-identities"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "identity-foundation",
+      "source_path": "db/mariadb/migrations/0001_identity_foundation.sql",
+      "byte_length": 8231,
+      "sha256": "8dd18cce674a69209e2cd96df27796ddb22681dfb21a769669fc8f821611987a",
+      "requires": [],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "users",
+          "line": 8
+        },
+        {
+          "kind": "table",
+          "object": "user_consents",
+          "line": 45
+        },
+        {
+          "kind": "table",
+          "object": "email_verification_tokens",
+          "line": 84
+        },
+        {
+          "kind": "table",
+          "object": "password_reset_tokens",
+          "line": 114
+        },
+        {
+          "kind": "table",
+          "object": "sessions",
+          "line": 149
+        },
+        {
+          "kind": "table",
+          "object": "api_idempotency_keys",
+          "line": 172
+        }
+      ],
+      "references": [
+        {
+          "kind": "foreign_key",
+          "object": "users",
+          "line": 56,
+          "provider": "identity-foundation"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "identity-foundation-grants",
+      "source_path": "db/mariadb/permissions/0001_identity_foundation_grants.sql",
+      "byte_length": 1365,
+      "sha256": "03dbcdb11f2a44e0febba9d40bcbeb74866ccb40e6e015ed6b34e4f058cdc9a3",
+      "requires": ["development-identities", "identity-foundation"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_table",
+          "object": "users",
+          "line": 4,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_app",
+          "line": 6,
+          "provider": "development-identities"
+        },
+        {
+          "kind": "grant_table",
+          "object": "user_consents",
+          "line": 7,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grant_table",
+          "object": "email_verification_tokens",
+          "line": 10,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grant_table",
+          "object": "password_reset_tokens",
+          "line": 13,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grant_table",
+          "object": "sessions",
+          "line": 16,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grant_table",
+          "object": "api_idempotency_keys",
+          "line": 19,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_retention",
+          "line": 25,
+          "provider": "development-identities"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "class-membership-definer-account",
+      "source_path": "db/mariadb/permissions/0002_class_membership_definer_account.sql",
+      "byte_length": 716,
+      "sha256": "536eb5b8f54fe1335d4d1e5583ed85230f91521a31025a54304a6fee4e2ef2de",
+      "requires": [],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "principal",
+          "object": "classhub_routine",
+          "line": 13
+        }
+      ],
+      "references": [],
+      "mutations": []
+    },
+    {
+      "id": "class-membership",
+      "source_path": "db/mariadb/migrations/0002_class_membership.sql",
+      "byte_length": 21677,
+      "sha256": "23ace7320aaa963a3d16d5ca6bc029a99860d602ca8d29b58b8652bbaf5ca2d1",
+      "requires": ["class-membership-definer-account", "identity-foundation"],
+      "supplemental_dependencies": [],
+      "activation_requires": [
+        {
+          "id": "class-membership-helper-grants",
+          "reason": "Locked owner table/column SELECT and history TRIGGER envelope required by the declared body."
+        }
+      ],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "operators",
+          "line": 21
+        },
+        {
+          "kind": "table",
+          "object": "teacher_profiles",
+          "line": 49
+        },
+        {
+          "kind": "table",
+          "object": "schools",
+          "line": 106
+        },
+        {
+          "kind": "table",
+          "object": "classes",
+          "line": 179
+        },
+        {
+          "kind": "table",
+          "object": "class_members",
+          "line": 301
+        },
+        {
+          "kind": "table",
+          "object": "class_member_status_history",
+          "line": 387
+        },
+        {
+          "kind": "table",
+          "object": "class_invite_codes",
+          "line": 424
+        },
+        {
+          "kind": "trigger",
+          "object": "class_member_status_history_validate",
+          "line": 483
+        }
+      ],
+      "references": [
+        {
+          "kind": "foreign_key",
+          "object": "users",
+          "line": 63,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "operators",
+          "line": 66,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "schools",
+          "line": 226,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "classes",
+          "line": 346,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "class_members",
+          "line": 400,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 483,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "trigger_target",
+          "object": "class_member_status_history",
+          "line": 483,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_members",
+          "line": 507,
+          "provider": "class-membership"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "class-membership-helper-grants",
+      "source_path": "db/mariadb/permissions/0002_class_membership_helper_grants.sql",
+      "byte_length": 2362,
+      "sha256": "4f2f8f0bae8f998481ed8c938b856785fe963af39903ef67fa0face1378ffb76",
+      "requires": ["class-membership", "class-membership-definer-account", "identity-foundation"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_table",
+          "object": "classes",
+          "line": 17,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_routine",
+          "line": 29,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "grant_table",
+          "object": "class_members",
+          "line": 30,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grant_table",
+          "object": "users",
+          "line": 33,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grant_table",
+          "object": "teacher_profiles",
+          "line": 36,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grant_table",
+          "object": "class_invite_codes",
+          "line": 39,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grant_table",
+          "object": "schools",
+          "line": 42,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grant_table",
+          "object": "class_member_status_history",
+          "line": 50,
+          "provider": "class-membership"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "class-invariant-boundary",
+      "source_path": "db/mariadb/migrations/0002_class_invariant_boundary.sql",
+      "byte_length": 8188,
+      "sha256": "3dd93aef18698a39a326d6462b5066646b5edc01850f41018d3becb50a796a19",
+      "requires": [
+        "class-membership",
+        "class-membership-definer-account",
+        "class-membership-helper-grants",
+        "identity-foundation"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "class-membership-helper-grants",
+          "reason": "Locked owner table/column SELECT and history TRIGGER envelope required by the declared body."
+        }
+      ],
+      "activation_requires": [
+        {
+          "id": "class-membership-helper-execute-grants",
+          "reason": "Locked owner EXECUTE on the three internal invariant helpers used by CALL."
+        }
+      ],
+      "definitions": [
+        {
+          "kind": "procedure",
+          "object": "assert_read_committed_session",
+          "line": 59
+        },
+        {
+          "kind": "procedure",
+          "object": "lock_class_invariant_boundary",
+          "line": 77
+        },
+        {
+          "kind": "procedure",
+          "object": "assert_class_invariants",
+          "line": 109
+        }
+      ],
+      "references": [
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 59,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "call",
+          "object": "assert_read_committed_session",
+          "line": 94,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "classes",
+          "line": 98,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_members",
+          "line": 156,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "users",
+          "line": 157,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "table_read",
+          "object": "teacher_profiles",
+          "line": 159,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_invite_codes",
+          "line": 193,
+          "provider": "class-membership"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "class-membership-helper-execute-grants",
+      "source_path": "db/mariadb/permissions/0002_class_membership_helper_execute_grants.sql",
+      "byte_length": 722,
+      "sha256": "60dab6f47817b0bb1901520b1942f1c38c6a861aa4b474aa1f2b6e7e5d497804",
+      "requires": ["class-invariant-boundary", "class-membership-definer-account"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_execute",
+          "object": "assert_read_committed_session",
+          "line": 9,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_routine",
+          "line": 11,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "lock_class_invariant_boundary",
+          "line": 12,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "assert_class_invariants",
+          "line": 15,
+          "provider": "class-invariant-boundary"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "class-transition-lifecycle-routines",
+      "source_path": "db/mariadb/migrations/0002_class_transition_lifecycle_routines.sql",
+      "byte_length": 24434,
+      "sha256": "5844ca92d12a6901236c26cdd83dbf80a385487f442330351d1f7d61427f0322",
+      "requires": [
+        "class-invariant-boundary",
+        "class-membership",
+        "class-membership-definer-account",
+        "class-membership-helper-execute-grants",
+        "class-membership-helper-grants",
+        "identity-foundation"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "class-membership-helper-grants",
+          "reason": "Locked owner table/column SELECT and history TRIGGER envelope required by the declared body."
+        },
+        {
+          "id": "class-membership-helper-execute-grants",
+          "reason": "Locked owner EXECUTE on the three internal invariant helpers used by CALL."
+        }
+      ],
+      "activation_requires": [
+        {
+          "id": "class-membership-definer-dml-grants",
+          "reason": "Locked owner INSERT/UPDATE envelope for protected user/class/membership writes."
+        },
+        {
+          "id": "class-membership-transition-owner-execute-grants",
+          "reason": "Foreign locked definer requires explicit EXECUTE when entering the transition routines."
+        }
+      ],
+      "definitions": [
+        {
+          "kind": "procedure",
+          "object": "create_class_with_teacher_and_invite",
+          "line": 19
+        },
+        {
+          "kind": "procedure",
+          "object": "archive_class",
+          "line": 261
+        },
+        {
+          "kind": "procedure",
+          "object": "rotate_class_invite",
+          "line": 508
+        }
+      ],
+      "references": [
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 19,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "call",
+          "object": "assert_read_committed_session",
+          "line": 68,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "users",
+          "line": 74,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_members",
+          "line": 95,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "teacher_profiles",
+          "line": 104,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "schools",
+          "line": 125,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "classes",
+          "line": 150,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_insert",
+          "object": "classes",
+          "line": 178,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "call",
+          "object": "lock_class_invariant_boundary",
+          "line": 188,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_insert",
+          "object": "class_members",
+          "line": 190,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_insert",
+          "object": "class_member_status_history",
+          "line": 198,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_insert",
+          "object": "class_invite_codes",
+          "line": 234,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "call",
+          "object": "assert_class_invariants",
+          "line": 258,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_invite_codes",
+          "line": 386,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_update",
+          "object": "classes",
+          "line": 404,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_update",
+          "object": "class_invite_codes",
+          "line": 438,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_update",
+          "object": "class_members",
+          "line": 478,
+          "provider": "class-membership"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "class-transition-membership-routines",
+      "source_path": "db/mariadb/migrations/0002_class_transition_membership_routines.sql",
+      "byte_length": 12730,
+      "sha256": "b12e78a07aaf3c46837eb4bef45df04b3ceec0ac2a934e0c3d5015bdffc192ae",
+      "requires": [
+        "class-invariant-boundary",
+        "class-membership",
+        "class-membership-definer-account",
+        "class-membership-helper-execute-grants",
+        "class-membership-helper-grants",
+        "identity-foundation"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "class-membership-helper-grants",
+          "reason": "Locked owner table/column SELECT and history TRIGGER envelope required by the declared body."
+        },
+        {
+          "id": "class-membership-helper-execute-grants",
+          "reason": "Locked owner EXECUTE on the three internal invariant helpers used by CALL."
+        }
+      ],
+      "activation_requires": [
+        {
+          "id": "class-membership-definer-dml-grants",
+          "reason": "Locked owner INSERT/UPDATE envelope for protected user/class/membership writes."
+        },
+        {
+          "id": "class-membership-transition-owner-execute-grants",
+          "reason": "Foreign locked definer requires explicit EXECUTE when entering the transition routines."
+        }
+      ],
+      "definitions": [
+        {
+          "kind": "procedure",
+          "object": "request_class_membership",
+          "line": 17
+        },
+        {
+          "kind": "procedure",
+          "object": "cancel_class_membership_request",
+          "line": 193
+        },
+        {
+          "kind": "procedure",
+          "object": "leave_class",
+          "line": 284
+        }
+      ],
+      "references": [
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 17,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "call",
+          "object": "assert_read_committed_session",
+          "line": 47,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "users",
+          "line": 53,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_members",
+          "line": 77,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "teacher_profiles",
+          "line": 86,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "call",
+          "object": "lock_class_invariant_boundary",
+          "line": 101,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "classes",
+          "line": 103,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_invite_codes",
+          "line": 114,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_insert",
+          "object": "class_members",
+          "line": 142,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_update",
+          "object": "class_members",
+          "line": 166,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_insert",
+          "object": "class_member_status_history",
+          "line": 182,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "call",
+          "object": "assert_class_invariants",
+          "line": 190,
+          "provider": "class-invariant-boundary"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "class-transition-member-admin-routines",
+      "source_path": "db/mariadb/migrations/0002_class_transition_member_admin_routines.sql",
+      "byte_length": 28311,
+      "sha256": "9c300524f07e0ef69353a19df70d3da8bc96601985d13e8f14ed5137ddd82765",
+      "requires": [
+        "class-invariant-boundary",
+        "class-membership",
+        "class-membership-definer-account",
+        "class-membership-helper-execute-grants",
+        "class-membership-helper-grants",
+        "identity-foundation"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "class-membership-helper-grants",
+          "reason": "Locked owner table/column SELECT and history TRIGGER envelope required by the declared body."
+        },
+        {
+          "id": "class-membership-helper-execute-grants",
+          "reason": "Locked owner EXECUTE on the three internal invariant helpers used by CALL."
+        }
+      ],
+      "activation_requires": [
+        {
+          "id": "class-membership-definer-dml-grants",
+          "reason": "Locked owner INSERT/UPDATE envelope for protected user/class/membership writes."
+        },
+        {
+          "id": "class-membership-transition-owner-execute-grants",
+          "reason": "Foreign locked definer requires explicit EXECUTE when entering the transition routines."
+        }
+      ],
+      "definitions": [
+        {
+          "kind": "procedure",
+          "object": "approve_class_member",
+          "line": 15
+        },
+        {
+          "kind": "procedure",
+          "object": "reject_class_member",
+          "line": 205
+        },
+        {
+          "kind": "procedure",
+          "object": "remove_class_member",
+          "line": 392
+        },
+        {
+          "kind": "procedure",
+          "object": "allow_class_member_rejoin",
+          "line": 580
+        }
+      ],
+      "references": [
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 15,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "call",
+          "object": "assert_read_committed_session",
+          "line": 44,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "users",
+          "line": 58,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "call",
+          "object": "lock_class_invariant_boundary",
+          "line": 94,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "classes",
+          "line": 95,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_members",
+          "line": 114,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "teacher_profiles",
+          "line": 154,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_update",
+          "object": "class_members",
+          "line": 177,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_insert",
+          "object": "class_member_status_history",
+          "line": 195,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "call",
+          "object": "assert_class_invariants",
+          "line": 202,
+          "provider": "class-invariant-boundary"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "class-transition-account-routine",
+      "source_path": "db/mariadb/migrations/0002_class_transition_account_routine.sql",
+      "byte_length": 12215,
+      "sha256": "734107576f1e0cf2655ad8b35550bd8b6b4c8a0daf12c0fc3766491230b84d8f",
+      "requires": [
+        "class-invariant-boundary",
+        "class-membership",
+        "class-membership-definer-account",
+        "class-membership-helper-execute-grants",
+        "class-membership-helper-grants",
+        "identity-foundation"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "class-membership-helper-grants",
+          "reason": "Locked owner table/column SELECT and history TRIGGER envelope required by the declared body."
+        },
+        {
+          "id": "class-membership-helper-execute-grants",
+          "reason": "Locked owner EXECUTE on the three internal invariant helpers used by CALL."
+        }
+      ],
+      "activation_requires": [
+        {
+          "id": "class-membership-definer-dml-grants",
+          "reason": "Locked owner INSERT/UPDATE envelope for protected user/class/membership writes."
+        },
+        {
+          "id": "class-membership-transition-owner-execute-grants",
+          "reason": "Foreign locked definer requires explicit EXECUTE when entering the transition routines."
+        }
+      ],
+      "definitions": [
+        {
+          "kind": "procedure",
+          "object": "delete_user_account",
+          "line": 19
+        }
+      ],
+      "references": [
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 19,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "call",
+          "object": "assert_read_committed_session",
+          "line": 48,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "users",
+          "line": 118,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "call",
+          "object": "lock_class_invariant_boundary",
+          "line": 135,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_members",
+          "line": 153,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "classes",
+          "line": 187,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_update",
+          "object": "class_members",
+          "line": 242,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_insert",
+          "object": "class_member_status_history",
+          "line": 259,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_update",
+          "object": "users",
+          "line": 281,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "call",
+          "object": "assert_class_invariants",
+          "line": 304,
+          "provider": "class-invariant-boundary"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "class-transition-operator-routine",
+      "source_path": "db/mariadb/migrations/0002_class_transition_operator_routine.sql",
+      "byte_length": 9619,
+      "sha256": "526c3faf570df3efaed36d091114b241b8da48240066a14d579964f5185ede2a",
+      "requires": [
+        "class-invariant-boundary",
+        "class-membership",
+        "class-membership-definer-account",
+        "class-membership-helper-execute-grants",
+        "class-membership-helper-grants",
+        "identity-foundation"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "class-membership-helper-grants",
+          "reason": "Locked owner table/column SELECT and history TRIGGER envelope required by the declared body."
+        },
+        {
+          "id": "class-membership-helper-execute-grants",
+          "reason": "Locked owner EXECUTE on the three internal invariant helpers used by CALL."
+        }
+      ],
+      "activation_requires": [
+        {
+          "id": "class-membership-definer-dml-grants",
+          "reason": "Locked owner INSERT/UPDATE envelope for protected user/class/membership writes."
+        },
+        {
+          "id": "class-membership-transition-owner-execute-grants",
+          "reason": "Foreign locked definer requires explicit EXECUTE when entering the transition routines."
+        }
+      ],
+      "definitions": [
+        {
+          "kind": "procedure",
+          "object": "transfer_class_teacher",
+          "line": 15
+        }
+      ],
+      "references": [
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 15,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "call",
+          "object": "assert_read_committed_session",
+          "line": 47,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "users",
+          "line": 61,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "call",
+          "object": "lock_class_invariant_boundary",
+          "line": 101,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "classes",
+          "line": 103,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_members",
+          "line": 120,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "teacher_profiles",
+          "line": 181,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_update",
+          "object": "class_members",
+          "line": 204,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_insert",
+          "object": "class_member_status_history",
+          "line": 220,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_insert",
+          "object": "class_members",
+          "line": 228,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_update",
+          "object": "classes",
+          "line": 246,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "call",
+          "object": "assert_class_invariants",
+          "line": 261,
+          "provider": "class-invariant-boundary"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "class-membership-transition-owner-execute-grants",
+      "source_path": "db/mariadb/permissions/0002_class_membership_transition_owner_execute_grants.sql",
+      "byte_length": 1969,
+      "sha256": "28d9709b1b4284e59fec29ce2563c407228404e3f837365c051fdfd05d81b799",
+      "requires": [
+        "class-membership-definer-account",
+        "class-transition-account-routine",
+        "class-transition-lifecycle-routines",
+        "class-transition-member-admin-routines",
+        "class-transition-membership-routines",
+        "class-transition-operator-routine"
+      ],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_execute",
+          "object": "create_class_with_teacher_and_invite",
+          "line": 13,
+          "provider": "class-transition-lifecycle-routines"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_routine",
+          "line": 15,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "archive_class",
+          "line": 16,
+          "provider": "class-transition-lifecycle-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "rotate_class_invite",
+          "line": 19,
+          "provider": "class-transition-lifecycle-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "request_class_membership",
+          "line": 22,
+          "provider": "class-transition-membership-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "cancel_class_membership_request",
+          "line": 25,
+          "provider": "class-transition-membership-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "leave_class",
+          "line": 28,
+          "provider": "class-transition-membership-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "approve_class_member",
+          "line": 31,
+          "provider": "class-transition-member-admin-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "reject_class_member",
+          "line": 34,
+          "provider": "class-transition-member-admin-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "remove_class_member",
+          "line": 37,
+          "provider": "class-transition-member-admin-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "allow_class_member_rejoin",
+          "line": 40,
+          "provider": "class-transition-member-admin-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "delete_user_account",
+          "line": 43,
+          "provider": "class-transition-account-routine"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "transfer_class_teacher",
+          "line": 46,
+          "provider": "class-transition-operator-routine"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "class-membership-definer-dml-grants",
+      "source_path": "db/mariadb/permissions/0002_class_membership_definer_dml_grants.sql",
+      "byte_length": 2082,
+      "sha256": "58e2fc3b7969650a0234aa25678b16e6502fbdf874360e2be7dc37d35851e9cd",
+      "requires": ["class-membership", "class-membership-definer-account", "identity-foundation"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_table",
+          "object": "classes",
+          "line": 10,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_routine",
+          "line": 33,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "grant_table",
+          "object": "class_members",
+          "line": 35,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grant_table",
+          "object": "class_member_status_history",
+          "line": 55,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grant_table",
+          "object": "class_invite_codes",
+          "line": 69,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grant_table",
+          "object": "users",
+          "line": 85,
+          "provider": "identity-foundation"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "content-meals",
+      "source_path": "db/mariadb/migrations/0003_content_meals.sql",
+      "byte_length": 10664,
+      "sha256": "1c400e199641035f260b5e3edd921e7b18aa4e0cf4ca455a87b25493ba0d70e7",
+      "requires": ["class-membership"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "notices",
+          "line": 13
+        },
+        {
+          "kind": "table",
+          "object": "notice_reads",
+          "line": 61
+        },
+        {
+          "kind": "table",
+          "object": "supplies",
+          "line": 81
+        },
+        {
+          "kind": "table",
+          "object": "supply_checks",
+          "line": 128
+        },
+        {
+          "kind": "table",
+          "object": "schedules",
+          "line": 166
+        },
+        {
+          "kind": "table",
+          "object": "meals",
+          "line": 218
+        }
+      ],
+      "references": [
+        {
+          "kind": "foreign_key",
+          "object": "classes",
+          "line": 32,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "class_members",
+          "line": 35,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "notices",
+          "line": 73,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "supplies",
+          "line": 143,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "schools",
+          "line": 237,
+          "provider": "class-membership"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "audit-import-logs",
+      "source_path": "db/mariadb/migrations/0004_audit_import_logs.sql",
+      "byte_length": 19062,
+      "sha256": "72d5a86cd5905198109c424f84a9a79496dc13ca6e884348036a921b1f9e5ab5",
+      "requires": ["class-membership", "identity-foundation"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "operator_audit_logs",
+          "line": 10
+        },
+        {
+          "kind": "table",
+          "object": "school_import_logs",
+          "line": 201
+        },
+        {
+          "kind": "table",
+          "object": "meal_import_logs",
+          "line": 234
+        },
+        {
+          "kind": "table",
+          "object": "audit_logs",
+          "line": 269
+        },
+        {
+          "kind": "table",
+          "object": "security_audit_logs",
+          "line": 519
+        }
+      ],
+      "references": [
+        {
+          "kind": "foreign_key",
+          "object": "operators",
+          "line": 27,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "classes",
+          "line": 287,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "users",
+          "line": 289,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "class_members",
+          "line": 291,
+          "provider": "class-membership"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "audit-trigger-grants",
+      "source_path": "db/mariadb/permissions/0004_audit_trigger_grants.sql",
+      "byte_length": 419,
+      "sha256": "af706eb7e0d1ecfa89b67637ed249f7b42d2f348cef4e7e93bbffd568e458790",
+      "requires": ["audit-import-logs", "class-membership-definer-account"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_table",
+          "object": "audit_logs",
+          "line": 5,
+          "provider": "audit-import-logs"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_routine",
+          "line": 7,
+          "provider": "class-membership-definer-account"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "audit-actor-trigger",
+      "source_path": "db/mariadb/migrations/0004_audit_actor_trigger.sql",
+      "byte_length": 606,
+      "sha256": "78bc2b0cd8630cd3230a1dc3dd9377c9a731309b95fbfb06ca9c25ce15e47ad5",
+      "requires": [
+        "audit-import-logs",
+        "audit-trigger-grants",
+        "class-membership",
+        "class-membership-definer-account",
+        "class-membership-helper-grants"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "class-membership-helper-grants",
+          "reason": "Locked owner table/column SELECT and history TRIGGER envelope required by the declared body."
+        },
+        {
+          "id": "audit-trigger-grants",
+          "reason": "Trigger reads NEW.class_id/actor_member_id under its locked owner and requires audit_logs TRIGGER."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "trigger",
+          "object": "audit_logs_actor_class_validate",
+          "line": 6
+        }
+      ],
+      "references": [
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 6,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "trigger_target",
+          "object": "audit_logs",
+          "line": 6,
+          "provider": "audit-import-logs"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_members",
+          "line": 12,
+          "provider": "class-membership"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "attendance-notifications",
+      "source_path": "db/mariadb/migrations/0005_attendance_notifications.sql",
+      "byte_length": 11951,
+      "sha256": "eede31fa4664d344bbb14747cf4f937ae20785a0f70fdf580572c64f199bc863",
+      "requires": ["audit-import-logs", "class-membership", "content-meals"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "attendance_notifications",
+          "line": 10
+        }
+      ],
+      "references": [
+        {
+          "kind": "foreign_key",
+          "object": "classes",
+          "line": 29,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "class_members",
+          "line": 32,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "alter_table",
+          "object": "notices",
+          "line": 74,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "alter_table",
+          "object": "audit_logs",
+          "line": 81,
+          "provider": "audit-import-logs"
+        }
+      ],
+      "mutations": [
+        {
+          "kind": "alter_table",
+          "object": "notices",
+          "line": 74
+        },
+        {
+          "kind": "alter_table",
+          "object": "audit_logs",
+          "line": 81
+        }
+      ]
+    },
+    {
+      "id": "in-app-reminders",
+      "source_path": "db/mariadb/migrations/0006_in_app_reminders.sql",
+      "byte_length": 14102,
+      "sha256": "e99e8acf16aad2b697e8c1befad27a4d380f0f88fed037db755c99b712b61408",
+      "requires": [
+        "attendance-notifications",
+        "audit-import-logs",
+        "class-membership",
+        "content-meals"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "attendance-notifications",
+          "reason": "Extends the previous audit action/JSON predicate and preserves the separately added attendance reason guard."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "in_app_reminder_batches",
+          "line": 10
+        },
+        {
+          "kind": "table",
+          "object": "in_app_reminder_recipients",
+          "line": 42
+        }
+      ],
+      "references": [
+        {
+          "kind": "foreign_key",
+          "object": "classes",
+          "line": 21,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "notices",
+          "line": 23,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "supplies",
+          "line": 25,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "class_members",
+          "line": 28,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "in_app_reminder_batches",
+          "line": 51,
+          "provider": "in-app-reminders"
+        },
+        {
+          "kind": "alter_table",
+          "object": "audit_logs",
+          "line": 67,
+          "provider": "audit-import-logs"
+        }
+      ],
+      "mutations": [
+        {
+          "kind": "alter_table",
+          "object": "audit_logs",
+          "line": 67
+        }
+      ]
+    },
+    {
+      "id": "reminder-trigger-grants",
+      "source_path": "db/mariadb/permissions/0006_reminder_trigger_grants.sql",
+      "byte_length": 445,
+      "sha256": "d8afb1f0109e7f6ad716743f28b4806559f20da7dce7691b1d48f247b1a3a1da",
+      "requires": ["class-membership-definer-account", "in-app-reminders"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_table",
+          "object": "in_app_reminder_recipients",
+          "line": 5,
+          "provider": "in-app-reminders"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_routine",
+          "line": 7,
+          "provider": "class-membership-definer-account"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "reminder-resolution-trigger",
+      "source_path": "db/mariadb/migrations/0006_reminder_resolution_trigger.sql",
+      "byte_length": 614,
+      "sha256": "7715015cd7d1504b77614798035fd17ec15d2b7aedd6336b6102fe971e237c51",
+      "requires": [
+        "class-membership-definer-account",
+        "in-app-reminders",
+        "reminder-trigger-grants"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "reminder-trigger-grants",
+          "reason": "UPDATE trigger needs owner SELECT(resolved_at) and TRIGGER on the target table."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "trigger",
+          "object": "in_app_reminder_recipients_resolution_guard",
+          "line": 6
+        }
+      ],
+      "references": [
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 6,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "trigger_target",
+          "object": "in_app_reminder_recipients",
+          "line": 6,
+          "provider": "in-app-reminders"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "content-audiences",
+      "source_path": "db/mariadb/migrations/0007_content_audiences.sql",
+      "byte_length": 11068,
+      "sha256": "f0265c13e252456ed7b4f2660f11a202878668e79d27de5d409b3f2e057a05c3",
+      "requires": ["audit-import-logs", "class-membership", "content-meals", "in-app-reminders"],
+      "supplemental_dependencies": [
+        {
+          "id": "in-app-reminders",
+          "reason": "Replaces the previous audit JSON predicate while preserving reminder shape/action guards."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "notice_recipients",
+          "line": 29
+        },
+        {
+          "kind": "table",
+          "object": "supply_recipients",
+          "line": 44
+        }
+      ],
+      "references": [
+        {
+          "kind": "alter_table",
+          "object": "notices",
+          "line": 10,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "alter_table",
+          "object": "supplies",
+          "line": 22,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "notices",
+          "line": 37,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "class_members",
+          "line": 40,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "supplies",
+          "line": 52,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "index_target",
+          "object": "notices",
+          "line": 59,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "index_target",
+          "object": "supplies",
+          "line": 61,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "alter_table",
+          "object": "audit_logs",
+          "line": 65,
+          "provider": "audit-import-logs"
+        }
+      ],
+      "mutations": [
+        {
+          "kind": "alter_table",
+          "object": "notices",
+          "line": 10
+        },
+        {
+          "kind": "alter_table",
+          "object": "supplies",
+          "line": 22
+        },
+        {
+          "kind": "alter_table",
+          "object": "audit_logs",
+          "line": 65
+        }
+      ]
+    },
+    {
+      "id": "content-audience-trigger-grants",
+      "source_path": "db/mariadb/permissions/0007_content_audience_trigger_grants.sql",
+      "byte_length": 585,
+      "sha256": "7dd1202ad0ef0aff54806928249826e4ce3fe86b660c168300927f28e2cb5c0d",
+      "requires": ["class-membership-definer-account", "content-audiences", "content-meals"],
+      "supplemental_dependencies": [
+        {
+          "id": "content-audiences",
+          "reason": "Column grants require the audience_mode columns added to notices and supplies."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_table",
+          "object": "notices",
+          "line": 5,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_routine",
+          "line": 7,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "grant_table",
+          "object": "supplies",
+          "line": 11,
+          "provider": "content-meals"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "content-audience-triggers",
+      "source_path": "db/mariadb/migrations/0007_content_audience_triggers.sql",
+      "byte_length": 846,
+      "sha256": "4f9717b36b1790a913c2b03cc09465357018e608f045189e34509ad994242a01",
+      "requires": [
+        "class-membership-definer-account",
+        "content-audience-trigger-grants",
+        "content-audiences",
+        "content-meals"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "content-audiences",
+          "reason": "NEW/OLD.audience_mode columns were added in the audience migration."
+        },
+        {
+          "id": "content-audience-trigger-grants",
+          "reason": "Owner SELECT(audience_mode)/TRIGGER is the immutable audience trigger envelope."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "trigger",
+          "object": "notices_audience_mode_immutable",
+          "line": 6
+        },
+        {
+          "kind": "trigger",
+          "object": "supplies_audience_mode_immutable",
+          "line": 17
+        }
+      ],
+      "references": [
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 6,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "trigger_target",
+          "object": "notices",
+          "line": 6,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "trigger_target",
+          "object": "supplies",
+          "line": 17,
+          "provider": "content-meals"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "school-schedules",
+      "source_path": "db/mariadb/migrations/0008_school_schedules.sql",
+      "byte_length": 7602,
+      "sha256": "73ac94f88f5c8cdc02bab380d8c68477f2c19d48b3540c41e90db563f2f2a7ee",
+      "requires": ["audit-import-logs", "class-membership"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "school_schedule_events",
+          "line": 8
+        },
+        {
+          "kind": "table",
+          "object": "school_schedule_import_logs",
+          "line": 51
+        }
+      ],
+      "references": [
+        {
+          "kind": "foreign_key",
+          "object": "schools",
+          "line": 27,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "operators",
+          "line": 69,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "alter_table",
+          "object": "operator_audit_logs",
+          "line": 88,
+          "provider": "audit-import-logs"
+        }
+      ],
+      "mutations": [
+        {
+          "kind": "alter_table",
+          "object": "operator_audit_logs",
+          "line": 88
+        }
+      ]
+    },
+    {
+      "id": "student-assessments",
+      "source_path": "db/mariadb/migrations/0009_student_assessments.sql",
+      "byte_length": 4154,
+      "sha256": "0f01a607db14a8d01fce5a4eeea18347186e269b5110c1a66c48ca6b4fa2a96d",
+      "requires": ["identity-foundation"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "student_assessment_records",
+          "line": 8
+        }
+      ],
+      "references": [
+        {
+          "kind": "foreign_key",
+          "object": "users",
+          "line": 29,
+          "provider": "identity-foundation"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "polls",
+      "source_path": "db/mariadb/migrations/0010_polls.sql",
+      "byte_length": 15298,
+      "sha256": "81e5ac7ceda69486faf2198ec73febf0c0f53df29be6415d4648a29c73d4be1b",
+      "requires": ["audit-import-logs", "class-membership", "content-audiences"],
+      "supplemental_dependencies": [
+        {
+          "id": "content-audiences",
+          "reason": "Extends the latest audit action and JSON allowlist revisions without losing audience/reminder rules."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "polls",
+          "line": 10
+        },
+        {
+          "kind": "table",
+          "object": "poll_options",
+          "line": 55
+        },
+        {
+          "kind": "table",
+          "object": "poll_votes",
+          "line": 88
+        }
+      ],
+      "references": [
+        {
+          "kind": "foreign_key",
+          "object": "classes",
+          "line": 25,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "class_members",
+          "line": 28,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "polls",
+          "line": 75,
+          "provider": "polls"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "poll_options",
+          "line": 102,
+          "provider": "polls"
+        },
+        {
+          "kind": "alter_table",
+          "object": "audit_logs",
+          "line": 111,
+          "provider": "audit-import-logs"
+        }
+      ],
+      "mutations": [
+        {
+          "kind": "alter_table",
+          "object": "audit_logs",
+          "line": 111
+        }
+      ]
+    },
+    {
+      "id": "audit-action-catalog",
+      "source_path": "db/mariadb/migrations/0014_audit_action_catalog.sql",
+      "byte_length": 3009,
+      "sha256": "ca4e63cfe3cfce27748ed87c06afce59548ab31fecda541a96c144316f5cd9bd",
+      "requires": ["audit-import-logs", "polls"],
+      "supplemental_dependencies": [
+        {
+          "id": "polls",
+          "reason": "Converts the latest action CHECK, including poll actions, into the fixed seeded catalog FK."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "audit_log_actions",
+          "line": 8
+        }
+      ],
+      "references": [
+        {
+          "kind": "table_insert",
+          "object": "audit_log_actions",
+          "line": 13,
+          "provider": "audit-action-catalog"
+        },
+        {
+          "kind": "table_read",
+          "object": "audit_log_actions",
+          "line": 38,
+          "provider": "audit-action-catalog"
+        },
+        {
+          "kind": "table_read",
+          "object": "audit_logs",
+          "line": 43,
+          "provider": "audit-import-logs"
+        },
+        {
+          "kind": "alter_table",
+          "object": "audit_logs",
+          "line": 56,
+          "provider": "audit-import-logs"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "audit_log_actions",
+          "line": 60,
+          "provider": "audit-action-catalog"
+        }
+      ],
+      "mutations": [
+        {
+          "kind": "alter_table",
+          "object": "audit_logs",
+          "line": 56
+        }
+      ]
+    },
+    {
+      "id": "elections",
+      "source_path": "db/mariadb/migrations/0015_elections.sql",
+      "byte_length": 4521,
+      "sha256": "022120712e20cc8e69b55463601aba361dab697d95f1f21ae87f40cf11720ec9",
+      "requires": ["audit-action-catalog", "class-membership"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "elections",
+          "line": 8
+        },
+        {
+          "kind": "table",
+          "object": "election_candidates",
+          "line": 37
+        },
+        {
+          "kind": "table",
+          "object": "election_tallies",
+          "line": 54
+        },
+        {
+          "kind": "table",
+          "object": "election_participants",
+          "line": 64
+        }
+      ],
+      "references": [
+        {
+          "kind": "foreign_key",
+          "object": "classes",
+          "line": 26,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "class_members",
+          "line": 34,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "elections",
+          "line": 49,
+          "provider": "elections"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "election_candidates",
+          "line": 61,
+          "provider": "elections"
+        },
+        {
+          "kind": "alter_table",
+          "object": "elections",
+          "line": 77,
+          "provider": "elections"
+        },
+        {
+          "kind": "table_insert",
+          "object": "audit_log_actions",
+          "line": 82,
+          "provider": "audit-action-catalog"
+        }
+      ],
+      "mutations": [
+        {
+          "kind": "alter_table",
+          "object": "elections",
+          "line": 77
+        }
+      ]
+    },
+    {
+      "id": "election-trigger-grants",
+      "source_path": "db/mariadb/permissions/0015_election_trigger_grants.sql",
+      "byte_length": 329,
+      "sha256": "0e83aede6bf08dc0d0d2f457f6aaa410c01bb5bd54062eb2c49c9b3cbcaedb2b",
+      "requires": ["class-membership-definer-account", "elections"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_table",
+          "object": "elections",
+          "line": 3,
+          "provider": "elections"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_routine",
+          "line": 5,
+          "provider": "class-membership-definer-account"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "election-tie-break-trigger",
+      "source_path": "db/mariadb/migrations/0015_election_tie_break_trigger.sql",
+      "byte_length": 446,
+      "sha256": "4c1911ed70e75cabe633eac3301b3685c9a0d390629750fd2a479b9f3174a952",
+      "requires": ["class-membership-definer-account", "election-trigger-grants", "elections"],
+      "supplemental_dependencies": [
+        {
+          "id": "election-trigger-grants",
+          "reason": "Owner SELECT(tie_break) and TRIGGER are required for the immutable trigger."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "trigger",
+          "object": "elections_tie_break_immutable",
+          "line": 3
+        }
+      ],
+      "references": [
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 3,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "trigger_target",
+          "object": "elections",
+          "line": 3,
+          "provider": "elections"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "public-holidays",
+      "source_path": "db/mariadb/migrations/0018_public_holidays.sql",
+      "byte_length": 5734,
+      "sha256": "2115ddc0cae517afa3dcafeeb0a04792a39bcb3fe1a1c0a57e9eba3adb30bc3c",
+      "requires": ["audit-import-logs", "school-schedules"],
+      "supplemental_dependencies": [
+        {
+          "id": "school-schedules",
+          "reason": "Extends the previous operator audit action and JSON predicates with holiday import while preserving school-schedule support."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "public_holidays",
+          "line": 6
+        }
+      ],
+      "references": [
+        {
+          "kind": "alter_table",
+          "object": "operator_audit_logs",
+          "line": 26,
+          "provider": "audit-import-logs"
+        }
+      ],
+      "mutations": [
+        {
+          "kind": "alter_table",
+          "object": "operator_audit_logs",
+          "line": 26
+        }
+      ]
+    },
+    {
+      "id": "guardian-consent-requests",
+      "source_path": "db/mariadb/migrations/0019_guardian_consent_requests.sql",
+      "byte_length": 4354,
+      "sha256": "4f659a8554db5ab41815c1652c00e3a3a6c4a023a942d626a7f51e39b679d3aa",
+      "requires": ["identity-foundation"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "guardian_consent_requests",
+          "line": 6
+        }
+      ],
+      "references": [
+        {
+          "kind": "foreign_key",
+          "object": "users",
+          "line": 28,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "index_target",
+          "object": "guardian_consent_requests",
+          "line": 102,
+          "provider": "guardian-consent-requests"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "admin-auth",
+      "source_path": "db/mariadb/migrations/0020_admin_auth.sql",
+      "byte_length": 15260,
+      "sha256": "92b22534d5060f3f0c5b7e04b3857185f3c82b06b0051e277db872e2aa89bcef",
+      "requires": ["audit-import-logs", "class-membership", "public-holidays"],
+      "supplemental_dependencies": [
+        {
+          "id": "public-holidays",
+          "reason": "Extends the final holiday/operator audit action and JSON predicates with administrator creation."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "admin_accounts",
+          "line": 7
+        },
+        {
+          "kind": "table",
+          "object": "admin_account_roles",
+          "line": 44
+        },
+        {
+          "kind": "table",
+          "object": "admin_mfa_factors",
+          "line": 58
+        },
+        {
+          "kind": "table",
+          "object": "admin_login_challenges",
+          "line": 102
+        },
+        {
+          "kind": "table",
+          "object": "admin_sessions",
+          "line": 129
+        },
+        {
+          "kind": "table",
+          "object": "admin_auth_audit_logs",
+          "line": 169
+        }
+      ],
+      "references": [
+        {
+          "kind": "foreign_key",
+          "object": "operators",
+          "line": 18,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "admin_accounts",
+          "line": 46,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "index_target",
+          "object": "admin_mfa_factors",
+          "line": 98,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "index_target",
+          "object": "admin_login_challenges",
+          "line": 125,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "index_target",
+          "object": "admin_sessions",
+          "line": 165,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "index_target",
+          "object": "admin_auth_audit_logs",
+          "line": 209,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "alter_table",
+          "object": "operator_audit_logs",
+          "line": 212,
+          "provider": "audit-import-logs"
+        }
+      ],
+      "mutations": [
+        {
+          "kind": "alter_table",
+          "object": "operator_audit_logs",
+          "line": 212
+        }
+      ]
+    },
+    {
+      "id": "admin-signup-approvals",
+      "source_path": "db/mariadb/migrations/0021_admin_signup_approvals.sql",
+      "byte_length": 5660,
+      "sha256": "4c458c039e3c68c6c9d3de13f63207b590bd510875387a5ed4a63f44318476af",
+      "requires": ["admin-auth", "class-membership", "identity-foundation"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "admin_signup_approvals",
+          "line": 15
+        },
+        {
+          "kind": "table",
+          "object": "admin_signup_approval_events",
+          "line": 49
+        }
+      ],
+      "references": [
+        {
+          "kind": "alter_table",
+          "object": "users",
+          "line": 6,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "alter_table",
+          "object": "teacher_profiles",
+          "line": 7,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "admin_accounts",
+          "line": 10,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "users",
+          "line": 27,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "index_target",
+          "object": "admin_signup_approvals",
+          "line": 46,
+          "provider": "admin-signup-approvals"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "admin_signup_approvals",
+          "line": 54,
+          "provider": "admin-signup-approvals"
+        },
+        {
+          "kind": "index_target",
+          "object": "admin_signup_approval_events",
+          "line": 112,
+          "provider": "admin-signup-approvals"
+        }
+      ],
+      "mutations": [
+        {
+          "kind": "alter_table",
+          "object": "users",
+          "line": 6
+        },
+        {
+          "kind": "alter_table",
+          "object": "teacher_profiles",
+          "line": 7
+        }
+      ]
+    },
+    {
+      "id": "admin-inquiries-system-state",
+      "source_path": "db/mariadb/migrations/0022_admin_inquiries_system_state.sql",
+      "byte_length": 2858,
+      "sha256": "4eb9cc0260fbb4f7a8478486a25b0339c084854b58f424f8f9a398ee6e93c6df",
+      "requires": ["admin-auth", "identity-foundation"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "admin_inquiries",
+          "line": 8
+        },
+        {
+          "kind": "table",
+          "object": "admin_system_state",
+          "line": 33
+        }
+      ],
+      "references": [
+        {
+          "kind": "foreign_key",
+          "object": "users",
+          "line": 13,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "admin_accounts",
+          "line": 18,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "index_target",
+          "object": "admin_inquiries",
+          "line": 32,
+          "provider": "admin-inquiries-system-state"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "admin-terms-management",
+      "source_path": "db/mariadb/migrations/0023_admin_terms_management.sql",
+      "byte_length": 3235,
+      "sha256": "24ec754c852362f79069427272f70eb2c4314dac6ea48a540ab0a7202f2d8dcd",
+      "requires": ["admin-auth"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "admin_terms_versions",
+          "line": 6
+        }
+      ],
+      "references": [
+        {
+          "kind": "foreign_key",
+          "object": "admin_accounts",
+          "line": 49,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "index_target",
+          "object": "admin_terms_versions",
+          "line": 58,
+          "provider": "admin-terms-management"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "admin-account-management",
+      "source_path": "db/mariadb/migrations/0024_admin_account_management.sql",
+      "byte_length": 3703,
+      "sha256": "e52e45ed84b4f61bf37af973c8863a595b3e72564ccedeffb3eec0d2dcf3f14e",
+      "requires": ["admin-auth", "class-membership", "identity-foundation"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "admin_operation_audit_logs",
+          "line": 29
+        }
+      ],
+      "references": [
+        {
+          "kind": "alter_table",
+          "object": "admin_accounts",
+          "line": 6,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "foreign_key",
+          "object": "admin_accounts",
+          "line": 9,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "alter_table",
+          "object": "admin_account_roles",
+          "line": 13,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "alter_table",
+          "object": "class_member_status_history",
+          "line": 20,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "alter_table",
+          "object": "password_reset_tokens",
+          "line": 25,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "index_target",
+          "object": "admin_operation_audit_logs",
+          "line": 69,
+          "provider": "admin-account-management"
+        }
+      ],
+      "mutations": [
+        {
+          "kind": "alter_table",
+          "object": "admin_accounts",
+          "line": 6
+        },
+        {
+          "kind": "alter_table",
+          "object": "admin_account_roles",
+          "line": 13
+        },
+        {
+          "kind": "alter_table",
+          "object": "class_member_status_history",
+          "line": 20
+        },
+        {
+          "kind": "alter_table",
+          "object": "password_reset_tokens",
+          "line": 25
+        }
+      ]
+    },
+    {
+      "id": "admin-history-grants",
+      "source_path": "db/mariadb/permissions/0024_admin_history_trigger_grants.sql",
+      "byte_length": 218,
+      "sha256": "ef449b012aa733aebaf8f6fccacb0b96564b5bcc67a86a26da23b0e98ada7f46",
+      "requires": [
+        "admin-account-management",
+        "class-membership",
+        "class-membership-definer-account"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "admin-account-management",
+          "reason": "The granted actor_admin_account_id column is added by the administrator actor expansion."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_table",
+          "object": "class_member_status_history",
+          "line": 2,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_routine",
+          "line": 4,
+          "provider": "class-membership-definer-account"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "admin-history-trigger",
+      "source_path": "db/mariadb/migrations/0024_admin_history_trigger.sql",
+      "byte_length": 3233,
+      "sha256": "ffec4f1440188bd842a6ca68dd46e3c1ddc11011a45c9db729d4ce5f527ec778",
+      "requires": [
+        "admin-account-management",
+        "admin-history-grants",
+        "class-membership",
+        "class-membership-definer-account",
+        "class-membership-helper-grants"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "class-membership-helper-grants",
+          "reason": "Locked owner table/column SELECT and history TRIGGER envelope required by the declared body."
+        },
+        {
+          "id": "admin-account-management",
+          "reason": "NEW.actor_admin_account_id and its admin FK must exist before replacing the history trigger."
+        },
+        {
+          "id": "admin-history-grants",
+          "reason": "Locked owner SELECT of the newly added actor column is required by the replacement trigger."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "trigger",
+          "object": "class_member_status_history_validate",
+          "line": 6
+        }
+      ],
+      "references": [
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 6,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "replace_trigger",
+          "object": "class_member_status_history_validate",
+          "line": 6,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "trigger_target",
+          "object": "class_member_status_history",
+          "line": 6,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_members",
+          "line": 25,
+          "provider": "class-membership"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "identity-school",
+      "source_path": "db/mariadb/migrations/0025_identity_school_followups.sql",
+      "byte_length": 3013,
+      "sha256": "b07c54fc4c826b06ec3a627ee774958d2bfeaf065f757e4d630c43ccf73af86f",
+      "requires": ["class-membership", "identity-foundation"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "alter_table",
+          "object": "schools",
+          "line": 9,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "alter_table",
+          "object": "users",
+          "line": 55,
+          "provider": "identity-foundation"
+        }
+      ],
+      "mutations": [
+        {
+          "kind": "alter_table",
+          "object": "schools",
+          "line": 9
+        },
+        {
+          "kind": "alter_table",
+          "object": "users",
+          "line": 55
+        }
+      ]
+    },
+    {
+      "id": "checked-transfer",
+      "source_path": "db/mariadb/migrations/0026_checked_teacher_transfer.sql",
+      "byte_length": 10219,
+      "sha256": "289bba577e631dcacf85b78abae6e6e944b3e56303761eb5623116b7c9a5a0fc",
+      "requires": [
+        "class-invariant-boundary",
+        "class-membership",
+        "class-membership-definer-account",
+        "class-membership-definer-dml-grants",
+        "class-membership-helper-execute-grants",
+        "class-membership-helper-grants",
+        "identity-foundation"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "class-membership-helper-grants",
+          "reason": "Locked owner table/column SELECT and history TRIGGER envelope required by the declared body."
+        },
+        {
+          "id": "class-membership-helper-execute-grants",
+          "reason": "Locked owner EXECUTE on the three internal invariant helpers used by CALL."
+        },
+        {
+          "id": "class-membership-definer-dml-grants",
+          "reason": "Locked owner INSERT/UPDATE envelope for protected user/class/membership writes."
+        }
+      ],
+      "activation_requires": [
+        {
+          "id": "checked-transfer-owner",
+          "reason": "The checked transfer definer needs EXECUTE on the newly created procedure before entry."
+        }
+      ],
+      "definitions": [
+        {
+          "kind": "procedure",
+          "object": "transfer_class_teacher_checked",
+          "line": 10
+        }
+      ],
+      "references": [
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 10,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "call",
+          "object": "assert_read_committed_session",
+          "line": 44,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "users",
+          "line": 58,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "call",
+          "object": "lock_class_invariant_boundary",
+          "line": 98,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "classes",
+          "line": 101,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_members",
+          "line": 129,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "teacher_profiles",
+          "line": 190,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_update",
+          "object": "class_members",
+          "line": 213,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_insert",
+          "object": "class_member_status_history",
+          "line": 229,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_insert",
+          "object": "class_members",
+          "line": 237,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_update",
+          "object": "classes",
+          "line": 255,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "call",
+          "object": "assert_class_invariants",
+          "line": 270,
+          "provider": "class-invariant-boundary"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "checked-transfer-owner",
+      "source_path": "db/mariadb/permissions/0026_checked_teacher_transfer_owner.sql",
+      "byte_length": 201,
+      "sha256": "dc64994953dbda284e549111ce1f10f1f3a456396249709589f4e449c017d9f3",
+      "requires": ["checked-transfer", "class-membership-definer-account"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_execute",
+          "object": "transfer_class_teacher_checked",
+          "line": 2,
+          "provider": "checked-transfer"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_routine",
+          "line": 3,
+          "provider": "class-membership-definer-account"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "retention-actor",
+      "source_path": "db/mariadb/migrations/0027_retention_system_actor.sql",
+      "byte_length": 788,
+      "sha256": "1aed7ef6f7fed9e60680461d3b6540df62746029c2fea1b739351f5c398b5a3a",
+      "requires": ["admin-auth", "audit-import-logs"],
+      "supplemental_dependencies": [
+        {
+          "id": "admin-auth",
+          "reason": "Retains the final administrator/operator action and JSON checks while replacing only the system-job actor predicate."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "alter_table",
+          "object": "operator_audit_logs",
+          "line": 6,
+          "provider": "audit-import-logs"
+        }
+      ],
+      "mutations": [
+        {
+          "kind": "alter_table",
+          "object": "operator_audit_logs",
+          "line": 6
+        }
+      ]
+    },
+    {
+      "id": "class-access-approval-owner",
+      "source_path": "db/mariadb/permissions/0030_class_access_approval_owner.sql",
+      "byte_length": 584,
+      "sha256": "0f2a758d71e8e23c5c071c40aa20d85a7cbf68c0bdf5c9f4134359cede764061",
+      "requires": [
+        "admin-signup-approvals",
+        "class-membership-definer-account",
+        "class-membership-helper-grants",
+        "identity-foundation"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "class-membership-helper-grants",
+          "reason": "Locked owner table/column SELECT and history TRIGGER envelope required by the declared body."
+        },
+        {
+          "id": "admin-signup-approvals",
+          "reason": "Owner SELECT(signup_approved_at) requires the newly added users column."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_table",
+          "object": "users",
+          "line": 7,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_routine",
+          "line": 9,
+          "provider": "class-membership-definer-account"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "class-access-approval-routines",
+      "source_path": "db/mariadb/migrations/0030_class_access_approval.sql",
+      "byte_length": 16029,
+      "sha256": "6274342075bcfaf0a67b0ac24d625f482a650333ac03fd103e80a287e9f775d6",
+      "requires": [
+        "admin-signup-approvals",
+        "class-access-approval-owner",
+        "class-invariant-boundary",
+        "class-membership",
+        "class-membership-definer-account",
+        "class-membership-definer-dml-grants",
+        "class-membership-helper-execute-grants",
+        "class-membership-helper-grants",
+        "class-membership-transition-owner-execute-grants",
+        "class-transition-lifecycle-routines",
+        "class-transition-membership-routines",
+        "identity-foundation"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "class-membership-helper-grants",
+          "reason": "Locked owner table/column SELECT and history TRIGGER envelope required by the declared body."
+        },
+        {
+          "id": "class-membership-helper-execute-grants",
+          "reason": "Locked owner EXECUTE on the three internal invariant helpers used by CALL."
+        },
+        {
+          "id": "class-membership-definer-dml-grants",
+          "reason": "Locked owner INSERT/UPDATE envelope for protected user/class/membership writes."
+        },
+        {
+          "id": "class-membership-transition-owner-execute-grants",
+          "reason": "Foreign locked definer requires explicit EXECUTE when entering the transition routines."
+        },
+        {
+          "id": "admin-signup-approvals",
+          "reason": "Both replacement bodies read users.signup_approved_at under the existing user lock."
+        },
+        {
+          "id": "class-access-approval-owner",
+          "reason": "New approval timestamp must be readable by the locked owner before the replacements are usable."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [
+        {
+          "kind": "procedure",
+          "object": "create_class_with_teacher_and_invite",
+          "line": 19
+        },
+        {
+          "kind": "procedure",
+          "object": "request_class_membership",
+          "line": 262
+        }
+      ],
+      "references": [
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 19,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "replace_procedure",
+          "object": "create_class_with_teacher_and_invite",
+          "line": 19,
+          "provider": "class-transition-lifecycle-routines"
+        },
+        {
+          "kind": "call",
+          "object": "assert_read_committed_session",
+          "line": 69,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "users",
+          "line": 75,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_members",
+          "line": 96,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "teacher_profiles",
+          "line": 105,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "schools",
+          "line": 126,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "classes",
+          "line": 151,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_insert",
+          "object": "classes",
+          "line": 179,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "call",
+          "object": "lock_class_invariant_boundary",
+          "line": 189,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_insert",
+          "object": "class_members",
+          "line": 191,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_insert",
+          "object": "class_member_status_history",
+          "line": 199,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_insert",
+          "object": "class_invite_codes",
+          "line": 235,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "call",
+          "object": "assert_class_invariants",
+          "line": 259,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "replace_procedure",
+          "object": "request_class_membership",
+          "line": 262,
+          "provider": "class-transition-membership-routines"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_invite_codes",
+          "line": 360,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_update",
+          "object": "class_members",
+          "line": 412,
+          "provider": "class-membership"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "signup-role",
+      "source_path": "db/mariadb/migrations/0037_signup_role.sql",
+      "byte_length": 410,
+      "sha256": "2ba840ad989e72312594a9ceb4ad8ad31a229b5400647dfd04e5e7dc53fb66bc",
+      "requires": ["development-identities", "identity-foundation"],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "alter_table",
+          "object": "users",
+          "line": 3,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grant_table",
+          "object": "users",
+          "line": 6,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_app",
+          "line": 7,
+          "provider": "development-identities"
+        }
+      ],
+      "mutations": [
+        {
+          "kind": "alter_table",
+          "object": "users",
+          "line": 3
+        }
+      ]
+    },
+    {
+      "id": "admin-user-status",
+      "source_path": "db/mariadb/migrations/0038_admin_user_status.sql",
+      "byte_length": 4653,
+      "sha256": "4660ebe2d54b9f0e34657570f8963600e91c3f43878a78cda26200d7defea48a",
+      "requires": [
+        "class-invariant-boundary",
+        "class-membership",
+        "class-membership-definer-account",
+        "class-membership-definer-dml-grants",
+        "class-membership-helper-execute-grants",
+        "class-membership-helper-grants",
+        "identity-foundation"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "class-membership-helper-grants",
+          "reason": "Locked owner table/column SELECT and history TRIGGER envelope required by the declared body."
+        },
+        {
+          "id": "class-membership-helper-execute-grants",
+          "reason": "Locked owner EXECUTE on the three internal invariant helpers used by CALL."
+        },
+        {
+          "id": "class-membership-definer-dml-grants",
+          "reason": "Locked owner INSERT/UPDATE envelope for protected user/class/membership writes."
+        }
+      ],
+      "activation_requires": [
+        {
+          "id": "admin-user-status-execute",
+          "reason": "The following grant artifact enables owner/app entry into the new status routine."
+        }
+      ],
+      "definitions": [
+        {
+          "kind": "procedure",
+          "object": "set_admin_user_status",
+          "line": 17
+        }
+      ],
+      "references": [
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 17,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_members",
+          "line": 34,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "call",
+          "object": "assert_read_committed_session",
+          "line": 39,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "users",
+          "line": 52,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "call",
+          "object": "lock_class_invariant_boundary",
+          "line": 73,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "classes",
+          "line": 80,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_update",
+          "object": "users",
+          "line": 92,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "call",
+          "object": "assert_class_invariants",
+          "line": 108,
+          "provider": "class-invariant-boundary"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "admin-user-status-execute",
+      "source_path": "db/mariadb/permissions/0038_admin_user_status_execute.sql",
+      "byte_length": 586,
+      "sha256": "8a986428e8b227b328152e394d0ba3085e137adcc4ba2104405a828673e96e35",
+      "requires": [
+        "admin-user-status",
+        "class-membership-definer-account",
+        "development-identities"
+      ],
+      "supplemental_dependencies": [],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_execute",
+          "object": "set_admin_user_status",
+          "line": 6,
+          "provider": "admin-user-status"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_routine",
+          "line": 7,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_app",
+          "line": 9,
+          "provider": "development-identities"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "admin-member-status",
+      "source_path": "db/mariadb/migrations/0040_admin_member_status.sql",
+      "byte_length": 6199,
+      "sha256": "0bb28851884fe72459bfbe89738e8d17a8487a87c7689fe1672ddb72dd79f096",
+      "requires": [
+        "admin-account-management",
+        "admin-history-trigger",
+        "class-invariant-boundary",
+        "class-membership",
+        "class-membership-definer-account",
+        "class-membership-definer-dml-grants",
+        "class-membership-helper-execute-grants",
+        "class-membership-helper-grants",
+        "identity-foundation"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "class-membership-helper-grants",
+          "reason": "Locked owner table/column SELECT and history TRIGGER envelope required by the declared body."
+        },
+        {
+          "id": "class-membership-helper-execute-grants",
+          "reason": "Locked owner EXECUTE on the three internal invariant helpers used by CALL."
+        },
+        {
+          "id": "class-membership-definer-dml-grants",
+          "reason": "Locked owner INSERT/UPDATE envelope for protected user/class/membership writes."
+        },
+        {
+          "id": "admin-account-management",
+          "reason": "Administrator actor history INSERT references the added actor_admin_account_id column and its FK."
+        },
+        {
+          "id": "admin-history-trigger",
+          "reason": "The active history trigger must accept exactly the administrator actor branch without teacher impersonation."
+        }
+      ],
+      "activation_requires": [
+        {
+          "id": "admin-member-status-execute",
+          "reason": "The following grant artifact supplies owner INSERT(actor_admin_account_id) and owner/app EXECUTE; do not invoke between definition and grant."
+        }
+      ],
+      "definitions": [
+        {
+          "kind": "procedure",
+          "object": "set_admin_member_status",
+          "line": 12
+        }
+      ],
+      "references": [
+        {
+          "kind": "definer",
+          "object": "classhub_routine",
+          "line": 12,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "call",
+          "object": "assert_read_committed_session",
+          "line": 38,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "users",
+          "line": 69,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "call",
+          "object": "lock_class_invariant_boundary",
+          "line": 76,
+          "provider": "class-invariant-boundary"
+        },
+        {
+          "kind": "table_read",
+          "object": "classes",
+          "line": 77,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_read",
+          "object": "class_members",
+          "line": 86,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_update",
+          "object": "class_members",
+          "line": 107,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "table_insert",
+          "object": "class_member_status_history",
+          "line": 128,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "call",
+          "object": "assert_class_invariants",
+          "line": 136,
+          "provider": "class-invariant-boundary"
+        }
+      ],
+      "mutations": []
+    },
+    {
+      "id": "admin-member-status-execute",
+      "source_path": "db/mariadb/permissions/0040_admin_member_status_execute.sql",
+      "byte_length": 653,
+      "sha256": "da49be2a054303bbc7e0420eefda785e208df692b8f23cb168d684e3c7129e35",
+      "requires": [
+        "admin-account-management",
+        "admin-history-grants",
+        "admin-member-status",
+        "class-membership",
+        "class-membership-definer-account",
+        "development-identities"
+      ],
+      "supplemental_dependencies": [
+        {
+          "id": "admin-account-management",
+          "reason": "One-column owner INSERT grant requires the actor_admin_account_id column."
+        },
+        {
+          "id": "admin-history-grants",
+          "reason": "Preserve the separate owner SELECT envelope needed by the active administrator history trigger."
+        }
+      ],
+      "activation_requires": [],
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_table",
+          "object": "class_member_status_history",
+          "line": 5,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_routine",
+          "line": 7,
+          "provider": "class-membership-definer-account"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "set_admin_member_status",
+          "line": 8,
+          "provider": "admin-member-status"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_app",
+          "line": 11,
+          "provider": "development-identities"
+        }
+      ],
+      "mutations": []
+    }
+  ]
+}

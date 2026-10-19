@@ -1,0 +1,55 @@
+node_modules/
+.pnpm-store/
+dist/
+coverage/
+.vite/
+.turbo/
+.cache/
+
+.env
+.env.*
+!.env.example
+
+playwright-report/
+test-results/
+blob-report/
+.local-backups/
+.local-runtime/
+
+*.log
+*.tsbuildinfo
+
+.DS_Store
+Thumbs.db
+
+# Local assistant/tool state. Preserve on disk, do not commit.
+.claude/settings.local.json
+.hexstack-analysis/
+/.claude.json
+/.codex-workspace-probe
+/NUL
+# 자격증명 메모. 이름에 credentials가 들어가면 가드 두 개(.claude/guards의 셸·편집
+# 차단)가 자동으로 알아보므로, 새 규칙을 만들지 않고 이름 규칙으로 보호를 받는다.
+# 패턴으로 둔 이유는 앞으로 같은 성격의 파일이 생겨도 자동으로 걸리게 하기 위해서다.
+*.credentials.txt
+/PRD/IDPW주소.txt
+# ⚠️ 2026-08-20: 루트에 `IDPW주소.md` 가 나타났는데 위 두 줄 어디에도 안 걸렸다
+# (확장자도 위치도 다르다). T-HUB-01 과 **똑같은 재발**이다 — 그때 배운 것은
+# "도구가 이름으로 판단하면 이름 규칙을 맞추는 편이 오래 간다"였다. 그래서 이번엔
+# 파일 하나를 지목하지 않고 **이름이 IDPW 로 시작하면 어디에 있든 무엇이든** 막는다.
+# 커밋된 적은 없었다(실측: `git log --all -- "IDPW주소.md"` 0건).
+IDPW주소*
+**/IDPW주소*
+
+# Generated verification evidence. Preserve in the external verified snapshot.
+/OPERATIONS/evidence/
+/브리핑 자료/실화면_검수_증거_2026-07-26/
+/브리핑 자료 이미지/
+/브리핑 자료/2.png
+
+# Local verification and safety snapshots. Preserve on disk, do not upload.
+/우리반 허브_검증/
+/우리반 허브_안전보존/
+webwork-agent.config.json
+webwork-agent.state.json
+.webwork-attachments-*

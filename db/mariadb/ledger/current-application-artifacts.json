@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "runtime_activation_applied": false,
+  "followups": [
+    {
+      "id": "signup_role",
+      "steps": [
+        {
+          "id": "signup-role",
+          "ledger_version": 59,
+          "kind": "schema",
+          "requires": ["identity-foundation"],
+          "source_path": "db/mariadb/migrations/0037_signup_role.sql",
+          "byte_length": 410,
+          "sha256": "2ba840ad989e72312594a9ceb4ad8ad31a229b5400647dfd04e5e7dc53fb66bc"
+        }
+      ]
+    },
+    {
+      "id": "admin_user_status",
+      "steps": [
+        {
+          "id": "admin-user-status",
+          "ledger_version": 60,
+          "kind": "schema",
+          "requires": [
+            "class-membership-definer-dml-grants",
+            "class-membership-helper-execute-grants"
+          ],
+          "source_path": "db/mariadb/migrations/0038_admin_user_status.sql",
+          "byte_length": 4653,
+          "sha256": "4660ebe2d54b9f0e34657570f8963600e91c3f43878a78cda26200d7defea48a"
+        },
+        {
+          "id": "admin-user-status-execute",
+          "ledger_version": 61,
+          "kind": "runtime_grant",
+          "requires": ["admin-user-status"],
+          "source_path": "db/mariadb/permissions/0038_admin_user_status_execute.sql",
+          "byte_length": 586,
+          "sha256": "8a986428e8b227b328152e394d0ba3085e137adcc4ba2104405a828673e96e35"
+        }
+      ]
+    },
+    {
+      "id": "admin_member_status",
+      "steps": [
+        {
+          "id": "admin-member-status",
+          "ledger_version": 62,
+          "kind": "schema",
+          "requires": [
+            "class-membership-definer-dml-grants",
+            "class-membership-helper-execute-grants",
+            "admin-history-trigger"
+          ],
+          "source_path": "db/mariadb/migrations/0040_admin_member_status.sql",
+          "byte_length": 6199,
+          "sha256": "0bb28851884fe72459bfbe89738e8d17a8487a87c7689fe1672ddb72dd79f096"
+        },
+        {
+          "id": "admin-member-status-execute",
+          "ledger_version": 63,
+          "kind": "runtime_grant",
+          "requires": ["admin-member-status", "admin-history-grants"],
+          "source_path": "db/mariadb/permissions/0040_admin_member_status_execute.sql",
+          "byte_length": 653,
+          "sha256": "da49be2a054303bbc7e0420eefda785e208df692b8f23cb168d684e3c7129e35"
+        }
+      ]
+    }
+  ]
+}

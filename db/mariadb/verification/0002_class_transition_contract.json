@@ -1,0 +1,583 @@
+{
+  "contract_version": 2,
+  "status": "isolated_parser_and_smoke_verified_activation_blocked",
+  "database_apply_approved": false,
+  "isolated_qa_evidence": {
+    "verified_at": "2026-09-05",
+    "server_version": "11.4.13-MariaDB-ubu2404",
+    "apply_files": 12,
+    "installed_total_tables": 13,
+    "installed_routines": 15,
+    "installed_triggers": 1,
+    "semantic_transition_probes": 3,
+    "successful_transition_routines": 12,
+    "targeted_concurrency_probes": 4,
+    "targeted_fault_probes": 5,
+    "targeted_integrity_probes": 28,
+    "targeted_text_differential_vectors": 37,
+    "targeted_text_identity_prechecks": 9,
+    "targeted_constraint_outcome_probes": 28,
+    "targeted_constraint_rejection_probes": 24,
+    "targeted_constraint_acceptance_probes": 4,
+    "postgres_source_migrations_applied": 47,
+    "error_then_commit_persistence": "observed_activation_risk",
+    "synthetic_backup_restore": "schema_content_catalog_privileges_match",
+    "full_postgresql_differential_gate_closed": false,
+    "full_concurrency_gate_closed": false,
+    "production_recovery_gate_closed": false,
+    "persistent_rows_after_rollback": 0,
+    "runtime_activation_applied": false,
+    "scope": "Parser, catalog/definer/ACL fingerprint, guard and trigger rejection probes, all twelve successful transition paths with rollback, four targeted lock/clock concurrency races, five caller-failure/timeout/disconnect probes, 28 targeted generated-key/CHECK/trigger/FK/normalization probes, 37 exact UTF-8 normalization vectors plus nine class-identity routine prechecks, and 28 direct constraint outcomes (24 reject and four accept) against all 47 source migrations on disposable PostgreSQL 15.18 en_US.utf8, plus a synthetic schema/content/catalog/privilege backup-restore match. The differential found that the PostgreSQL actor CHECK makes its nominal ON DELETE SET NULL reject a referenced user deletion; the MariaDB FK now preserves that effective outcome with RESTRICT. Error-then-COMMIT persisted earlier routine writes and is an observed activation risk. This is not exhaustive PostgreSQL differential, full concurrency/fault, adapter, activation, production recovery, or production evidence."
+  },
+  "routine_ownership_decision": {
+    "status": "approved",
+    "approved_option": "invariant_core",
+    "approved_at": "2026-08-30",
+    "recommended": "invariant_core",
+    "options": {
+      "invariant_core": {
+        "routine_owns": "All invariant-bearing writes, including protected users lifecycle columns, plus matching status history",
+        "caller_owns": "Authentication, authorization, idempotency, audit, later-phase cleanup, and cryptographic invite candidate generation in the same caller transaction",
+        "activation_proof": "Any caller-owned failure must roll back the routine writes"
+      },
+      "full_domain": {
+        "routine_owns": "Every domain write, including audit, idempotency, and later-phase cleanup",
+        "caller_owns": "Authentication and invocation only",
+        "activation_proof": "Cannot be implemented before all referenced manifest phases exist"
+      }
+    }
+  },
+  "runtime_credential_threat_model": {
+    "status": "unapproved_for_activation",
+    "option_a_boundary": "Trusted application and operator adapters own the transaction and must roll back the complete caller transaction on every routine or later caller-owned failure.",
+    "authorization_boundary": "Caller authentication and authorization are not database-bound. Definer routines accept actor, user, and operator ids as parameters; the two column-scoped direct UPDATE paths rely on caller WHERE/row-version CAS. Possession of a runtime credential is not proof of an authenticated product principal, row scope, or CAS predicate.",
+    "arbitrary_runtime_sql_protection": "Not provided by option A: a stolen runtime credential can invoke authorized routines with chosen actor/user/operator ids, issue allowed direct UPDATEs against chosen class/member rows without the application CAS, and may commit earlier procedure substatements after an error.",
+    "activation_gate": "runtime_credential_threat_model_approved",
+    "fault_proof_gate": "application_dialect_and_retry_wiring_passed",
+    "required_fault_proof": "Pinned MariaDB 11.4 cut-point tests cover SIGNAL, native constraint error, deadlock, lock timeout, cancellation/disconnect, and caller audit/idempotency/cleanup failure; the adapter proves zero persistence, rollback-only behavior, and safe pooled-connection reuse. Separate error-then-COMMIT probes measure the database behavior without assuming CALL statement atomicity.",
+    "measured_fault_evidence": "A representative successful class-creation CALL followed by a caller-owned idempotency constraint error left zero rows with explicit ROLLBACK or client disconnect, but persisted the earlier class/member/history/invite writes when the error was ignored and COMMIT was forced. A membership lock timeout (1205) and server-side connection kill also left zero student-transition rows after disconnect. Full per-routine and adapter fault proof remains open.",
+    "fault_injection_matrix": {
+      "every_routine_after_successful_call": [
+        "create_class_with_teacher_and_invite",
+        "archive_class",
+        "rotate_class_invite",
+        "request_class_membership",
+        "cancel_class_membership_request",
+        "leave_class",
+        "approve_class_member",
+        "reject_class_member",
+        "remove_class_member",
+        "allow_class_member_rejoin",
+        "delete_user_account",
+        "transfer_class_teacher"
+      ],
+      "caller_owned_failure_requirement": "For each of the twelve routines, after a successful CALL and before COMMIT, separately inject every named caller-owned audit, idempotency, or cleanup failure for that transition and prove zero persistence for both routine-owned and caller-owned writes.",
+      "column_scoped_after_successful_update": ["update_class_details", "update_student_profile"],
+      "column_scoped_caller_owned_failure_requirement": "For each of the two column-scoped transactions, after the protected UPDATE succeeds and before COMMIT, inject the caller-owned audit failure and prove zero persistence for both the UPDATE and audit write.",
+      "late_internal_cut_points": {
+        "create_class_with_teacher_and_invite": {
+          "mysql_errnos": [30108],
+          "already_written": "class, teacher membership, matching history, and zero invite rows"
+        },
+        "archive_class": {
+          "mysql_errnos": [30115, 30116],
+          "already_written": "archived class and zero-or-more revoked invites or member/history transitions"
+        },
+        "rotate_class_invite": {
+          "mysql_errnos": [30123],
+          "already_written": "the prior open invite revocation and zero new invite rows"
+        },
+        "delete_user_account": {
+          "mysql_errnos": [30414, 30415],
+          "already_written": "zero-or-more scrubbed member/history rows, including the after-member-loop user compare-and-set cut point"
+        },
+        "transfer_class_teacher": {
+          "mysql_errnos": [30509],
+          "already_written": "outgoing and incoming teacher membership/history transitions before suspended-class reactivation"
+        }
+      },
+      "native_and_trigger_requirement": "Inject every publicly allowlisted native constraint error plus representative unknown native and status-history trigger errors after earlier writes, then prove complete caller-transaction rollback and internal fail-closed translation where not allowlisted."
+    },
+    "if_arbitrary_runtime_sql_is_required": "Reopen the ownership decision and add an unforgeable authorization-bearing database boundary for routines and both direct-DML paths plus proven error atomicity, or choose another transaction/auth ownership model before activation."
+  },
+  "sql_deployment_packaging": {
+    "status": "file_level_apply_verified_implicit_commit_ledger_unverified",
+    "target_database": "The reviewed runner selects classhub_mariadb_phase1_dev explicitly; no file may rely on an ambient default database.",
+    "client_contract": "Use a pinned MariaDB client path that interprets DELIMITER directives exactly and does not split routine bodies with a generic semicolon parser.",
+    "session_fingerprint": "Before every file, prove exact server version, DATABASE(), time_zone, character_set_connection, collation_connection, sql_mode, and effective apply identity.",
+    "implicit_commit_ledger": "Record exact source checksum and before/after catalog state for every CREATE/GRANT/REVOKE implicit-commit boundary; never claim a multi-file transaction.",
+    "activation_gates": [
+      "mariadb_11_4_parser_semantics_and_concurrency_passed",
+      "acl_partial_failure_recovery_passed",
+      "security_administrator_stage_proven"
+    ]
+  },
+  "transaction_boundary": {
+    "caller_owned": true,
+    "isolation_helper": "assert_read_committed_session",
+    "lock_helper": "lock_class_invariant_boundary",
+    "assert_helper": "assert_class_invariants",
+    "assertion_position": "after the final invariant-bearing write and before commit",
+    "helper_runtime_execute_allowed": false,
+    "required_isolation": "READ-COMMITTED for the complete caller transaction; all twelve routines and all three internal helpers fail closed when the caller session default is different. Effective one-shot SET TRANSACTION isolation is not observable inside a SQL SECURITY DEFINER routine without broader server visibility and remains an activation blocker.",
+    "required_isolation_probe": "Pinned MariaDB 11.4 proved that @@SESSION.transaction_isolation remains the session default after one-shot SET TRANSACTION. information_schema.INNODB_TRX requires global PROCESS, while Performance Schema hides the caller thread in a fresh SQL SECURITY DEFINER call; PROCESS is forbidden for the locked owner. The adapter must initialize and reset every pooled connection with SESSION READ COMMITTED, never issue one-shot isolation overrides, and prove own-write visibility plus fresh statement snapshots. Runtime activation remains blocked until that trusted-adapter boundary is explicitly accepted or a narrower database-enforced design is approved.",
+    "existing_class_lock_order": "users in numeric id order when required; then classes in numeric id order; then class_members under their locked parent class",
+    "member_cursor_order_semantics": "class_members id-ascending labels describe deterministic cursor fetch order after the parent class fence; physical record-lock acquisition order is not a safety premise except where a transition names an explicit forced access-path proof",
+    "two_user_cursor_access_path": "The four member-admin routines and transfer_class_teacher use FORCE INDEX (PRIMARY), numeric ORDER BY id, and FOR UPDATE for their two-user cursor. Pinned MariaDB 11.4 EXPLAIN plus reversed actor/target overlapping-session lock traces must still prove PRIMARY access and actual ascending user-row lock acquisition; source order alone is not evidence.",
+    "two_user_cursor_activation_gate": "mariadb_11_4_parser_semantics_and_concurrency_passed",
+    "governing_lock_order_source": "PRD/우리반_허브_PRD_FINAL.md:351-353,387-389",
+    "membership_request_exception": "PRD/우리반_허브_PRD_FINAL.md:481 requires users:actor and the cross-class current-membership fence before classes:invite-target. The routine locks and rejects teacher-profile presence between that fence and the target class so source error precedence is preserved; the locked user serializes compliant user/profile/membership writers.",
+    "caller_pre_call_lock_requirement": "The caller must acquire any required user locks before CALL and must not already hold a class or member lock in the opposite order; application wiring changes every caller atomically before activation",
+    "new_class_exception": "create_class_with_teacher_and_invite locks actor/member/profile/school preconditions, inserts the class, then immediately locks the new classes row because no target row exists before insert",
+    "final_assertion_serialization": "The locked classes row is the sole cross-table serialization fence. Dependent class_members/users/teacher_profiles/invite aggregates use fresh nonlocking READ-COMMITTED statement snapshots so the helper never takes a teacher user/profile lock after a class lock. This is safe only after every invariant writer and direct-DML denial switches atomically.",
+    "database_clock": "Every routine textually captures UTC_TIMESTAMP(6) once at its reviewed transition-specific time-decision or pre-write boundary and returns it through out_occurred_at. This is not a blanket claim that capture follows every later check, reacquisition of an already-owned row, or lock on a newly inserted row; static ordering alone does not prove post-wait freshness.",
+    "database_clock_activation_gate": "mariadb_11_4_parser_semantics_and_concurrency_passed",
+    "database_clock_runtime_probe": "On pinned MariaDB 11.4, hold the invite and class locks in session A, start request_class_membership in session B before invite expiry, release A only after expiry, and prove B rejects the expired invite. A separate nonexpired control must prove a successful request's out_occurred_at is no earlier than release of its governing invite lock. For every routine, prove capture freshness at its documented transition-specific time-decision/write boundary; do not infer stored CALL or UTC_TIMESTAMP/NOW semantics from source position or require capture to follow a later reacquisition of an already-owned row or a lock on a newly inserted row.",
+    "database_clock_runtime_evidence": "Pinned MariaDB 11.4 passed both request_class_membership controls: a request begun while the invite was active rejected with 30205 after waiting across expiry, and a nonexpired success returned out_occurred_at no earlier than a database timestamp written immediately before the governing locks were released. The other eleven routines' transition-specific clock boundaries remain open.",
+    "error_contract": "Any SIGNAL, constraint error, deadlock, timeout, or later caller-owned failure requires the adapter to rollback the complete caller transaction; catching a routine error and committing is forbidden"
+  },
+  "routine_files": [
+    "db/mariadb/migrations/0002_class_transition_lifecycle_routines.sql",
+    "db/mariadb/migrations/0002_class_transition_membership_routines.sql",
+    "db/mariadb/migrations/0002_class_transition_member_admin_routines.sql",
+    "db/mariadb/migrations/0002_class_transition_account_routine.sql",
+    "db/mariadb/migrations/0002_class_transition_operator_routine.sql"
+  ],
+  "routine_interface": {
+    "timestamp_input_allowed": false,
+    "timestamp_output": "out_occurred_at",
+    "invite_candidate_count": 5,
+    "invite_candidate_source": "caller-generated cryptographic random values",
+    "invite_collision_handling": "Narrow 1062 handler around only the invite INSERT; inspect the last diagnostic condition, require MYSQL_ERRNO 1062 and an exact class_invite_codes_code_unique MESSAGE_TEXT suffix, RESIGNAL every mismatch, and require pinned MariaDB diagnostic and concurrency proof",
+    "fixed_reasons": {
+      "archive_class": "반 아카이브",
+      "rotate_class_invite": "재발급"
+    },
+    "nullable_reason_normalization": [
+      "reject_class_member",
+      "remove_class_member",
+      "allow_class_member_rejoin",
+      "transfer_class_teacher"
+    ],
+    "audit_before_state": "Caller captures reviewed before-state under the same ordered locks before CALL and uses routine outputs for after-state and timestamp",
+    "adapter_wire_format": {
+      "activation_gate": "application_dialect_and_retry_wiring_passed",
+      "datetime6": "Bind the session to UTC and round-trip out_occurred_at as an exact canonical value retaining all six fractional digits; do not pass it through JavaScript Date before the caller-owned audit write. Prove byte/value equality with the routine-written history created_at.",
+      "signed_bigint": "Bind every BIGINT input/output losslessly as string or bigint, never JavaScript number. Probe values near signed BIGINT maximum and prove lossless OUT ids plus strict numeric ordering and exact decimal serialization of delete_user_account class-id JSON before CALL."
+    },
+    "transaction_control_inside_routine": false
+  },
+  "protected_transitions": [
+    {
+      "id": "create_class_with_teacher_and_invite",
+      "runtime_identity": "classhub_app",
+      "sources": ["apps/api/src/classes/classes.service.ts:90-305"],
+      "invariant_writes": [
+        "classes",
+        "class_members",
+        "class_member_status_history",
+        "class_invite_codes"
+      ],
+      "status_transitions": ["null->approved:teacher"],
+      "required_lock_order": [
+        "users:actor",
+        "class_members:current-by-user",
+        "teacher_profiles:actor",
+        "schools:identity",
+        "classes:new-row"
+      ],
+      "caller_transaction_dependencies": ["api_idempotency_keys", "audit_logs"],
+      "future_phase_dependencies": ["0004_audit_import_logs"],
+      "required_final_assertion": true
+    },
+    {
+      "id": "archive_class",
+      "runtime_identity": "classhub_app",
+      "sources": ["apps/api/src/classes/classes.service.ts:314-543"],
+      "invariant_writes": [
+        "classes",
+        "class_members",
+        "class_member_status_history",
+        "class_invite_codes"
+      ],
+      "status_transitions": [
+        "active->archived:class",
+        "pending->canceled:student",
+        "approved->archived:member"
+      ],
+      "required_lock_order": [
+        "users:actor",
+        "classes:target",
+        "class_members:id-ascending",
+        "teacher_profiles:actor",
+        "class_invite_codes:id-ascending"
+      ],
+      "caller_transaction_dependencies": ["audit_logs"],
+      "future_phase_dependencies": ["0004_audit_import_logs"],
+      "required_final_assertion": true
+    },
+    {
+      "id": "rotate_class_invite",
+      "runtime_identity": "classhub_app",
+      "sources": ["apps/api/src/classes/classes.service.ts:831-994"],
+      "invariant_writes": ["class_invite_codes"],
+      "status_transitions": [],
+      "required_lock_order": [
+        "users:actor",
+        "classes:target",
+        "class_members:actor",
+        "teacher_profiles:actor",
+        "class_invite_codes:open"
+      ],
+      "caller_transaction_dependencies": ["api_idempotency_keys", "audit_logs"],
+      "future_phase_dependencies": ["0004_audit_import_logs"],
+      "required_final_assertion": true
+    },
+    {
+      "id": "request_class_membership",
+      "runtime_identity": "classhub_app",
+      "sources": [
+        "apps/api/src/membership/membership.service.ts:37-212",
+        "apps/api/src/membership/membership.service.ts:215-244"
+      ],
+      "invariant_writes": ["class_members", "class_member_status_history"],
+      "status_transitions": [
+        "null->pending",
+        "rejected->pending",
+        "canceled->pending",
+        "left->pending",
+        "rejoin_allowed->pending"
+      ],
+      "required_lock_order": [
+        "users:actor",
+        "class_members:current-by-user",
+        "teacher_profiles:actor-absence",
+        "classes:invite-target",
+        "class_invite_codes:matched",
+        "class_members:matched-existing"
+      ],
+      "caller_preconditions": ["rate_limit_state"],
+      "caller_transaction_dependencies": ["audit_logs"],
+      "future_phase_dependencies": ["0004_audit_import_logs"],
+      "required_final_assertion": true
+    },
+    {
+      "id": "cancel_class_membership_request",
+      "runtime_identity": "classhub_app",
+      "sources": [
+        "apps/api/src/membership/membership.service.ts:249-258",
+        "apps/api/src/membership/membership.service.ts:287-453"
+      ],
+      "invariant_writes": ["class_members", "class_member_status_history"],
+      "status_transitions": ["pending->canceled"],
+      "required_lock_order": ["users:actor", "classes:target", "class_members:actor"],
+      "caller_transaction_dependencies": ["audit_logs"],
+      "future_phase_dependencies": ["0004_audit_import_logs"],
+      "required_final_assertion": true
+    },
+    {
+      "id": "leave_class",
+      "runtime_identity": "classhub_app",
+      "sources": [
+        "apps/api/src/membership/membership.service.ts:260-269",
+        "apps/api/src/membership/membership.service.ts:296-453"
+      ],
+      "invariant_writes": ["class_members", "class_member_status_history"],
+      "status_transitions": ["approved->left"],
+      "required_lock_order": ["users:actor", "classes:target", "class_members:actor"],
+      "caller_transaction_dependencies": [
+        "audit_logs",
+        "seat_draw_assignments",
+        "team_draw_assignments",
+        "duty_assignments"
+      ],
+      "future_phase_dependencies": [
+        "0004_audit_import_logs",
+        "0011_seat_draws",
+        "0012_team_draws",
+        "0013_duty_rosters"
+      ],
+      "required_final_assertion": true
+    },
+    {
+      "id": "approve_class_member",
+      "runtime_identity": "classhub_app",
+      "sources": ["apps/api/src/members/members.service.ts:145-354"],
+      "invariant_writes": ["class_members", "class_member_status_history"],
+      "status_transitions": ["pending->approved"],
+      "required_lock_order": [
+        "users:id-ascending",
+        "classes:target",
+        "class_members:id-ascending",
+        "teacher_profiles:actor"
+      ],
+      "caller_transaction_dependencies": ["notice_reads", "supply_checks", "audit_logs"],
+      "future_phase_dependencies": ["0003_content_meals", "0004_audit_import_logs"],
+      "required_final_assertion": true
+    },
+    {
+      "id": "reject_class_member",
+      "runtime_identity": "classhub_app",
+      "sources": [
+        "apps/api/src/members/members.service.ts:574-580",
+        "apps/api/src/members/members.service.ts:599-816"
+      ],
+      "invariant_writes": ["class_members", "class_member_status_history"],
+      "status_transitions": ["pending->rejected"],
+      "required_lock_order": [
+        "users:id-ascending",
+        "classes:target",
+        "class_members:id-ascending",
+        "teacher_profiles:actor"
+      ],
+      "caller_transaction_dependencies": ["audit_logs"],
+      "future_phase_dependencies": ["0004_audit_import_logs"],
+      "required_final_assertion": true
+    },
+    {
+      "id": "remove_class_member",
+      "runtime_identity": "classhub_app",
+      "sources": [
+        "apps/api/src/members/members.service.ts:582-589",
+        "apps/api/src/members/members.service.ts:599-816"
+      ],
+      "invariant_writes": ["class_members", "class_member_status_history"],
+      "status_transitions": ["approved->removed"],
+      "required_lock_order": [
+        "users:id-ascending",
+        "classes:target",
+        "class_members:id-ascending",
+        "teacher_profiles:actor"
+      ],
+      "caller_transaction_dependencies": [
+        "audit_logs",
+        "seat_draw_assignments",
+        "team_draw_assignments",
+        "duty_assignments"
+      ],
+      "future_phase_dependencies": [
+        "0004_audit_import_logs",
+        "0011_seat_draws",
+        "0012_team_draws",
+        "0013_duty_rosters"
+      ],
+      "required_final_assertion": true
+    },
+    {
+      "id": "allow_class_member_rejoin",
+      "runtime_identity": "classhub_app",
+      "sources": [
+        "apps/api/src/members/members.service.ts:591-597",
+        "apps/api/src/members/members.service.ts:599-816"
+      ],
+      "invariant_writes": ["class_members", "class_member_status_history"],
+      "status_transitions": ["removed->rejoin_allowed"],
+      "required_lock_order": [
+        "users:id-ascending",
+        "classes:target",
+        "class_members:id-ascending",
+        "teacher_profiles:actor"
+      ],
+      "caller_transaction_dependencies": ["audit_logs"],
+      "future_phase_dependencies": ["0004_audit_import_logs"],
+      "required_final_assertion": true
+    },
+    {
+      "id": "delete_user_account",
+      "runtime_identity": "classhub_app",
+      "sources": [
+        "apps/api/src/account/account.service.ts:211-546",
+        "apps/api/src/account/account.service.ts:549-583"
+      ],
+      "invariant_writes": ["class_members", "class_member_status_history", "users"],
+      "status_transitions": ["pending->account_deleted", "approved->account_deleted"],
+      "required_lock_order": [
+        "users:actor",
+        "classes:id-ascending",
+        "class_members:class-id-then-id-ascending"
+      ],
+      "lock_set_stabilization": "Caller discovers affected class ids. Routine validates a bounded JSON array of positive signed BIGINT ids in strict ascending order, locks the user, locks every listed class, then current-locking-reads all memberships and requires exact distinct set equality before any write.",
+      "all_history_lock_path_proof": "Both user_id all-history cursors FORCE the explicit class_members_user_class_id_idx (user_id,class_id,id). Pinned MariaDB 11.4 SHOW CREATE TABLE, EXPLAIN, and concurrency traces must still prove the intended access path and class_id,id lock acquisition order.",
+      "all_history_lock_path_activation_gate": "mariadb_11_4_parser_semantics_and_concurrency_passed",
+      "class_list_bound": {
+        "maximum_ids": 4096,
+        "maximum_utf8_bytes": 131072,
+        "byte_limit_before_json_parse": true
+      },
+      "caller_transaction_preconditions": [
+        "confirmation literal equals the current API account-deletion token",
+        "caller has locked the user before discovering the expected class ids without class or member row locks",
+        "current session is valid after the user lock",
+        "current password matches the locked users.password_hash",
+        "account-deletion rate limiter is available",
+        "the user is not an approved teacher of any active or suspended class"
+      ],
+      "caller_transaction_dependencies": [
+        "sessions",
+        "email_verification_tokens",
+        "password_reset_tokens",
+        "user_consents",
+        "audit_logs",
+        "student_assessment_records",
+        "poll_votes",
+        "seat_draw_assignments",
+        "team_draw_assignments",
+        "election_participants",
+        "election_candidates",
+        "duty_assignments"
+      ],
+      "post_commit_effects": ["security_audit_event"],
+      "future_phase_dependencies": [
+        "0004_audit_import_logs",
+        "0009_student_assessments",
+        "0010_polls",
+        "0011_seat_draws",
+        "0012_team_draws",
+        "0013_duty_rosters",
+        "0015_elections"
+      ],
+      "required_final_assertion": true,
+      "required_final_assertion_scope": "Assert every stabilized affected class in ascending class id order after the final invariant-bearing write and before commit"
+    },
+    {
+      "id": "transfer_class_teacher",
+      "runtime_identity": "classhub_operator",
+      "sources": [
+        "apps/operator-cli/src/class-transfer.ts:39-235",
+        "apps/operator-cli/src/operator-auth.ts:30-47",
+        "PRD/우리반_허브_PRD_FINAL.md:413-418",
+        "PRD/우리반_허브_PRD_FINAL.md:832-868",
+        "PRD/우리반_허브_PRD_FINAL.md:895-903"
+      ],
+      "invariant_writes": ["classes", "class_members", "class_member_status_history"],
+      "status_transitions": [
+        "approved->transferred:teacher",
+        "null->approved:teacher",
+        "suspended->active:class"
+      ],
+      "required_lock_order": [
+        "users:id-ascending",
+        "classes:target",
+        "class_members:id-ascending",
+        "teacher_profiles:incoming"
+      ],
+      "cross_class_current_membership_fence": "The incoming user lock is acquired before the target class; the later current-membership locking read may find another class and is safe only while all user-owned membership writers take that same user lock first. Class-wide archive never waits on a student user after member locks.",
+      "caller_preconditions": ["operator authentication and locked revalidation before CALL"],
+      "caller_audit_requirements": [
+        "always append class.teacher_transferred and teacher.transferred records in the same transaction",
+        "when the locked target was suspended, also append class.reactivated to both class and operator audit logs using the routine timestamp"
+      ],
+      "routine_preconditions": [
+        "incoming teacher profile is active and temporary_password_must_change is false",
+        "incoming user has no current membership",
+        "incoming user has no prior member row in the target class",
+        "a suspended target is reactivated and all suspended metadata is cleared in the same transaction"
+      ],
+      "known_source_divergence": "The current PostgreSQL operator CLI reuses prior target-class teacher rows and omits temporary-password and suspended-class reactivation rules; MariaDB adapter wiring must replace that behavior with this PRD-authoritative contract before activation.",
+      "caller_transaction_dependencies": ["audit_logs", "operator_audit_logs"],
+      "future_phase_dependencies": ["0004_audit_import_logs"],
+      "required_final_assertion": true
+    }
+  ],
+  "column_scoped_transactions": [
+    {
+      "id": "update_class_details",
+      "runtime_identity": "classhub_app",
+      "sources": ["apps/api/src/classes/classes.service.ts:618-816"],
+      "table": "classes",
+      "update_columns": ["name", "expected_student_count", "row_version", "updated_at"],
+      "required_lock_order": [
+        "users:actor",
+        "classes:target",
+        "class_members:actor",
+        "teacher_profiles:actor"
+      ],
+      "optimistic_cas": "row_version equals expected_row_version and increments by one on change",
+      "cas_enforcement": "application wiring contract; MariaDB column UPDATE privilege alone does not enforce the WHERE predicate",
+      "caller_transaction_dependencies": ["audit_logs"]
+    },
+    {
+      "id": "update_student_profile",
+      "runtime_identity": "classhub_app",
+      "sources": ["apps/api/src/members/members.service.ts:361-572"],
+      "table": "class_members",
+      "update_columns": ["display_name_in_class", "student_number", "row_version", "updated_at"],
+      "required_lock_order": [
+        "users:id-ascending",
+        "classes:target",
+        "class_members:id-ascending",
+        "teacher_profiles:actor"
+      ],
+      "optimistic_cas": "row_version equals expected_row_version and increments by one on change",
+      "cas_enforcement": "application wiring contract; MariaDB column UPDATE privilege alone does not enforce the WHERE predicate",
+      "caller_transaction_dependencies": ["audit_logs"]
+    }
+  ],
+  "runtime_acl_recovery": {
+    "dcl_atomic": false,
+    "mode": "fail_closed_full_runtime_reconcile",
+    "broad_users_write_restored": false,
+    "partial_failure_requirement": "Exercise the reconcile after failure at every activation statement boundary and prove the exact safe grants fingerprint",
+    "apply_identity": "separate reviewed security administrator; the phase-0001 migrator is insufficient",
+    "scope": "phase-0001 plus phase-0002 exact runtime envelope only; later-phase roles or grants require a regenerated complete desired-state reconcile",
+    "before_state_requirement": "Exact effective grants and assigned roles for all four runtime identities match the approved fingerprint with no out-of-band privilege",
+    "traffic_transition_requirement": "Enter maintenance write-quiesce, prove zero active runtime transactions, drain all four runtime identities' connections, reconcile, open fresh probe connections, prove positive/negative ACL and the exact fingerprint, then explicitly resume traffic"
+  },
+  "future_phase_activation": {
+    "status": "unverified",
+    "activation_gates": [
+      "application_dialect_and_retry_wiring_passed",
+      "runtime_direct_invariant_dml_revoked",
+      "runtime_execute_allowlist_proven",
+      "acl_partial_failure_recovery_passed",
+      "security_administrator_stage_proven",
+      "runtime_acl_before_state_fingerprint_proven",
+      "runtime_traffic_quiesce_and_connection_drain_proven"
+    ],
+    "dependency_artifact_map": {
+      "0001_identity_foundation": [
+        "api_idempotency_keys",
+        "email_verification_tokens",
+        "password_reset_tokens",
+        "sessions",
+        "user_consents"
+      ],
+      "0003_content_meals": ["notice_reads", "supply_checks"],
+      "0004_audit_import_logs": ["audit_logs", "operator_audit_logs", "security_audit_logs"],
+      "0009_student_assessments": ["student_assessment_records"],
+      "0010_polls": ["poll_votes"],
+      "0011_seat_draws": ["seat_draw_assignments"],
+      "0012_team_draws": ["team_draw_assignments"],
+      "0013_duty_rosters": ["duty_assignments"],
+      "0015_elections": ["election_candidates", "election_participants"],
+      "post_commit:security_audit_event": ["security_audit_logs"]
+    },
+    "requirement": "Before any transition activates, every entry named in caller_transaction_dependencies and future_phase_dependencies must resolve through the exact dependency artifact map, exist in the target manifest/schema, and be wired into the same caller transaction with rollback fault proof. Every entry named in post_commit_effects must have a proven after-commit dispatch path. Regenerate and re-prove the complete desired-state ACL for every then-current phase role and grant; a nonempty dependency list is not activation evidence and no partial phase parity may be claimed."
+  },
+  "activation_gates": [
+    "routine_ownership_decision_approved",
+    "runtime_credential_threat_model_approved",
+    "twelve_transition_routines_implemented",
+    "runtime_direct_invariant_dml_revoked",
+    "runtime_execute_allowlist_proven",
+    "mariadb_11_4_parser_semantics_and_concurrency_passed",
+    "application_dialect_and_retry_wiring_passed",
+    "acl_partial_failure_recovery_passed",
+    "security_administrator_stage_proven",
+    "runtime_acl_before_state_fingerprint_proven",
+    "runtime_traffic_quiesce_and_connection_drain_proven"
+  ],
+  "activation_gate_status": {
+    "routine_ownership_decision_approved": true,
+    "runtime_credential_threat_model_approved": false,
+    "twelve_transition_routines_implemented": "parser_installed_single_transition_smoke_verified_full_semantics_blocked",
+    "runtime_direct_invariant_dml_revoked": false,
+    "runtime_execute_allowlist_proven": false,
+    "mariadb_11_4_parser_semantics_and_concurrency_passed": false,
+    "application_dialect_and_retry_wiring_passed": false,
+    "acl_partial_failure_recovery_passed": false,
+    "security_administrator_stage_proven": false,
+    "runtime_acl_before_state_fingerprint_proven": false,
+    "runtime_traffic_quiesce_and_connection_drain_proven": false
+  }
+}

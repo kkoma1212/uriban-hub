@@ -1,0 +1,47 @@
+name: classhub-local
+
+services:
+  postgres:
+    image: postgres:15.18-alpine3.23
+    environment:
+      POSTGRES_DB: classhub_dev
+      POSTGRES_USER: classhub_bootstrap
+      POSTGRES_PASSWORD: local_bootstrap_password
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U classhub_bootstrap -d classhub_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - classhub-postgres-data:/var/lib/postgresql/data
+      - ./db/bootstrap:/docker-entrypoint-initdb.d:ro
+
+  redis:
+    image: redis:7.4.7-alpine3.21
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - classhub-redis-data:/data
+
+  mailpit:
+    image: axllent/mailpit:v1.30.0
+    environment:
+      MP_MAX_MESSAGES: 500
+      MP_SMTP_AUTH_ACCEPT_ANY: "true"
+      MP_SMTP_AUTH_ALLOW_INSECURE: "true"
+      MP_SMTP_DISABLE_RDNS: "true"
+    ports:
+      - "127.0.0.1:1025:1025"
+      - "127.0.0.1:8025:8025"
+
+volumes:
+  classhub-postgres-data:
+  classhub-redis-data:

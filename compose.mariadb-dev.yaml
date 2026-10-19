@@ -1,0 +1,49 @@
+name: classhub-mariadb-phase1-dev
+
+services:
+  mariadb-phase1:
+    image: mariadb:11.4.13@sha256:611a2fcc5fa7c6ceb8644c6f74b25ede004ff6c3a6b38c8f8c23d3bbf6c26430
+    pull_policy: missing
+    restart: "no"
+    environment:
+      MARIADB_ROOT_HOST: localhost
+      MARIADB_ROOT_PASSWORD: local_phase1_root_password_not_for_production
+      MARIADB_DATABASE: classhub_mariadb_phase1_dev
+      MARIADB_INITDB_SKIP_TZINFO: "1"
+      TZ: UTC
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 30s
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    stop_grace_period: 30s
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.classhub.environment: synthetic-mariadb-phase1-development
+      com.classhub.production-data-allowed: "false"
+      com.classhub.schema-scope: identity-foundation-6-tables
+    networks:
+      - phase1
+    volumes:
+      - phase1-data:/var/lib/mysql
+      - ./OPERATIONS/mariadb-dev/secure-file-priv:/var/lib/mysql-files:ro
+      - ./OPERATIONS/mariadb-dev/conf.d/90-classhub-phase1.cnf:/etc/mysql/conf.d/90-classhub-phase1.cnf:ro
+      - ./OPERATIONS/mariadb-dev/bootstrap/010-development-identities.sql:/docker-entrypoint-initdb.d/010-development-identities.sql:ro
+      - ./db/mariadb/migrations/0001_identity_foundation.sql:/docker-entrypoint-initdb.d/020-identity-foundation.sql:ro
+      - ./db/mariadb/permissions/0001_identity_foundation_grants.sql:/docker-entrypoint-initdb.d/030-identity-foundation-grants.sql:ro
+      - ./db/mariadb/verification/0001_identity_foundation_contract.sql:/opt/classhub/verification/0001_identity_foundation_contract.sql:ro
+      - ./db/mariadb/verification/0001_identity_foundation_semantics.sql:/opt/classhub/verification/0001_identity_foundation_semantics.sql:ro
+
+networks:
+  phase1:
+    internal: true
+    labels:
+      com.classhub.environment: synthetic-mariadb-phase1-development
+
+volumes:
+  phase1-data:
+    labels:
+      com.classhub.environment: synthetic-mariadb-phase1-development
+      com.classhub.production-data-allowed: "false"

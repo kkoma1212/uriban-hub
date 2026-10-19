@@ -1,0 +1,244 @@
+{
+  "status": "static_mapping_complete_runtime_unverified",
+  "activation_gates": [
+    "mariadb_11_4_parser_semantics_and_concurrency_passed",
+    "application_dialect_and_retry_wiring_passed"
+  ],
+  "lookup_key": "custom SIGNAL uses contract operation id plus exact SQLSTATE 45000 and MYSQL_ERRNO; a CALL operation id is one-to-one with its top-level procedure. Native errors use operation id plus native SQLSTATE and errno and exact structured constraint metadata.",
+  "message_text_parsing": "Forbidden in the application adapter. MESSAGE_TEXT parsing is confined to the routine-internal invite-code 1062 handler and remains pinned-runtime unverified.",
+  "unknown_error_policy": "Rollback the complete caller transaction and fail closed as an internal 500. A missing or different SQLSTATE, absent or different native constraint metadata, unknown errno, helper/trigger error, deadlock, or timeout is unknown unless this contract explicitly says otherwise. Never re-query after a routine error to guess public semantics, and never commit an earlier procedure substatement.",
+  "source_semantics": "Public mappings preserve the exception classes and ERROR_CODES at the source coordinates in 0002_class_transition_contract.json. INTERNAL entries are adapter, invariant, or concurrency-contract failures and are not public domain classifications.",
+  "helper_propagation": {
+    "isolation_errno": 30006,
+    "isolation_result": "INTERNAL_ADAPTER_CONTRACT:500",
+    "missing_class_errno": 30002,
+    "missing_class_by_top_level_procedure": {
+      "create_class_with_teacher_and_invite": "INTERNAL_INVARIANT_VIOLATION:500",
+      "archive_class": "NOT_FOUND:404",
+      "rotate_class_invite": "NOT_FOUND:404",
+      "request_class_membership": "INVITE_CODE_INVALID_OR_EXPIRED:400",
+      "cancel_class_membership_request": "MEMBERSHIP_STATUS_CHANGED:409",
+      "leave_class": "MEMBERSHIP_STATUS_CHANGED:409",
+      "approve_class_member": "MEMBER_NOT_FOUND:404",
+      "reject_class_member": "MEMBER_NOT_FOUND:404",
+      "remove_class_member": "MEMBER_NOT_FOUND:404",
+      "allow_class_member_rejoin": "MEMBER_NOT_FOUND:404",
+      "delete_user_account": "INTERNAL_CONCURRENCY_CONTRACT:500",
+      "transfer_class_teacher": "OPERATOR_CLASS_NOT_FOUND:CLI"
+    },
+    "invariant_errnos": [30003, 30004, 30005],
+    "invariant_result": "INTERNAL_INVARIANT_VIOLATION:500"
+  },
+  "native_constraint_allowlist": [
+    {
+      "operation": "create_class_with_teacher_and_invite",
+      "mysql_errno": 1062,
+      "constraint": "classes_active_identity_unique",
+      "result": "CLASS_ALREADY_EXISTS:409"
+    },
+    {
+      "operation": "approve_class_member",
+      "mysql_errno": 1062,
+      "constraint": "class_members_student_number_unique",
+      "result": "STUDENT_NUMBER_ALREADY_IN_USE:409"
+    },
+    {
+      "operation": "update_class_details",
+      "mysql_errno": 1062,
+      "constraint": "classes_active_identity_unique",
+      "result": "CLASS_ALREADY_EXISTS:409"
+    },
+    {
+      "operation": "update_student_profile",
+      "mysql_errno": 1062,
+      "constraint": "class_members_student_number_unique",
+      "result": "STUDENT_NUMBER_ALREADY_IN_USE:409"
+    }
+  ],
+  "routine_internal_native_retry": {
+    "procedure": "create_class_with_teacher_and_invite|rotate_class_invite",
+    "mysql_errno": 1062,
+    "constraint": "class_invite_codes_code_unique",
+    "behavior": "Retry only inside the five-candidate loop after pinned diagnostics proof; every other 1062 is RESIGNALed and reaches the unknown-error policy unless separately allowlisted."
+  },
+  "procedures": {
+    "create_class_with_teacher_and_invite": {
+      "30006": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30101": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30102": "UNAUTHENTICATED:401",
+      "30103": "CLASS_CREATION_NOT_ALLOWED:409",
+      "30104": "ROLE_INSUFFICIENT:403",
+      "30105": "SCHOOL_NOT_FOUND:404",
+      "30106": "SCHOOL_KIND_NOT_SUPPORTED:400",
+      "30107": "CLASS_ALREADY_EXISTS:409",
+      "30108": "INVITE_CODE_GENERATION_FAILED:409",
+      "30124": "EMAIL_NOT_VERIFIED:403",
+      "30125": "GRADE_NOT_ALLOWED:400"
+    },
+    "archive_class": {
+      "30001": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30006": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30109": "CLASS_ARCHIVE_CONFLICT:409",
+      "30110": "CLASS_NAME_CONFIRMATION_MISMATCH:409",
+      "30111": "UNAUTHENTICATED:401",
+      "30112": "ROLE_INSUFFICIENT:403",
+      "30113": "ROLE_INSUFFICIENT:403",
+      "30114": "CLASS_ARCHIVE_CONFLICT:409",
+      "30115": "CLASS_ARCHIVE_CONFLICT:409",
+      "30116": "CLASS_ARCHIVE_CONFLICT:409",
+      "30126": "CLASS_SUSPENDED:423"
+    },
+    "rotate_class_invite": {
+      "30001": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30006": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30117": "NOT_FOUND:404",
+      "30118": "UNAUTHENTICATED:401",
+      "30119": "ROLE_INSUFFICIENT:403",
+      "30120": "ROLE_INSUFFICIENT:403",
+      "30121": "INVITE_CODE_NOT_FOUND:404",
+      "30122": "INTERNAL_CONCURRENCY_CONTRACT:500",
+      "30123": "INVITE_CODE_GENERATION_FAILED:409",
+      "30127": "CLASS_SUSPENDED:423"
+    },
+    "request_class_membership": {
+      "30001": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30006": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30201": "INVITE_CODE_INVALID_OR_EXPIRED:400",
+      "30202": "UNAUTHENTICATED:401",
+      "30203": "CURRENT_MEMBERSHIP_EXISTS:409",
+      "30204": "MEMBERSHIP_REQUEST_NOT_ALLOWED:409",
+      "30205": "INVITE_CODE_INVALID_OR_EXPIRED:400",
+      "30206": "MEMBERSHIP_REQUEST_NOT_ALLOWED:409",
+      "30207": "INTERNAL_CONCURRENCY_CONTRACT:500",
+      "30216": "REJOIN_NOT_ALLOWED:409",
+      "30217": "EMAIL_NOT_VERIFIED:403"
+    },
+    "cancel_class_membership_request": {
+      "30001": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30006": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30208": "MEMBERSHIP_STATUS_CHANGED:409",
+      "30209": "UNAUTHENTICATED:401",
+      "30210": "MEMBERSHIP_STATUS_CHANGED:409",
+      "30211": "MEMBERSHIP_STATUS_CHANGED:409"
+    },
+    "leave_class": {
+      "30001": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30006": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30212": "MEMBERSHIP_STATUS_CHANGED:409",
+      "30213": "UNAUTHENTICATED:401",
+      "30214": "MEMBERSHIP_STATUS_CHANGED:409",
+      "30215": "MEMBERSHIP_STATUS_CHANGED:409"
+    },
+    "approve_class_member": {
+      "30001": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30006": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30301": "MEMBER_NOT_FOUND:404",
+      "30302": "MEMBER_NOT_FOUND:404",
+      "30303": "ROLE_INSUFFICIENT:403",
+      "30304": "ROLE_INSUFFICIENT:403",
+      "30305": "ROLE_INSUFFICIENT:403",
+      "30306": "MEMBER_STATUS_CHANGED:409",
+      "30325": "MEMBER_ACCOUNT_INACTIVE:409",
+      "30326": "MEMBER_NOT_FOUND:404",
+      "30327": "MEMBER_STATUS_CHANGED:409",
+      "30328": "CLASS_SUSPENDED:423"
+    },
+    "reject_class_member": {
+      "30001": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30006": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30307": "MEMBER_NOT_FOUND:404",
+      "30308": "MEMBER_NOT_FOUND:404",
+      "30309": "ROLE_INSUFFICIENT:403",
+      "30310": "ROLE_INSUFFICIENT:403",
+      "30311": "ROLE_INSUFFICIENT:403",
+      "30312": "MEMBER_STATUS_CHANGED:409",
+      "30329": "MEMBER_NOT_FOUND:404",
+      "30330": "MEMBER_NOT_FOUND:404",
+      "30331": "MEMBER_STATUS_CHANGED:409",
+      "30332": "CLASS_SUSPENDED:423"
+    },
+    "remove_class_member": {
+      "30001": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30006": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30313": "MEMBER_NOT_FOUND:404",
+      "30314": "MEMBER_NOT_FOUND:404",
+      "30315": "ROLE_INSUFFICIENT:403",
+      "30316": "ROLE_INSUFFICIENT:403",
+      "30317": "ROLE_INSUFFICIENT:403",
+      "30318": "MEMBER_STATUS_CHANGED:409",
+      "30333": "MEMBER_NOT_FOUND:404",
+      "30334": "MEMBER_NOT_FOUND:404",
+      "30335": "MEMBER_STATUS_CHANGED:409",
+      "30336": "CLASS_SUSPENDED:423"
+    },
+    "allow_class_member_rejoin": {
+      "30001": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30006": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30319": "MEMBER_NOT_FOUND:404",
+      "30320": "MEMBER_NOT_FOUND:404",
+      "30321": "ROLE_INSUFFICIENT:403",
+      "30322": "ROLE_INSUFFICIENT:403",
+      "30323": "ROLE_INSUFFICIENT:403",
+      "30324": "MEMBER_STATUS_CHANGED:409",
+      "30337": "MEMBER_NOT_FOUND:404",
+      "30338": "MEMBER_NOT_FOUND:404",
+      "30339": "MEMBER_STATUS_CHANGED:409",
+      "30340": "CLASS_SUSPENDED:423"
+    },
+    "delete_user_account": {
+      "30006": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30401": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30402": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30403": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30404": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30405": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30406": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30407": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30408": "UNAUTHENTICATED:401",
+      "30409": "INTERNAL_CONCURRENCY_CONTRACT:500",
+      "30410": "INTERNAL_CONCURRENCY_CONTRACT:500",
+      "30411": "CONFLICT:409",
+      "30412": "INTERNAL_CONCURRENCY_CONTRACT:500",
+      "30413": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30414": "UNAUTHENTICATED:401",
+      "30415": "INTERNAL_CONCURRENCY_CONTRACT:500"
+    },
+    "transfer_class_teacher": {
+      "30001": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30006": "INTERNAL_ADAPTER_CONTRACT:500",
+      "30501": "OPERATOR_CLASS_NOT_LIVE:CLI",
+      "30502": "OPERATOR_SAME_TEACHER:CLI",
+      "30503": "OPERATOR_OUTGOING_USER_NOT_FOUND:CLI",
+      "30504": "OPERATOR_OUTGOING_MEMBERSHIP_CHANGED:CLI",
+      "30505": "OPERATOR_TARGET_PRIOR_MEMBERSHIP:CLI",
+      "30506": "OPERATOR_TARGET_CURRENT_MEMBERSHIP:CLI",
+      "30507": "OPERATOR_TARGET_NOT_TEACHER:CLI",
+      "30508": "OPERATOR_OUTGOING_CAS_FAILED:CLI",
+      "30509": "OPERATOR_CLASS_REACTIVATION_CAS_FAILED:CLI",
+      "30510": "OPERATOR_INCOMING_USER_NOT_FOUND:CLI",
+      "30511": "OPERATOR_INCOMING_USER_INACTIVE:CLI",
+      "30512": "OPERATOR_INCOMING_PROFILE_INACTIVE:CLI",
+      "30513": "OPERATOR_TEMPORARY_PASSWORD_UNCHANGED:CLI"
+    }
+  },
+  "reviewed_public_precedence": {
+    "create_class_with_teacher_and_invite": [
+      30102, 30124, 30104, 30103, 30105, 30106, 30125, 30107
+    ],
+    "archive_class": [30111, 30126, 30109, 30112, 30113, 30110],
+    "rotate_class_invite": [30118, 30127, 30117, 30119, 30120, 30121],
+    "request_class_membership": [30202, 30217, 30204, 30203, 30201, 30205, 30216, 30206],
+    "approve_class_member": [30325, 30303, 30328, 30301, 30304, 30305, 30326, 30327],
+    "reject_class_member": [30309, 30329, 30332, 30307, 30310, 30311, 30330, 30331],
+    "remove_class_member": [30315, 30333, 30336, 30313, 30316, 30317, 30334, 30335],
+    "allow_class_member_rejoin": [30321, 30337, 30340, 30319, 30322, 30323, 30338, 30339]
+  },
+  "reviewed_operator_precondition_precedence": {
+    "transfer_class_teacher": {
+      "scope": "Domain/operator preconditions after basic argument and isolation guards. The operator adapter prevalidates diagnostics; this order is the routine contract and does not claim source CLI precedence parity.",
+      "mysql_errnos": [
+        30502, 30503, 30510, 30511, 30002, 30501, 30504, 30505, 30506, 30507, 30512, 30513
+      ]
+    }
+  }
+}

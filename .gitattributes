@@ -1,0 +1,14 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.sqlite binary
+
+# Built files retain the exact bytes and hashes produced by Vite.
+Web/** -whitespace
+
+# Preserve verbatim upstream license text without rewriting or whitespace warnings.
+THIRD_PARTY_LICENSES/** -whitespace

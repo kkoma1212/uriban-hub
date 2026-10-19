@@ -1,0 +1,4181 @@
+{
+  "schema_version": 1,
+  "scope": "pnpm-production-dependencies",
+  "generated_by": "scripts/third-party-notices.mjs",
+  "reproducibility": {
+    "package_manager": "pnpm@11.11.0",
+    "lockfile_path": "pnpm-lock.yaml",
+    "lockfile_sha256": "16711b4650cbeb4a4957f5952a119833a482e328f63c5093ef0739d51f0de01c"
+  },
+  "legal_review": {
+    "status": "required",
+    "statement": "This inventory is a technical redistribution artifact, not legal advice or legal approval. Release approval must be recorded separately by the responsible organization."
+  },
+  "package_count": 229,
+  "packages": [
+    {
+      "name": "@borewit/text-codec",
+      "version": "0.2.2",
+      "purl": "pkg:npm/%40borewit/text-codec@0.2.2",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/Borewit/text-codec",
+      "repository_url": "https://github.com/Borewit/text-codec",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/@borewit/text-codec/v/0.2.2",
+      "legal_files": [
+        {
+          "source_package": "@borewit/text-codec@0.2.2",
+          "source_name": "LICENSE.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/d55209d49c97d162829baf379dfcf841e47c98528d2d50baeb922ac2983a1e47.txt",
+          "sha256": "d55209d49c97d162829baf379dfcf841e47c98528d2d50baeb922ac2983a1e47"
+        }
+      ]
+    },
+    {
+      "name": "@fastify/accept-negotiator",
+      "version": "2.0.1",
+      "purl": "pkg:npm/%40fastify/accept-negotiator@2.0.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/accept-negotiator",
+      "repository_url": "https://github.com/fastify/accept-negotiator",
+      "homepage_url": "https://github.com/fastify/accept-negotiator#readme",
+      "registry_url": "https://www.npmjs.com/package/@fastify/accept-negotiator/v/2.0.1",
+      "legal_files": [
+        {
+          "source_package": "@fastify/accept-negotiator@2.0.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/8c71bf8ef7da4bf26c310ad10fab7d2feed379221fbd2be116fd0ec2ae77af72.txt",
+          "sha256": "8c71bf8ef7da4bf26c310ad10fab7d2feed379221fbd2be116fd0ec2ae77af72"
+        }
+      ]
+    },
+    {
+      "name": "@fastify/ajv-compiler",
+      "version": "4.0.5",
+      "purl": "pkg:npm/%40fastify/ajv-compiler@4.0.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/ajv-compiler",
+      "repository_url": "https://github.com/fastify/ajv-compiler",
+      "homepage_url": "https://github.com/fastify/ajv-compiler#readme",
+      "registry_url": "https://www.npmjs.com/package/@fastify/ajv-compiler/v/4.0.5",
+      "legal_files": [
+        {
+          "source_package": "@fastify/ajv-compiler@4.0.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/9107d3439217d1dc2db08b738d2da931cd8d911049ec187de50657df7ae69927.txt",
+          "sha256": "9107d3439217d1dc2db08b738d2da931cd8d911049ec187de50657df7ae69927"
+        }
+      ]
+    },
+    {
+      "name": "@fastify/cors",
+      "version": "11.3.0",
+      "purl": "pkg:npm/%40fastify/cors@11.3.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/fastify-cors",
+      "repository_url": "https://github.com/fastify/fastify-cors",
+      "homepage_url": "https://github.com/fastify/fastify-cors#readme",
+      "registry_url": "https://www.npmjs.com/package/@fastify/cors/v/11.3.0",
+      "legal_files": [
+        {
+          "source_package": "@fastify/cors@11.3.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/d24d2e5bdc50e739dcc8c73f547e54fce61388ea77bb57cf836e0c6ece46f8e8.txt",
+          "sha256": "d24d2e5bdc50e739dcc8c73f547e54fce61388ea77bb57cf836e0c6ece46f8e8"
+        }
+      ]
+    },
+    {
+      "name": "@fastify/error",
+      "version": "4.2.0",
+      "purl": "pkg:npm/%40fastify/error@4.2.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/fastify-error",
+      "repository_url": "https://github.com/fastify/fastify-error",
+      "homepage_url": "https://github.com/fastify/fastify-error#readme",
+      "registry_url": "https://www.npmjs.com/package/@fastify/error/v/4.2.0",
+      "legal_files": [
+        {
+          "source_package": "@fastify/error@4.2.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/ec99456b6f97f7e559790df166a17a2418dbdbf595d63502792a5ce661f1346c.txt",
+          "sha256": "ec99456b6f97f7e559790df166a17a2418dbdbf595d63502792a5ce661f1346c"
+        }
+      ]
+    },
+    {
+      "name": "@fastify/fast-json-stringify-compiler",
+      "version": "5.1.0",
+      "purl": "pkg:npm/%40fastify/fast-json-stringify-compiler@5.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/fast-json-stringify-compiler",
+      "repository_url": "https://github.com/fastify/fast-json-stringify-compiler",
+      "homepage_url": "https://github.com/fastify/fast-json-stringify-compiler#readme",
+      "registry_url": "https://www.npmjs.com/package/@fastify/fast-json-stringify-compiler/v/5.1.0",
+      "legal_files": [
+        {
+          "source_package": "@fastify/fast-json-stringify-compiler@5.1.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/e2d09f74a77005e85e9f9bd501e3b7599ccae19d918538461196dde42f7f1b97.txt",
+          "sha256": "e2d09f74a77005e85e9f9bd501e3b7599ccae19d918538461196dde42f7f1b97"
+        }
+      ]
+    },
+    {
+      "name": "@fastify/formbody",
+      "version": "8.0.2",
+      "purl": "pkg:npm/%40fastify/formbody@8.0.2",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/fastify-formbody",
+      "repository_url": "https://github.com/fastify/fastify-formbody",
+      "homepage_url": "https://github.com/fastify/fastify-formbody#readme",
+      "registry_url": "https://www.npmjs.com/package/@fastify/formbody/v/8.0.2",
+      "legal_files": [
+        {
+          "source_package": "@fastify/formbody@8.0.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/2ea8c792510e3a013fad1f5810e2f904ec2349d04df8e7a82ee3d74b13f720a2.txt",
+          "sha256": "2ea8c792510e3a013fad1f5810e2f904ec2349d04df8e7a82ee3d74b13f720a2"
+        }
+      ]
+    },
+    {
+      "name": "@fastify/forwarded",
+      "version": "3.0.1",
+      "purl": "pkg:npm/%40fastify/forwarded@3.0.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/forwarded",
+      "repository_url": "https://github.com/fastify/forwarded",
+      "homepage_url": "https://github.com/fastify/forwarded#readme",
+      "registry_url": "https://www.npmjs.com/package/@fastify/forwarded/v/3.0.1",
+      "legal_files": [
+        {
+          "source_package": "@fastify/forwarded@3.0.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/d68a3fa8f9d630e745cbdc7398691467fc11b2d4fe466f68692402461cf67781.txt",
+          "sha256": "d68a3fa8f9d630e745cbdc7398691467fc11b2d4fe466f68692402461cf67781"
+        }
+      ]
+    },
+    {
+      "name": "@fastify/merge-json-schemas",
+      "version": "0.2.1",
+      "purl": "pkg:npm/%40fastify/merge-json-schemas@0.2.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/merge-json-schemas",
+      "repository_url": "https://github.com/fastify/merge-json-schemas",
+      "homepage_url": "https://github.com/fastify/merge-json-schemas#readme",
+      "registry_url": "https://www.npmjs.com/package/@fastify/merge-json-schemas/v/0.2.1",
+      "legal_files": [
+        {
+          "source_package": "@fastify/merge-json-schemas@0.2.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/a5b84e79d71db5b8baef48e7c04143ca70117ee0a0b637133c02ab63a79fa6c7.txt",
+          "sha256": "a5b84e79d71db5b8baef48e7c04143ca70117ee0a0b637133c02ab63a79fa6c7"
+        }
+      ]
+    },
+    {
+      "name": "@fastify/middie",
+      "version": "9.3.4",
+      "purl": "pkg:npm/%40fastify/middie@9.3.4",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/middie",
+      "repository_url": "https://github.com/fastify/middie",
+      "homepage_url": "https://github.com/fastify/middie#readme",
+      "registry_url": "https://www.npmjs.com/package/@fastify/middie/v/9.3.4",
+      "legal_files": [
+        {
+          "source_package": "@fastify/middie@9.3.4",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/ba9677e5a34c2738c26b36bb478f95e0369cac48fbe68a01a91fd5c7972f2043.txt",
+          "sha256": "ba9677e5a34c2738c26b36bb478f95e0369cac48fbe68a01a91fd5c7972f2043"
+        }
+      ]
+    },
+    {
+      "name": "@fastify/proxy-addr",
+      "version": "5.1.0",
+      "purl": "pkg:npm/%40fastify/proxy-addr@5.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/proxy-addr",
+      "repository_url": "https://github.com/fastify/proxy-addr",
+      "homepage_url": "https://github.com/fastify/proxy-addr#readme",
+      "registry_url": "https://www.npmjs.com/package/@fastify/proxy-addr/v/5.1.0",
+      "legal_files": [
+        {
+          "source_package": "@fastify/proxy-addr@5.1.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/2b78f11c8624f013751e54a34d87e8b5be5dd525dff65c7cda86f5439ed8bf8e.txt",
+          "sha256": "2b78f11c8624f013751e54a34d87e8b5be5dd525dff65c7cda86f5439ed8bf8e"
+        }
+      ]
+    },
+    {
+      "name": "@fastify/send",
+      "version": "4.1.0",
+      "purl": "pkg:npm/%40fastify/send@4.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/send",
+      "repository_url": "https://github.com/fastify/send",
+      "homepage_url": "https://github.com/fastify/send#readme",
+      "registry_url": "https://www.npmjs.com/package/@fastify/send/v/4.1.0",
+      "legal_files": [
+        {
+          "source_package": "@fastify/send@4.1.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/4b939a38c55912e2a6283f205e8678f91b5f51828af250f9fc0154901449971a.txt",
+          "sha256": "4b939a38c55912e2a6283f205e8678f91b5f51828af250f9fc0154901449971a"
+        }
+      ]
+    },
+    {
+      "name": "@fastify/static",
+      "version": "10.1.2",
+      "purl": "pkg:npm/%40fastify/static@10.1.2",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/fastify-static",
+      "repository_url": "https://github.com/fastify/fastify-static",
+      "homepage_url": "https://github.com/fastify/fastify-static",
+      "registry_url": "https://www.npmjs.com/package/@fastify/static/v/10.1.2",
+      "legal_files": [
+        {
+          "source_package": "@fastify/static@10.1.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/ba9677e5a34c2738c26b36bb478f95e0369cac48fbe68a01a91fd5c7972f2043.txt",
+          "sha256": "ba9677e5a34c2738c26b36bb478f95e0369cac48fbe68a01a91fd5c7972f2043"
+        }
+      ]
+    },
+    {
+      "name": "@fontsource/gaegu",
+      "version": "5.3.0",
+      "purl": "pkg:npm/%40fontsource/gaegu@5.3.0",
+      "license_expression": "OFL-1.1",
+      "source_url": "https://github.com/fontsource/font-files/tree/HEAD/fonts/google/gaegu",
+      "repository_url": "https://github.com/fontsource/font-files/tree/HEAD/fonts/google/gaegu",
+      "homepage_url": "https://fontsource.org/fonts/gaegu",
+      "registry_url": "https://www.npmjs.com/package/@fontsource/gaegu/v/5.3.0",
+      "legal_files": [
+        {
+          "source_package": "@fontsource/gaegu@5.3.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/0dd655c75c261429916cd55b8cedffb0f54cb022fd50193bda73062e330edad9.txt",
+          "sha256": "0dd655c75c261429916cd55b8cedffb0f54cb022fd50193bda73062e330edad9"
+        }
+      ]
+    },
+    {
+      "name": "@fontsource/jua",
+      "version": "5.3.0",
+      "purl": "pkg:npm/%40fontsource/jua@5.3.0",
+      "license_expression": "OFL-1.1",
+      "source_url": "https://github.com/fontsource/font-files/tree/HEAD/fonts/google/jua",
+      "repository_url": "https://github.com/fontsource/font-files/tree/HEAD/fonts/google/jua",
+      "homepage_url": "https://fontsource.org/fonts/jua",
+      "registry_url": "https://www.npmjs.com/package/@fontsource/jua/v/5.3.0",
+      "legal_files": [
+        {
+          "source_package": "@fontsource/jua@5.3.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/1c120ad7e7c4aa35f8d5c43edee23179f0dcd179d800b539a48aba688748d4f7.txt",
+          "sha256": "1c120ad7e7c4aa35f8d5c43edee23179f0dcd179d800b539a48aba688748d4f7"
+        }
+      ]
+    },
+    {
+      "name": "@hexagon/base64",
+      "version": "1.1.28",
+      "purl": "pkg:npm/%40hexagon/base64@1.1.28",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/hexagon/base64",
+      "repository_url": "https://github.com/hexagon/base64",
+      "homepage_url": "https://base64.56k.guru",
+      "registry_url": "https://www.npmjs.com/package/@hexagon/base64/v/1.1.28",
+      "legal_files": [
+        {
+          "source_package": "@hexagon/base64@1.1.28",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/a66f704bd13832273af2897cc726b59e66542e9e4f7725e1580c83963ae3cef8.txt",
+          "sha256": "a66f704bd13832273af2897cc726b59e66542e9e4f7725e1580c83963ae3cef8"
+        }
+      ]
+    },
+    {
+      "name": "@hookform/resolvers",
+      "version": "5.4.0",
+      "purl": "pkg:npm/%40hookform/resolvers@5.4.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/react-hook-form/resolvers",
+      "repository_url": "https://github.com/react-hook-form/resolvers",
+      "homepage_url": "https://react-hook-form.com",
+      "registry_url": "https://www.npmjs.com/package/@hookform/resolvers/v/5.4.0",
+      "legal_files": [
+        {
+          "source_package": "@hookform/resolvers@5.4.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/e8eeb472f0a5889c2c51625b86a3f9b8630680adb9f49a125352e2e426392780.txt",
+          "sha256": "e8eeb472f0a5889c2c51625b86a3f9b8630680adb9f49a125352e2e426392780"
+        }
+      ]
+    },
+    {
+      "name": "@img/colour",
+      "version": "1.1.0",
+      "purl": "pkg:npm/%40img/colour@1.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/lovell/colour",
+      "repository_url": "https://github.com/lovell/colour",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/@img/colour/v/1.1.0",
+      "legal_files": [
+        {
+          "source_package": "@img/colour@1.1.0",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/e2eaa4603c14cb26f301e88648c12a853fa3f0f5da6d4b0972958c666e7f2ab8.txt",
+          "sha256": "e2eaa4603c14cb26f301e88648c12a853fa3f0f5da6d4b0972958c666e7f2ab8"
+        }
+      ]
+    },
+    {
+      "name": "@img/sharp-win32-x64",
+      "version": "0.35.4",
+      "purl": "pkg:npm/%40img/sharp-win32-x64@0.35.4",
+      "license_expression": "Apache-2.0 AND LGPL-3.0-or-later",
+      "source_url": "https://github.com/lovell/sharp/tree/HEAD/npm/win32-x64",
+      "repository_url": "https://github.com/lovell/sharp/tree/HEAD/npm/win32-x64",
+      "homepage_url": "https://sharp.pixelplumbing.com",
+      "registry_url": "https://www.npmjs.com/package/@img/sharp-win32-x64/v/0.35.4",
+      "legal_files": [
+        {
+          "source_package": "@img/sharp-win32-x64@0.35.4",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/73ba74dfaa520b49a401b5d21459a8523a146f3b7518a833eea5efa85130bf68.txt",
+          "sha256": "73ba74dfaa520b49a401b5d21459a8523a146f3b7518a833eea5efa85130bf68"
+        },
+        {
+          "source_package": "@img/sharp-win32-x64@0.35.4",
+          "source_name": "license-texts/LGPL-3.0.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118.txt",
+          "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118"
+        },
+        {
+          "source_package": "@img/sharp-win32-x64@0.35.4",
+          "source_name": "license-texts/GPL-3.0.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986.txt",
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+        },
+        {
+          "source_package": "@img/sharp-win32-x64@0.35.4",
+          "source_name": "README.md#licensing",
+          "bundle_path": "THIRD_PARTY_LICENSES/061d870a0c8b151b3f8f63b8a6be3dc3ef1b27bfddf03bf6a718025800a24da0.txt",
+          "sha256": "061d870a0c8b151b3f8f63b8a6be3dc3ef1b27bfddf03bf6a718025800a24da0"
+        },
+        {
+          "source_package": "@img/sharp-win32-x64@0.35.4",
+          "source_name": "versions.json",
+          "bundle_path": "THIRD_PARTY_LICENSES/1076e42e6e1ebfa3d62f0766465b8d26cbd09e7088adc436bbd06f0506ea4fa3.txt",
+          "sha256": "1076e42e6e1ebfa3d62f0766465b8d26cbd09e7088adc436bbd06f0506ea4fa3"
+        },
+        {
+          "source_package": "@img/sharp-win32-x64@0.35.4",
+          "source_name": "corresponding-source.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/c4e485fdebce8b357084d6f42dda430558f3cf06466a83670aa89091ecbe6436.txt",
+          "sha256": "c4e485fdebce8b357084d6f42dda430558f3cf06466a83670aa89091ecbe6436"
+        }
+      ]
+    },
+    {
+      "name": "@isaacs/cliui",
+      "version": "9.0.0",
+      "purl": "pkg:npm/%40isaacs/cliui@9.0.0",
+      "license_expression": "BlueOak-1.0.0",
+      "source_url": "https://www.npmjs.com/package/@isaacs/cliui/v/9.0.0",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/@isaacs/cliui/v/9.0.0",
+      "legal_files": [
+        {
+          "source_package": "@isaacs/cliui@9.0.0",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/c58416e852f7603cc1c7c5f7582e8cc7b1934d7bcb5456d64ada379d6770da45.txt",
+          "sha256": "c58416e852f7603cc1c7c5f7582e8cc7b1934d7bcb5456d64ada379d6770da45"
+        }
+      ]
+    },
+    {
+      "name": "@levischuck/tiny-cbor",
+      "version": "0.2.11",
+      "purl": "pkg:npm/%40levischuck/tiny-cbor@0.2.11",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/levischuck/tiny-cbor",
+      "repository_url": "https://github.com/levischuck/tiny-cbor",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/@levischuck/tiny-cbor/v/0.2.11",
+      "legal_files": [
+        {
+          "source_package": "@levischuck/tiny-cbor@0.2.11",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/5871de52772b5b8e6a7054616a4b59f3f7a7949adb588af7eddcf825c8db86b8.txt",
+          "sha256": "5871de52772b5b8e6a7054616a4b59f3f7a7949adb588af7eddcf825c8db86b8"
+        }
+      ]
+    },
+    {
+      "name": "@lukeed/csprng",
+      "version": "1.1.0",
+      "purl": "pkg:npm/%40lukeed/csprng@1.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/@lukeed/csprng/v/1.1.0",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/@lukeed/csprng/v/1.1.0",
+      "legal_files": [
+        {
+          "source_package": "@lukeed/csprng@1.1.0",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/9a9edad7baae52622bddf3c15b2ef8a33d2c89f2d25408ad13e8a7481c6b0c97.txt",
+          "sha256": "9a9edad7baae52622bddf3c15b2ef8a33d2c89f2d25408ad13e8a7481c6b0c97"
+        }
+      ]
+    },
+    {
+      "name": "@lukeed/ms",
+      "version": "2.0.2",
+      "purl": "pkg:npm/%40lukeed/ms@2.0.2",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/@lukeed/ms/v/2.0.2",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/@lukeed/ms/v/2.0.2",
+      "legal_files": [
+        {
+          "source_package": "@lukeed/ms@2.0.2",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/9a9edad7baae52622bddf3c15b2ef8a33d2c89f2d25408ad13e8a7481c6b0c97.txt",
+          "sha256": "9a9edad7baae52622bddf3c15b2ef8a33d2c89f2d25408ad13e8a7481c6b0c97"
+        }
+      ]
+    },
+    {
+      "name": "@microsoft/tsdoc",
+      "version": "0.16.0",
+      "purl": "pkg:npm/%40microsoft/tsdoc@0.16.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/microsoft/tsdoc/tree/HEAD/tsdoc",
+      "repository_url": "https://github.com/microsoft/tsdoc/tree/HEAD/tsdoc",
+      "homepage_url": "https://tsdoc.org",
+      "registry_url": "https://www.npmjs.com/package/@microsoft/tsdoc/v/0.16.0",
+      "legal_files": [
+        {
+          "source_package": "@microsoft/tsdoc@0.16.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/c5ff7150f61127f50e4825271901fe978b7decaf85116b0a0ce4cf3b2ab40574.txt",
+          "sha256": "c5ff7150f61127f50e4825271901fe978b7decaf85116b0a0ce4cf3b2ab40574"
+        }
+      ]
+    },
+    {
+      "name": "@nestjs/common",
+      "version": "11.2.7",
+      "purl": "pkg:npm/%40nestjs/common@11.2.7",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/nestjs/nest/tree/HEAD/packages/common",
+      "repository_url": "https://github.com/nestjs/nest/tree/HEAD/packages/common",
+      "homepage_url": "https://nestjs.com",
+      "registry_url": "https://www.npmjs.com/package/@nestjs/common/v/11.2.7",
+      "legal_files": [
+        {
+          "source_package": "@nestjs/common@11.2.7",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/56967de93525b12a30717e4446ccef3bbe32fafdbe2350f143c1cc6971b19ed3.txt",
+          "sha256": "56967de93525b12a30717e4446ccef3bbe32fafdbe2350f143c1cc6971b19ed3"
+        }
+      ]
+    },
+    {
+      "name": "@nestjs/config",
+      "version": "4.0.4",
+      "purl": "pkg:npm/%40nestjs/config@4.0.4",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/nestjs/config",
+      "repository_url": "https://github.com/nestjs/config",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/@nestjs/config/v/4.0.4",
+      "legal_files": [
+        {
+          "source_package": "@nestjs/config@4.0.4",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/a0440afa69dae8c431e8f7b1f9c2332faa1aeadd70306601366998f60d0be449.txt",
+          "sha256": "a0440afa69dae8c431e8f7b1f9c2332faa1aeadd70306601366998f60d0be449"
+        }
+      ]
+    },
+    {
+      "name": "@nestjs/core",
+      "version": "11.2.7",
+      "purl": "pkg:npm/%40nestjs/core@11.2.7",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/nestjs/nest/tree/HEAD/packages/core",
+      "repository_url": "https://github.com/nestjs/nest/tree/HEAD/packages/core",
+      "homepage_url": "https://nestjs.com",
+      "registry_url": "https://www.npmjs.com/package/@nestjs/core/v/11.2.7",
+      "legal_files": [
+        {
+          "source_package": "@nestjs/core@11.2.7",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/56967de93525b12a30717e4446ccef3bbe32fafdbe2350f143c1cc6971b19ed3.txt",
+          "sha256": "56967de93525b12a30717e4446ccef3bbe32fafdbe2350f143c1cc6971b19ed3"
+        }
+      ]
+    },
+    {
+      "name": "@nestjs/mapped-types",
+      "version": "2.1.1",
+      "purl": "pkg:npm/%40nestjs/mapped-types@2.1.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/nestjs/mapped-types",
+      "repository_url": "https://github.com/nestjs/mapped-types",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/@nestjs/mapped-types/v/2.1.1",
+      "legal_files": [
+        {
+          "source_package": "@nestjs/mapped-types@2.1.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/36bbfc7186994d7d1d5f8284d106727268820a4a7022a9d4f6bca3eacfff55a7.txt",
+          "sha256": "36bbfc7186994d7d1d5f8284d106727268820a4a7022a9d4f6bca3eacfff55a7"
+        }
+      ]
+    },
+    {
+      "name": "@nestjs/platform-fastify",
+      "version": "11.2.7",
+      "purl": "pkg:npm/%40nestjs/platform-fastify@11.2.7",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/nestjs/nest/tree/HEAD/packages/platform-fastify",
+      "repository_url": "https://github.com/nestjs/nest/tree/HEAD/packages/platform-fastify",
+      "homepage_url": "https://nestjs.com",
+      "registry_url": "https://www.npmjs.com/package/@nestjs/platform-fastify/v/11.2.7",
+      "legal_files": [
+        {
+          "source_package": "@nestjs/platform-fastify@11.2.7",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/56967de93525b12a30717e4446ccef3bbe32fafdbe2350f143c1cc6971b19ed3.txt",
+          "sha256": "56967de93525b12a30717e4446ccef3bbe32fafdbe2350f143c1cc6971b19ed3"
+        }
+      ]
+    },
+    {
+      "name": "@nestjs/swagger",
+      "version": "11.4.6",
+      "purl": "pkg:npm/%40nestjs/swagger@11.4.6",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/nestjs/swagger",
+      "repository_url": "https://github.com/nestjs/swagger",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/@nestjs/swagger/v/11.4.6",
+      "legal_files": [
+        {
+          "source_package": "@nestjs/swagger@11.4.6",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/a0440afa69dae8c431e8f7b1f9c2332faa1aeadd70306601366998f60d0be449.txt",
+          "sha256": "a0440afa69dae8c431e8f7b1f9c2332faa1aeadd70306601366998f60d0be449"
+        }
+      ]
+    },
+    {
+      "name": "@peculiar/asn1-android",
+      "version": "2.9.5",
+      "purl": "pkg:npm/%40peculiar/asn1-android@2.9.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/android",
+      "repository_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/android",
+      "homepage_url": "https://github.com/PeculiarVentures/asn1-schema/tree/master/packages/android#readme",
+      "registry_url": "https://www.npmjs.com/package/@peculiar/asn1-android/v/2.9.5",
+      "legal_files": [
+        {
+          "source_package": "@peculiar/asn1-android@2.9.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/3ee7c4b649b783688f1186c9aa0da50e331027514c9bfa143f27983e23783c71.txt",
+          "sha256": "3ee7c4b649b783688f1186c9aa0da50e331027514c9bfa143f27983e23783c71"
+        }
+      ]
+    },
+    {
+      "name": "@peculiar/asn1-asym-key",
+      "version": "2.9.5",
+      "purl": "pkg:npm/%40peculiar/asn1-asym-key@2.9.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/asym-key",
+      "repository_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/asym-key",
+      "homepage_url": "https://github.com/PeculiarVentures/asn1-schema/tree/master/packages/asym-key#readme",
+      "registry_url": "https://www.npmjs.com/package/@peculiar/asn1-asym-key/v/2.9.5",
+      "legal_files": [
+        {
+          "source_package": "@peculiar/asn1-asym-key@2.9.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/1a00d37fb9fca78a7f792fa6c8fd13f0123388756d81b471bcec11484316ff73.txt",
+          "sha256": "1a00d37fb9fca78a7f792fa6c8fd13f0123388756d81b471bcec11484316ff73"
+        }
+      ]
+    },
+    {
+      "name": "@peculiar/asn1-cms",
+      "version": "2.9.5",
+      "purl": "pkg:npm/%40peculiar/asn1-cms@2.9.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/cms",
+      "repository_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/cms",
+      "homepage_url": "https://github.com/PeculiarVentures/asn1-schema/tree/master/packages/cms#readme",
+      "registry_url": "https://www.npmjs.com/package/@peculiar/asn1-cms/v/2.9.5",
+      "legal_files": [
+        {
+          "source_package": "@peculiar/asn1-cms@2.9.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/1ecdd8e8977af83c07c5f97bec87b47d27059b7ea323ca3160fbfa2314f5d99c.txt",
+          "sha256": "1ecdd8e8977af83c07c5f97bec87b47d27059b7ea323ca3160fbfa2314f5d99c"
+        }
+      ]
+    },
+    {
+      "name": "@peculiar/asn1-csr",
+      "version": "2.9.5",
+      "purl": "pkg:npm/%40peculiar/asn1-csr@2.9.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/csr",
+      "repository_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/csr",
+      "homepage_url": "https://github.com/PeculiarVentures/asn1-schema/tree/master/packages/csr#readme",
+      "registry_url": "https://www.npmjs.com/package/@peculiar/asn1-csr/v/2.9.5",
+      "legal_files": [
+        {
+          "source_package": "@peculiar/asn1-csr@2.9.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/031b1aac1313d91559ecc89cb6ce7c822f39f1a1259fae0f9b8d01a90c35c85a.txt",
+          "sha256": "031b1aac1313d91559ecc89cb6ce7c822f39f1a1259fae0f9b8d01a90c35c85a"
+        }
+      ]
+    },
+    {
+      "name": "@peculiar/asn1-ecc",
+      "version": "2.9.5",
+      "purl": "pkg:npm/%40peculiar/asn1-ecc@2.9.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/ecc",
+      "repository_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/ecc",
+      "homepage_url": "https://github.com/PeculiarVentures/asn1-schema/tree/master/packages/ecc#readme",
+      "registry_url": "https://www.npmjs.com/package/@peculiar/asn1-ecc/v/2.9.5",
+      "legal_files": [
+        {
+          "source_package": "@peculiar/asn1-ecc@2.9.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/031b1aac1313d91559ecc89cb6ce7c822f39f1a1259fae0f9b8d01a90c35c85a.txt",
+          "sha256": "031b1aac1313d91559ecc89cb6ce7c822f39f1a1259fae0f9b8d01a90c35c85a"
+        }
+      ]
+    },
+    {
+      "name": "@peculiar/asn1-pfx",
+      "version": "2.9.5",
+      "purl": "pkg:npm/%40peculiar/asn1-pfx@2.9.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/pfx",
+      "repository_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/pfx",
+      "homepage_url": "https://github.com/PeculiarVentures/asn1-schema/tree/master/packages/pfx#readme",
+      "registry_url": "https://www.npmjs.com/package/@peculiar/asn1-pfx/v/2.9.5",
+      "legal_files": [
+        {
+          "source_package": "@peculiar/asn1-pfx@2.9.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/031b1aac1313d91559ecc89cb6ce7c822f39f1a1259fae0f9b8d01a90c35c85a.txt",
+          "sha256": "031b1aac1313d91559ecc89cb6ce7c822f39f1a1259fae0f9b8d01a90c35c85a"
+        }
+      ]
+    },
+    {
+      "name": "@peculiar/asn1-pkcs8",
+      "version": "2.9.5",
+      "purl": "pkg:npm/%40peculiar/asn1-pkcs8@2.9.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/pkcs8",
+      "repository_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/pkcs8",
+      "homepage_url": "https://github.com/PeculiarVentures/asn1-schema/tree/master/packages/pkcs8#readme",
+      "registry_url": "https://www.npmjs.com/package/@peculiar/asn1-pkcs8/v/2.9.5",
+      "legal_files": [
+        {
+          "source_package": "@peculiar/asn1-pkcs8@2.9.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/031b1aac1313d91559ecc89cb6ce7c822f39f1a1259fae0f9b8d01a90c35c85a.txt",
+          "sha256": "031b1aac1313d91559ecc89cb6ce7c822f39f1a1259fae0f9b8d01a90c35c85a"
+        }
+      ]
+    },
+    {
+      "name": "@peculiar/asn1-pkcs9",
+      "version": "2.9.5",
+      "purl": "pkg:npm/%40peculiar/asn1-pkcs9@2.9.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/pkcs9",
+      "repository_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/pkcs9",
+      "homepage_url": "https://github.com/PeculiarVentures/asn1-schema/tree/master/packages/pkcs9#readme",
+      "registry_url": "https://www.npmjs.com/package/@peculiar/asn1-pkcs9/v/2.9.5",
+      "legal_files": [
+        {
+          "source_package": "@peculiar/asn1-pkcs9@2.9.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/3ee7c4b649b783688f1186c9aa0da50e331027514c9bfa143f27983e23783c71.txt",
+          "sha256": "3ee7c4b649b783688f1186c9aa0da50e331027514c9bfa143f27983e23783c71"
+        }
+      ]
+    },
+    {
+      "name": "@peculiar/asn1-rsa",
+      "version": "2.9.5",
+      "purl": "pkg:npm/%40peculiar/asn1-rsa@2.9.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/rsa",
+      "repository_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/rsa",
+      "homepage_url": "https://github.com/PeculiarVentures/asn1-schema/tree/master/packages/rsa#readme",
+      "registry_url": "https://www.npmjs.com/package/@peculiar/asn1-rsa/v/2.9.5",
+      "legal_files": [
+        {
+          "source_package": "@peculiar/asn1-rsa@2.9.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/031b1aac1313d91559ecc89cb6ce7c822f39f1a1259fae0f9b8d01a90c35c85a.txt",
+          "sha256": "031b1aac1313d91559ecc89cb6ce7c822f39f1a1259fae0f9b8d01a90c35c85a"
+        }
+      ]
+    },
+    {
+      "name": "@peculiar/asn1-schema",
+      "version": "2.9.5",
+      "purl": "pkg:npm/%40peculiar/asn1-schema@2.9.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/schema",
+      "repository_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/schema",
+      "homepage_url": "https://github.com/PeculiarVentures/asn1-schema/tree/master/packages/schema#readme",
+      "registry_url": "https://www.npmjs.com/package/@peculiar/asn1-schema/v/2.9.5",
+      "legal_files": [
+        {
+          "source_package": "@peculiar/asn1-schema@2.9.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/1ecdd8e8977af83c07c5f97bec87b47d27059b7ea323ca3160fbfa2314f5d99c.txt",
+          "sha256": "1ecdd8e8977af83c07c5f97bec87b47d27059b7ea323ca3160fbfa2314f5d99c"
+        }
+      ]
+    },
+    {
+      "name": "@peculiar/asn1-x509",
+      "version": "2.9.5",
+      "purl": "pkg:npm/%40peculiar/asn1-x509@2.9.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/x509",
+      "repository_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/x509",
+      "homepage_url": "https://github.com/PeculiarVentures/asn1-schema/tree/master/packages/x509#readme",
+      "registry_url": "https://www.npmjs.com/package/@peculiar/asn1-x509/v/2.9.5",
+      "legal_files": [
+        {
+          "source_package": "@peculiar/asn1-x509@2.9.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/1ecdd8e8977af83c07c5f97bec87b47d27059b7ea323ca3160fbfa2314f5d99c.txt",
+          "sha256": "1ecdd8e8977af83c07c5f97bec87b47d27059b7ea323ca3160fbfa2314f5d99c"
+        }
+      ]
+    },
+    {
+      "name": "@peculiar/asn1-x509-attr",
+      "version": "2.9.5",
+      "purl": "pkg:npm/%40peculiar/asn1-x509-attr@2.9.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/x509-attr",
+      "repository_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/x509-attr",
+      "homepage_url": "https://github.com/PeculiarVentures/asn1-schema/tree/master/packages/x509-attr#readme",
+      "registry_url": "https://www.npmjs.com/package/@peculiar/asn1-x509-attr/v/2.9.5",
+      "legal_files": [
+        {
+          "source_package": "@peculiar/asn1-x509-attr@2.9.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/031b1aac1313d91559ecc89cb6ce7c822f39f1a1259fae0f9b8d01a90c35c85a.txt",
+          "sha256": "031b1aac1313d91559ecc89cb6ce7c822f39f1a1259fae0f9b8d01a90c35c85a"
+        }
+      ]
+    },
+    {
+      "name": "@peculiar/asn1-x509-post-quantum",
+      "version": "2.9.5",
+      "purl": "pkg:npm/%40peculiar/asn1-x509-post-quantum@2.9.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/x509-post-quantum",
+      "repository_url": "https://github.com/PeculiarVentures/asn1-schema/tree/HEAD/packages/x509-post-quantum",
+      "homepage_url": "https://github.com/PeculiarVentures/asn1-schema/tree/master/packages/x509-post-quantum#readme",
+      "registry_url": "https://www.npmjs.com/package/@peculiar/asn1-x509-post-quantum/v/2.9.5",
+      "legal_files": [
+        {
+          "source_package": "@peculiar/asn1-x509-post-quantum@2.9.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/1a00d37fb9fca78a7f792fa6c8fd13f0123388756d81b471bcec11484316ff73.txt",
+          "sha256": "1a00d37fb9fca78a7f792fa6c8fd13f0123388756d81b471bcec11484316ff73"
+        }
+      ]
+    },
+    {
+      "name": "@peculiar/utils",
+      "version": "2.0.3",
+      "purl": "pkg:npm/%40peculiar/utils@2.0.3",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/pvtsutils",
+      "repository_url": "https://github.com/PeculiarVentures/pvtsutils",
+      "homepage_url": "https://github.com/PeculiarVentures/pvtsutils#readme",
+      "registry_url": "https://www.npmjs.com/package/@peculiar/utils/v/2.0.3",
+      "legal_files": [
+        {
+          "source_package": "@peculiar/utils@2.0.3",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/ce2ae0f0066d1be56ab4ec851cc611805bb95cdc8dd858b301e22ee54b351d43.txt",
+          "sha256": "ce2ae0f0066d1be56ab4ec851cc611805bb95cdc8dd858b301e22ee54b351d43"
+        }
+      ]
+    },
+    {
+      "name": "@peculiar/x509",
+      "version": "2.1.0",
+      "purl": "pkg:npm/%40peculiar/x509@2.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/x509",
+      "repository_url": "https://github.com/PeculiarVentures/x509",
+      "homepage_url": "https://github.com/PeculiarVentures/x509#readme",
+      "registry_url": "https://www.npmjs.com/package/@peculiar/x509/v/2.1.0",
+      "legal_files": [
+        {
+          "source_package": "@peculiar/x509@2.1.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/3d5d1b1150b1fc25144d342daaba3875899b8dc2fcb172ea4810cc69affbe4d3.txt",
+          "sha256": "3d5d1b1150b1fc25144d342daaba3875899b8dc2fcb172ea4810cc69affbe4d3"
+        }
+      ]
+    },
+    {
+      "name": "@pinojs/redact",
+      "version": "0.4.0",
+      "purl": "pkg:npm/%40pinojs/redact@0.4.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/pinojs/redact",
+      "repository_url": "https://github.com/pinojs/redact",
+      "homepage_url": "https://github.com/pinojs/redact#readme",
+      "registry_url": "https://www.npmjs.com/package/@pinojs/redact/v/0.4.0",
+      "legal_files": [
+        {
+          "source_package": "@pinojs/redact@0.4.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/58d4023bfbed5fb530c5bb8d44641299eac62c850267415ec939cc42dea87e4f.txt",
+          "sha256": "58d4023bfbed5fb530c5bb8d44641299eac62c850267415ec939cc42dea87e4f"
+        }
+      ]
+    },
+    {
+      "name": "@redis/bloom",
+      "version": "6.1.0",
+      "purl": "pkg:npm/%40redis/bloom@6.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/redis/node-redis",
+      "repository_url": "https://github.com/redis/node-redis",
+      "homepage_url": "https://github.com/redis/node-redis/tree/master/packages/bloom",
+      "registry_url": "https://www.npmjs.com/package/@redis/bloom/v/6.1.0",
+      "legal_files": [
+        {
+          "source_package": "redis@6.1.0",
+          "source_name": "README.md#license",
+          "bundle_path": "THIRD_PARTY_LICENSES/adf542fc5d8a6cf28bf3c47fe01c05bfb7daf1d7a79ac4377a088fbf4a457a02.txt",
+          "sha256": "adf542fc5d8a6cf28bf3c47fe01c05bfb7daf1d7a79ac4377a088fbf4a457a02"
+        }
+      ]
+    },
+    {
+      "name": "@redis/client",
+      "version": "6.1.0",
+      "purl": "pkg:npm/%40redis/client@6.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/redis/node-redis",
+      "repository_url": "https://github.com/redis/node-redis",
+      "homepage_url": "https://github.com/redis/node-redis/tree/master/packages/client",
+      "registry_url": "https://www.npmjs.com/package/@redis/client/v/6.1.0",
+      "legal_files": [
+        {
+          "source_package": "redis@6.1.0",
+          "source_name": "README.md#license",
+          "bundle_path": "THIRD_PARTY_LICENSES/adf542fc5d8a6cf28bf3c47fe01c05bfb7daf1d7a79ac4377a088fbf4a457a02.txt",
+          "sha256": "adf542fc5d8a6cf28bf3c47fe01c05bfb7daf1d7a79ac4377a088fbf4a457a02"
+        }
+      ]
+    },
+    {
+      "name": "@redis/json",
+      "version": "6.1.0",
+      "purl": "pkg:npm/%40redis/json@6.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/redis/node-redis",
+      "repository_url": "https://github.com/redis/node-redis",
+      "homepage_url": "https://github.com/redis/node-redis/tree/master/packages/json",
+      "registry_url": "https://www.npmjs.com/package/@redis/json/v/6.1.0",
+      "legal_files": [
+        {
+          "source_package": "redis@6.1.0",
+          "source_name": "README.md#license",
+          "bundle_path": "THIRD_PARTY_LICENSES/adf542fc5d8a6cf28bf3c47fe01c05bfb7daf1d7a79ac4377a088fbf4a457a02.txt",
+          "sha256": "adf542fc5d8a6cf28bf3c47fe01c05bfb7daf1d7a79ac4377a088fbf4a457a02"
+        }
+      ]
+    },
+    {
+      "name": "@redis/search",
+      "version": "6.1.0",
+      "purl": "pkg:npm/%40redis/search@6.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/redis/node-redis",
+      "repository_url": "https://github.com/redis/node-redis",
+      "homepage_url": "https://github.com/redis/node-redis/tree/master/packages/search",
+      "registry_url": "https://www.npmjs.com/package/@redis/search/v/6.1.0",
+      "legal_files": [
+        {
+          "source_package": "redis@6.1.0",
+          "source_name": "README.md#license",
+          "bundle_path": "THIRD_PARTY_LICENSES/adf542fc5d8a6cf28bf3c47fe01c05bfb7daf1d7a79ac4377a088fbf4a457a02.txt",
+          "sha256": "adf542fc5d8a6cf28bf3c47fe01c05bfb7daf1d7a79ac4377a088fbf4a457a02"
+        }
+      ]
+    },
+    {
+      "name": "@redis/time-series",
+      "version": "6.1.0",
+      "purl": "pkg:npm/%40redis/time-series@6.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/redis/node-redis",
+      "repository_url": "https://github.com/redis/node-redis",
+      "homepage_url": "https://github.com/redis/node-redis/tree/master/packages/time-series",
+      "registry_url": "https://www.npmjs.com/package/@redis/time-series/v/6.1.0",
+      "legal_files": [
+        {
+          "source_package": "redis@6.1.0",
+          "source_name": "README.md#license",
+          "bundle_path": "THIRD_PARTY_LICENSES/adf542fc5d8a6cf28bf3c47fe01c05bfb7daf1d7a79ac4377a088fbf4a457a02.txt",
+          "sha256": "adf542fc5d8a6cf28bf3c47fe01c05bfb7daf1d7a79ac4377a088fbf4a457a02"
+        }
+      ]
+    },
+    {
+      "name": "@scarf/scarf",
+      "version": "1.4.0",
+      "purl": "pkg:npm/%40scarf/scarf@1.4.0",
+      "license_expression": "Apache-2.0",
+      "source_url": "https://github.com/scarf-sh/scarf-js",
+      "repository_url": "https://github.com/scarf-sh/scarf-js",
+      "homepage_url": "https://github.com/scarf-sh/scarf-js",
+      "registry_url": "https://www.npmjs.com/package/@scarf/scarf/v/1.4.0",
+      "legal_files": [
+        {
+          "source_package": "@scarf/scarf@1.4.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/cb478cc912180c1f1bddc8d42b5ebb38baccdee1ebfc9596d8b2eb03a0ea60ff.txt",
+          "sha256": "cb478cc912180c1f1bddc8d42b5ebb38baccdee1ebfc9596d8b2eb03a0ea60ff"
+        }
+      ]
+    },
+    {
+      "name": "@simplewebauthn/browser",
+      "version": "14.0.0",
+      "purl": "pkg:npm/%40simplewebauthn/browser@14.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/MasterKale/SimpleWebAuthn/tree/HEAD/packages/browser",
+      "repository_url": "https://github.com/MasterKale/SimpleWebAuthn/tree/HEAD/packages/browser",
+      "homepage_url": "https://github.com/MasterKale/SimpleWebAuthn/tree/master/packages/browser#readme",
+      "registry_url": "https://www.npmjs.com/package/@simplewebauthn/browser/v/14.0.0",
+      "legal_files": [
+        {
+          "source_package": "@simplewebauthn/browser@14.0.0",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/bd9e3f45696472076c7160c7f66e54b2d62d38bc2646c812d19be83ee4400c63.txt",
+          "sha256": "bd9e3f45696472076c7160c7f66e54b2d62d38bc2646c812d19be83ee4400c63"
+        }
+      ]
+    },
+    {
+      "name": "@simplewebauthn/server",
+      "version": "14.0.3",
+      "purl": "pkg:npm/%40simplewebauthn/server@14.0.3",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/MasterKale/SimpleWebAuthn/tree/HEAD/packages/server",
+      "repository_url": "https://github.com/MasterKale/SimpleWebAuthn/tree/HEAD/packages/server",
+      "homepage_url": "https://github.com/MasterKale/SimpleWebAuthn/tree/master/packages/server#readme",
+      "registry_url": "https://www.npmjs.com/package/@simplewebauthn/server/v/14.0.3",
+      "legal_files": [
+        {
+          "source_package": "@simplewebauthn/server@14.0.3",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/bd9e3f45696472076c7160c7f66e54b2d62d38bc2646c812d19be83ee4400c63.txt",
+          "sha256": "bd9e3f45696472076c7160c7f66e54b2d62d38bc2646c812d19be83ee4400c63"
+        }
+      ]
+    },
+    {
+      "name": "@standard-schema/utils",
+      "version": "0.3.0",
+      "purl": "pkg:npm/%40standard-schema/utils@0.3.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/standard-schema/standard-schema",
+      "repository_url": "https://github.com/standard-schema/standard-schema",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/@standard-schema/utils/v/0.3.0",
+      "legal_files": [
+        {
+          "source_package": "@standard-schema/utils@0.3.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/13dc70601979b9f8bb3f3c080e7b0aa67f947c852f3fcc5f5a97e45870f52353.txt",
+          "sha256": "13dc70601979b9f8bb3f3c080e7b0aa67f947c852f3fcc5f5a97e45870f52353"
+        }
+      ]
+    },
+    {
+      "name": "@tokenizer/inflate",
+      "version": "0.4.1",
+      "purl": "pkg:npm/%40tokenizer/inflate@0.4.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/Borewit/tokenizer-inflate",
+      "repository_url": "https://github.com/Borewit/tokenizer-inflate",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/@tokenizer/inflate/v/0.4.1",
+      "legal_files": [
+        {
+          "source_package": "@tokenizer/inflate@0.4.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/014e6ca48061890284500ac8366fad874ae5005be740706d467246b0033509db.txt",
+          "sha256": "014e6ca48061890284500ac8366fad874ae5005be740706d467246b0033509db"
+        }
+      ]
+    },
+    {
+      "name": "@tokenizer/token",
+      "version": "0.3.0",
+      "purl": "pkg:npm/%40tokenizer/token@0.3.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/Borewit/tokenizer-token",
+      "repository_url": "https://github.com/Borewit/tokenizer-token",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/@tokenizer/token/v/0.3.0",
+      "legal_files": [
+        {
+          "source_package": "@tokenizer/token@0.3.0",
+          "source_name": "README.md#license",
+          "bundle_path": "THIRD_PARTY_LICENSES/0784761e9fc1fcc9a74234064bbbb583b2a6bb8e363b8e8c025f27a370fb6817.txt",
+          "sha256": "0784761e9fc1fcc9a74234064bbbb583b2a6bb8e363b8e8c025f27a370fb6817"
+        }
+      ]
+    },
+    {
+      "name": "@types/node",
+      "version": "24.13.3",
+      "purl": "pkg:npm/%40types/node@24.13.3",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/node",
+      "repository_url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/node",
+      "homepage_url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/node",
+      "registry_url": "https://www.npmjs.com/package/@types/node/v/24.13.3",
+      "legal_files": [
+        {
+          "source_package": "@types/node@24.13.3",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383.txt",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ]
+    },
+    {
+      "name": "@types/pg",
+      "version": "8.20.0",
+      "purl": "pkg:npm/%40types/pg@8.20.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/pg",
+      "repository_url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/pg",
+      "homepage_url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/pg",
+      "registry_url": "https://www.npmjs.com/package/@types/pg/v/8.20.0",
+      "legal_files": [
+        {
+          "source_package": "@types/pg@8.20.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383.txt",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ]
+    },
+    {
+      "name": "@types/trusted-types",
+      "version": "2.0.7",
+      "purl": "pkg:npm/%40types/trusted-types@2.0.7",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/trusted-types",
+      "repository_url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/trusted-types",
+      "homepage_url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/trusted-types",
+      "registry_url": "https://www.npmjs.com/package/@types/trusted-types/v/2.0.7",
+      "legal_files": [
+        {
+          "source_package": "@types/trusted-types@2.0.7",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383.txt",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ]
+    },
+    {
+      "name": "@types/validator",
+      "version": "13.15.10",
+      "purl": "pkg:npm/%40types/validator@13.15.10",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/validator",
+      "repository_url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/validator",
+      "homepage_url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/validator",
+      "registry_url": "https://www.npmjs.com/package/@types/validator/v/13.15.10",
+      "legal_files": [
+        {
+          "source_package": "@types/validator@13.15.10",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383.txt",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ]
+    },
+    {
+      "name": "abstract-logging",
+      "version": "2.0.1",
+      "purl": "pkg:npm/abstract-logging@2.0.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/jsumners/abstract-logging",
+      "repository_url": "https://github.com/jsumners/abstract-logging",
+      "homepage_url": "https://github.com/jsumners/abstract-logging#readme",
+      "registry_url": "https://www.npmjs.com/package/abstract-logging/v/2.0.1",
+      "legal_files": [
+        {
+          "source_package": "abstract-logging@2.0.1",
+          "source_name": "Readme.md#license",
+          "bundle_path": "THIRD_PARTY_LICENSES/edd22fb263cd1c159873ea9ce37b8fbb6678e39ec7d509991a17f08e149df159.txt",
+          "sha256": "edd22fb263cd1c159873ea9ce37b8fbb6678e39ec7d509991a17f08e149df159"
+        }
+      ]
+    },
+    {
+      "name": "ajv",
+      "version": "8.20.0",
+      "purl": "pkg:npm/ajv@8.20.0",
+      "license_expression": "MIT",
+      "source_url": "https://ajv.js.org",
+      "repository_url": null,
+      "homepage_url": "https://ajv.js.org",
+      "registry_url": "https://www.npmjs.com/package/ajv/v/8.20.0",
+      "legal_files": [
+        {
+          "source_package": "ajv@8.20.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/9b6a90e9be78799534e4030d71b6817271fb99aa10e261f9f9f6dec1cff4177a.txt",
+          "sha256": "9b6a90e9be78799534e4030d71b6817271fb99aa10e261f9f9f6dec1cff4177a"
+        }
+      ]
+    },
+    {
+      "name": "ajv-formats",
+      "version": "3.0.1",
+      "purl": "pkg:npm/ajv-formats@3.0.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/ajv-validator/ajv-formats",
+      "repository_url": "https://github.com/ajv-validator/ajv-formats",
+      "homepage_url": "https://github.com/ajv-validator/ajv-formats#readme",
+      "registry_url": "https://www.npmjs.com/package/ajv-formats/v/3.0.1",
+      "legal_files": [
+        {
+          "source_package": "ajv-formats@3.0.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/9df3bb69929a3b650ed73b3bfa1756725aaff0ac296461605753547004eafeaf.txt",
+          "sha256": "9df3bb69929a3b650ed73b3bfa1756725aaff0ac296461605753547004eafeaf"
+        }
+      ]
+    },
+    {
+      "name": "ansi-regex",
+      "version": "5.0.1",
+      "purl": "pkg:npm/ansi-regex@5.0.1",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/ansi-regex/v/5.0.1",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/ansi-regex/v/5.0.1",
+      "legal_files": [
+        {
+          "source_package": "ansi-regex@5.0.1",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0.txt",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ]
+    },
+    {
+      "name": "ansi-styles",
+      "version": "4.3.0",
+      "purl": "pkg:npm/ansi-styles@4.3.0",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/ansi-styles/v/4.3.0",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/ansi-styles/v/4.3.0",
+      "legal_files": [
+        {
+          "source_package": "ansi-styles@4.3.0",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0.txt",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ]
+    },
+    {
+      "name": "argparse",
+      "version": "2.0.1",
+      "purl": "pkg:npm/argparse@2.0.1",
+      "license_expression": "Python-2.0",
+      "source_url": "https://www.npmjs.com/package/argparse/v/2.0.1",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/argparse/v/2.0.1",
+      "legal_files": [
+        {
+          "source_package": "argparse@2.0.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/de4d1f2d2ad5ad0cfd1657a106476b31cb5db5ef9d1ff842b237c0c81f0c8a23.txt",
+          "sha256": "de4d1f2d2ad5ad0cfd1657a106476b31cb5db5ef9d1ff842b237c0c81f0c8a23"
+        }
+      ]
+    },
+    {
+      "name": "asn1js",
+      "version": "3.0.10",
+      "purl": "pkg:npm/asn1js@3.0.10",
+      "license_expression": "BSD-3-Clause",
+      "source_url": "https://github.com/PeculiarVentures/ASN1.js",
+      "repository_url": "https://github.com/PeculiarVentures/ASN1.js",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/asn1js/v/3.0.10",
+      "legal_files": [
+        {
+          "source_package": "asn1js@3.0.10",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/ebe5d98519d0dfcbcb80e20b22a56e7321e8557cd14355760434bbd4c1f4f683.txt",
+          "sha256": "ebe5d98519d0dfcbcb80e20b22a56e7321e8557cd14355760434bbd4c1f4f683"
+        }
+      ]
+    },
+    {
+      "name": "atomic-sleep",
+      "version": "1.0.0",
+      "purl": "pkg:npm/atomic-sleep@1.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/davidmarkclements/atomic-sleep",
+      "repository_url": "https://github.com/davidmarkclements/atomic-sleep",
+      "homepage_url": "https://github.com/davidmarkclements/atomic-sleep#readme",
+      "registry_url": "https://www.npmjs.com/package/atomic-sleep/v/1.0.0",
+      "legal_files": [
+        {
+          "source_package": "atomic-sleep@1.0.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/71cf9fa3b84592f05d6c1979d6fe6b6d555593c2b61c4fb9025c7cb9771e2b72.txt",
+          "sha256": "71cf9fa3b84592f05d6c1979d6fe6b6d555593c2b61c4fb9025c7cb9771e2b72"
+        }
+      ]
+    },
+    {
+      "name": "avvio",
+      "version": "9.2.0",
+      "purl": "pkg:npm/avvio@9.2.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/avvio",
+      "repository_url": "https://github.com/fastify/avvio",
+      "homepage_url": "https://github.com/fastify/avvio#readme",
+      "registry_url": "https://www.npmjs.com/package/avvio/v/9.2.0",
+      "legal_files": [
+        {
+          "source_package": "avvio@9.2.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/af2dd164640b8bf4ee95b3f10dc33cde95df232c0fccd853f6e4a029b7d0dae4.txt",
+          "sha256": "af2dd164640b8bf4ee95b3f10dc33cde95df232c0fccd853f6e4a029b7d0dae4"
+        }
+      ]
+    },
+    {
+      "name": "aws-ssl-profiles",
+      "version": "1.1.2",
+      "purl": "pkg:npm/aws-ssl-profiles@1.1.2",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/mysqljs/aws-ssl-profiles",
+      "repository_url": "https://github.com/mysqljs/aws-ssl-profiles",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/aws-ssl-profiles/v/1.1.2",
+      "legal_files": [
+        {
+          "source_package": "aws-ssl-profiles@1.1.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/d56e4f9066438d7528cc00ba09ad572d2b1cef71cf1dcc8c5ad9a8a44d74d9d5.txt",
+          "sha256": "d56e4f9066438d7528cc00ba09ad572d2b1cef71cf1dcc8c5ad9a8a44d74d9d5"
+        }
+      ]
+    },
+    {
+      "name": "balanced-match",
+      "version": "4.0.4",
+      "purl": "pkg:npm/balanced-match@4.0.4",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/juliangruber/balanced-match",
+      "repository_url": "https://github.com/juliangruber/balanced-match",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/balanced-match/v/4.0.4",
+      "legal_files": [
+        {
+          "source_package": "balanced-match@4.0.4",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/d408f38ffa3355c5faec517153295338892eb0f1ea43f57874bb23c6075979b5.txt",
+          "sha256": "d408f38ffa3355c5faec517153295338892eb0f1ea43f57874bb23c6075979b5"
+        }
+      ]
+    },
+    {
+      "name": "brace-expansion",
+      "version": "5.0.12",
+      "purl": "pkg:npm/brace-expansion@5.0.12",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/juliangruber/brace-expansion",
+      "repository_url": "https://github.com/juliangruber/brace-expansion",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/brace-expansion/v/5.0.12",
+      "legal_files": [
+        {
+          "source_package": "brace-expansion@5.0.12",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/9c63a23124d68cd30cd316a94a1a0bca34f032786df6df69fc4b5f136bac8d2e.txt",
+          "sha256": "9c63a23124d68cd30cd316a94a1a0bca34f032786df6df69fc4b5f136bac8d2e"
+        }
+      ]
+    },
+    {
+      "name": "class-transformer",
+      "version": "0.5.1",
+      "purl": "pkg:npm/class-transformer@0.5.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/typestack/class-transformer",
+      "repository_url": "https://github.com/typestack/class-transformer",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/class-transformer/v/0.5.1",
+      "legal_files": [
+        {
+          "source_package": "class-transformer@0.5.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/46a85cbf95f5ea1ef494afeba788a78a36a1c890c38a7357b0db8c2cd60196ae.txt",
+          "sha256": "46a85cbf95f5ea1ef494afeba788a78a36a1c890c38a7357b0db8c2cd60196ae"
+        }
+      ]
+    },
+    {
+      "name": "class-validator",
+      "version": "0.15.1",
+      "purl": "pkg:npm/class-validator@0.15.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/typestack/class-validator",
+      "repository_url": "https://github.com/typestack/class-validator",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/class-validator/v/0.15.1",
+      "legal_files": [
+        {
+          "source_package": "class-validator@0.15.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/c2d8c1d1c6f8932f0d0aade2dcc57a4a474dfafd522495d43d40a6af3cd86d20.txt",
+          "sha256": "c2d8c1d1c6f8932f0d0aade2dcc57a4a474dfafd522495d43d40a6af3cd86d20"
+        }
+      ]
+    },
+    {
+      "name": "cliui",
+      "version": "8.0.1",
+      "purl": "pkg:npm/cliui@8.0.1",
+      "license_expression": "ISC",
+      "source_url": "https://www.npmjs.com/package/cliui/v/8.0.1",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/cliui/v/8.0.1",
+      "legal_files": [
+        {
+          "source_package": "cliui@8.0.1",
+          "source_name": "LICENSE.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/2dc0465729366c3a7890dfa9e972a1ba7048a26c02116fb8b419a6a1ac110149.txt",
+          "sha256": "2dc0465729366c3a7890dfa9e972a1ba7048a26c02116fb8b419a6a1ac110149"
+        }
+      ]
+    },
+    {
+      "name": "cluster-key-slot",
+      "version": "1.1.2",
+      "purl": "pkg:npm/cluster-key-slot@1.1.2",
+      "license_expression": "Apache-2.0",
+      "source_url": "https://github.com/Salakar/cluster-key-slot",
+      "repository_url": "https://github.com/Salakar/cluster-key-slot",
+      "homepage_url": "https://github.com/Salakar/cluster-key-slot#readme",
+      "registry_url": "https://www.npmjs.com/package/cluster-key-slot/v/1.1.2",
+      "legal_files": [
+        {
+          "source_package": "cluster-key-slot@1.1.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/0ea1dc735df3fd3f0fc0dba5034b813589254667028874a1e7f4492fd27a3756.txt",
+          "sha256": "0ea1dc735df3fd3f0fc0dba5034b813589254667028874a1e7f4492fd27a3756"
+        }
+      ]
+    },
+    {
+      "name": "color-convert",
+      "version": "2.0.1",
+      "purl": "pkg:npm/color-convert@2.0.1",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/color-convert/v/2.0.1",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/color-convert/v/2.0.1",
+      "legal_files": [
+        {
+          "source_package": "color-convert@2.0.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/119fee4adef95a6af980129b12bbc02ef32a0a75737cbdd31b6922c0db0050bc.txt",
+          "sha256": "119fee4adef95a6af980129b12bbc02ef32a0a75737cbdd31b6922c0db0050bc"
+        }
+      ]
+    },
+    {
+      "name": "color-name",
+      "version": "1.1.4",
+      "purl": "pkg:npm/color-name@1.1.4",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/colorjs/color-name",
+      "repository_url": "https://github.com/colorjs/color-name",
+      "homepage_url": "https://github.com/colorjs/color-name",
+      "registry_url": "https://www.npmjs.com/package/color-name/v/1.1.4",
+      "legal_files": [
+        {
+          "source_package": "color-name@1.1.4",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/9060d3e477a57e94563100d089ee07a1bf3342f149fd7366913abf2b4b54f04b.txt",
+          "sha256": "9060d3e477a57e94563100d089ee07a1bf3342f149fd7366913abf2b4b54f04b"
+        }
+      ]
+    },
+    {
+      "name": "content-disposition",
+      "version": "2.0.1",
+      "purl": "pkg:npm/content-disposition@2.0.1",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/content-disposition/v/2.0.1",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/content-disposition/v/2.0.1",
+      "legal_files": [
+        {
+          "source_package": "content-disposition@2.0.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/bd47ce7b88c7759630d1e2b9fcfa170a0f1fde522be09e13fb1581a79d090400.txt",
+          "sha256": "bd47ce7b88c7759630d1e2b9fcfa170a0f1fde522be09e13fb1581a79d090400"
+        }
+      ]
+    },
+    {
+      "name": "cookie",
+      "version": "1.1.1",
+      "purl": "pkg:npm/cookie@1.1.1",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/cookie/v/1.1.1",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/cookie/v/1.1.1",
+      "legal_files": [
+        {
+          "source_package": "cookie@1.1.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/fe9538ec27e7fb9bfbcc05c97bc5087a2a25a7caf4ad7e6bc99fbcbf1a37e6ce.txt",
+          "sha256": "fe9538ec27e7fb9bfbcc05c97bc5087a2a25a7caf4ad7e6bc99fbcbf1a37e6ce"
+        }
+      ]
+    },
+    {
+      "name": "cookie-es",
+      "version": "3.1.1",
+      "purl": "pkg:npm/cookie-es@3.1.1",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/cookie-es/v/3.1.1",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/cookie-es/v/3.1.1",
+      "legal_files": [
+        {
+          "source_package": "cookie-es@3.1.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/f57270b85c3922414c061e36b93f7c74420b8facf5ccf729202d5ff5b7cd7608.txt",
+          "sha256": "f57270b85c3922414c061e36b93f7c74420b8facf5ccf729202d5ff5b7cd7608"
+        }
+      ]
+    },
+    {
+      "name": "cross-spawn",
+      "version": "7.0.6",
+      "purl": "pkg:npm/cross-spawn@7.0.6",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/moxystudio/node-cross-spawn",
+      "repository_url": "https://github.com/moxystudio/node-cross-spawn",
+      "homepage_url": "https://github.com/moxystudio/node-cross-spawn",
+      "registry_url": "https://www.npmjs.com/package/cross-spawn/v/7.0.6",
+      "legal_files": [
+        {
+          "source_package": "cross-spawn@7.0.6",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/aaa78451b6fecd1b9c4594c796c133c0e90cad100372ff8bc6de615e9ef9adf1.txt",
+          "sha256": "aaa78451b6fecd1b9c4594c796c133c0e90cad100372ff8bc6de615e9ef9adf1"
+        }
+      ]
+    },
+    {
+      "name": "debug",
+      "version": "4.4.3",
+      "purl": "pkg:npm/debug@4.4.3",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/debug-js/debug",
+      "repository_url": "https://github.com/debug-js/debug",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/debug/v/4.4.3",
+      "legal_files": [
+        {
+          "source_package": "debug@4.4.3",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/23eb8602cd5902bcfca56b23aa08e8672a809f5a12eaf8bb56abfa9d44e1a4fd.txt",
+          "sha256": "23eb8602cd5902bcfca56b23aa08e8672a809f5a12eaf8bb56abfa9d44e1a4fd"
+        }
+      ]
+    },
+    {
+      "name": "depd",
+      "version": "2.0.0",
+      "purl": "pkg:npm/depd@2.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/depd/v/2.0.0",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/depd/v/2.0.0",
+      "legal_files": [
+        {
+          "source_package": "depd@2.0.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/bd134b41da59e452fb5a1d366b660886f741c87c2bf9428e93764c419fbc40f5.txt",
+          "sha256": "bd134b41da59e452fb5a1d366b660886f741c87c2bf9428e93764c419fbc40f5"
+        }
+      ]
+    },
+    {
+      "name": "dequal",
+      "version": "2.0.3",
+      "purl": "pkg:npm/dequal@2.0.3",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/dequal/v/2.0.3",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/dequal/v/2.0.3",
+      "legal_files": [
+        {
+          "source_package": "dequal@2.0.3",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/306fa513e39b23a6e8747520de761809d206b99800ef41907b530226574c59ae.txt",
+          "sha256": "306fa513e39b23a6e8747520de761809d206b99800ef41907b530226574c59ae"
+        }
+      ]
+    },
+    {
+      "name": "detect-libc",
+      "version": "2.1.2",
+      "purl": "pkg:npm/detect-libc@2.1.2",
+      "license_expression": "Apache-2.0",
+      "source_url": "https://github.com/lovell/detect-libc",
+      "repository_url": "https://github.com/lovell/detect-libc",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/detect-libc/v/2.1.2",
+      "legal_files": [
+        {
+          "source_package": "detect-libc@2.1.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1.txt",
+          "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+        }
+      ]
+    },
+    {
+      "name": "dotenv",
+      "version": "16.6.1",
+      "purl": "pkg:npm/dotenv@16.6.1",
+      "license_expression": "BSD-2-Clause",
+      "source_url": "https://github.com/motdotla/dotenv",
+      "repository_url": "https://github.com/motdotla/dotenv",
+      "homepage_url": "https://github.com/motdotla/dotenv#readme",
+      "registry_url": "https://www.npmjs.com/package/dotenv/v/16.6.1",
+      "legal_files": [
+        {
+          "source_package": "dotenv@16.6.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/74b629b24865e1e83c5277ee84590b7937644d6fd959d0c7bdce758676cd2ced.txt",
+          "sha256": "74b629b24865e1e83c5277ee84590b7937644d6fd959d0c7bdce758676cd2ced"
+        }
+      ]
+    },
+    {
+      "name": "dotenv",
+      "version": "17.4.1",
+      "purl": "pkg:npm/dotenv@17.4.1",
+      "license_expression": "BSD-2-Clause",
+      "source_url": "https://github.com/motdotla/dotenv",
+      "repository_url": "https://github.com/motdotla/dotenv",
+      "homepage_url": "https://github.com/motdotla/dotenv#readme",
+      "registry_url": "https://www.npmjs.com/package/dotenv/v/17.4.1",
+      "legal_files": [
+        {
+          "source_package": "dotenv@17.4.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/74b629b24865e1e83c5277ee84590b7937644d6fd959d0c7bdce758676cd2ced.txt",
+          "sha256": "74b629b24865e1e83c5277ee84590b7937644d6fd959d0c7bdce758676cd2ced"
+        }
+      ]
+    },
+    {
+      "name": "dotenv-expand",
+      "version": "12.0.3",
+      "purl": "pkg:npm/dotenv-expand@12.0.3",
+      "license_expression": "BSD-2-Clause",
+      "source_url": "https://github.com/motdotla/dotenv-expand",
+      "repository_url": "https://github.com/motdotla/dotenv-expand",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/dotenv-expand/v/12.0.3",
+      "legal_files": [
+        {
+          "source_package": "dotenv-expand@12.0.3",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/43b0d13a8c15c1b0c2a1ffd7aaf6ee6444e16769ed221449ee02e47340601701.txt",
+          "sha256": "43b0d13a8c15c1b0c2a1ffd7aaf6ee6444e16769ed221449ee02e47340601701"
+        }
+      ]
+    },
+    {
+      "name": "emoji-regex",
+      "version": "8.0.0",
+      "purl": "pkg:npm/emoji-regex@8.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/mathiasbynens/emoji-regex",
+      "repository_url": "https://github.com/mathiasbynens/emoji-regex",
+      "homepage_url": "https://mths.be/emoji-regex",
+      "registry_url": "https://www.npmjs.com/package/emoji-regex/v/8.0.0",
+      "legal_files": [
+        {
+          "source_package": "emoji-regex@8.0.0",
+          "source_name": "LICENSE-MIT.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/483acb265f182907d1caf6cff9c16c96f31325ed23792832cc5d8b12d5f88c8a.txt",
+          "sha256": "483acb265f182907d1caf6cff9c16c96f31325ed23792832cc5d8b12d5f88c8a"
+        }
+      ]
+    },
+    {
+      "name": "entities",
+      "version": "8.0.0",
+      "purl": "pkg:npm/entities@8.0.0",
+      "license_expression": "BSD-2-Clause",
+      "source_url": "https://github.com/fb55/entities",
+      "repository_url": "https://github.com/fb55/entities",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/entities/v/8.0.0",
+      "legal_files": [
+        {
+          "source_package": "entities@8.0.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/cb992345949ccd6e8394b2cd6c465f7b897c864f845937dbf64e8997f389e164.txt",
+          "sha256": "cb992345949ccd6e8394b2cd6c465f7b897c864f845937dbf64e8997f389e164"
+        }
+      ]
+    },
+    {
+      "name": "escalade",
+      "version": "3.2.0",
+      "purl": "pkg:npm/escalade@3.2.0",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/escalade/v/3.2.0",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/escalade/v/3.2.0",
+      "legal_files": [
+        {
+          "source_package": "escalade@3.2.0",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/9a9edad7baae52622bddf3c15b2ef8a33d2c89f2d25408ad13e8a7481c6b0c97.txt",
+          "sha256": "9a9edad7baae52622bddf3c15b2ef8a33d2c89f2d25408ad13e8a7481c6b0c97"
+        }
+      ]
+    },
+    {
+      "name": "escape-html",
+      "version": "1.0.3",
+      "purl": "pkg:npm/escape-html@1.0.3",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/escape-html/v/1.0.3",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/escape-html/v/1.0.3",
+      "legal_files": [
+        {
+          "source_package": "escape-html@1.0.3",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/255aa557a1f55224ce522f311629c0bf20854740a67955cefd798fbd1d3d1ded.txt",
+          "sha256": "255aa557a1f55224ce522f311629c0bf20854740a67955cefd798fbd1d3d1ded"
+        }
+      ]
+    },
+    {
+      "name": "fast-decode-uri-component",
+      "version": "1.0.1",
+      "purl": "pkg:npm/fast-decode-uri-component@1.0.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/delvedor/fast-decode-uri-component",
+      "repository_url": "https://github.com/delvedor/fast-decode-uri-component",
+      "homepage_url": "https://github.com/delvedor/fast-decode-uri-component#readme",
+      "registry_url": "https://www.npmjs.com/package/fast-decode-uri-component/v/1.0.1",
+      "legal_files": [
+        {
+          "source_package": "fast-decode-uri-component@1.0.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/27384b39baee4b476fb876670a75f282286fa55658bf0db14639621dd3801c9a.txt",
+          "sha256": "27384b39baee4b476fb876670a75f282286fa55658bf0db14639621dd3801c9a"
+        }
+      ]
+    },
+    {
+      "name": "fast-deep-equal",
+      "version": "3.1.3",
+      "purl": "pkg:npm/fast-deep-equal@3.1.3",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/epoberezkin/fast-deep-equal",
+      "repository_url": "https://github.com/epoberezkin/fast-deep-equal",
+      "homepage_url": "https://github.com/epoberezkin/fast-deep-equal#readme",
+      "registry_url": "https://www.npmjs.com/package/fast-deep-equal/v/3.1.3",
+      "legal_files": [
+        {
+          "source_package": "fast-deep-equal@3.1.3",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/7bf9b2de73a6b356761c948d0e9eeb4be6c1270bd04c79cd489c1e400ffdfc1a.txt",
+          "sha256": "7bf9b2de73a6b356761c948d0e9eeb4be6c1270bd04c79cd489c1e400ffdfc1a"
+        }
+      ]
+    },
+    {
+      "name": "fast-json-stringify",
+      "version": "7.0.1",
+      "purl": "pkg:npm/fast-json-stringify@7.0.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/fast-json-stringify",
+      "repository_url": "https://github.com/fastify/fast-json-stringify",
+      "homepage_url": "https://github.com/fastify/fast-json-stringify#readme",
+      "registry_url": "https://www.npmjs.com/package/fast-json-stringify/v/7.0.1",
+      "legal_files": [
+        {
+          "source_package": "fast-json-stringify@7.0.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/b08de5bb7b21f44a8358edf74febe50c75ef2a1e5470e06c8919eb934cba067c.txt",
+          "sha256": "b08de5bb7b21f44a8358edf74febe50c75ef2a1e5470e06c8919eb934cba067c"
+        }
+      ]
+    },
+    {
+      "name": "fast-querystring",
+      "version": "1.1.2",
+      "purl": "pkg:npm/fast-querystring@1.1.2",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/anonrig/fast-querystring",
+      "repository_url": "https://github.com/anonrig/fast-querystring",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/fast-querystring/v/1.1.2",
+      "legal_files": [
+        {
+          "source_package": "fast-querystring@1.1.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/4f8cf48502224399442f7eadd8620d96ef18125f9beb4949c53084ab3b05a4d4.txt",
+          "sha256": "4f8cf48502224399442f7eadd8620d96ef18125f9beb4949c53084ab3b05a4d4"
+        }
+      ]
+    },
+    {
+      "name": "fast-safe-stringify",
+      "version": "2.1.1",
+      "purl": "pkg:npm/fast-safe-stringify@2.1.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/davidmarkclements/fast-safe-stringify",
+      "repository_url": "https://github.com/davidmarkclements/fast-safe-stringify",
+      "homepage_url": "https://github.com/davidmarkclements/fast-safe-stringify#readme",
+      "registry_url": "https://www.npmjs.com/package/fast-safe-stringify/v/2.1.1",
+      "legal_files": [
+        {
+          "source_package": "fast-safe-stringify@2.1.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/f0ffe1359ba08038bb99f194c80fbb4f2aae216e749e97b2cd6b006d1861e27b.txt",
+          "sha256": "f0ffe1359ba08038bb99f194c80fbb4f2aae216e749e97b2cd6b006d1861e27b"
+        }
+      ]
+    },
+    {
+      "name": "fast-uri",
+      "version": "3.1.8",
+      "purl": "pkg:npm/fast-uri@3.1.8",
+      "license_expression": "BSD-3-Clause",
+      "source_url": "https://github.com/fastify/fast-uri",
+      "repository_url": "https://github.com/fastify/fast-uri",
+      "homepage_url": "https://github.com/fastify/fast-uri",
+      "registry_url": "https://www.npmjs.com/package/fast-uri/v/3.1.8",
+      "legal_files": [
+        {
+          "source_package": "fast-uri@3.1.8",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/df7464922225c9b286167fa692d305e5ba98bf71613525d4d031649a344a3f3f.txt",
+          "sha256": "df7464922225c9b286167fa692d305e5ba98bf71613525d4d031649a344a3f3f"
+        }
+      ]
+    },
+    {
+      "name": "fast-uri",
+      "version": "4.2.1",
+      "purl": "pkg:npm/fast-uri@4.2.1",
+      "license_expression": "BSD-3-Clause",
+      "source_url": "https://github.com/fastify/fast-uri",
+      "repository_url": "https://github.com/fastify/fast-uri",
+      "homepage_url": "https://github.com/fastify/fast-uri",
+      "registry_url": "https://www.npmjs.com/package/fast-uri/v/4.2.1",
+      "legal_files": [
+        {
+          "source_package": "fast-uri@4.2.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/df7464922225c9b286167fa692d305e5ba98bf71613525d4d031649a344a3f3f.txt",
+          "sha256": "df7464922225c9b286167fa692d305e5ba98bf71613525d4d031649a344a3f3f"
+        }
+      ]
+    },
+    {
+      "name": "fastify",
+      "version": "5.12.5",
+      "purl": "pkg:npm/fastify@5.12.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/fastify",
+      "repository_url": "https://github.com/fastify/fastify",
+      "homepage_url": "https://fastify.dev",
+      "registry_url": "https://www.npmjs.com/package/fastify/v/5.12.5",
+      "legal_files": [
+        {
+          "source_package": "fastify@5.12.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/23c91863859171455a536380991b4160fee4e19e2d8dc353ecf7143cc4e53ca2.txt",
+          "sha256": "23c91863859171455a536380991b4160fee4e19e2d8dc353ecf7143cc4e53ca2"
+        }
+      ]
+    },
+    {
+      "name": "fastify-plugin",
+      "version": "5.1.0",
+      "purl": "pkg:npm/fastify-plugin@5.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/fastify-plugin",
+      "repository_url": "https://github.com/fastify/fastify-plugin",
+      "homepage_url": "https://github.com/fastify/fastify-plugin#readme",
+      "registry_url": "https://www.npmjs.com/package/fastify-plugin/v/5.1.0",
+      "legal_files": [
+        {
+          "source_package": "fastify-plugin@5.1.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/fe26044de416cf0cdb2cfd12ed299e5756d05b5d2ee6c59d3fd25ed304635d58.txt",
+          "sha256": "fe26044de416cf0cdb2cfd12ed299e5756d05b5d2ee6c59d3fd25ed304635d58"
+        }
+      ]
+    },
+    {
+      "name": "fastify-plugin",
+      "version": "6.0.0",
+      "purl": "pkg:npm/fastify-plugin@6.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/fastify-plugin",
+      "repository_url": "https://github.com/fastify/fastify-plugin",
+      "homepage_url": "https://github.com/fastify/fastify-plugin#readme",
+      "registry_url": "https://www.npmjs.com/package/fastify-plugin/v/6.0.0",
+      "legal_files": [
+        {
+          "source_package": "fastify-plugin@6.0.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/ba9677e5a34c2738c26b36bb478f95e0369cac48fbe68a01a91fd5c7972f2043.txt",
+          "sha256": "ba9677e5a34c2738c26b36bb478f95e0369cac48fbe68a01a91fd5c7972f2043"
+        }
+      ]
+    },
+    {
+      "name": "fastq",
+      "version": "1.20.1",
+      "purl": "pkg:npm/fastq@1.20.1",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/mcollina/fastq",
+      "repository_url": "https://github.com/mcollina/fastq",
+      "homepage_url": "https://github.com/mcollina/fastq#readme",
+      "registry_url": "https://www.npmjs.com/package/fastq/v/1.20.1",
+      "legal_files": [
+        {
+          "source_package": "fastq@1.20.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/c3367f6d01a79d368fc4fbb41b3615fcd92f243d6597ab96742f6f976f9325af.txt",
+          "sha256": "c3367f6d01a79d368fc4fbb41b3615fcd92f243d6597ab96742f6f976f9325af"
+        }
+      ]
+    },
+    {
+      "name": "file-type",
+      "version": "21.3.4",
+      "purl": "pkg:npm/file-type@21.3.4",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/file-type/v/21.3.4",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/file-type/v/21.3.4",
+      "legal_files": [
+        {
+          "source_package": "file-type@21.3.4",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3.txt",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ]
+    },
+    {
+      "name": "find-my-way",
+      "version": "9.7.0",
+      "purl": "pkg:npm/find-my-way@9.7.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/delvedor/find-my-way",
+      "repository_url": "https://github.com/delvedor/find-my-way",
+      "homepage_url": "https://github.com/delvedor/find-my-way#readme",
+      "registry_url": "https://www.npmjs.com/package/find-my-way/v/9.7.0",
+      "legal_files": [
+        {
+          "source_package": "find-my-way@9.7.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/693f9539655acc1847add1ccd364312ba570bf8ce84706b6059e7e0b5ceb90e6.txt",
+          "sha256": "693f9539655acc1847add1ccd364312ba570bf8ce84706b6059e7e0b5ceb90e6"
+        }
+      ]
+    },
+    {
+      "name": "foreground-child",
+      "version": "3.3.1",
+      "purl": "pkg:npm/foreground-child@3.3.1",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/tapjs/foreground-child",
+      "repository_url": "https://github.com/tapjs/foreground-child",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/foreground-child/v/3.3.1",
+      "legal_files": [
+        {
+          "source_package": "foreground-child@3.3.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/93f5d82a8d59442fe3275383453a255fef761647fb28265644010ba799806148.txt",
+          "sha256": "93f5d82a8d59442fe3275383453a255fef761647fb28265644010ba799806148"
+        }
+      ]
+    },
+    {
+      "name": "generate-function",
+      "version": "2.3.1",
+      "purl": "pkg:npm/generate-function@2.3.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/mafintosh/generate-function",
+      "repository_url": "https://github.com/mafintosh/generate-function",
+      "homepage_url": "https://github.com/mafintosh/generate-function",
+      "registry_url": "https://www.npmjs.com/package/generate-function/v/2.3.1",
+      "legal_files": [
+        {
+          "source_package": "generate-function@2.3.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/c0993ca46cd47c09710a977d3a3d51602cff96f19e8d2eb8d5887aa20a7beead.txt",
+          "sha256": "c0993ca46cd47c09710a977d3a3d51602cff96f19e8d2eb8d5887aa20a7beead"
+        }
+      ]
+    },
+    {
+      "name": "get-caller-file",
+      "version": "2.0.5",
+      "purl": "pkg:npm/get-caller-file@2.0.5",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/stefanpenner/get-caller-file",
+      "repository_url": "https://github.com/stefanpenner/get-caller-file",
+      "homepage_url": "https://github.com/stefanpenner/get-caller-file#readme",
+      "registry_url": "https://www.npmjs.com/package/get-caller-file/v/2.0.5",
+      "legal_files": [
+        {
+          "source_package": "get-caller-file@2.0.5",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/902dbb4154679fb2b8d7c33878183f45b268d01eae5e5033dddaa8852d45f213.txt",
+          "sha256": "902dbb4154679fb2b8d7c33878183f45b268d01eae5e5033dddaa8852d45f213"
+        }
+      ]
+    },
+    {
+      "name": "glob",
+      "version": "11.1.0",
+      "purl": "pkg:npm/glob@11.1.0",
+      "license_expression": "BlueOak-1.0.0",
+      "source_url": "https://github.com/isaacs/node-glob",
+      "repository_url": "https://github.com/isaacs/node-glob",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/glob/v/11.1.0",
+      "legal_files": [
+        {
+          "source_package": "glob@11.1.0",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/a49c9ba464796f65b59fca3f1e6ca40912df1e859f575383223f7ec6c5baae09.txt",
+          "sha256": "a49c9ba464796f65b59fca3f1e6ca40912df1e859f575383223f7ec6c5baae09"
+        }
+      ]
+    },
+    {
+      "name": "glob",
+      "version": "13.0.6",
+      "purl": "pkg:npm/glob@13.0.6",
+      "license_expression": "BlueOak-1.0.0",
+      "source_url": "https://github.com/isaacs/node-glob",
+      "repository_url": "https://github.com/isaacs/node-glob",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/glob/v/13.0.6",
+      "legal_files": [
+        {
+          "source_package": "glob@13.0.6",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/a49c9ba464796f65b59fca3f1e6ca40912df1e859f575383223f7ec6c5baae09.txt",
+          "sha256": "a49c9ba464796f65b59fca3f1e6ca40912df1e859f575383223f7ec6c5baae09"
+        }
+      ]
+    },
+    {
+      "name": "http-errors",
+      "version": "2.0.1",
+      "purl": "pkg:npm/http-errors@2.0.1",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/http-errors/v/2.0.1",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/http-errors/v/2.0.1",
+      "legal_files": [
+        {
+          "source_package": "http-errors@2.0.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/dcb94ff9b1e037a847bc20589dc81a1066d041fd4c16deb18b0fa968c66cf395.txt",
+          "sha256": "dcb94ff9b1e037a847bc20589dc81a1066d041fd4c16deb18b0fa968c66cf395"
+        }
+      ]
+    },
+    {
+      "name": "iconv-lite",
+      "version": "0.7.3",
+      "purl": "pkg:npm/iconv-lite@0.7.3",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/pillarjs/iconv-lite",
+      "repository_url": "https://github.com/pillarjs/iconv-lite",
+      "homepage_url": "https://github.com/pillarjs/iconv-lite",
+      "registry_url": "https://www.npmjs.com/package/iconv-lite/v/0.7.3",
+      "legal_files": [
+        {
+          "source_package": "iconv-lite@0.7.3",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/f9c6da891840e8951696e472b3c7d6f6d3ab2c7325f1dd30c0813244c15b288c.txt",
+          "sha256": "f9c6da891840e8951696e472b3c7d6f6d3ab2c7325f1dd30c0813244c15b288c"
+        }
+      ]
+    },
+    {
+      "name": "ieee754",
+      "version": "1.2.1",
+      "purl": "pkg:npm/ieee754@1.2.1",
+      "license_expression": "BSD-3-Clause",
+      "source_url": "https://github.com/feross/ieee754",
+      "repository_url": "https://github.com/feross/ieee754",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/ieee754/v/1.2.1",
+      "legal_files": [
+        {
+          "source_package": "ieee754@1.2.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/18d45466ba3253deae04667e267a91ea8de8548f18c1125264d1c9db28194cc1.txt",
+          "sha256": "18d45466ba3253deae04667e267a91ea8de8548f18c1125264d1c9db28194cc1"
+        }
+      ]
+    },
+    {
+      "name": "inherits",
+      "version": "2.0.4",
+      "purl": "pkg:npm/inherits@2.0.4",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/isaacs/inherits",
+      "repository_url": "https://github.com/isaacs/inherits",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/inherits/v/2.0.4",
+      "legal_files": [
+        {
+          "source_package": "inherits@2.0.4",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/69be713b3d6c33e0dba76c4d23d986d568593abca04ce47d75162af255d6a345.txt",
+          "sha256": "69be713b3d6c33e0dba76c4d23d986d568593abca04ce47d75162af255d6a345"
+        }
+      ]
+    },
+    {
+      "name": "ipaddr.js",
+      "version": "2.4.0",
+      "purl": "pkg:npm/ipaddr.js@2.4.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/whitequark/ipaddr.js",
+      "repository_url": "https://github.com/whitequark/ipaddr.js",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/ipaddr.js/v/2.4.0",
+      "legal_files": [
+        {
+          "source_package": "ipaddr.js@2.4.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/62568a2d1337b77171ecca9db10579163446de1ba6151678e81f06cdc199971b.txt",
+          "sha256": "62568a2d1337b77171ecca9db10579163446de1ba6151678e81f06cdc199971b"
+        }
+      ]
+    },
+    {
+      "name": "is-fullwidth-code-point",
+      "version": "3.0.0",
+      "purl": "pkg:npm/is-fullwidth-code-point@3.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/is-fullwidth-code-point/v/3.0.0",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/is-fullwidth-code-point/v/3.0.0",
+      "legal_files": [
+        {
+          "source_package": "is-fullwidth-code-point@3.0.0",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0.txt",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ]
+    },
+    {
+      "name": "is-property",
+      "version": "1.0.2",
+      "purl": "pkg:npm/is-property@1.0.2",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/mikolalysenko/is-property",
+      "repository_url": "https://github.com/mikolalysenko/is-property",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/is-property/v/1.0.2",
+      "legal_files": [
+        {
+          "source_package": "is-property@1.0.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/e67aed7df22dc8031e4fcf5338fe91cb33e3817e5c58a99a2a2802eea9069791.txt",
+          "sha256": "e67aed7df22dc8031e4fcf5338fe91cb33e3817e5c58a99a2a2802eea9069791"
+        }
+      ]
+    },
+    {
+      "name": "isexe",
+      "version": "2.0.0",
+      "purl": "pkg:npm/isexe@2.0.0",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/isaacs/isexe",
+      "repository_url": "https://github.com/isaacs/isexe",
+      "homepage_url": "https://github.com/isaacs/isexe#readme",
+      "registry_url": "https://www.npmjs.com/package/isexe/v/2.0.0",
+      "legal_files": [
+        {
+          "source_package": "isexe@2.0.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b.txt",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ]
+    },
+    {
+      "name": "iterare",
+      "version": "1.2.1",
+      "purl": "pkg:npm/iterare@1.2.1",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/felixfbecker/iterare",
+      "repository_url": "https://github.com/felixfbecker/iterare",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/iterare/v/1.2.1",
+      "legal_files": [
+        {
+          "source_package": "iterare@1.2.1",
+          "source_name": "LICENSE.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/2537bb3d445dd08c12be3ec5c686f0394a3ccd6bfa94dac5d269940a9cb7ff98.txt",
+          "sha256": "2537bb3d445dd08c12be3ec5c686f0394a3ccd6bfa94dac5d269940a9cb7ff98"
+        }
+      ]
+    },
+    {
+      "name": "jackspeak",
+      "version": "4.2.3",
+      "purl": "pkg:npm/jackspeak@4.2.3",
+      "license_expression": "BlueOak-1.0.0",
+      "source_url": "https://github.com/isaacs/jackspeak",
+      "repository_url": "https://github.com/isaacs/jackspeak",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/jackspeak/v/4.2.3",
+      "legal_files": [
+        {
+          "source_package": "jackspeak@4.2.3",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/2c7c5d22ed5a8ee968c64757710979afcd77438c48b4a265b94e615babd8a901.txt",
+          "sha256": "2c7c5d22ed5a8ee968c64757710979afcd77438c48b4a265b94e615babd8a901"
+        }
+      ]
+    },
+    {
+      "name": "js-yaml",
+      "version": "5.4.2",
+      "purl": "pkg:npm/js-yaml@5.4.2",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/js-yaml/v/5.4.2",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/js-yaml/v/5.4.2",
+      "legal_files": [
+        {
+          "source_package": "js-yaml@5.4.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/a07bc24468b9654ce76a547d47a2db282d07733b715db4c73a98bd63961f9550.txt",
+          "sha256": "a07bc24468b9654ce76a547d47a2db282d07733b715db4c73a98bd63961f9550"
+        }
+      ]
+    },
+    {
+      "name": "json-schema-ref-resolver",
+      "version": "3.0.0",
+      "purl": "pkg:npm/json-schema-ref-resolver@3.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/json-schema-ref-resolver",
+      "repository_url": "https://github.com/fastify/json-schema-ref-resolver",
+      "homepage_url": "https://github.com/fastify/json-schema-ref-resolver#readme",
+      "registry_url": "https://www.npmjs.com/package/json-schema-ref-resolver/v/3.0.0",
+      "legal_files": [
+        {
+          "source_package": "json-schema-ref-resolver@3.0.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/0943b637252a9c6f1a062c77063aa58213ae93a18d5445f2fb77d1de7c60dc12.txt",
+          "sha256": "0943b637252a9c6f1a062c77063aa58213ae93a18d5445f2fb77d1de7c60dc12"
+        }
+      ]
+    },
+    {
+      "name": "json-schema-traverse",
+      "version": "1.0.0",
+      "purl": "pkg:npm/json-schema-traverse@1.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/epoberezkin/json-schema-traverse",
+      "repository_url": "https://github.com/epoberezkin/json-schema-traverse",
+      "homepage_url": "https://github.com/epoberezkin/json-schema-traverse#readme",
+      "registry_url": "https://www.npmjs.com/package/json-schema-traverse/v/1.0.0",
+      "legal_files": [
+        {
+          "source_package": "json-schema-traverse@1.0.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/7bf9b2de73a6b356761c948d0e9eeb4be6c1270bd04c79cd489c1e400ffdfc1a.txt",
+          "sha256": "7bf9b2de73a6b356761c948d0e9eeb4be6c1270bd04c79cd489c1e400ffdfc1a"
+        }
+      ]
+    },
+    {
+      "name": "kysely",
+      "version": "0.29.3",
+      "purl": "pkg:npm/kysely@0.29.3",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/kysely-org/kysely",
+      "repository_url": "https://github.com/kysely-org/kysely",
+      "homepage_url": "https://kysely.dev",
+      "registry_url": "https://www.npmjs.com/package/kysely/v/0.29.3",
+      "legal_files": [
+        {
+          "source_package": "kysely@0.29.3",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/f70408a03a6ae16b093ae84757bd813f861124e851efc7a17c3cb29ff247ff54.txt",
+          "sha256": "f70408a03a6ae16b093ae84757bd813f861124e851efc7a17c3cb29ff247ff54"
+        }
+      ]
+    },
+    {
+      "name": "libphonenumber-js",
+      "version": "1.13.8",
+      "purl": "pkg:npm/libphonenumber-js@1.13.8",
+      "license_expression": "MIT",
+      "source_url": "https://gitlab.com/catamphetamine/libphonenumber-js",
+      "repository_url": "https://gitlab.com/catamphetamine/libphonenumber-js",
+      "homepage_url": "https://gitlab.com/catamphetamine/libphonenumber-js#readme",
+      "registry_url": "https://www.npmjs.com/package/libphonenumber-js/v/1.13.8",
+      "legal_files": [
+        {
+          "source_package": "libphonenumber-js@1.13.8",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/7ac988c45b6c5aa8b25ef95d928036092e816df62231668e29c354479c42663c.txt",
+          "sha256": "7ac988c45b6c5aa8b25ef95d928036092e816df62231668e29c354479c42663c"
+        },
+        {
+          "source_package": "libphonenumber-js@1.13.8",
+          "source_name": "LICENSE.Apache",
+          "bundle_path": "THIRD_PARTY_LICENSES/a6cba85bc92e0cff7a450b1d873c0eaa2e9fc96bf472df0247a26bec77bf3ff9.txt",
+          "sha256": "a6cba85bc92e0cff7a450b1d873c0eaa2e9fc96bf472df0247a26bec77bf3ff9"
+        }
+      ]
+    },
+    {
+      "name": "light-my-request",
+      "version": "6.6.0",
+      "purl": "pkg:npm/light-my-request@6.6.0",
+      "license_expression": "BSD-3-Clause",
+      "source_url": "https://github.com/fastify/light-my-request",
+      "repository_url": "https://github.com/fastify/light-my-request",
+      "homepage_url": "https://github.com/fastify/light-my-request#readme",
+      "registry_url": "https://www.npmjs.com/package/light-my-request/v/6.6.0",
+      "legal_files": [
+        {
+          "source_package": "light-my-request@6.6.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/c59ffead4ccbc72ddc3258c23d608bc6f10cea5241038ca8d39cdd7d7e7667c9.txt",
+          "sha256": "c59ffead4ccbc72ddc3258c23d608bc6f10cea5241038ca8d39cdd7d7e7667c9"
+        }
+      ]
+    },
+    {
+      "name": "load-esm",
+      "version": "1.0.3",
+      "purl": "pkg:npm/load-esm@1.0.3",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/Borewit/load-esm",
+      "repository_url": "https://github.com/Borewit/load-esm",
+      "homepage_url": "https://github.com/Borewit/load-esm#readme",
+      "registry_url": "https://www.npmjs.com/package/load-esm/v/1.0.3",
+      "legal_files": [
+        {
+          "source_package": "load-esm@1.0.3",
+          "source_name": "LICENSE.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/0ac9ad48738b9e891d410809e56af32d0112632b5e1ede9777042124ece1f2e4.txt",
+          "sha256": "0ac9ad48738b9e891d410809e56af32d0112632b5e1ede9777042124ece1f2e4"
+        }
+      ]
+    },
+    {
+      "name": "lodash",
+      "version": "4.18.1",
+      "purl": "pkg:npm/lodash@4.18.1",
+      "license_expression": "MIT",
+      "source_url": "https://lodash.com",
+      "repository_url": null,
+      "homepage_url": "https://lodash.com",
+      "registry_url": "https://www.npmjs.com/package/lodash/v/4.18.1",
+      "legal_files": [
+        {
+          "source_package": "lodash@4.18.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/f71e8ed126b46346494aad5486874cd8f0aafe95092ed67d2e3cb6110f939abc.txt",
+          "sha256": "f71e8ed126b46346494aad5486874cd8f0aafe95092ed67d2e3cb6110f939abc"
+        }
+      ]
+    },
+    {
+      "name": "long",
+      "version": "5.3.2",
+      "purl": "pkg:npm/long@5.3.2",
+      "license_expression": "Apache-2.0",
+      "source_url": "https://github.com/dcodeIO/long.js",
+      "repository_url": "https://github.com/dcodeIO/long.js",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/long/v/5.3.2",
+      "legal_files": [
+        {
+          "source_package": "long@5.3.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        }
+      ]
+    },
+    {
+      "name": "lru-cache",
+      "version": "11.5.2",
+      "purl": "pkg:npm/lru-cache@11.5.2",
+      "license_expression": "BlueOak-1.0.0",
+      "source_url": "https://github.com/isaacs/node-lru-cache",
+      "repository_url": "https://github.com/isaacs/node-lru-cache",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/lru-cache/v/11.5.2",
+      "legal_files": [
+        {
+          "source_package": "lru-cache@11.5.2",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004.txt",
+          "sha256": "8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004"
+        }
+      ]
+    },
+    {
+      "name": "lru.min",
+      "version": "1.1.5",
+      "purl": "pkg:npm/lru.min@1.1.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/wellwelwel/lru.min",
+      "repository_url": "https://github.com/wellwelwel/lru.min",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/lru.min/v/1.1.5",
+      "legal_files": [
+        {
+          "source_package": "lru.min@1.1.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/50c3eddcd1ce10eed9889d4d592c5d2f32907feb16d9141485299cd710ddb917.txt",
+          "sha256": "50c3eddcd1ce10eed9889d4d592c5d2f32907feb16d9141485299cd710ddb917"
+        }
+      ]
+    },
+    {
+      "name": "lucide-react",
+      "version": "1.24.0",
+      "purl": "pkg:npm/lucide-react@1.24.0",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/lucide-icons/lucide/tree/HEAD/packages/lucide-react",
+      "repository_url": "https://github.com/lucide-icons/lucide/tree/HEAD/packages/lucide-react",
+      "homepage_url": "https://lucide.dev",
+      "registry_url": "https://www.npmjs.com/package/lucide-react/v/1.24.0",
+      "legal_files": [
+        {
+          "source_package": "lucide-react@1.24.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57.txt",
+          "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57"
+        }
+      ]
+    },
+    {
+      "name": "mime",
+      "version": "3.0.0",
+      "purl": "pkg:npm/mime@3.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/broofa/mime",
+      "repository_url": "https://github.com/broofa/mime",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/mime/v/3.0.0",
+      "legal_files": [
+        {
+          "source_package": "mime@3.0.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/8f2658c03422c408b2b2ce4d151decc3b1a6fd3d86e5ca9433777bccdcdf75a2.txt",
+          "sha256": "8f2658c03422c408b2b2ce4d151decc3b1a6fd3d86e5ca9433777bccdcdf75a2"
+        }
+      ]
+    },
+    {
+      "name": "minimatch",
+      "version": "10.2.5",
+      "purl": "pkg:npm/minimatch@10.2.5",
+      "license_expression": "BlueOak-1.0.0",
+      "source_url": "https://github.com/isaacs/minimatch",
+      "repository_url": "https://github.com/isaacs/minimatch",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/minimatch/v/10.2.5",
+      "legal_files": [
+        {
+          "source_package": "minimatch@10.2.5",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/2c7c5d22ed5a8ee968c64757710979afcd77438c48b4a265b94e615babd8a901.txt",
+          "sha256": "2c7c5d22ed5a8ee968c64757710979afcd77438c48b4a265b94e615babd8a901"
+        }
+      ]
+    },
+    {
+      "name": "minipass",
+      "version": "7.1.3",
+      "purl": "pkg:npm/minipass@7.1.3",
+      "license_expression": "BlueOak-1.0.0",
+      "source_url": "https://github.com/isaacs/minipass",
+      "repository_url": "https://github.com/isaacs/minipass",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/minipass/v/7.1.3",
+      "legal_files": [
+        {
+          "source_package": "minipass@7.1.3",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004.txt",
+          "sha256": "8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004"
+        }
+      ]
+    },
+    {
+      "name": "ms",
+      "version": "2.1.3",
+      "purl": "pkg:npm/ms@2.1.3",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/ms/v/2.1.3",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/ms/v/2.1.3",
+      "legal_files": [
+        {
+          "source_package": "ms@2.1.3",
+          "source_name": "license.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/1662fae9b5314d11cf51284e2dcd1f006a354f7343f08712a730fcff9a359801.txt",
+          "sha256": "1662fae9b5314d11cf51284e2dcd1f006a354f7343f08712a730fcff9a359801"
+        }
+      ]
+    },
+    {
+      "name": "mysql2",
+      "version": "3.24.3",
+      "purl": "pkg:npm/mysql2@3.24.3",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/sidorares/node-mysql2",
+      "repository_url": "https://github.com/sidorares/node-mysql2",
+      "homepage_url": "https://sidorares.github.io/node-mysql2/docs",
+      "registry_url": "https://www.npmjs.com/package/mysql2/v/3.24.3",
+      "legal_files": [
+        {
+          "source_package": "mysql2@3.24.3",
+          "source_name": "License",
+          "bundle_path": "THIRD_PARTY_LICENSES/f17f1be30bce27fe6324513a35fa61f6e6766d3028e42e45bdf668a0db7c8d4f.txt",
+          "sha256": "f17f1be30bce27fe6324513a35fa61f6e6766d3028e42e45bdf668a0db7c8d4f"
+        }
+      ]
+    },
+    {
+      "name": "named-placeholders",
+      "version": "1.1.6",
+      "purl": "pkg:npm/named-placeholders@1.1.6",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/mysqljs/named-placeholders",
+      "repository_url": "https://github.com/mysqljs/named-placeholders",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/named-placeholders/v/1.1.6",
+      "legal_files": [
+        {
+          "source_package": "named-placeholders@1.1.6",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/d2d9ce3d07931cf6c105b8c70638b768b07d3c21bb682c7ef89ac43caba13043.txt",
+          "sha256": "d2d9ce3d07931cf6c105b8c70638b768b07d3c21bb682c7ef89ac43caba13043"
+        }
+      ]
+    },
+    {
+      "name": "nestjs-pino",
+      "version": "4.6.1",
+      "purl": "pkg:npm/nestjs-pino@4.6.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/iamolegga/nestjs-pino",
+      "repository_url": "https://github.com/iamolegga/nestjs-pino",
+      "homepage_url": "https://github.com/iamolegga/nestjs-pino#readme",
+      "registry_url": "https://www.npmjs.com/package/nestjs-pino/v/4.6.1",
+      "legal_files": [
+        {
+          "source_package": "nestjs-pino@4.6.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/f4d9314e00d393c8fb2f2310ca90070cf57572de21c7b57c97e299414ff72ff6.txt",
+          "sha256": "f4d9314e00d393c8fb2f2310ca90070cf57572de21c7b57c97e299414ff72ff6"
+        }
+      ]
+    },
+    {
+      "name": "node-pg-migrate",
+      "version": "8.0.4",
+      "purl": "pkg:npm/node-pg-migrate@8.0.4",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/salsita/node-pg-migrate",
+      "repository_url": "https://github.com/salsita/node-pg-migrate",
+      "homepage_url": "https://github.com/salsita/node-pg-migrate",
+      "registry_url": "https://www.npmjs.com/package/node-pg-migrate/v/8.0.4",
+      "legal_files": [
+        {
+          "source_package": "node-pg-migrate@8.0.4",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/85161fd1cdeee77d784195063e26e78a89fa1419272b26efcfcaf6664cc1b5e0.txt",
+          "sha256": "85161fd1cdeee77d784195063e26e78a89fa1419272b26efcfcaf6664cc1b5e0"
+        }
+      ]
+    },
+    {
+      "name": "nodemailer",
+      "version": "10.0.13",
+      "purl": "pkg:npm/nodemailer@10.0.13",
+      "license_expression": "MIT-0",
+      "source_url": "https://github.com/nodemailer/nodemailer",
+      "repository_url": "https://github.com/nodemailer/nodemailer",
+      "homepage_url": "https://nodemailer.com",
+      "registry_url": "https://www.npmjs.com/package/nodemailer/v/10.0.13",
+      "legal_files": [
+        {
+          "source_package": "nodemailer@10.0.13",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/4f814dcacd2da618d62829ea1f6238701cf421f18a6b36c91c5d8212245e2c78.txt",
+          "sha256": "4f814dcacd2da618d62829ea1f6238701cf421f18a6b36c91c5d8212245e2c78"
+        }
+      ]
+    },
+    {
+      "name": "oauth4webapi",
+      "version": "3.8.8",
+      "purl": "pkg:npm/oauth4webapi@3.8.8",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/panva/oauth4webapi",
+      "repository_url": null,
+      "homepage_url": "https://github.com/panva/oauth4webapi",
+      "registry_url": "https://www.npmjs.com/package/oauth4webapi/v/3.8.8",
+      "legal_files": [
+        {
+          "source_package": "oauth4webapi@3.8.8",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/81e7b4b0196e8caa43cf243131512e5e4ab04fc312623335e783abae6ff46d79.txt",
+          "sha256": "81e7b4b0196e8caa43cf243131512e5e4ab04fc312623335e783abae6ff46d79"
+        }
+      ]
+    },
+    {
+      "name": "on-exit-leak-free",
+      "version": "2.1.2",
+      "purl": "pkg:npm/on-exit-leak-free@2.1.2",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/mcollina/on-exit-or-gc",
+      "repository_url": "https://github.com/mcollina/on-exit-or-gc",
+      "homepage_url": "https://github.com/mcollina/on-exit-or-gc#readme",
+      "registry_url": "https://www.npmjs.com/package/on-exit-leak-free/v/2.1.2",
+      "legal_files": [
+        {
+          "source_package": "on-exit-leak-free@2.1.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/47404ffc18f1267832bc0623857871de5a3a93ebb19693f5e1b963af91fab54b.txt",
+          "sha256": "47404ffc18f1267832bc0623857871de5a3a93ebb19693f5e1b963af91fab54b"
+        }
+      ]
+    },
+    {
+      "name": "package-json-from-dist",
+      "version": "1.0.1",
+      "purl": "pkg:npm/package-json-from-dist@1.0.1",
+      "license_expression": "BlueOak-1.0.0",
+      "source_url": "https://github.com/isaacs/package-json-from-dist",
+      "repository_url": "https://github.com/isaacs/package-json-from-dist",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/package-json-from-dist/v/1.0.1",
+      "legal_files": [
+        {
+          "source_package": "package-json-from-dist@1.0.1",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/a49c9ba464796f65b59fca3f1e6ca40912df1e859f575383223f7ec6c5baae09.txt",
+          "sha256": "a49c9ba464796f65b59fca3f1e6ca40912df1e859f575383223f7ec6c5baae09"
+        }
+      ]
+    },
+    {
+      "name": "parse5",
+      "version": "8.0.1",
+      "purl": "pkg:npm/parse5@8.0.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/inikulin/parse5",
+      "repository_url": "https://github.com/inikulin/parse5",
+      "homepage_url": "https://parse5.js.org",
+      "registry_url": "https://www.npmjs.com/package/parse5/v/8.0.1",
+      "legal_files": [
+        {
+          "source_package": "parse5@8.0.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/8c535800331e1e4439835555b3f9edc7fe9dee2fab0d8bbbd5a982e8b8343d4d.txt",
+          "sha256": "8c535800331e1e4439835555b3f9edc7fe9dee2fab0d8bbbd5a982e8b8343d4d"
+        }
+      ]
+    },
+    {
+      "name": "path-key",
+      "version": "3.1.1",
+      "purl": "pkg:npm/path-key@3.1.1",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/path-key/v/3.1.1",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/path-key/v/3.1.1",
+      "legal_files": [
+        {
+          "source_package": "path-key@3.1.1",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0.txt",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ]
+    },
+    {
+      "name": "path-scurry",
+      "version": "2.0.2",
+      "purl": "pkg:npm/path-scurry@2.0.2",
+      "license_expression": "BlueOak-1.0.0",
+      "source_url": "https://github.com/isaacs/path-scurry",
+      "repository_url": "https://github.com/isaacs/path-scurry",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/path-scurry/v/2.0.2",
+      "legal_files": [
+        {
+          "source_package": "path-scurry@2.0.2",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004.txt",
+          "sha256": "8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004"
+        }
+      ]
+    },
+    {
+      "name": "path-to-regexp",
+      "version": "8.4.2",
+      "purl": "pkg:npm/path-to-regexp@8.4.2",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/pillarjs/path-to-regexp",
+      "repository_url": "https://github.com/pillarjs/path-to-regexp",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/path-to-regexp/v/8.4.2",
+      "legal_files": [
+        {
+          "source_package": "path-to-regexp@8.4.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/4eeb3271453a891df609e5a9f4ee79a68307f730c13417a3bfeffa604ac8cf25.txt",
+          "sha256": "4eeb3271453a891df609e5a9f4ee79a68307f730c13417a3bfeffa604ac8cf25"
+        }
+      ]
+    },
+    {
+      "name": "pg",
+      "version": "8.22.0",
+      "purl": "pkg:npm/pg@8.22.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/brianc/node-postgres/tree/HEAD/packages/pg",
+      "repository_url": "https://github.com/brianc/node-postgres/tree/HEAD/packages/pg",
+      "homepage_url": "https://github.com/brianc/node-postgres",
+      "registry_url": "https://www.npmjs.com/package/pg/v/8.22.0",
+      "legal_files": [
+        {
+          "source_package": "pg@8.22.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/192b8f5c96900f04a1271dec39688655d7416c1c6ea84a508e18b50d2b6751f3.txt",
+          "sha256": "192b8f5c96900f04a1271dec39688655d7416c1c6ea84a508e18b50d2b6751f3"
+        }
+      ]
+    },
+    {
+      "name": "pg-cloudflare",
+      "version": "1.4.0",
+      "purl": "pkg:npm/pg-cloudflare@1.4.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/brianc/node-postgres/tree/HEAD/packages/pg-cloudflare",
+      "repository_url": "https://github.com/brianc/node-postgres/tree/HEAD/packages/pg-cloudflare",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/pg-cloudflare/v/1.4.0",
+      "legal_files": [
+        {
+          "source_package": "pg-cloudflare@1.4.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/192b8f5c96900f04a1271dec39688655d7416c1c6ea84a508e18b50d2b6751f3.txt",
+          "sha256": "192b8f5c96900f04a1271dec39688655d7416c1c6ea84a508e18b50d2b6751f3"
+        }
+      ]
+    },
+    {
+      "name": "pg-connection-string",
+      "version": "2.14.0",
+      "purl": "pkg:npm/pg-connection-string@2.14.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/brianc/node-postgres/tree/HEAD/packages/pg-connection-string",
+      "repository_url": "https://github.com/brianc/node-postgres/tree/HEAD/packages/pg-connection-string",
+      "homepage_url": "https://github.com/brianc/node-postgres/tree/master/packages/pg-connection-string",
+      "registry_url": "https://www.npmjs.com/package/pg-connection-string/v/2.14.0",
+      "legal_files": [
+        {
+          "source_package": "pg-connection-string@2.14.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/85747ad4bba34e96e5055af5994796ec2a8525b4cecb14bc1bb257199dc29566.txt",
+          "sha256": "85747ad4bba34e96e5055af5994796ec2a8525b4cecb14bc1bb257199dc29566"
+        }
+      ]
+    },
+    {
+      "name": "pg-int8",
+      "version": "1.0.1",
+      "purl": "pkg:npm/pg-int8@1.0.1",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/charmander/pg-int8",
+      "repository_url": "https://github.com/charmander/pg-int8",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/pg-int8/v/1.0.1",
+      "legal_files": [
+        {
+          "source_package": "pg-int8@1.0.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/4e8e87ccdfc7e4b47fd89015f78468aa53b6bf43ab6e6e12d43e8f55294911de.txt",
+          "sha256": "4e8e87ccdfc7e4b47fd89015f78468aa53b6bf43ab6e6e12d43e8f55294911de"
+        }
+      ]
+    },
+    {
+      "name": "pg-pool",
+      "version": "3.14.0",
+      "purl": "pkg:npm/pg-pool@3.14.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/brianc/node-postgres/tree/HEAD/packages/pg-pool",
+      "repository_url": "https://github.com/brianc/node-postgres/tree/HEAD/packages/pg-pool",
+      "homepage_url": "https://github.com/brianc/node-postgres/tree/master/packages/pg-pool#readme",
+      "registry_url": "https://www.npmjs.com/package/pg-pool/v/3.14.0",
+      "legal_files": [
+        {
+          "source_package": "pg-pool@3.14.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/4f15ee7fc2a72082859d7e0d12dfa4bcdd70b1c744ad3850d07780730ac08557.txt",
+          "sha256": "4f15ee7fc2a72082859d7e0d12dfa4bcdd70b1c744ad3850d07780730ac08557"
+        }
+      ]
+    },
+    {
+      "name": "pg-protocol",
+      "version": "1.15.0",
+      "purl": "pkg:npm/pg-protocol@1.15.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/brianc/node-postgres/tree/HEAD/packages/pg-protocol",
+      "repository_url": "https://github.com/brianc/node-postgres/tree/HEAD/packages/pg-protocol",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/pg-protocol/v/1.15.0",
+      "legal_files": [
+        {
+          "source_package": "pg-protocol@1.15.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/192b8f5c96900f04a1271dec39688655d7416c1c6ea84a508e18b50d2b6751f3.txt",
+          "sha256": "192b8f5c96900f04a1271dec39688655d7416c1c6ea84a508e18b50d2b6751f3"
+        }
+      ]
+    },
+    {
+      "name": "pg-types",
+      "version": "2.2.0",
+      "purl": "pkg:npm/pg-types@2.2.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/brianc/node-pg-types",
+      "repository_url": "https://github.com/brianc/node-pg-types",
+      "homepage_url": "https://github.com/brianc/node-pg-types",
+      "registry_url": "https://www.npmjs.com/package/pg-types/v/2.2.0",
+      "legal_files": [
+        {
+          "source_package": "pg-types@2.2.0",
+          "source_name": "README.md#license",
+          "bundle_path": "THIRD_PARTY_LICENSES/c565667e0560bba6502cda29fd9d461fd3acaf9dac24dda4d2758ce0f8b720cd.txt",
+          "sha256": "c565667e0560bba6502cda29fd9d461fd3acaf9dac24dda4d2758ce0f8b720cd"
+        }
+      ]
+    },
+    {
+      "name": "pgpass",
+      "version": "1.0.5",
+      "purl": "pkg:npm/pgpass@1.0.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/hoegaarden/pgpass",
+      "repository_url": "https://github.com/hoegaarden/pgpass",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/pgpass/v/1.0.5",
+      "legal_files": [
+        {
+          "source_package": "pgpass@1.0.5",
+          "source_name": "README.md#license",
+          "bundle_path": "THIRD_PARTY_LICENSES/f660a02f22de943c8c28a93791e8571c67f9088be93226fd526842b586cb4db4.txt",
+          "sha256": "f660a02f22de943c8c28a93791e8571c67f9088be93226fd526842b586cb4db4"
+        }
+      ]
+    },
+    {
+      "name": "pino",
+      "version": "10.3.1",
+      "purl": "pkg:npm/pino@10.3.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/pinojs/pino",
+      "repository_url": "https://github.com/pinojs/pino",
+      "homepage_url": "https://getpino.io",
+      "registry_url": "https://www.npmjs.com/package/pino/v/10.3.1",
+      "legal_files": [
+        {
+          "source_package": "pino@10.3.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/d4eb00c3ef2fa54cdf05d167b15e994bc67226a7998e090e22a0bc8b16223a6c.txt",
+          "sha256": "d4eb00c3ef2fa54cdf05d167b15e994bc67226a7998e090e22a0bc8b16223a6c"
+        }
+      ]
+    },
+    {
+      "name": "pino-abstract-transport",
+      "version": "3.0.0",
+      "purl": "pkg:npm/pino-abstract-transport@3.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/pinojs/pino-abstract-transport",
+      "repository_url": "https://github.com/pinojs/pino-abstract-transport",
+      "homepage_url": "https://github.com/pinojs/pino-abstract-transport#readme",
+      "registry_url": "https://www.npmjs.com/package/pino-abstract-transport/v/3.0.0",
+      "legal_files": [
+        {
+          "source_package": "pino-abstract-transport@3.0.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/31f005ecff86a12a1351f4c2cb1133267c0b152546b08cd6fa4bdeb1943e00cd.txt",
+          "sha256": "31f005ecff86a12a1351f4c2cb1133267c0b152546b08cd6fa4bdeb1943e00cd"
+        }
+      ]
+    },
+    {
+      "name": "pino-http",
+      "version": "11.0.0",
+      "purl": "pkg:npm/pino-http@11.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/pinojs/pino-http",
+      "repository_url": "https://github.com/pinojs/pino-http",
+      "homepage_url": "https://github.com/pinojs/pino-http#readme",
+      "registry_url": "https://www.npmjs.com/package/pino-http/v/11.0.0",
+      "legal_files": [
+        {
+          "source_package": "pino-http@11.0.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/d668ac2e27374df39c936ddd4de482032c48f038b4975d242f81fb94e0daf02a.txt",
+          "sha256": "d668ac2e27374df39c936ddd4de482032c48f038b4975d242f81fb94e0daf02a"
+        }
+      ]
+    },
+    {
+      "name": "pino-std-serializers",
+      "version": "7.1.0",
+      "purl": "pkg:npm/pino-std-serializers@7.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/pinojs/pino-std-serializers",
+      "repository_url": "https://github.com/pinojs/pino-std-serializers",
+      "homepage_url": "https://github.com/pinojs/pino-std-serializers#readme",
+      "registry_url": "https://www.npmjs.com/package/pino-std-serializers/v/7.1.0",
+      "legal_files": [
+        {
+          "source_package": "pino-std-serializers@7.1.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/6206673d24786f09656f7a480b7c50af289e9690963aaa135af5b626de5250df.txt",
+          "sha256": "6206673d24786f09656f7a480b7c50af289e9690963aaa135af5b626de5250df"
+        }
+      ]
+    },
+    {
+      "name": "postgres-array",
+      "version": "2.0.0",
+      "purl": "pkg:npm/postgres-array@2.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/postgres-array/v/2.0.0",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/postgres-array/v/2.0.0",
+      "legal_files": [
+        {
+          "source_package": "postgres-array@2.0.0",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/f057f36739d53d228a746de4440c1e0c644ecde06d6beab45337d39c9d12a393.txt",
+          "sha256": "f057f36739d53d228a746de4440c1e0c644ecde06d6beab45337d39c9d12a393"
+        }
+      ]
+    },
+    {
+      "name": "postgres-bytea",
+      "version": "1.0.1",
+      "purl": "pkg:npm/postgres-bytea@1.0.1",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/postgres-bytea/v/1.0.1",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/postgres-bytea/v/1.0.1",
+      "legal_files": [
+        {
+          "source_package": "postgres-bytea@1.0.1",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/f057f36739d53d228a746de4440c1e0c644ecde06d6beab45337d39c9d12a393.txt",
+          "sha256": "f057f36739d53d228a746de4440c1e0c644ecde06d6beab45337d39c9d12a393"
+        }
+      ]
+    },
+    {
+      "name": "postgres-date",
+      "version": "1.0.7",
+      "purl": "pkg:npm/postgres-date@1.0.7",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/postgres-date/v/1.0.7",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/postgres-date/v/1.0.7",
+      "legal_files": [
+        {
+          "source_package": "postgres-date@1.0.7",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/f057f36739d53d228a746de4440c1e0c644ecde06d6beab45337d39c9d12a393.txt",
+          "sha256": "f057f36739d53d228a746de4440c1e0c644ecde06d6beab45337d39c9d12a393"
+        }
+      ]
+    },
+    {
+      "name": "postgres-interval",
+      "version": "1.2.0",
+      "purl": "pkg:npm/postgres-interval@1.2.0",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/postgres-interval/v/1.2.0",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/postgres-interval/v/1.2.0",
+      "legal_files": [
+        {
+          "source_package": "postgres-interval@1.2.0",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/f057f36739d53d228a746de4440c1e0c644ecde06d6beab45337d39c9d12a393.txt",
+          "sha256": "f057f36739d53d228a746de4440c1e0c644ecde06d6beab45337d39c9d12a393"
+        }
+      ]
+    },
+    {
+      "name": "pretendard",
+      "version": "1.3.9",
+      "purl": "pkg:npm/pretendard@1.3.9",
+      "license_expression": "OFL-1.1",
+      "source_url": "https://github.com/orioncactus/pretendard/tree/HEAD/packages/pretendard",
+      "repository_url": "https://github.com/orioncactus/pretendard/tree/HEAD/packages/pretendard",
+      "homepage_url": "https://cactus.tistory.com/306",
+      "registry_url": "https://www.npmjs.com/package/pretendard/v/1.3.9",
+      "legal_files": [
+        {
+          "source_package": "pretendard@1.3.9",
+          "source_name": "dist/LICENSE.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/b04538c9abec39a3db75108cf0af0fd9c77032fe8aa2cf38345b4d250e98e38e.txt",
+          "sha256": "b04538c9abec39a3db75108cf0af0fd9c77032fe8aa2cf38345b4d250e98e38e"
+        }
+      ]
+    },
+    {
+      "name": "process-warning",
+      "version": "4.0.1",
+      "purl": "pkg:npm/process-warning@4.0.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/process-warning",
+      "repository_url": "https://github.com/fastify/process-warning",
+      "homepage_url": "https://github.com/fastify/fastify-warning#readme",
+      "registry_url": "https://www.npmjs.com/package/process-warning/v/4.0.1",
+      "legal_files": [
+        {
+          "source_package": "process-warning@4.0.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/d9726abc9eff9496f3ecb5302e70756f310db24a01c7ddd20f541143bf5576ad.txt",
+          "sha256": "d9726abc9eff9496f3ecb5302e70756f310db24a01c7ddd20f541143bf5576ad"
+        }
+      ]
+    },
+    {
+      "name": "process-warning",
+      "version": "5.0.0",
+      "purl": "pkg:npm/process-warning@5.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/process-warning",
+      "repository_url": "https://github.com/fastify/process-warning",
+      "homepage_url": "https://github.com/fastify/fastify-warning#readme",
+      "registry_url": "https://www.npmjs.com/package/process-warning/v/5.0.0",
+      "legal_files": [
+        {
+          "source_package": "process-warning@5.0.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/d9726abc9eff9496f3ecb5302e70756f310db24a01c7ddd20f541143bf5576ad.txt",
+          "sha256": "d9726abc9eff9496f3ecb5302e70756f310db24a01c7ddd20f541143bf5576ad"
+        }
+      ]
+    },
+    {
+      "name": "process-warning",
+      "version": "5.1.0",
+      "purl": "pkg:npm/process-warning@5.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/process-warning",
+      "repository_url": "https://github.com/fastify/process-warning",
+      "homepage_url": "https://github.com/fastify/fastify-warning#readme",
+      "registry_url": "https://www.npmjs.com/package/process-warning/v/5.1.0",
+      "legal_files": [
+        {
+          "source_package": "process-warning@5.1.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/8d3c1dd501e056405ab56f4ad87b987070d55d1fe814616584ec2360045f9017.txt",
+          "sha256": "8d3c1dd501e056405ab56f4ad87b987070d55d1fe814616584ec2360045f9017"
+        }
+      ]
+    },
+    {
+      "name": "pvtsutils",
+      "version": "1.3.6",
+      "purl": "pkg:npm/pvtsutils@1.3.6",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/pvtsutils",
+      "repository_url": "https://github.com/PeculiarVentures/pvtsutils",
+      "homepage_url": "https://github.com/PeculiarVentures/pvtsutils#readme",
+      "registry_url": "https://www.npmjs.com/package/pvtsutils/v/1.3.6",
+      "legal_files": [
+        {
+          "source_package": "pvtsutils@1.3.6",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/c620c1d08a47c93ce242914a4269b86e41df5a97845325725a5f83d5d6f9d7fd.txt",
+          "sha256": "c620c1d08a47c93ce242914a4269b86e41df5a97845325725a5f83d5d6f9d7fd"
+        }
+      ]
+    },
+    {
+      "name": "pvutils",
+      "version": "1.2.0",
+      "purl": "pkg:npm/pvutils@1.2.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/PeculiarVentures/pvutils",
+      "repository_url": "https://github.com/PeculiarVentures/pvutils",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/pvutils/v/1.2.0",
+      "legal_files": [
+        {
+          "source_package": "pvutils@1.2.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/15c88630f1e778db64a446cb31b67362cc9eb7a048fdf5ac7ab51905b74464cd.txt",
+          "sha256": "15c88630f1e778db64a446cb31b67362cc9eb7a048fdf5ac7ab51905b74464cd"
+        }
+      ]
+    },
+    {
+      "name": "qrcode.react",
+      "version": "4.2.0",
+      "purl": "pkg:npm/qrcode.react@4.2.0",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/zpao/qrcode.react",
+      "repository_url": "https://github.com/zpao/qrcode.react",
+      "homepage_url": "http://zpao.github.io/qrcode.react",
+      "registry_url": "https://www.npmjs.com/package/qrcode.react/v/4.2.0",
+      "legal_files": [
+        {
+          "source_package": "qrcode.react@4.2.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/908a4454d01d77cd6a0ae1eea0bafaa74a2e3befdbc4b7b714de2499a22351ce.txt",
+          "sha256": "908a4454d01d77cd6a0ae1eea0bafaa74a2e3befdbc4b7b714de2499a22351ce"
+        }
+      ]
+    },
+    {
+      "name": "quick-format-unescaped",
+      "version": "4.0.4",
+      "purl": "pkg:npm/quick-format-unescaped@4.0.4",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/davidmarkclements/quick-format",
+      "repository_url": "https://github.com/davidmarkclements/quick-format",
+      "homepage_url": "https://github.com/davidmarkclements/quick-format#readme",
+      "registry_url": "https://www.npmjs.com/package/quick-format-unescaped/v/4.0.4",
+      "legal_files": [
+        {
+          "source_package": "quick-format-unescaped@4.0.4",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/5ac141bfc70bec8f40838502436bfcb85e3f4c24377e41b9ddef07bdd6aa51bc.txt",
+          "sha256": "5ac141bfc70bec8f40838502436bfcb85e3f4c24377e41b9ddef07bdd6aa51bc"
+        }
+      ]
+    },
+    {
+      "name": "react",
+      "version": "19.2.7",
+      "purl": "pkg:npm/react@19.2.7",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/facebook/react/tree/HEAD/packages/react",
+      "repository_url": "https://github.com/facebook/react/tree/HEAD/packages/react",
+      "homepage_url": "https://react.dev",
+      "registry_url": "https://www.npmjs.com/package/react/v/19.2.7",
+      "legal_files": [
+        {
+          "source_package": "react@19.2.7",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93.txt",
+          "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+        }
+      ]
+    },
+    {
+      "name": "react-dom",
+      "version": "19.2.7",
+      "purl": "pkg:npm/react-dom@19.2.7",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/facebook/react/tree/HEAD/packages/react-dom",
+      "repository_url": "https://github.com/facebook/react/tree/HEAD/packages/react-dom",
+      "homepage_url": "https://react.dev",
+      "registry_url": "https://www.npmjs.com/package/react-dom/v/19.2.7",
+      "legal_files": [
+        {
+          "source_package": "react-dom@19.2.7",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93.txt",
+          "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+        }
+      ]
+    },
+    {
+      "name": "react-hook-form",
+      "version": "7.81.0",
+      "purl": "pkg:npm/react-hook-form@7.81.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/react-hook-form/react-hook-form",
+      "repository_url": "https://github.com/react-hook-form/react-hook-form",
+      "homepage_url": "https://react-hook-form.com",
+      "registry_url": "https://www.npmjs.com/package/react-hook-form/v/7.81.0",
+      "legal_files": [
+        {
+          "source_package": "react-hook-form@7.81.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/e8eeb472f0a5889c2c51625b86a3f9b8630680adb9f49a125352e2e426392780.txt",
+          "sha256": "e8eeb472f0a5889c2c51625b86a3f9b8630680adb9f49a125352e2e426392780"
+        }
+      ]
+    },
+    {
+      "name": "react-router",
+      "version": "8.3.0",
+      "purl": "pkg:npm/react-router@8.3.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/remix-run/react-router/tree/HEAD/packages/react-router",
+      "repository_url": "https://github.com/remix-run/react-router/tree/HEAD/packages/react-router",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/react-router/v/8.3.0",
+      "legal_files": [
+        {
+          "source_package": "react-router@8.3.0",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/77c9ee6a9c5d5782fb0c50b50d101189116314c14f7df0a1b0d385fc96a7ba49.txt",
+          "sha256": "77c9ee6a9c5d5782fb0c50b50d101189116314c14f7df0a1b0d385fc96a7ba49"
+        }
+      ]
+    },
+    {
+      "name": "real-require",
+      "version": "0.2.0",
+      "purl": "pkg:npm/real-require@0.2.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/pinojs/real-require",
+      "repository_url": "https://github.com/pinojs/real-require",
+      "homepage_url": "https://github.com/pinojs/real-require",
+      "registry_url": "https://www.npmjs.com/package/real-require/v/0.2.0",
+      "legal_files": [
+        {
+          "source_package": "real-require@0.2.0",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/cbf263504e800cf09f99962cce8497b76eef79c3526bca434b90c3ef4c17220d.txt",
+          "sha256": "cbf263504e800cf09f99962cce8497b76eef79c3526bca434b90c3ef4c17220d"
+        }
+      ]
+    },
+    {
+      "name": "real-require",
+      "version": "1.0.0",
+      "purl": "pkg:npm/real-require@1.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/pinojs/real-require",
+      "repository_url": "https://github.com/pinojs/real-require",
+      "homepage_url": "https://github.com/pinojs/real-require",
+      "registry_url": "https://www.npmjs.com/package/real-require/v/1.0.0",
+      "legal_files": [
+        {
+          "source_package": "real-require@1.0.0",
+          "source_name": "LICENSE.md",
+          "bundle_path": "THIRD_PARTY_LICENSES/cbf263504e800cf09f99962cce8497b76eef79c3526bca434b90c3ef4c17220d.txt",
+          "sha256": "cbf263504e800cf09f99962cce8497b76eef79c3526bca434b90c3ef4c17220d"
+        }
+      ]
+    },
+    {
+      "name": "redis",
+      "version": "6.1.0",
+      "purl": "pkg:npm/redis@6.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/redis/node-redis",
+      "repository_url": "https://github.com/redis/node-redis",
+      "homepage_url": "https://github.com/redis/node-redis",
+      "registry_url": "https://www.npmjs.com/package/redis/v/6.1.0",
+      "legal_files": [
+        {
+          "source_package": "redis@6.1.0",
+          "source_name": "README.md#license",
+          "bundle_path": "THIRD_PARTY_LICENSES/adf542fc5d8a6cf28bf3c47fe01c05bfb7daf1d7a79ac4377a088fbf4a457a02.txt",
+          "sha256": "adf542fc5d8a6cf28bf3c47fe01c05bfb7daf1d7a79ac4377a088fbf4a457a02"
+        }
+      ]
+    },
+    {
+      "name": "reflect-metadata",
+      "version": "0.2.2",
+      "purl": "pkg:npm/reflect-metadata@0.2.2",
+      "license_expression": "Apache-2.0",
+      "source_url": "https://github.com/rbuckton/reflect-metadata",
+      "repository_url": "https://github.com/rbuckton/reflect-metadata",
+      "homepage_url": "http://rbuckton.github.io/reflect-metadata",
+      "registry_url": "https://www.npmjs.com/package/reflect-metadata/v/0.2.2",
+      "legal_files": [
+        {
+          "source_package": "reflect-metadata@0.2.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/a5e9f9b1575301c7a7a03508fdaa2e05a918cc17fd21c6e898096a96d6a34f61.txt",
+          "sha256": "a5e9f9b1575301c7a7a03508fdaa2e05a918cc17fd21c6e898096a96d6a34f61"
+        }
+      ]
+    },
+    {
+      "name": "require-directory",
+      "version": "2.1.1",
+      "purl": "pkg:npm/require-directory@2.1.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/troygoode/node-require-directory",
+      "repository_url": "https://github.com/troygoode/node-require-directory",
+      "homepage_url": "https://github.com/troygoode/node-require-directory",
+      "registry_url": "https://www.npmjs.com/package/require-directory/v/2.1.1",
+      "legal_files": [
+        {
+          "source_package": "require-directory@2.1.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/a92e52eb1fa7cd746e3827bf01d3a3589bbc8e1e51348b1da042aad165525ad1.txt",
+          "sha256": "a92e52eb1fa7cd746e3827bf01d3a3589bbc8e1e51348b1da042aad165525ad1"
+        }
+      ]
+    },
+    {
+      "name": "require-from-string",
+      "version": "2.0.2",
+      "purl": "pkg:npm/require-from-string@2.0.2",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/require-from-string/v/2.0.2",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/require-from-string/v/2.0.2",
+      "legal_files": [
+        {
+          "source_package": "require-from-string@2.0.2",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/6ee0feb1f6ef996ff5a68600f8cf98909cf412d39ef3cdceaefd87d636fa1b7f.txt",
+          "sha256": "6ee0feb1f6ef996ff5a68600f8cf98909cf412d39ef3cdceaefd87d636fa1b7f"
+        }
+      ]
+    },
+    {
+      "name": "ret",
+      "version": "0.5.0",
+      "purl": "pkg:npm/ret@0.5.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fent/ret.js",
+      "repository_url": "https://github.com/fent/ret.js",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/ret/v/0.5.0",
+      "legal_files": [
+        {
+          "source_package": "ret@0.5.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/bfc2c678db20d806b3787956f607a1509da5fca45b4d40a97c671cbee737159d.txt",
+          "sha256": "bfc2c678db20d806b3787956f607a1509da5fca45b4d40a97c671cbee737159d"
+        }
+      ]
+    },
+    {
+      "name": "reusify",
+      "version": "1.1.0",
+      "purl": "pkg:npm/reusify@1.1.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/mcollina/reusify",
+      "repository_url": "https://github.com/mcollina/reusify",
+      "homepage_url": "https://github.com/mcollina/reusify#readme",
+      "registry_url": "https://www.npmjs.com/package/reusify/v/1.1.0",
+      "legal_files": [
+        {
+          "source_package": "reusify@1.1.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/3d9a51d9e44e54c6060dcdf0b1a5e10320353dc1c4d7bf5611a5130fb14583c4.txt",
+          "sha256": "3d9a51d9e44e54c6060dcdf0b1a5e10320353dc1c4d7bf5611a5130fb14583c4"
+        }
+      ]
+    },
+    {
+      "name": "rfdc",
+      "version": "1.4.1",
+      "purl": "pkg:npm/rfdc@1.4.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/davidmarkclements/rfdc",
+      "repository_url": "https://github.com/davidmarkclements/rfdc",
+      "homepage_url": "https://github.com/davidmarkclements/rfdc#readme",
+      "registry_url": "https://www.npmjs.com/package/rfdc/v/1.4.1",
+      "legal_files": [
+        {
+          "source_package": "rfdc@1.4.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/1ce941682a96c7b898ecd125d0f2e22319758ea6f3adbf498a65d649b0f3f7dd.txt",
+          "sha256": "1ce941682a96c7b898ecd125d0f2e22319758ea6f3adbf498a65d649b0f3f7dd"
+        }
+      ]
+    },
+    {
+      "name": "rxjs",
+      "version": "7.8.2",
+      "purl": "pkg:npm/rxjs@7.8.2",
+      "license_expression": "Apache-2.0",
+      "source_url": "https://github.com/reactivex/rxjs",
+      "repository_url": "https://github.com/reactivex/rxjs",
+      "homepage_url": "https://rxjs.dev",
+      "registry_url": "https://www.npmjs.com/package/rxjs/v/7.8.2",
+      "legal_files": [
+        {
+          "source_package": "rxjs@7.8.2",
+          "source_name": "LICENSE.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/81c407ac717813b0e3795402960e04003c7bba8ba59b621624707028531c9ade.txt",
+          "sha256": "81c407ac717813b0e3795402960e04003c7bba8ba59b621624707028531c9ade"
+        }
+      ]
+    },
+    {
+      "name": "safe-regex2",
+      "version": "5.1.1",
+      "purl": "pkg:npm/safe-regex2@5.1.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/fastify/safe-regex2",
+      "repository_url": "https://github.com/fastify/safe-regex2",
+      "homepage_url": "https://github.com/fastify/safe-regex2",
+      "registry_url": "https://www.npmjs.com/package/safe-regex2/v/5.1.1",
+      "legal_files": [
+        {
+          "source_package": "safe-regex2@5.1.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/3871c31d0cc373951d836b8bb97275a2227f8af7464df7c51bc3f98769b87653.txt",
+          "sha256": "3871c31d0cc373951d836b8bb97275a2227f8af7464df7c51bc3f98769b87653"
+        }
+      ]
+    },
+    {
+      "name": "safe-stable-stringify",
+      "version": "2.5.0",
+      "purl": "pkg:npm/safe-stable-stringify@2.5.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/BridgeAR/safe-stable-stringify",
+      "repository_url": "https://github.com/BridgeAR/safe-stable-stringify",
+      "homepage_url": "https://github.com/BridgeAR/safe-stable-stringify#readme",
+      "registry_url": "https://www.npmjs.com/package/safe-stable-stringify/v/2.5.0",
+      "legal_files": [
+        {
+          "source_package": "safe-stable-stringify@2.5.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/3a6d6de49d284a36c5d271ef0e62eca1838cc460dd7630e3f2c347c8f5b2232a.txt",
+          "sha256": "3a6d6de49d284a36c5d271ef0e62eca1838cc460dd7630e3f2c347c8f5b2232a"
+        }
+      ]
+    },
+    {
+      "name": "safer-buffer",
+      "version": "2.1.2",
+      "purl": "pkg:npm/safer-buffer@2.1.2",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/ChALkeR/safer-buffer",
+      "repository_url": "https://github.com/ChALkeR/safer-buffer",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/safer-buffer/v/2.1.2",
+      "legal_files": [
+        {
+          "source_package": "safer-buffer@2.1.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/4bc935e71be198c67ddf3c2b5fddb195f6edc182bfc155a96a6db61b44b494b9.txt",
+          "sha256": "4bc935e71be198c67ddf3c2b5fddb195f6edc182bfc155a96a6db61b44b494b9"
+        }
+      ]
+    },
+    {
+      "name": "scheduler",
+      "version": "0.27.0",
+      "purl": "pkg:npm/scheduler@0.27.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/facebook/react/tree/HEAD/packages/scheduler",
+      "repository_url": "https://github.com/facebook/react/tree/HEAD/packages/scheduler",
+      "homepage_url": "https://react.dev",
+      "registry_url": "https://www.npmjs.com/package/scheduler/v/0.27.0",
+      "legal_files": [
+        {
+          "source_package": "scheduler@0.27.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93.txt",
+          "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+        }
+      ]
+    },
+    {
+      "name": "secure-json-parse",
+      "version": "4.1.0",
+      "purl": "pkg:npm/secure-json-parse@4.1.0",
+      "license_expression": "BSD-3-Clause",
+      "source_url": "https://github.com/fastify/secure-json-parse",
+      "repository_url": "https://github.com/fastify/secure-json-parse",
+      "homepage_url": "https://github.com/fastify/secure-json-parse#readme",
+      "registry_url": "https://www.npmjs.com/package/secure-json-parse/v/4.1.0",
+      "legal_files": [
+        {
+          "source_package": "secure-json-parse@4.1.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/d490035c46547ddc88330bc0b42fcd89eabfd66435c4291352d1b9b68d62c729.txt",
+          "sha256": "d490035c46547ddc88330bc0b42fcd89eabfd66435c4291352d1b9b68d62c729"
+        }
+      ]
+    },
+    {
+      "name": "semver",
+      "version": "7.8.5",
+      "purl": "pkg:npm/semver@7.8.5",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/npm/node-semver",
+      "repository_url": "https://github.com/npm/node-semver",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/semver/v/7.8.5",
+      "legal_files": [
+        {
+          "source_package": "semver@7.8.5",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b.txt",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ]
+    },
+    {
+      "name": "set-cookie-parser",
+      "version": "2.7.2",
+      "purl": "pkg:npm/set-cookie-parser@2.7.2",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/nfriedly/set-cookie-parser",
+      "repository_url": null,
+      "homepage_url": "https://github.com/nfriedly/set-cookie-parser",
+      "registry_url": "https://www.npmjs.com/package/set-cookie-parser/v/2.7.2",
+      "legal_files": [
+        {
+          "source_package": "set-cookie-parser@2.7.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/c5c6c5183a789d122f267c405f685037efb87e27fcde28ab1dd7378a2d2f5962.txt",
+          "sha256": "c5c6c5183a789d122f267c405f685037efb87e27fcde28ab1dd7378a2d2f5962"
+        }
+      ]
+    },
+    {
+      "name": "setprototypeof",
+      "version": "1.2.0",
+      "purl": "pkg:npm/setprototypeof@1.2.0",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/wesleytodd/setprototypeof",
+      "repository_url": "https://github.com/wesleytodd/setprototypeof",
+      "homepage_url": "https://github.com/wesleytodd/setprototypeof",
+      "registry_url": "https://www.npmjs.com/package/setprototypeof/v/1.2.0",
+      "legal_files": [
+        {
+          "source_package": "setprototypeof@1.2.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/76d6d1ea0c268da37dd3c961b4fcfb23dee8417fff9e8786d4d44c585b781b69.txt",
+          "sha256": "76d6d1ea0c268da37dd3c961b4fcfb23dee8417fff9e8786d4d44c585b781b69"
+        }
+      ]
+    },
+    {
+      "name": "sharp",
+      "version": "0.35.4",
+      "purl": "pkg:npm/sharp@0.35.4",
+      "license_expression": "Apache-2.0",
+      "source_url": "https://github.com/lovell/sharp",
+      "repository_url": "https://github.com/lovell/sharp",
+      "homepage_url": "https://sharp.pixelplumbing.com",
+      "registry_url": "https://www.npmjs.com/package/sharp/v/0.35.4",
+      "legal_files": [
+        {
+          "source_package": "sharp@0.35.4",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/73ba74dfaa520b49a401b5d21459a8523a146f3b7518a833eea5efa85130bf68.txt",
+          "sha256": "73ba74dfaa520b49a401b5d21459a8523a146f3b7518a833eea5efa85130bf68"
+        }
+      ]
+    },
+    {
+      "name": "shebang-command",
+      "version": "2.0.0",
+      "purl": "pkg:npm/shebang-command@2.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/shebang-command/v/2.0.0",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/shebang-command/v/2.0.0",
+      "legal_files": [
+        {
+          "source_package": "shebang-command@2.0.0",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/69dee148a2cc470554dfa7142e830662062394d0fe67cddd379aba90dc60d6b3.txt",
+          "sha256": "69dee148a2cc470554dfa7142e830662062394d0fe67cddd379aba90dc60d6b3"
+        }
+      ]
+    },
+    {
+      "name": "shebang-regex",
+      "version": "3.0.0",
+      "purl": "pkg:npm/shebang-regex@3.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/shebang-regex/v/3.0.0",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/shebang-regex/v/3.0.0",
+      "legal_files": [
+        {
+          "source_package": "shebang-regex@3.0.0",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0.txt",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ]
+    },
+    {
+      "name": "signal-exit",
+      "version": "4.1.0",
+      "purl": "pkg:npm/signal-exit@4.1.0",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/tapjs/signal-exit",
+      "repository_url": "https://github.com/tapjs/signal-exit",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/signal-exit/v/4.1.0",
+      "legal_files": [
+        {
+          "source_package": "signal-exit@4.1.0",
+          "source_name": "LICENSE.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/b173e19b9a78df305577ace0e52ef45a4bcc915ea28b47b256dc3b68dcb1f7e7.txt",
+          "sha256": "b173e19b9a78df305577ace0e52ef45a4bcc915ea28b47b256dc3b68dcb1f7e7"
+        }
+      ]
+    },
+    {
+      "name": "sonic-boom",
+      "version": "4.2.1",
+      "purl": "pkg:npm/sonic-boom@4.2.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/pinojs/sonic-boom",
+      "repository_url": "https://github.com/pinojs/sonic-boom",
+      "homepage_url": "https://github.com/pinojs/sonic-boom#readme",
+      "registry_url": "https://www.npmjs.com/package/sonic-boom/v/4.2.1",
+      "legal_files": [
+        {
+          "source_package": "sonic-boom@4.2.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/db5c3795cb080810fed0380bf4d6adef3f81579e8ae3a867d3c2abab2329db9d.txt",
+          "sha256": "db5c3795cb080810fed0380bf4d6adef3f81579e8ae3a867d3c2abab2329db9d"
+        }
+      ]
+    },
+    {
+      "name": "split2",
+      "version": "4.2.0",
+      "purl": "pkg:npm/split2@4.2.0",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/mcollina/split2",
+      "repository_url": "https://github.com/mcollina/split2",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/split2/v/4.2.0",
+      "legal_files": [
+        {
+          "source_package": "split2@4.2.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/c372ef2fa1dfcb124ed807609751e75e3a009f108c5724916b489288fcb88a0c.txt",
+          "sha256": "c372ef2fa1dfcb124ed807609751e75e3a009f108c5724916b489288fcb88a0c"
+        }
+      ]
+    },
+    {
+      "name": "sql-escaper",
+      "version": "1.5.1",
+      "purl": "pkg:npm/sql-escaper@1.5.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/mysqljs/sql-escaper",
+      "repository_url": "https://github.com/mysqljs/sql-escaper",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/sql-escaper/v/1.5.1",
+      "legal_files": [
+        {
+          "source_package": "sql-escaper@1.5.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/93277a18ec90d5b72d3bfaaaccc73cec7e735a8a1b154b74e9fec3e529603cbf.txt",
+          "sha256": "93277a18ec90d5b72d3bfaaaccc73cec7e735a8a1b154b74e9fec3e529603cbf"
+        }
+      ]
+    },
+    {
+      "name": "statuses",
+      "version": "2.0.2",
+      "purl": "pkg:npm/statuses@2.0.2",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/statuses/v/2.0.2",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/statuses/v/2.0.2",
+      "legal_files": [
+        {
+          "source_package": "statuses@2.0.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/512cfa4d5e7a7569c7ae4dd95241cb6ae2aaf648ef9ebd080c01bd24868d26e9.txt",
+          "sha256": "512cfa4d5e7a7569c7ae4dd95241cb6ae2aaf648ef9ebd080c01bd24868d26e9"
+        }
+      ]
+    },
+    {
+      "name": "string-width",
+      "version": "4.2.3",
+      "purl": "pkg:npm/string-width@4.2.3",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/string-width/v/4.2.3",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/string-width/v/4.2.3",
+      "legal_files": [
+        {
+          "source_package": "string-width@4.2.3",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0.txt",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ]
+    },
+    {
+      "name": "strip-ansi",
+      "version": "6.0.1",
+      "purl": "pkg:npm/strip-ansi@6.0.1",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/strip-ansi/v/6.0.1",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/strip-ansi/v/6.0.1",
+      "legal_files": [
+        {
+          "source_package": "strip-ansi@6.0.1",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0.txt",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ]
+    },
+    {
+      "name": "strtok3",
+      "version": "10.3.5",
+      "purl": "pkg:npm/strtok3@10.3.5",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/Borewit/strtok3",
+      "repository_url": "https://github.com/Borewit/strtok3",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/strtok3/v/10.3.5",
+      "legal_files": [
+        {
+          "source_package": "strtok3@10.3.5",
+          "source_name": "LICENSE.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/c33959fabde25a1b6161d8e0fdc6fdcea1fc48095fe0bd51043247bfd214287f.txt",
+          "sha256": "c33959fabde25a1b6161d8e0fdc6fdcea1fc48095fe0bd51043247bfd214287f"
+        }
+      ]
+    },
+    {
+      "name": "supports-color",
+      "version": "10.2.2",
+      "purl": "pkg:npm/supports-color@10.2.2",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/supports-color/v/10.2.2",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/supports-color/v/10.2.2",
+      "legal_files": [
+        {
+          "source_package": "supports-color@10.2.2",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3.txt",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ]
+    },
+    {
+      "name": "swagger-ui-dist",
+      "version": "5.32.8",
+      "purl": "pkg:npm/swagger-ui-dist@5.32.8",
+      "license_expression": "Apache-2.0",
+      "source_url": "https://github.com/swagger-api/swagger-ui",
+      "repository_url": "https://github.com/swagger-api/swagger-ui",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/swagger-ui-dist/v/5.32.8",
+      "legal_files": [
+        {
+          "source_package": "swagger-ui-dist@5.32.8",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "source_package": "swagger-ui-dist@5.32.8",
+          "source_name": "NOTICE",
+          "bundle_path": "THIRD_PARTY_LICENSES/0d20d1adef18aee3f40dd258172155521ce702ac445cb5f7b7d60ed32dad2fb2.txt",
+          "sha256": "0d20d1adef18aee3f40dd258172155521ce702ac445cb5f7b7d60ed32dad2fb2"
+        }
+      ]
+    },
+    {
+      "name": "thread-stream",
+      "version": "4.2.0",
+      "purl": "pkg:npm/thread-stream@4.2.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/mcollina/thread-stream",
+      "repository_url": "https://github.com/mcollina/thread-stream",
+      "homepage_url": "https://github.com/mcollina/thread-stream#readme",
+      "registry_url": "https://www.npmjs.com/package/thread-stream/v/4.2.0",
+      "legal_files": [
+        {
+          "source_package": "thread-stream@4.2.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/47404ffc18f1267832bc0623857871de5a3a93ebb19693f5e1b963af91fab54b.txt",
+          "sha256": "47404ffc18f1267832bc0623857871de5a3a93ebb19693f5e1b963af91fab54b"
+        }
+      ]
+    },
+    {
+      "name": "toad-cache",
+      "version": "3.7.4",
+      "purl": "pkg:npm/toad-cache@3.7.4",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/kibertoad/toad-cache",
+      "repository_url": "https://github.com/kibertoad/toad-cache",
+      "homepage_url": "https://github.com/kibertoad/toad-cache",
+      "registry_url": "https://www.npmjs.com/package/toad-cache/v/3.7.4",
+      "legal_files": [
+        {
+          "source_package": "toad-cache@3.7.4",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/644304c533dee96438937c0bdcbb49897d80fd8df3be4573f3c57b9c2ca22587.txt",
+          "sha256": "644304c533dee96438937c0bdcbb49897d80fd8df3be4573f3c57b9c2ca22587"
+        }
+      ]
+    },
+    {
+      "name": "toidentifier",
+      "version": "1.0.1",
+      "purl": "pkg:npm/toidentifier@1.0.1",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/toidentifier/v/1.0.1",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/toidentifier/v/1.0.1",
+      "legal_files": [
+        {
+          "source_package": "toidentifier@1.0.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/a832d679750e49ab433626ab196350b89964b60eb0d3edd3341887c7d5f4c128.txt",
+          "sha256": "a832d679750e49ab433626ab196350b89964b60eb0d3edd3341887c7d5f4c128"
+        }
+      ]
+    },
+    {
+      "name": "token-types",
+      "version": "6.1.2",
+      "purl": "pkg:npm/token-types@6.1.2",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/Borewit/token-types",
+      "repository_url": "https://github.com/Borewit/token-types",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/token-types/v/6.1.2",
+      "legal_files": [
+        {
+          "source_package": "token-types@6.1.2",
+          "source_name": "LICENSE.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/ab27d7574bc6d292302b0b49c2e1ad6f0d88031822dce486257c085c7d83133c.txt",
+          "sha256": "ab27d7574bc6d292302b0b49c2e1ad6f0d88031822dce486257c085c7d83133c"
+        }
+      ]
+    },
+    {
+      "name": "tslib",
+      "version": "1.14.1",
+      "purl": "pkg:npm/tslib@1.14.1",
+      "license_expression": "0BSD",
+      "source_url": "https://github.com/Microsoft/tslib",
+      "repository_url": "https://github.com/Microsoft/tslib",
+      "homepage_url": "https://www.typescriptlang.org",
+      "registry_url": "https://www.npmjs.com/package/tslib/v/1.14.1",
+      "legal_files": [
+        {
+          "source_package": "tslib@1.14.1",
+          "source_name": "LICENSE.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/5989359645911c04a140c49d89496b13feca980bbf36d2250a12d3b9d06250d6.txt",
+          "sha256": "5989359645911c04a140c49d89496b13feca980bbf36d2250a12d3b9d06250d6"
+        }
+      ]
+    },
+    {
+      "name": "tslib",
+      "version": "2.8.1",
+      "purl": "pkg:npm/tslib@2.8.1",
+      "license_expression": "0BSD",
+      "source_url": "https://github.com/Microsoft/tslib",
+      "repository_url": "https://github.com/Microsoft/tslib",
+      "homepage_url": "https://www.typescriptlang.org",
+      "registry_url": "https://www.npmjs.com/package/tslib/v/2.8.1",
+      "legal_files": [
+        {
+          "source_package": "tslib@2.8.1",
+          "source_name": "LICENSE.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/5989359645911c04a140c49d89496b13feca980bbf36d2250a12d3b9d06250d6.txt",
+          "sha256": "5989359645911c04a140c49d89496b13feca980bbf36d2250a12d3b9d06250d6"
+        }
+      ]
+    },
+    {
+      "name": "tsyringe",
+      "version": "4.10.0",
+      "purl": "pkg:npm/tsyringe@4.10.0",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/Microsoft/tsyringe",
+      "repository_url": "https://github.com/Microsoft/tsyringe",
+      "homepage_url": "https://github.com/Microsoft/tsyringe#readme",
+      "registry_url": "https://www.npmjs.com/package/tsyringe/v/4.10.0",
+      "legal_files": [
+        {
+          "source_package": "tsyringe@4.10.0",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/27ebda9d51f0a56b7e281ccd8230a27236dcb51c05f64b07869ecf6e965d68b0.txt",
+          "sha256": "27ebda9d51f0a56b7e281ccd8230a27236dcb51c05f64b07869ecf6e965d68b0"
+        }
+      ]
+    },
+    {
+      "name": "uid",
+      "version": "2.0.2",
+      "purl": "pkg:npm/uid@2.0.2",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/uid/v/2.0.2",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/uid/v/2.0.2",
+      "legal_files": [
+        {
+          "source_package": "uid@2.0.2",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/9a9edad7baae52622bddf3c15b2ef8a33d2c89f2d25408ad13e8a7481c6b0c97.txt",
+          "sha256": "9a9edad7baae52622bddf3c15b2ef8a33d2c89f2d25408ad13e8a7481c6b0c97"
+        }
+      ]
+    },
+    {
+      "name": "uint8array-extras",
+      "version": "1.5.0",
+      "purl": "pkg:npm/uint8array-extras@1.5.0",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/uint8array-extras/v/1.5.0",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/uint8array-extras/v/1.5.0",
+      "legal_files": [
+        {
+          "source_package": "uint8array-extras@1.5.0",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3.txt",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ]
+    },
+    {
+      "name": "undici-types",
+      "version": "7.18.2",
+      "purl": "pkg:npm/undici-types@7.18.2",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/nodejs/undici",
+      "repository_url": "https://github.com/nodejs/undici",
+      "homepage_url": "https://undici.nodejs.org",
+      "registry_url": "https://www.npmjs.com/package/undici-types/v/7.18.2",
+      "legal_files": [
+        {
+          "source_package": "undici-types@7.18.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/a6db8096b2707bc0102d256917d4d33f298ba36d8c3f25de067a2b5bb379db27.txt",
+          "sha256": "a6db8096b2707bc0102d256917d4d33f298ba36d8c3f25de067a2b5bb379db27"
+        }
+      ]
+    },
+    {
+      "name": "validator",
+      "version": "13.15.35",
+      "purl": "pkg:npm/validator@13.15.35",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/validatorjs/validator.js",
+      "repository_url": "https://github.com/validatorjs/validator.js",
+      "homepage_url": "https://github.com/validatorjs/validator.js",
+      "registry_url": "https://www.npmjs.com/package/validator/v/13.15.35",
+      "legal_files": [
+        {
+          "source_package": "validator@13.15.35",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/683b3c34623e01daad41cb2a3d0a93578c590f8d0206cbd8b0b579fb7def2603.txt",
+          "sha256": "683b3c34623e01daad41cb2a3d0a93578c590f8d0206cbd8b0b579fb7def2603"
+        }
+      ]
+    },
+    {
+      "name": "which",
+      "version": "2.0.2",
+      "purl": "pkg:npm/which@2.0.2",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/isaacs/node-which",
+      "repository_url": "https://github.com/isaacs/node-which",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/which/v/2.0.2",
+      "legal_files": [
+        {
+          "source_package": "which@2.0.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b.txt",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ]
+    },
+    {
+      "name": "workbox-core",
+      "version": "7.4.1",
+      "purl": "pkg:npm/workbox-core@7.4.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/googlechrome/workbox",
+      "repository_url": "https://github.com/googlechrome/workbox",
+      "homepage_url": "https://github.com/GoogleChrome/workbox",
+      "registry_url": "https://www.npmjs.com/package/workbox-core/v/7.4.1",
+      "legal_files": [
+        {
+          "source_package": "workbox-core@7.4.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/aee9670e09b75ca8a2a1fe62d545ae38a6797970caf0335628e3a4dd15bc9b6c.txt",
+          "sha256": "aee9670e09b75ca8a2a1fe62d545ae38a6797970caf0335628e3a4dd15bc9b6c"
+        }
+      ]
+    },
+    {
+      "name": "workbox-window",
+      "version": "7.4.1",
+      "purl": "pkg:npm/workbox-window@7.4.1",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/googlechrome/workbox",
+      "repository_url": "https://github.com/googlechrome/workbox",
+      "homepage_url": "https://github.com/GoogleChrome/workbox",
+      "registry_url": "https://www.npmjs.com/package/workbox-window/v/7.4.1",
+      "legal_files": [
+        {
+          "source_package": "workbox-window@7.4.1",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/aee9670e09b75ca8a2a1fe62d545ae38a6797970caf0335628e3a4dd15bc9b6c.txt",
+          "sha256": "aee9670e09b75ca8a2a1fe62d545ae38a6797970caf0335628e3a4dd15bc9b6c"
+        }
+      ]
+    },
+    {
+      "name": "wrap-ansi",
+      "version": "7.0.0",
+      "purl": "pkg:npm/wrap-ansi@7.0.0",
+      "license_expression": "MIT",
+      "source_url": "https://www.npmjs.com/package/wrap-ansi/v/7.0.0",
+      "repository_url": null,
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/wrap-ansi/v/7.0.0",
+      "legal_files": [
+        {
+          "source_package": "wrap-ansi@7.0.0",
+          "source_name": "license",
+          "bundle_path": "THIRD_PARTY_LICENSES/5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3.txt",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ]
+    },
+    {
+      "name": "xtend",
+      "version": "4.0.2",
+      "purl": "pkg:npm/xtend@4.0.2",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/Raynos/xtend",
+      "repository_url": "https://github.com/Raynos/xtend",
+      "homepage_url": "https://github.com/Raynos/xtend",
+      "registry_url": "https://www.npmjs.com/package/xtend/v/4.0.2",
+      "legal_files": [
+        {
+          "source_package": "xtend@4.0.2",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/82e67379203d5794e7c44549847d8d64ae6904591381682360470898bd306821.txt",
+          "sha256": "82e67379203d5794e7c44549847d8d64ae6904591381682360470898bd306821"
+        }
+      ]
+    },
+    {
+      "name": "y18n",
+      "version": "5.0.8",
+      "purl": "pkg:npm/y18n@5.0.8",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/yargs/y18n",
+      "repository_url": null,
+      "homepage_url": "https://github.com/yargs/y18n",
+      "registry_url": "https://www.npmjs.com/package/y18n/v/5.0.8",
+      "legal_files": [
+        {
+          "source_package": "y18n@5.0.8",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/2034cce3b6fafcddd642c4175e01d3ddfc332a53b9f20fdc46b1466dc89ac469.txt",
+          "sha256": "2034cce3b6fafcddd642c4175e01d3ddfc332a53b9f20fdc46b1466dc89ac469"
+        }
+      ]
+    },
+    {
+      "name": "yargs",
+      "version": "17.7.3",
+      "purl": "pkg:npm/yargs@17.7.3",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/yargs/yargs",
+      "repository_url": "https://github.com/yargs/yargs",
+      "homepage_url": "https://yargs.js.org",
+      "registry_url": "https://www.npmjs.com/package/yargs/v/17.7.3",
+      "legal_files": [
+        {
+          "source_package": "yargs@17.7.3",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/2f1a503bfab84b3ba7393627308b3274501e459e3b5185bbb56bbf16cb1602d4.txt",
+          "sha256": "2f1a503bfab84b3ba7393627308b3274501e459e3b5185bbb56bbf16cb1602d4"
+        }
+      ]
+    },
+    {
+      "name": "yargs-parser",
+      "version": "21.1.1",
+      "purl": "pkg:npm/yargs-parser@21.1.1",
+      "license_expression": "ISC",
+      "source_url": "https://github.com/yargs/yargs-parser",
+      "repository_url": "https://github.com/yargs/yargs-parser",
+      "homepage_url": null,
+      "registry_url": "https://www.npmjs.com/package/yargs-parser/v/21.1.1",
+      "legal_files": [
+        {
+          "source_package": "yargs-parser@21.1.1",
+          "source_name": "LICENSE.txt",
+          "bundle_path": "THIRD_PARTY_LICENSES/365496ca1f56da40b23c9815fc40fa9005847b2f8f8fd1c1a4929ef25ec8cd1d.txt",
+          "sha256": "365496ca1f56da40b23c9815fc40fa9005847b2f8f8fd1c1a4929ef25ec8cd1d"
+        }
+      ]
+    },
+    {
+      "name": "zod",
+      "version": "4.4.3",
+      "purl": "pkg:npm/zod@4.4.3",
+      "license_expression": "MIT",
+      "source_url": "https://github.com/colinhacks/zod",
+      "repository_url": "https://github.com/colinhacks/zod",
+      "homepage_url": "https://zod.dev",
+      "registry_url": "https://www.npmjs.com/package/zod/v/4.4.3",
+      "legal_files": [
+        {
+          "source_package": "zod@4.4.3",
+          "source_name": "LICENSE",
+          "bundle_path": "THIRD_PARTY_LICENSES/3f1189b28e3866e0d979968d466b78f813f76827cfdca1fbb124cc0a5c8841f8.txt",
+          "sha256": "3f1189b28e3866e0d979968d466b78f813f76827cfdca1fbb124cc0a5c8841f8"
+        }
+      ]
+    }
+  ]
+}

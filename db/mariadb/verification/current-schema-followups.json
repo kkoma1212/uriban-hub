@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "runtime_activation_applied": false,
+  "followups": [
+    {
+      "id": "signup-role",
+      "postgres_source": "db/migrations/1783700048000_signup-role.sql",
+      "postgres_sha256": "67629f3f43f153115a0eb7e7e74ddf5c4d0c0ba905ea8e0f984e39b233daa6f2",
+      "mariadb_source": "db/mariadb/migrations/0037_signup_role.sql",
+      "mariadb_sha256": "2ba840ad989e72312594a9ceb4ad8ad31a229b5400647dfd04e5e7dc53fb66bc",
+      "status": "active_install_mapped_real_mariadb_app_sql_verified_pending_http_and_cutover",
+      "shared_database_applied": false,
+      "active_installer_mapped": true,
+      "actual_mariadb_sql_verified": true,
+      "evidence": "OPERATIONS/mariadb-dev/admin-current-schema-qa-20260908.md"
+    }
+  ]
+}

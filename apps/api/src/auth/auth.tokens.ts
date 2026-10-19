@@ -1,0 +1,4 @@
+export const AUTH_CONFIG = Symbol("AUTH_CONFIG");
+export const AUTH_RATE_LIMITER = Symbol("AUTH_RATE_LIMITER");
+export const VERIFICATION_MAILER = Symbol("VERIFICATION_MAILER");
+export const PASSWORD_RESET_MAILER = Symbol("PASSWORD_RESET_MAILER");

@@ -1,0 +1,71 @@
+THIRD_PARTY_LICENSES/
+THIRD_PARTY_NOTICES.json
+THIRD_PARTY_NOTICES.md
+.agents/
+.claude/
+.hexstack-analysis/
+PRD/
+# HexStack 방법론 정본과 그 진입 스텁. 정본은 이 저장소가 아니라 HexStack 배포물이라
+# 여기서 포맷해도 다음 업그레이드에 되돌아온다. AGENTS.md·.claude/와 같은 취급.
+hexstack/
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+.pnpm-store/
+**/node_modules/
+**/dist/
+/Web/
+**/coverage/
+**/playwright-report/
+우리반 허브_검증/
+우리반 허브_안전보존/
+packages/api-client/openapi/
+packages/api-client/src/generated.ts
+packages/db/src/generated/
+pnpm-lock.yaml
+# Hash-addressed captured/generated evidence must be formatted by its producer.
+OPERATIONS/evidence/cve-scans/*/debian-tracker.json
+OPERATIONS/evidence/hermetic-inputs/*/index.json
+OPERATIONS/evidence/npm-audits/*/inputs/spdx/*.spdx.json
+QUALITY/offline-image-spdx-*/*.spdx.json
+QUALITY/build-provenance-evidence.json
+QUALITY/frozen-offline-install-evidence*.json
+QUALITY/recovery-drill-w2-05-evidence.json
+# Preserve captured audit evidence bytes; its producer owns formatting and hashes.
+QUALITY/adversarial-audit-20260909/**/*.json
+# Hash-pinned local browser QA evidence is verified by its dedicated manifest.
+QUALITY/local-qa-safety-evidence-2026-07-28/
+# Hash-pinned UI remediation evidence is verified by its dedicated manifest.
+QUALITY/ui-remediation-evidence-2026-07-28/
+# Review the active Wave 1 evidence ledger separately before formatting it.
+QUALITY/Wave1_읽기전용_기준선_2026-07-20.md
+브리핑 자료/
+브리핑 자료 이미지/
+브리핑 자료/공지_통합_오늘_출결_시각화_브리핑.html
+브리핑 자료/학생·교사 역할별 홈 디자인 예시.html
+브리핑 자료/디자인 개선 시안.dc.html
+CODEX_수정지시서_20260712.md
+
+# 생성 파일 — scripts/generate-jua-font-css.mjs 산출물
+apps/web/src/features/theme/jua-font.css
+apps/web/src/features/legal/development-legal-documents.generated.json
+# 2026-10-03 T-CI-GATE: 만든 쪽이 형식을 정하는 파일과 저장소 코드가 아닌 로컬 산출물.
+# webwork-agent.cjs는 외부 도구 원본(압축 형태), changes.json은 Web 빌드 스크립트가 써낸다.
+webwork-agent.cjs
+OPERATIONS/web-deployment/changes.json
+/*보고서*.html
+_hexstack_upgrade_*/
+# 과거 권한 기준 증거 파일 — 바이트 해시가 시험에 고정돼 있다(9/13 서식 정리가 펼쳐 시험 2개가 깨졌던 일, 10-04 복구).
+db/mariadb/permissions/semantic_source_acl.json
+# 2026-10-16 게이트 진단: Git 밖 로컬 폴더(인수인계 사본·별도 소개 사이트 저장소·임시 산출물)가
+# 서식 검사 394건 중 311건을 차지했다. 저장소 코드가 아니므로 검사에서 뺀다.
+/우리반허브_인수인계_*/
+/uriban-hub-site/
+/output/
+/.runtime/
+# 시험이 원본 글자(예: "const acl=")를 찾아 잘라 실행한다 — 서식을 펼치면 시험 22건이 깨진다(2026-10-16 실측).
+OPERATIONS/native-runtime/class-assessment-qa-profile.mjs
+OPERATIONS/native-runtime/dev-sandbox.mjs
+OPERATIONS/native-runtime/prepare-development-autostart-manifest-v2.mjs
+OPERATIONS/native-runtime/refresh-development-autostart-v3.mjs
+OPERATIONS/native-runtime/sandbox-supervisor-identity.mjs

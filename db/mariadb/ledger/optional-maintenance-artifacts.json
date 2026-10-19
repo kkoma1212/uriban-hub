@@ -1,0 +1,1359 @@
+{
+  "schema_version": 1,
+  "id": "active54-optional-maintenance-20260908",
+  "scope_id": "mariadb-active-54-v1",
+  "scope_sha256": "19207eb406c6f8622be050579f6694ba5cc5839dd05a3a93ad8222a65987ee09",
+  "execution_enabled": false,
+  "runtime_activation_applied": false,
+  "actual_database_verified": false,
+  "executing_identity": "attested_installer_only_not_any_runtime_principal",
+  "source_checksum_scope": "one_exact_source_file_bytes",
+  "semantic_review_sha256": "d1d9d9bfaa09a85d0b309eb8b331990e6b5236dbe72dacf84c183dc2ab801c23",
+  "historical_catalog_sha256": "ba16d89ac7b1b66aa2f5dc0944605fb21215c67275b09dc3e7ac92dcd646756b",
+  "current_application_catalog_sha256": "ab41271803e80590ac1255c9c93a59e196f6876c5f148a47a8b5e320524411c8",
+  "source_review": {
+    "reviewed_sql_artifacts": 5,
+    "base_artifacts": 53,
+    "product_tables": 54,
+    "optional_operational_tables": 2,
+    "sql_prefix_is_not_ledger_version": true,
+    "after_is_execution_order_only": true,
+    "requires_are_direct_static_or_explicit_profile_dependencies": true
+  },
+  "mapping_boundary": {
+    "historical_last_ledger_version": 58,
+    "current_application_last_ledger_version": 63,
+    "new_explicit_ledger_versions": [64, 65, 66, 67, 68],
+    "historical_worker_mapping": "absent",
+    "historical_retention_mapping": {
+      "id": "retained-retention-lock-keys",
+      "ledger_version": null,
+      "execution_included": false
+    },
+    "existing_history_modified": false,
+    "ledger_records_written": false,
+    "selection_after_policy": "previous_selected_optional_step_after_all53_base_artifacts"
+  },
+  "support_sources": [
+    {
+      "source_path": "packages/db/src/mariadb/runtime-grant-catalog.json",
+      "byte_length": 27460,
+      "sha256": "f53778d6ec027a7c772ed442dc19b9e554410274054cbe822de3ed21c29045fe"
+    },
+    {
+      "source_path": "packages/db/src/mariadb/runtime-grant-profile.ts",
+      "byte_length": 1143,
+      "sha256": "5c0b2372a667bdc719cf3dd92720a618e60aa5fd9822dd521cae14fc6bdc5564"
+    }
+  ],
+  "runtime_roles": {
+    "app": {
+      "account": "classhub_app",
+      "baseline_entries": 251
+    },
+    "operator": {
+      "account": "classhub_operator",
+      "baseline_entries": 195
+    },
+    "worker": {
+      "account": "classhub_worker",
+      "baseline_entries": 2
+    },
+    "retention": {
+      "account": "classhub_retention",
+      "baseline_entries": 43
+    }
+  },
+  "profiles": [
+    {
+      "id": "worker_security_audit_v1",
+      "role": "worker",
+      "artifact_ids": ["worker-audit-lock-keys", "worker-audit-lock-acl"],
+      "final_entries": 4,
+      "delta_entries": [
+        "table|worker_security_audit_lock_keys|INSERT|*",
+        "table|worker_security_audit_lock_keys|SELECT|*"
+      ],
+      "runtime_table_dependencies": [
+        {
+          "table": "security_audit_logs",
+          "provider": "audit-import-logs"
+        }
+      ],
+      "initial_committed_seed_rows": 0,
+      "registration_lifecycle": "runtime_prepare_commits_dynamic_digest_registrations_before_business_transactions; no production cleanup or TTL is implemented"
+    },
+    {
+      "id": "retention_v1",
+      "role": "retention",
+      "artifact_ids": ["retained-retention-lock-keys", "retention-lock-acl"],
+      "final_entries": 44,
+      "delta_entries": ["table|retention_lock_keys|SELECT|*"],
+      "runtime_table_dependencies": [
+        {
+          "table": "attendance_notifications",
+          "provider": "attendance-notifications"
+        },
+        {
+          "table": "guardian_consent_requests",
+          "provider": "guardian-consent-requests"
+        },
+        {
+          "table": "student_assessment_records",
+          "provider": "student-assessments"
+        }
+      ],
+      "initial_committed_seed_rows": 3,
+      "registration_lifecycle": "installer commits and rereads exactly three immutable domain-separated digests; runtime cannot INSERT/UPDATE/DELETE lock rows"
+    }
+  ],
+  "acl_application_contract": {
+    "reset_targets": ["classhub_app", "classhub_operator", "classhub_worker", "classhub_retention"],
+    "preserve_credentials": true,
+    "preserve_definer_owner_acl": true,
+    "requires_quiescent_runtime_connections": true,
+    "reset_before_artifact": "current-runtime-acl",
+    "baseline_apply_artifact": "current-runtime-acl",
+    "add_selected_deltas_after_baseline": true,
+    "final_attestation_uses_selected_profile": true,
+    "reset_after_selected_delta_forbidden": true,
+    "reapply_requires_complete_selected_bundle": true,
+    "grant_only_source_does_not_remove_prior_rights": true,
+    "reset_is_external_privileged_action_not_embedded_sql": true,
+    "baseline_profile_fallback_for_selected_role_forbidden": true
+  },
+  "historical_comment_corrections": [
+    {
+      "source_path": "db/mariadb/permissions/0035_retention_lock_acl.sql",
+      "preserved_comment_claims": {
+        "seed_rows": 4,
+        "baseline_entries": 45
+      },
+      "active_contract": {
+        "seed_rows": 3,
+        "baseline_entries": 43,
+        "final_entries": 44
+      },
+      "reason": "Only the unchanged GRANT SELECT statement is applied; the active table and three-seed source are selected explicitly by this separate mapping."
+    }
+  ],
+  "external_preconditions": [
+    "Owned fresh active54 database with all 53 reviewed base artifacts, owner activation grants, locked classhub_routine definer and actual table/routine/column contracts verified before this optional selection.",
+    "Attested installer identity can CREATE and seed operational tables and grant/revoke runtime rights. None of the four runtime identities installs schema, seeds retention keys, or modifies credentials.",
+    "All four runtime connections are stopped before narrowing ACL. Reset existing grants once, apply current0039, add every selected profile delta, and attest the entire exact final envelope before opening product connections.",
+    "DDL auto-commit and account grants cannot be treated as one rollback transaction. A durable external journal must record start, source hash, postconditions and one ledger row only after verification; no automatic uncertain resume.",
+    "The exact grantee names/host, no global or schema grants, no grantable rights, no role inheritance or unexpected routine rights, locked definer and credential preservation require actual DB attestation.",
+    "The worker registers digest-only rows before business transactions. Cross-process locks, rollback behavior, dynamic key growth and future cleanup are runtime contracts, not proved by static SQL.",
+    "The retention caller must select retained targets only and verify transaction isolation and immutable seed lookups; actual worker/retention runtime checks are separate evidence."
+  ],
+  "separate_review": [
+    {
+      "ids": ["archive_reason", "transaction_lock_keys"],
+      "reason": "Historical optional routines/static transaction registry are outside the 53 plus 5 reviewed files and cannot be selected through this helper."
+    },
+    {
+      "paths": [
+        "db/mariadb/migrations/0035_retention_lock_keys.sql",
+        "db/mariadb/permissions/0036_active_runtime_acl.sql",
+        "db/mariadb/permissions/0028_runtime_acl_candidate.sql",
+        "db/mariadb/permissions/0029_operator_audit_timestamp_candidate.sql"
+      ],
+      "reason": "Historical four-seed/older-runtime artifacts remain immutable evidence and cannot replace active retained schema or current0039 final ACL."
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "current-runtime-acl",
+      "ledger_version": 64,
+      "kind": "runtime_grant",
+      "profile": null,
+      "after": "admin-member-status-execute",
+      "source_path": "db/mariadb/permissions/0039_current_runtime_acl.sql",
+      "supplemental_dependencies": [
+        {
+          "id": "admin-account-management",
+          "reason": "GRANTs name admin_accounts.created_by_admin_account_id and admin_account_roles.granted_by_admin_account_id added by this ALTER source."
+        },
+        {
+          "id": "identity-school",
+          "reason": "GRANTs name users.password_input_version, added after the identity foundation by this ALTER source."
+        },
+        {
+          "id": "signup-role",
+          "reason": "GRANTs name users.signup_role, added by current0037 and absent from the historical identity schema."
+        }
+      ],
+      "owner_contract": {
+        "creates_objects": false,
+        "seeds_rows": false,
+        "grants_to_definer": false,
+        "preserves_locked_routine_owner": true
+      },
+      "activation_requires": [
+        "base53_and_all_owner_activation_grants_verified",
+        "runtime_accounts_quiescent",
+        "runtime_privileges_reset_once_before_current_acl",
+        "selected_optional_acl_reapplied_after_every_reset"
+      ],
+      "byte_length": 16691,
+      "sha256": "9c0ec812b5134ca715866ceae7dc2c32116d4a0e6f2c291dc40aac3af2d62b29",
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_table",
+          "object": "admin_account_roles",
+          "line": 14,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_app",
+          "line": 14,
+          "provider": "development-identities"
+        },
+        {
+          "kind": "grant_table",
+          "object": "admin_accounts",
+          "line": 15,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "grant_table",
+          "object": "admin_auth_audit_logs",
+          "line": 16,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "grant_table",
+          "object": "admin_inquiries",
+          "line": 17,
+          "provider": "admin-inquiries-system-state"
+        },
+        {
+          "kind": "grant_table",
+          "object": "admin_login_challenges",
+          "line": 18,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "grant_table",
+          "object": "admin_mfa_factors",
+          "line": 19,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "grant_table",
+          "object": "admin_operation_audit_logs",
+          "line": 20,
+          "provider": "admin-account-management"
+        },
+        {
+          "kind": "grant_table",
+          "object": "admin_sessions",
+          "line": 21,
+          "provider": "admin-auth"
+        },
+        {
+          "kind": "grant_table",
+          "object": "admin_signup_approval_events",
+          "line": 22,
+          "provider": "admin-signup-approvals"
+        },
+        {
+          "kind": "grant_table",
+          "object": "admin_signup_approvals",
+          "line": 23,
+          "provider": "admin-signup-approvals"
+        },
+        {
+          "kind": "grant_table",
+          "object": "admin_system_state",
+          "line": 24,
+          "provider": "admin-inquiries-system-state"
+        },
+        {
+          "kind": "grant_table",
+          "object": "admin_terms_versions",
+          "line": 25,
+          "provider": "admin-terms-management"
+        },
+        {
+          "kind": "grant_table",
+          "object": "api_idempotency_keys",
+          "line": 26,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grant_table",
+          "object": "attendance_notifications",
+          "line": 27,
+          "provider": "attendance-notifications"
+        },
+        {
+          "kind": "grant_table",
+          "object": "audit_log_actions",
+          "line": 28,
+          "provider": "audit-action-catalog"
+        },
+        {
+          "kind": "grant_table",
+          "object": "audit_logs",
+          "line": 29,
+          "provider": "audit-import-logs"
+        },
+        {
+          "kind": "grant_table",
+          "object": "class_invite_codes",
+          "line": 30,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grant_table",
+          "object": "class_member_status_history",
+          "line": 31,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grant_table",
+          "object": "class_members",
+          "line": 32,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grant_table",
+          "object": "classes",
+          "line": 33,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grant_table",
+          "object": "election_candidates",
+          "line": 34,
+          "provider": "elections"
+        },
+        {
+          "kind": "grant_table",
+          "object": "election_participants",
+          "line": 35,
+          "provider": "elections"
+        },
+        {
+          "kind": "grant_table",
+          "object": "election_tallies",
+          "line": 36,
+          "provider": "elections"
+        },
+        {
+          "kind": "grant_table",
+          "object": "elections",
+          "line": 37,
+          "provider": "elections"
+        },
+        {
+          "kind": "grant_table",
+          "object": "email_verification_tokens",
+          "line": 38,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grant_table",
+          "object": "guardian_consent_requests",
+          "line": 39,
+          "provider": "guardian-consent-requests"
+        },
+        {
+          "kind": "grant_table",
+          "object": "in_app_reminder_batches",
+          "line": 40,
+          "provider": "in-app-reminders"
+        },
+        {
+          "kind": "grant_table",
+          "object": "in_app_reminder_recipients",
+          "line": 41,
+          "provider": "in-app-reminders"
+        },
+        {
+          "kind": "grant_table",
+          "object": "meals",
+          "line": 42,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "grant_table",
+          "object": "notice_reads",
+          "line": 43,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "grant_table",
+          "object": "notice_recipients",
+          "line": 44,
+          "provider": "content-audiences"
+        },
+        {
+          "kind": "grant_table",
+          "object": "notices",
+          "line": 45,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "grant_table",
+          "object": "password_reset_tokens",
+          "line": 46,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grant_table",
+          "object": "poll_options",
+          "line": 47,
+          "provider": "polls"
+        },
+        {
+          "kind": "grant_table",
+          "object": "poll_votes",
+          "line": 48,
+          "provider": "polls"
+        },
+        {
+          "kind": "grant_table",
+          "object": "polls",
+          "line": 49,
+          "provider": "polls"
+        },
+        {
+          "kind": "grant_table",
+          "object": "public_holidays",
+          "line": 50,
+          "provider": "public-holidays"
+        },
+        {
+          "kind": "grant_table",
+          "object": "schedules",
+          "line": 51,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "grant_table",
+          "object": "school_schedule_events",
+          "line": 52,
+          "provider": "school-schedules"
+        },
+        {
+          "kind": "grant_table",
+          "object": "schools",
+          "line": 53,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grant_table",
+          "object": "security_audit_logs",
+          "line": 54,
+          "provider": "audit-import-logs"
+        },
+        {
+          "kind": "grant_table",
+          "object": "sessions",
+          "line": 55,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grant_table",
+          "object": "student_assessment_records",
+          "line": 56,
+          "provider": "student-assessments"
+        },
+        {
+          "kind": "grant_table",
+          "object": "supplies",
+          "line": 57,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "grant_table",
+          "object": "supply_checks",
+          "line": 58,
+          "provider": "content-meals"
+        },
+        {
+          "kind": "grant_table",
+          "object": "supply_recipients",
+          "line": 59,
+          "provider": "content-audiences"
+        },
+        {
+          "kind": "grant_table",
+          "object": "teacher_profiles",
+          "line": 60,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grant_table",
+          "object": "user_consents",
+          "line": 61,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grant_table",
+          "object": "users",
+          "line": 62,
+          "provider": "identity-foundation"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "allow_class_member_rejoin",
+          "line": 63,
+          "provider": "class-transition-member-admin-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "approve_class_member",
+          "line": 64,
+          "provider": "class-transition-member-admin-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "archive_class",
+          "line": 65,
+          "provider": "class-transition-lifecycle-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "cancel_class_membership_request",
+          "line": 66,
+          "provider": "class-transition-membership-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "create_class_with_teacher_and_invite",
+          "line": 67,
+          "provider": "class-access-approval-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "delete_user_account",
+          "line": 68,
+          "provider": "class-transition-account-routine"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "leave_class",
+          "line": 69,
+          "provider": "class-transition-membership-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "reject_class_member",
+          "line": 70,
+          "provider": "class-transition-member-admin-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "remove_class_member",
+          "line": 71,
+          "provider": "class-transition-member-admin-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "request_class_membership",
+          "line": 72,
+          "provider": "class-access-approval-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "rotate_class_invite",
+          "line": 73,
+          "provider": "class-transition-lifecycle-routines"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "set_admin_member_status",
+          "line": 74,
+          "provider": "admin-member-status"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "set_admin_user_status",
+          "line": 75,
+          "provider": "admin-user-status"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_operator",
+          "line": 76,
+          "provider": "development-identities"
+        },
+        {
+          "kind": "grant_table",
+          "object": "meal_import_logs",
+          "line": 81,
+          "provider": "audit-import-logs"
+        },
+        {
+          "kind": "grant_table",
+          "object": "operator_audit_logs",
+          "line": 83,
+          "provider": "audit-import-logs"
+        },
+        {
+          "kind": "grant_table",
+          "object": "operators",
+          "line": 84,
+          "provider": "class-membership"
+        },
+        {
+          "kind": "grant_table",
+          "object": "school_import_logs",
+          "line": 86,
+          "provider": "audit-import-logs"
+        },
+        {
+          "kind": "grant_table",
+          "object": "school_schedule_import_logs",
+          "line": 88,
+          "provider": "school-schedules"
+        },
+        {
+          "kind": "grant_execute",
+          "object": "transfer_class_teacher_checked",
+          "line": 93,
+          "provider": "checked-transfer"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_worker",
+          "line": 94,
+          "provider": "development-identities"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_retention",
+          "line": 95,
+          "provider": "development-identities"
+        }
+      ],
+      "mutations": [],
+      "requires": [
+        "admin-account-management",
+        "admin-auth",
+        "admin-inquiries-system-state",
+        "admin-member-status",
+        "admin-signup-approvals",
+        "admin-terms-management",
+        "admin-user-status",
+        "attendance-notifications",
+        "audit-action-catalog",
+        "audit-import-logs",
+        "checked-transfer",
+        "class-access-approval-routines",
+        "class-membership",
+        "class-transition-account-routine",
+        "class-transition-lifecycle-routines",
+        "class-transition-member-admin-routines",
+        "class-transition-membership-routines",
+        "content-audiences",
+        "content-meals",
+        "development-identities",
+        "elections",
+        "guardian-consent-requests",
+        "identity-foundation",
+        "identity-school",
+        "in-app-reminders",
+        "polls",
+        "public-holidays",
+        "school-schedules",
+        "signup-role",
+        "student-assessments"
+      ],
+      "grant_entries": {
+        "app": [
+          "procedure|allow_class_member_rejoin|EXECUTE",
+          "procedure|approve_class_member|EXECUTE",
+          "procedure|archive_class|EXECUTE",
+          "procedure|cancel_class_membership_request|EXECUTE",
+          "procedure|create_class_with_teacher_and_invite|EXECUTE",
+          "procedure|delete_user_account|EXECUTE",
+          "procedure|leave_class|EXECUTE",
+          "procedure|reject_class_member|EXECUTE",
+          "procedure|remove_class_member|EXECUTE",
+          "procedure|request_class_membership|EXECUTE",
+          "procedure|rotate_class_invite|EXECUTE",
+          "procedure|set_admin_member_status|EXECUTE",
+          "procedure|set_admin_user_status|EXECUTE",
+          "table|admin_account_roles|DELETE|*",
+          "table|admin_account_roles|INSERT|admin_account_id",
+          "table|admin_account_roles|INSERT|granted_by_admin_account_id",
+          "table|admin_account_roles|INSERT|role",
+          "table|admin_account_roles|SELECT|*",
+          "table|admin_accounts|INSERT|created_by_admin_account_id",
+          "table|admin_accounts|INSERT|display_name",
+          "table|admin_accounts|INSERT|email_normalized",
+          "table|admin_accounts|INSERT|password_hash",
+          "table|admin_accounts|INSERT|password_input_version",
+          "table|admin_accounts|SELECT|*",
+          "table|admin_accounts|UPDATE|failed_login_attempts",
+          "table|admin_accounts|UPDATE|last_login_at",
+          "table|admin_accounts|UPDATE|locked_until",
+          "table|admin_accounts|UPDATE|password_hash",
+          "table|admin_accounts|UPDATE|password_input_version",
+          "table|admin_accounts|UPDATE|password_last_changed_at",
+          "table|admin_accounts|UPDATE|status",
+          "table|admin_accounts|UPDATE|updated_at",
+          "table|admin_auth_audit_logs|INSERT|action",
+          "table|admin_auth_audit_logs|INSERT|actor_email_hmac",
+          "table|admin_auth_audit_logs|INSERT|actor_ip_hmac",
+          "table|admin_auth_audit_logs|INSERT|admin_account_id",
+          "table|admin_auth_audit_logs|INSERT|deny_reason",
+          "table|admin_auth_audit_logs|INSERT|event_id",
+          "table|admin_auth_audit_logs|INSERT|hmac_key_version",
+          "table|admin_auth_audit_logs|INSERT|request_id",
+          "table|admin_auth_audit_logs|INSERT|user_agent",
+          "table|admin_auth_audit_logs|SELECT|action",
+          "table|admin_auth_audit_logs|SELECT|admin_account_id",
+          "table|admin_auth_audit_logs|SELECT|created_at",
+          "table|admin_auth_audit_logs|SELECT|deny_reason",
+          "table|admin_auth_audit_logs|SELECT|event_id",
+          "table|admin_auth_audit_logs|SELECT|id",
+          "table|admin_auth_audit_logs|SELECT|request_id",
+          "table|admin_inquiries|INSERT|*",
+          "table|admin_inquiries|SELECT|*",
+          "table|admin_inquiries|UPDATE|*",
+          "table|admin_login_challenges|INSERT|admin_account_id",
+          "table|admin_login_challenges|INSERT|challenge_hash",
+          "table|admin_login_challenges|INSERT|consumed_at",
+          "table|admin_login_challenges|INSERT|expires_at",
+          "table|admin_login_challenges|INSERT|failed_attempts",
+          "table|admin_login_challenges|INSERT|purpose",
+          "table|admin_login_challenges|SELECT|*",
+          "table|admin_login_challenges|UPDATE|consumed_at",
+          "table|admin_login_challenges|UPDATE|failed_attempts",
+          "table|admin_mfa_factors|INSERT|activated_at",
+          "table|admin_mfa_factors|INSERT|admin_account_id",
+          "table|admin_mfa_factors|INSERT|factor_type",
+          "table|admin_mfa_factors|INSERT|key_version",
+          "table|admin_mfa_factors|INSERT|last_accepted_timestep",
+          "table|admin_mfa_factors|INSERT|revoked_at",
+          "table|admin_mfa_factors|INSERT|secret_auth_tag",
+          "table|admin_mfa_factors|INSERT|secret_ciphertext",
+          "table|admin_mfa_factors|INSERT|secret_iv",
+          "table|admin_mfa_factors|INSERT|status",
+          "table|admin_mfa_factors|SELECT|*",
+          "table|admin_mfa_factors|UPDATE|activated_at",
+          "table|admin_mfa_factors|UPDATE|last_accepted_timestep",
+          "table|admin_mfa_factors|UPDATE|revoked_at",
+          "table|admin_mfa_factors|UPDATE|status",
+          "table|admin_operation_audit_logs|INSERT|*",
+          "table|admin_operation_audit_logs|SELECT|*",
+          "table|admin_sessions|INSERT|absolute_expires_at",
+          "table|admin_sessions|INSERT|admin_account_id",
+          "table|admin_sessions|INSERT|created_ip_hmac",
+          "table|admin_sessions|INSERT|csrf_token_hash",
+          "table|admin_sessions|INSERT|hmac_key_version",
+          "table|admin_sessions|INSERT|issued_at",
+          "table|admin_sessions|INSERT|last_seen_at",
+          "table|admin_sessions|INSERT|mfa_verified_at",
+          "table|admin_sessions|INSERT|reauthenticated_at",
+          "table|admin_sessions|INSERT|revoked_at",
+          "table|admin_sessions|INSERT|session_hash",
+          "table|admin_sessions|INSERT|user_agent",
+          "table|admin_sessions|SELECT|*",
+          "table|admin_sessions|UPDATE|absolute_expires_at",
+          "table|admin_sessions|UPDATE|last_seen_at",
+          "table|admin_sessions|UPDATE|reauthenticated_at",
+          "table|admin_sessions|UPDATE|revoked_at",
+          "table|admin_signup_approval_events|INSERT|*",
+          "table|admin_signup_approval_events|SELECT|*",
+          "table|admin_signup_approvals|INSERT|code_digest",
+          "table|admin_signup_approvals|INSERT|email_key_digest",
+          "table|admin_signup_approvals|INSERT|expires_at",
+          "table|admin_signup_approvals|INSERT|issued_by_admin_account_id",
+          "table|admin_signup_approvals|INSERT|role",
+          "table|admin_signup_approvals|SELECT|*",
+          "table|admin_signup_approvals|UPDATE|consumed_at",
+          "table|admin_signup_approvals|UPDATE|consumed_by_user_id",
+          "table|admin_signup_approvals|UPDATE|failed_attempts",
+          "table|admin_signup_approvals|UPDATE|revoked_at",
+          "table|admin_system_state|INSERT|*",
+          "table|admin_system_state|SELECT|*",
+          "table|admin_system_state|UPDATE|*",
+          "table|admin_terms_versions|INSERT|content",
+          "table|admin_terms_versions|INSERT|content_sha256",
+          "table|admin_terms_versions|INSERT|created_by_admin_account_id",
+          "table|admin_terms_versions|INSERT|document_type",
+          "table|admin_terms_versions|INSERT|policy_version",
+          "table|admin_terms_versions|INSERT|title",
+          "table|admin_terms_versions|SELECT|*",
+          "table|admin_terms_versions|UPDATE|effective_at",
+          "table|admin_terms_versions|UPDATE|published_at",
+          "table|admin_terms_versions|UPDATE|status",
+          "table|api_idempotency_keys|DELETE|*",
+          "table|api_idempotency_keys|INSERT|*",
+          "table|api_idempotency_keys|SELECT|*",
+          "table|attendance_notifications|INSERT|*",
+          "table|attendance_notifications|SELECT|*",
+          "table|attendance_notifications|UPDATE|*",
+          "table|audit_log_actions|SELECT|*",
+          "table|audit_logs|INSERT|*",
+          "table|audit_logs|SELECT|*",
+          "table|class_invite_codes|SELECT|*",
+          "table|class_member_status_history|SELECT|*",
+          "table|class_members|SELECT|*",
+          "table|class_members|UPDATE|display_name_in_class",
+          "table|class_members|UPDATE|row_version",
+          "table|class_members|UPDATE|student_number",
+          "table|class_members|UPDATE|updated_at",
+          "table|classes|SELECT|*",
+          "table|classes|UPDATE|expected_student_count",
+          "table|classes|UPDATE|name",
+          "table|classes|UPDATE|row_version",
+          "table|classes|UPDATE|updated_at",
+          "table|election_candidates|DELETE|*",
+          "table|election_candidates|INSERT|*",
+          "table|election_candidates|SELECT|*",
+          "table|election_candidates|UPDATE|*",
+          "table|election_participants|DELETE|*",
+          "table|election_participants|INSERT|*",
+          "table|election_participants|SELECT|*",
+          "table|election_tallies|INSERT|*",
+          "table|election_tallies|SELECT|*",
+          "table|election_tallies|UPDATE|*",
+          "table|elections|DELETE|*",
+          "table|elections|INSERT|*",
+          "table|elections|SELECT|*",
+          "table|elections|UPDATE|*",
+          "table|email_verification_tokens|INSERT|*",
+          "table|email_verification_tokens|SELECT|*",
+          "table|email_verification_tokens|UPDATE|*",
+          "table|guardian_consent_requests|DELETE|*",
+          "table|guardian_consent_requests|INSERT|*",
+          "table|guardian_consent_requests|SELECT|*",
+          "table|guardian_consent_requests|UPDATE|*",
+          "table|in_app_reminder_batches|INSERT|*",
+          "table|in_app_reminder_batches|SELECT|*",
+          "table|in_app_reminder_recipients|INSERT|*",
+          "table|in_app_reminder_recipients|SELECT|*",
+          "table|in_app_reminder_recipients|UPDATE|resolved_at",
+          "table|meals|SELECT|*",
+          "table|notice_reads|DELETE|*",
+          "table|notice_reads|INSERT|*",
+          "table|notice_reads|SELECT|*",
+          "table|notice_reads|UPDATE|*",
+          "table|notice_recipients|INSERT|*",
+          "table|notice_recipients|SELECT|*",
+          "table|notices|INSERT|*",
+          "table|notices|SELECT|*",
+          "table|notices|UPDATE|*",
+          "table|password_reset_tokens|INSERT|*",
+          "table|password_reset_tokens|SELECT|*",
+          "table|password_reset_tokens|UPDATE|*",
+          "table|poll_options|DELETE|*",
+          "table|poll_options|INSERT|*",
+          "table|poll_options|SELECT|*",
+          "table|poll_votes|DELETE|*",
+          "table|poll_votes|INSERT|*",
+          "table|poll_votes|SELECT|*",
+          "table|polls|DELETE|*",
+          "table|polls|INSERT|*",
+          "table|polls|SELECT|*",
+          "table|public_holidays|SELECT|*",
+          "table|schedules|INSERT|*",
+          "table|schedules|SELECT|*",
+          "table|schedules|UPDATE|*",
+          "table|school_schedule_events|SELECT|*",
+          "table|schools|SELECT|*",
+          "table|schools|UPDATE|updated_at",
+          "table|security_audit_logs|SELECT|action",
+          "table|security_audit_logs|SELECT|created_at",
+          "table|security_audit_logs|SELECT|deny_reason",
+          "table|security_audit_logs|SELECT|event_id",
+          "table|security_audit_logs|SELECT|failure_code",
+          "table|security_audit_logs|SELECT|id",
+          "table|security_audit_logs|SELECT|method",
+          "table|security_audit_logs|SELECT|request_id",
+          "table|security_audit_logs|SELECT|resource",
+          "table|security_audit_logs|SELECT|sanitized_path",
+          "table|security_audit_logs|SELECT|target_class_id",
+          "table|sessions|INSERT|*",
+          "table|sessions|SELECT|*",
+          "table|sessions|UPDATE|*",
+          "table|student_assessment_records|DELETE|*",
+          "table|student_assessment_records|INSERT|*",
+          "table|student_assessment_records|SELECT|*",
+          "table|student_assessment_records|UPDATE|*",
+          "table|supplies|INSERT|*",
+          "table|supplies|SELECT|*",
+          "table|supplies|UPDATE|*",
+          "table|supply_checks|DELETE|*",
+          "table|supply_checks|INSERT|*",
+          "table|supply_checks|SELECT|*",
+          "table|supply_checks|UPDATE|*",
+          "table|supply_recipients|INSERT|*",
+          "table|supply_recipients|SELECT|*",
+          "table|teacher_profiles|INSERT|created_by_admin_account_id",
+          "table|teacher_profiles|INSERT|created_by_operator_id",
+          "table|teacher_profiles|INSERT|status",
+          "table|teacher_profiles|INSERT|temporary_password_expires_at",
+          "table|teacher_profiles|INSERT|temporary_password_must_change",
+          "table|teacher_profiles|INSERT|user_id",
+          "table|teacher_profiles|SELECT|*",
+          "table|teacher_profiles|UPDATE|temporary_password_expires_at",
+          "table|teacher_profiles|UPDATE|temporary_password_must_change",
+          "table|user_consents|INSERT|*",
+          "table|user_consents|SELECT|*",
+          "table|user_consents|UPDATE|*",
+          "table|users|INSERT|display_name",
+          "table|users|INSERT|email_normalized",
+          "table|users|INSERT|password_hash",
+          "table|users|INSERT|password_input_version",
+          "table|users|INSERT|signup_approved_at",
+          "table|users|INSERT|signup_role",
+          "table|users|SELECT|*",
+          "table|users|UPDATE|display_name",
+          "table|users|UPDATE|email_verified_at",
+          "table|users|UPDATE|failed_login_attempts",
+          "table|users|UPDATE|locked_until",
+          "table|users|UPDATE|password_hash",
+          "table|users|UPDATE|password_input_version",
+          "table|users|UPDATE|password_last_changed_at",
+          "table|users|UPDATE|signup_approved_at",
+          "table|users|UPDATE|signup_role",
+          "table|users|UPDATE|updated_at"
+        ],
+        "operator": [
+          "procedure|transfer_class_teacher_checked|EXECUTE",
+          "table|admin_account_roles|INSERT|admin_account_id",
+          "table|admin_account_roles|INSERT|granted_by_operator_id",
+          "table|admin_account_roles|INSERT|role",
+          "table|admin_account_roles|SELECT|*",
+          "table|admin_accounts|INSERT|created_by_operator_id",
+          "table|admin_accounts|INSERT|display_name",
+          "table|admin_accounts|INSERT|email_normalized",
+          "table|admin_accounts|INSERT|password_hash",
+          "table|admin_accounts|INSERT|password_input_version",
+          "table|admin_accounts|SELECT|*",
+          "table|audit_logs|INSERT|action",
+          "table|audit_logs|INSERT|actor_display_name_snapshot",
+          "table|audit_logs|INSERT|actor_role_snapshot",
+          "table|audit_logs|INSERT|after_json",
+          "table|audit_logs|INSERT|before_json",
+          "table|audit_logs|INSERT|class_id",
+          "table|audit_logs|INSERT|created_at",
+          "table|audit_logs|INSERT|reason",
+          "table|audit_logs|INSERT|request_id",
+          "table|audit_logs|INSERT|target_id",
+          "table|audit_logs|INSERT|target_snapshot",
+          "table|audit_logs|INSERT|target_type",
+          "table|class_members|SELECT|class_id",
+          "table|class_members|SELECT|id",
+          "table|class_members|SELECT|role",
+          "table|class_members|SELECT|row_version",
+          "table|class_members|SELECT|status",
+          "table|class_members|SELECT|user_id",
+          "table|classes|SELECT|edu_office_code",
+          "table|classes|SELECT|grade",
+          "table|classes|SELECT|id",
+          "table|classes|SELECT|row_version",
+          "table|classes|SELECT|school_code",
+          "table|classes|SELECT|status",
+          "table|meal_import_logs|INSERT|checksum",
+          "table|meal_import_logs|INSERT|completed_at",
+          "table|meal_import_logs|INSERT|deleted_count",
+          "table|meal_import_logs|INSERT|error_json",
+          "table|meal_import_logs|INSERT|failed_count",
+          "table|meal_import_logs|INSERT|file_name",
+          "table|meal_import_logs|INSERT|inserted_count",
+          "table|meal_import_logs|INSERT|operator_id",
+          "table|meal_import_logs|INSERT|result",
+          "table|meal_import_logs|INSERT|run_id",
+          "table|meal_import_logs|INSERT|skipped_count",
+          "table|meal_import_logs|INSERT|started_at",
+          "table|meal_import_logs|INSERT|updated_count",
+          "table|meals|DELETE|*",
+          "table|meals|INSERT|calorie_kcal_tenths",
+          "table|meals|INSERT|edu_office_code",
+          "table|meals|INSERT|meal_date",
+          "table|meals|INSERT|meal_type",
+          "table|meals|INSERT|menu_json",
+          "table|meals|INSERT|school_code",
+          "table|meals|INSERT|source",
+          "table|meals|INSERT|source_loaded_on",
+          "table|meals|INSERT|source_updated_at",
+          "table|meals|SELECT|calorie_kcal_tenths",
+          "table|meals|SELECT|edu_office_code",
+          "table|meals|SELECT|id",
+          "table|meals|SELECT|meal_date",
+          "table|meals|SELECT|meal_type",
+          "table|meals|SELECT|menu_json",
+          "table|meals|SELECT|school_code",
+          "table|meals|SELECT|source",
+          "table|meals|SELECT|source_loaded_on",
+          "table|meals|SELECT|source_updated_at",
+          "table|meals|UPDATE|calorie_kcal_tenths",
+          "table|meals|UPDATE|menu_json",
+          "table|meals|UPDATE|source",
+          "table|meals|UPDATE|source_loaded_on",
+          "table|meals|UPDATE|source_updated_at",
+          "table|meals|UPDATE|updated_at",
+          "table|operator_audit_logs|INSERT|action",
+          "table|operator_audit_logs|INSERT|actor_type",
+          "table|operator_audit_logs|INSERT|after_json",
+          "table|operator_audit_logs|INSERT|before_json",
+          "table|operator_audit_logs|INSERT|checksum",
+          "table|operator_audit_logs|INSERT|created_at",
+          "table|operator_audit_logs|INSERT|operator_id",
+          "table|operator_audit_logs|INSERT|run_id",
+          "table|operator_audit_logs|INSERT|target_id",
+          "table|operator_audit_logs|INSERT|target_type",
+          "table|operators|INSERT|credential_hash",
+          "table|operators|INSERT|email_normalized",
+          "table|operators|SELECT|credential_hash",
+          "table|operators|SELECT|id",
+          "table|operators|SELECT|revoked_at",
+          "table|operators|SELECT|status",
+          "table|public_holidays|INSERT|*",
+          "table|public_holidays|SELECT|*",
+          "table|public_holidays|UPDATE|*",
+          "table|school_import_logs|INSERT|checksum",
+          "table|school_import_logs|INSERT|completed_at",
+          "table|school_import_logs|INSERT|error_json",
+          "table|school_import_logs|INSERT|failed_count",
+          "table|school_import_logs|INSERT|file_name",
+          "table|school_import_logs|INSERT|inserted_count",
+          "table|school_import_logs|INSERT|operator_id",
+          "table|school_import_logs|INSERT|result",
+          "table|school_import_logs|INSERT|run_id",
+          "table|school_import_logs|INSERT|skipped_count",
+          "table|school_import_logs|INSERT|started_at",
+          "table|school_import_logs|INSERT|updated_count",
+          "table|school_schedule_events|INSERT|academic_year",
+          "table|school_schedule_events|INSERT|edu_office_code",
+          "table|school_schedule_events|INSERT|event_content",
+          "table|school_schedule_events|INSERT|event_date",
+          "table|school_schedule_events|INSERT|event_name",
+          "table|school_schedule_events|INSERT|grade_mask",
+          "table|school_schedule_events|INSERT|school_code",
+          "table|school_schedule_events|INSERT|school_day_type",
+          "table|school_schedule_events|INSERT|source_loaded_on",
+          "table|school_schedule_events|INSERT|source_updated_at",
+          "table|school_schedule_events|SELECT|academic_year",
+          "table|school_schedule_events|SELECT|edu_office_code",
+          "table|school_schedule_events|SELECT|event_content",
+          "table|school_schedule_events|SELECT|event_date",
+          "table|school_schedule_events|SELECT|event_name",
+          "table|school_schedule_events|SELECT|grade_mask",
+          "table|school_schedule_events|SELECT|id",
+          "table|school_schedule_events|SELECT|school_code",
+          "table|school_schedule_events|SELECT|school_day_type",
+          "table|school_schedule_events|SELECT|source_loaded_on",
+          "table|school_schedule_events|UPDATE|event_content",
+          "table|school_schedule_events|UPDATE|school_day_type",
+          "table|school_schedule_events|UPDATE|source_loaded_on",
+          "table|school_schedule_events|UPDATE|source_updated_at",
+          "table|school_schedule_events|UPDATE|updated_at",
+          "table|school_schedule_import_logs|INSERT|checksum",
+          "table|school_schedule_import_logs|INSERT|completed_at",
+          "table|school_schedule_import_logs|INSERT|deleted_count",
+          "table|school_schedule_import_logs|INSERT|error_json",
+          "table|school_schedule_import_logs|INSERT|failed_count",
+          "table|school_schedule_import_logs|INSERT|file_name",
+          "table|school_schedule_import_logs|INSERT|inserted_count",
+          "table|school_schedule_import_logs|INSERT|operator_id",
+          "table|school_schedule_import_logs|INSERT|result",
+          "table|school_schedule_import_logs|INSERT|run_id",
+          "table|school_schedule_import_logs|INSERT|skipped_count",
+          "table|school_schedule_import_logs|INSERT|started_at",
+          "table|school_schedule_import_logs|INSERT|updated_count",
+          "table|schools|INSERT|edu_office_code",
+          "table|schools|INSERT|edu_office_name",
+          "table|schools|INSERT|homepage_url",
+          "table|schools|INSERT|phone_number",
+          "table|schools|INSERT|region_name",
+          "table|schools|INSERT|road_address",
+          "table|schools|INSERT|road_address_detail",
+          "table|schools|INSERT|school_code",
+          "table|schools|INSERT|school_kind",
+          "table|schools|INSERT|school_name",
+          "table|schools|SELECT|edu_office_code",
+          "table|schools|SELECT|edu_office_name",
+          "table|schools|SELECT|homepage_url",
+          "table|schools|SELECT|phone_number",
+          "table|schools|SELECT|region_name",
+          "table|schools|SELECT|road_address",
+          "table|schools|SELECT|road_address_detail",
+          "table|schools|SELECT|school_code",
+          "table|schools|SELECT|school_kind",
+          "table|schools|SELECT|school_name",
+          "table|schools|UPDATE|edu_office_name",
+          "table|schools|UPDATE|homepage_url",
+          "table|schools|UPDATE|phone_number",
+          "table|schools|UPDATE|region_name",
+          "table|schools|UPDATE|road_address",
+          "table|schools|UPDATE|road_address_detail",
+          "table|schools|UPDATE|school_kind",
+          "table|schools|UPDATE|school_name",
+          "table|schools|UPDATE|updated_at",
+          "table|sessions|SELECT|revoked_at",
+          "table|sessions|SELECT|user_id",
+          "table|sessions|UPDATE|revoked_at",
+          "table|teacher_profiles|INSERT|created_by_operator_id",
+          "table|teacher_profiles|INSERT|temporary_password_expires_at",
+          "table|teacher_profiles|INSERT|temporary_password_must_change",
+          "table|teacher_profiles|INSERT|user_id",
+          "table|teacher_profiles|SELECT|status",
+          "table|teacher_profiles|SELECT|temporary_password_expires_at",
+          "table|teacher_profiles|SELECT|user_id",
+          "table|teacher_profiles|UPDATE|temporary_password_expires_at",
+          "table|teacher_profiles|UPDATE|temporary_password_must_change",
+          "table|users|INSERT|display_name",
+          "table|users|INSERT|email_normalized",
+          "table|users|INSERT|email_verified_at",
+          "table|users|INSERT|password_hash",
+          "table|users|INSERT|password_input_version",
+          "table|users|SELECT|deleted_at",
+          "table|users|SELECT|email_normalized",
+          "table|users|SELECT|id",
+          "table|users|SELECT|is_active",
+          "table|users|UPDATE|password_hash",
+          "table|users|UPDATE|password_input_version"
+        ],
+        "worker": ["table|security_audit_logs|INSERT|*", "table|security_audit_logs|SELECT|*"],
+        "retention": [
+          "table|admin_auth_audit_logs|DELETE|*",
+          "table|admin_auth_audit_logs|SELECT|*",
+          "table|admin_login_challenges|DELETE|*",
+          "table|admin_login_challenges|SELECT|*",
+          "table|admin_sessions|DELETE|*",
+          "table|admin_sessions|SELECT|*",
+          "table|api_idempotency_keys|DELETE|*",
+          "table|api_idempotency_keys|SELECT|*",
+          "table|attendance_notifications|DELETE|*",
+          "table|attendance_notifications|SELECT|*",
+          "table|audit_logs|DELETE|*",
+          "table|audit_logs|SELECT|*",
+          "table|email_verification_tokens|DELETE|*",
+          "table|email_verification_tokens|SELECT|*",
+          "table|guardian_consent_requests|DELETE|*",
+          "table|guardian_consent_requests|SELECT|*",
+          "table|meal_import_logs|DELETE|*",
+          "table|meal_import_logs|SELECT|*",
+          "table|operator_audit_logs|DELETE|*",
+          "table|operator_audit_logs|INSERT|*",
+          "table|operator_audit_logs|SELECT|*",
+          "table|password_reset_tokens|DELETE|*",
+          "table|password_reset_tokens|SELECT|*",
+          "table|school_import_logs|DELETE|*",
+          "table|school_import_logs|SELECT|*",
+          "table|school_schedule_import_logs|DELETE|*",
+          "table|school_schedule_import_logs|SELECT|*",
+          "table|security_audit_logs|DELETE|*",
+          "table|security_audit_logs|SELECT|*",
+          "table|sessions|DELETE|*",
+          "table|sessions|SELECT|*",
+          "table|student_assessment_records|DELETE|*",
+          "table|student_assessment_records|SELECT|*",
+          "table|teacher_profiles|SELECT|status",
+          "table|teacher_profiles|SELECT|temporary_password_expires_at",
+          "table|teacher_profiles|SELECT|temporary_password_must_change",
+          "table|teacher_profiles|SELECT|temporary_password_reminder_sent_at",
+          "table|teacher_profiles|SELECT|user_id",
+          "table|teacher_profiles|UPDATE|temporary_password_reminder_sent_at",
+          "table|users|SELECT|deleted_at",
+          "table|users|SELECT|email_normalized",
+          "table|users|SELECT|id",
+          "table|users|SELECT|is_active"
+        ]
+      }
+    },
+    {
+      "id": "worker-audit-lock-keys",
+      "ledger_version": 65,
+      "kind": "operational_schema",
+      "profile": "worker_security_audit_v1",
+      "after": "current-runtime-acl",
+      "source_path": "db/mariadb/migrations/0033_worker_audit_lock_keys.sql",
+      "operational_table": "worker_security_audit_lock_keys",
+      "supplemental_dependencies": [],
+      "owner_contract": {
+        "creates_objects": true,
+        "seeds_rows": false,
+        "grants_to_definer": false,
+        "required_installer_privileges": ["CREATE"],
+        "runtime_seed_insert": false
+      },
+      "activation_requires": [
+        "worker_audit_lock_acl_applied",
+        "worker_security_audit_v1_exact_acl_attested"
+      ],
+      "byte_length": 1141,
+      "sha256": "ce4e9e73f1089d916b1be13760c7442944982860c2549a06c0e990e30c9506a0",
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "worker_security_audit_lock_keys",
+          "line": 13
+        }
+      ],
+      "references": [],
+      "mutations": [],
+      "requires": [],
+      "lock_contract": {
+        "table": "worker_security_audit_lock_keys",
+        "committed_seed_rows": 0,
+        "seed_sha256": [],
+        "seed_tables": []
+      }
+    },
+    {
+      "id": "worker-audit-lock-acl",
+      "ledger_version": 66,
+      "kind": "runtime_grant",
+      "profile": "worker_security_audit_v1",
+      "after": "worker-audit-lock-keys",
+      "source_path": "db/mariadb/permissions/0034_worker_audit_lock_acl.sql",
+      "supplemental_dependencies": [
+        {
+          "id": "current-runtime-acl",
+          "reason": "The profile extends the narrowed current worker security_audit_logs SELECT/INSERT baseline; its reset/apply must precede this delta."
+        }
+      ],
+      "owner_contract": {
+        "creates_objects": false,
+        "seeds_rows": false,
+        "grants_to_definer": false
+      },
+      "activation_requires": ["worker_security_audit_v1_exact_acl_attested"],
+      "byte_length": 854,
+      "sha256": "bb386058bfc50b4c821eedf44ec6d40ddd2ee2f6607639a23d1de9a2c689d96b",
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_table",
+          "object": "worker_security_audit_lock_keys",
+          "line": 9,
+          "provider": "worker-audit-lock-keys"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_worker",
+          "line": 9,
+          "provider": "development-identities"
+        }
+      ],
+      "mutations": [],
+      "requires": ["current-runtime-acl", "development-identities", "worker-audit-lock-keys"],
+      "grant_entries": {
+        "app": [],
+        "operator": [],
+        "worker": [
+          "table|worker_security_audit_lock_keys|INSERT|*",
+          "table|worker_security_audit_lock_keys|SELECT|*"
+        ],
+        "retention": []
+      }
+    },
+    {
+      "id": "retained-retention-lock-keys",
+      "ledger_version": 67,
+      "kind": "operational_schema",
+      "profile": "retention_v1",
+      "after": "current-runtime-acl",
+      "source_path": "db/mariadb/scope/0035_retained_retention_lock_keys.sql",
+      "operational_table": "retention_lock_keys",
+      "supplemental_dependencies": [],
+      "owner_contract": {
+        "creates_objects": true,
+        "seeds_rows": true,
+        "grants_to_definer": false,
+        "required_installer_privileges": ["CREATE", "INSERT"],
+        "runtime_seed_insert": false,
+        "seed_transaction_must_commit": true
+      },
+      "activation_requires": [
+        "three_retained_seed_identities_committed_and_reread",
+        "retention_lock_acl_applied",
+        "retention_v1_exact_acl_attested"
+      ],
+      "byte_length": 1172,
+      "sha256": "708ff6bfd9351f5352daf636dbbaaa9a03e10bb5d295c2b0593e33d8def982e0",
+      "definitions": [
+        {
+          "kind": "table",
+          "object": "retention_lock_keys",
+          "line": 10
+        }
+      ],
+      "references": [
+        {
+          "kind": "table_insert",
+          "object": "retention_lock_keys",
+          "line": 16,
+          "provider": "retained-retention-lock-keys"
+        }
+      ],
+      "mutations": [],
+      "requires": [],
+      "lock_contract": {
+        "table": "retention_lock_keys",
+        "committed_seed_rows": 3,
+        "seed_sha256": [
+          "e967e9824bbe6ab21372526c2fb004c0e80e5b80074dcfe2d6b458d83ea99cda",
+          "5472d4c8402686b5717f88bec7d964a2e33c77a549e5717454458d6df2156d3b",
+          "456dfbb2db434333933756f2450e0d9c029ae34803c8799f2355d5d28c4b63c5"
+        ],
+        "seed_tables": [
+          "attendance_notifications",
+          "guardian_consent_requests",
+          "student_assessment_records"
+        ]
+      }
+    },
+    {
+      "id": "retention-lock-acl",
+      "ledger_version": 68,
+      "kind": "runtime_grant",
+      "profile": "retention_v1",
+      "after": "retained-retention-lock-keys",
+      "source_path": "db/mariadb/permissions/0035_retention_lock_acl.sql",
+      "supplemental_dependencies": [
+        {
+          "id": "current-runtime-acl",
+          "reason": "The profile extends current active54 retention43, and this SELECT delta must follow the reset/current baseline application."
+        }
+      ],
+      "owner_contract": {
+        "creates_objects": false,
+        "seeds_rows": false,
+        "grants_to_definer": false
+      },
+      "activation_requires": [
+        "three_retained_seed_identities_committed_and_reread",
+        "retention_v1_exact_acl_attested"
+      ],
+      "byte_length": 525,
+      "sha256": "43b6f04cd563ad6a516de5bf636dbd2b7d16da3812336fd8df000039180a25a7",
+      "definitions": [],
+      "references": [
+        {
+          "kind": "grant_table",
+          "object": "retention_lock_keys",
+          "line": 6,
+          "provider": "retained-retention-lock-keys"
+        },
+        {
+          "kind": "grantee",
+          "object": "classhub_retention",
+          "line": 6,
+          "provider": "development-identities"
+        }
+      ],
+      "mutations": [],
+      "requires": ["current-runtime-acl", "development-identities", "retained-retention-lock-keys"],
+      "grant_entries": {
+        "app": [],
+        "operator": [],
+        "worker": [],
+        "retention": ["table|retention_lock_keys|SELECT|*"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "candidateOnly": true,
+  "productionActivationApplied": false,
+  "default_profile": "none",
+  "artifacts": [
+    {
+      "id": "class-archive-retention-schema",
+      "ledger_version": 110,
+      "source_path": "db/mariadb/migrations/0064_class_archive_retention_candidate.sql",
+      "byte_length": 3087,
+      "sha256": "cf9dd2a461e086d8f8f9cbb619f889c944f7672c52f5d1cfefedb9b0552f4704"
+    },
+    {
+      "id": "class-archive-retention-schema-probe",
+      "ledger_version": 111,
+      "source_path": "db/mariadb/migrations/0064_class_archive_schema_probe_candidate.sql",
+      "byte_length": 1976,
+      "sha256": "e1620ac61a999ff49d3c39db33f8e3e4758a1ede0cbe7203588da1aede8f6cda"
+    },
+    {
+      "id": "class-archive-retention-acl",
+      "ledger_version": 112,
+      "source_path": "db/mariadb/permissions/0064_class_archive_retention_candidate_acl.sql",
+      "byte_length": 3709,
+      "sha256": "7f67aba4892d19aa19c4f6d6109016e3f8abaaccbb2fd7a09a04e549b5b8767a"
+    },
+    {
+      "id": "class-archive-retention-legacy-acl",
+      "ledger_version": 113,
+      "source_path": "db/mariadb/permissions/0064_class_archive_retention_candidate_legacy_acl.sql",
+      "byte_length": 1358,
+      "sha256": "8e92e36c5ff282a5e6dc26f4cc216a19efe17723cc2c71aed45eec1fefe331e3"
+    }
+  ]
+}

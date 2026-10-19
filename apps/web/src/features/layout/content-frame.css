@@ -1,0 +1,576 @@
+@layer components {
+  [data-content-frame="true"] {
+    padding-inline: 16px;
+  }
+
+  /*
+   * 주 탭 8개(소식·출결·학생·도움·일정·반 활동·급식·반 관리)의 정렬 틀 — 2026-09-28 요청.
+   * 제목 영역(제목 줄 + 필터 한 줄)의 높이를 같게 두어 본문 시작선을 맞추고, 본문은 화면에 남은
+   * 높이를 채운 뒤 넘치면 본문 안에서 스크롤한다. 그래서 아래 끝선과 정보줄 위치가 탭마다 같다.
+   * 페이지 전체가 스크롤되지 않으므로 페이지 스크롤바 유무로 좌우선이 7.5px씩 흔들리던 문제도 없다.
+   * 화면이 낮으면(글자 확대 포함) 본문 칸이 너무 작아지므로 원래의 페이지 스크롤로 돌아간다.
+   */
+  [data-aligned-frame="true"] .content-frame-header {
+    flex: none;
+    min-height: 104px;
+  }
+
+  /* 제목 줄 높이를 도구(검색창 48px)와 무관하게 같게 두어 제목 글자 위치를 맞춘다(학생 탭 +2px 실측). */
+  [data-aligned-frame="true"] .content-frame-heading {
+    min-height: 48px;
+  }
+
+  /*
+   * position: relative — 본문 안의 절대 위치 요소(화면에서 숨긴 제목 sr-only 등)가 페이지를 기준으로
+   * 놓이면 스크롤되는 본문 밖으로 문서를 늘려 페이지 스크롤바가 생긴다(일정 1440px에서 +60px 실측).
+   */
+  .content-frame-body {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+  }
+
+  /*
+   * 보이는 첫 칸의 위 여백만 없앤다 — 앞에 숨긴 탭 칸·sr-only가 있어도(급식 +12px 실측).
+   * 화면 코드의 여백 유틸리티(mt-3 등)는 이 components 층보다 뒤 층이라 !important로만 이긴다.
+   */
+  .content-frame-body > :not([hidden], .sr-only):not(:not([hidden], .sr-only) ~ *) {
+    margin-top: 0 !important;
+  }
+
+  /* 본문이 넘칠 때 카드(overflow:hidden)가 줄어들어 줄이 잘리지 않게 — 넘치면 본문이 스크롤한다(반 관리 '관리 기록' 실측). */
+  .content-frame-body > * {
+    flex-shrink: 0;
+  }
+
+  /* 정보줄(약관·문의)은 한 번만 보인다: 기본은 AppShell 끝, 휴대폰 정렬 틀에서는 본문 스크롤 끝. */
+  .app-shell-footer {
+    display: contents;
+  }
+
+  .content-frame-body-footer {
+    display: none;
+  }
+
+  /* 휴대폰은 약관 정보줄(약 200px)이 늘 떠 있으면 본문이 화면의 절반 남짓으로 줄어든다. */
+  @media (max-width: 1023px) and (min-height: 640px) {
+    [data-aligned-frame="true"] .app-shell-footer {
+      display: none;
+    }
+
+    [data-aligned-frame="true"] .content-frame-body-footer {
+      display: contents;
+    }
+
+    /* 필터 줄이 넘치면 가로 스크롤 막대(막대 폭, 실측 10px)가 생겨도 본문 시작선이 같도록 여유를 둔다. */
+    [data-aligned-frame="true"] .content-frame-header {
+      min-height: calc(104px + var(--content-frame-scrollbar, 0px));
+    }
+  }
+
+  /* 휴대폰의 제목만 있는 화면은 필터 줄 높이를 비워 두지 않는다. */
+  @media (max-width: 1023px) {
+    [data-aligned-frame="true"] .content-frame-header-title-only {
+      min-height: 0;
+    }
+  }
+
+  @media (min-height: 640px) {
+    [data-aligned-frame="true"] {
+      height: 100dvh;
+      min-height: 0;
+    }
+
+    [data-aligned-frame="true"] > [data-app-shell-width] {
+      min-height: 0;
+    }
+
+    /*
+     * 스크롤 막대는 내용 끝선 바깥(페이지 여백)에 둔다. 막대 폭 --content-frame-scrollbar는
+     * ContentFrameBody가 한 번 잰다(Windows thin 10px, 휴대폰 겹침 막대 0px). 막대 자리를 늘 비워 두고
+     * 그만큼 바깥으로 비켜서, 넘칠 때만 내용이 막대 폭만큼 좁아지던 오른쪽 끝선 차이(10px 실측)를 없앤다.
+     * 또 키보드 초점 테두리(바깥 5px)가 스크롤 경계에 잘리지 않게(6px 실측) 사방에 8px 여유를
+     * 안쪽 여백으로 두고 같은 만큼 바깥으로 넓힌다 — 내용의 시작·끝선은 그대로다.
+     */
+    [data-aligned-frame="true"] {
+      --content-frame-focus-room: 8px;
+    }
+
+    /* 휴대폰 좌우 여백은 16px — 여유 8px + 막대 10px이면 2px 넘쳐 페이지 스크롤바가 생긴다(실측). 테두리는 5px. */
+    @media (max-width: 1023px) {
+      [data-aligned-frame="true"] {
+        --content-frame-focus-room: 6px;
+      }
+    }
+
+    [data-aligned-frame="true"] .content-frame-body {
+      min-height: 0;
+      flex: 1 1 0;
+      margin: calc(var(--content-frame-focus-room) * -1);
+      margin-inline-end: calc(
+        (var(--content-frame-focus-room) + var(--content-frame-scrollbar, 0px)) * -1
+      );
+      padding: var(--content-frame-focus-room);
+      overflow-y: auto;
+      overscroll-behavior-y: contain;
+      scrollbar-gutter: stable;
+      scrollbar-width: thin;
+    }
+
+    [data-aligned-frame="true"] [data-app-footer] {
+      margin-top: 16px;
+    }
+  }
+
+  .content-frame-header {
+    min-width: 0;
+    margin-bottom: 16px;
+  }
+
+  .content-frame-heading,
+  .content-backbar {
+    display: flex;
+    min-height: 44px;
+    min-width: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  /*
+   * 글자를 크게 키운 좁은 화면에서는 제목이 도구 버튼에 밀려 잘렸다(소식 390px·24px 기준 7px 실측).
+   * 자리가 모자랄 때만 도구 묶음이 다음 줄로 내려가고, 평소에는 한 줄 그대로다.
+   */
+  .content-frame-heading {
+    flex-wrap: wrap;
+  }
+
+  .content-frame-heading h1 {
+    margin: 0;
+    min-width: min-content;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+  }
+
+  .content-frame-tools {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .content-backbar {
+    margin-bottom: 16px;
+  }
+
+  .content-back-link {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    gap: 4px;
+    border-radius: 12px;
+    font-weight: 700;
+  }
+
+  .content-panel,
+  .content-card {
+    min-width: 0;
+    border: 0;
+    border-radius: 20px;
+    background: var(--color-app-surface);
+    box-shadow: 0 3px 18px rgb(0 0 0 / 5%);
+    color: var(--color-app-text);
+  }
+
+  .content-panel {
+    padding: 16px;
+  }
+
+  /*
+   * 목록 칸 맨 위 머리 상자(개수·정렬 안내·바로가기). 2026-09-30 사용자 지적: 설명 글줄이 목록 위에
+   * 떠 있으면 왼쪽 카드가 오른쪽 상세 판보다 아래에서 시작했다. 소식 목록 머리와 같은 둥근 상자로
+   * 두어 두 칸의 윗선을 맞춘다.
+   */
+  .content-pane-header {
+    display: flex;
+    min-height: 60px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 0 0 8px;
+    border-radius: 20px;
+    background: var(--color-app-surface);
+    box-shadow: 0 3px 18px rgb(0 0 0 / 5%);
+    padding: 8px 16px;
+  }
+
+  .content-card {
+    display: block;
+    padding: 16px;
+  }
+
+  .content-filter-strip {
+    position: relative;
+    min-width: 0;
+    margin-top: 12px;
+  }
+
+  .content-filter-strip::after {
+    pointer-events: none;
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 20px;
+    background: linear-gradient(to right, transparent, var(--color-app-canvas));
+    content: "";
+  }
+
+  .content-filters {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    padding-right: 20px;
+    scrollbar-width: thin;
+  }
+
+  /* 36px 알약 안팎 4px도 눌리도록 실제 조작 영역은 44px로 둔다. */
+  .content-filter {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    flex: none;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding-inline: 14px;
+    border: 0;
+    border-radius: 22px;
+    background: transparent;
+    color: var(--color-app-muted);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .content-filter::before {
+    position: absolute;
+    z-index: -1;
+    inset: 4px 0;
+    border: 1px solid var(--color-app-border);
+    border-radius: 18px;
+    background: var(--color-app-surface);
+    content: "";
+  }
+
+  .content-filter:is(
+    [aria-pressed="true"],
+    [aria-selected="true"],
+    [aria-current="page"],
+    [data-active="true"]
+  ) {
+    /* 고정 검정·흰색은 어두운 테마에서 바탕에 묻혔다 — 테마 글자색·바탕색을 뒤집어 쓴다(총검수 B1-09). */
+    color: var(--color-app-canvas);
+  }
+
+  .content-filter:is(
+      [aria-pressed="true"],
+      [aria-selected="true"],
+      [aria-current="page"],
+      [data-active="true"]
+    )::before {
+    border-color: var(--color-app-text);
+    background: var(--color-app-text);
+  }
+
+  .content-write {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border-radius: 12px;
+    background: #2b6149;
+    padding: 10px 14px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  [data-content-frame="true"] .ui-button-primary {
+    border-color: #2b6149;
+    background: #2b6149;
+    color: #fff;
+  }
+
+  [data-content-frame="true"] .ui-button-primary:hover:not(:disabled) {
+    border-color: #234f3c;
+    background: #234f3c;
+  }
+
+  .content-split {
+    display: grid;
+    min-width: 0;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .content-split-main {
+    min-width: 0;
+  }
+
+  .content-split-aside {
+    display: none;
+    min-width: 0;
+    flex-direction: column;
+  }
+
+  .content-split-aside-mobile {
+    display: flex;
+  }
+
+  /* 내용이 없는 오른쪽 칸(예: 연결 안내 없는 일정)은 휴대폰에서 빈 간격을 만들지 않게 숨긴다.
+     PC 칸 너비는 grid가 그대로 지켜 본문 폭이 늦게 바뀌지 않는다. */
+  .content-split-aside:empty {
+    display: none;
+  }
+
+  .content-detail-title {
+    overflow-wrap: anywhere;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.4;
+    letter-spacing: -0.025em;
+  }
+
+  .content-body {
+    overflow-wrap: anywhere;
+    font-size: 15.5px;
+    line-height: 1.8;
+  }
+
+  .content-row {
+    display: flex;
+    min-height: 60px;
+    min-width: 0;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+  }
+
+  .content-row + .content-row {
+    border-top: 1px solid var(--color-app-border);
+  }
+
+  .content-action-bar {
+    position: fixed;
+    z-index: 40;
+    inset: auto 0 0;
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--color-app-border);
+    background: var(--color-app-surface);
+  }
+
+  .content-action-bar > * {
+    min-width: 0;
+  }
+
+  .content-action-bar-embedded {
+    position: static;
+    margin-top: auto;
+    padding: 16px 0 0;
+  }
+
+  @media (min-width: 1024px) {
+    [data-content-frame="true"] {
+      padding-inline: 32px;
+    }
+
+    .content-frame-heading h1,
+    .content-detail-title {
+      font-size: 26px;
+    }
+
+    .content-row {
+      min-height: 54px;
+    }
+
+    .content-action-bar:not(.content-action-bar-embedded) {
+      left: 13.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .content-split {
+      grid-template-columns: minmax(0, 1fr) 440px;
+      height: max(32rem, calc(100dvh - 13rem));
+    }
+
+    .content-split-main,
+    .content-split-aside {
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior-y: contain;
+      scrollbar-width: thin;
+    }
+
+    .content-split-aside {
+      display: flex;
+    }
+
+    .content-split-aside > .content-panel {
+      flex: 1;
+    }
+
+    /*
+     * 거르개 등과 함께 한 겹 감싸인 두 칸(출결)도 소식·반 활동처럼 본문의 남은 높이를 채우고
+     * 각 칸이 스크롤한다. 고정 높이(692px)를 쓰면 작은 화면에서 목록이 잘리고 본문까지 스크롤됐다.
+     */
+    @media (min-height: 640px) {
+      [data-aligned-frame="true"] .content-frame-body > .content-split-host {
+        display: flex;
+        min-height: 0;
+        flex: 1 0 20rem;
+        flex-direction: column;
+      }
+
+      [data-aligned-frame="true"] .content-split-host > .content-split {
+        height: auto;
+        min-height: 0;
+        flex: 1 1 0;
+      }
+
+      [data-aligned-frame="true"]
+        .content-split-host
+        > .content-split
+        > :is(.content-split-main, .content-split-aside) {
+        position: relative;
+      }
+
+      /* 선택한 카드의 테두리(ring)가 칸 끝에서 잘리지 않게 초점 여유를 둔다(다른 탭과 같은 규칙). */
+      [data-aligned-frame="true"] .content-split-host > .content-split > .content-split-main {
+        margin: calc(var(--content-frame-focus-room) * -1);
+        margin-inline-end: calc(
+          (var(--content-frame-focus-room) + var(--content-frame-scrollbar, 0px)) * -1
+        );
+        padding: var(--content-frame-focus-room);
+        scrollbar-gutter: stable;
+      }
+    }
+
+    /*
+     * 목록·상세 두 칸은 본문에 남은 높이를 채우고 각 칸이 스크롤한다(최소 24rem — 그보다 낮으면
+     * 본문이 스크롤된다). 탭 패널로 한 번 감싼 경우(학생)도 같은 규칙을 따른다.
+     */
+    @media (min-height: 640px) {
+      [data-aligned-frame="true"] .content-frame-body > [role="tabpanel"]:not([hidden]) {
+        display: flex;
+        min-height: 0;
+        flex: 1 0 auto;
+        flex-direction: column;
+      }
+
+      [data-aligned-frame="true"]
+        :is(.content-frame-body, .content-frame-body > [role="tabpanel"])
+        > :is(.content-split, .help-request-split) {
+        height: auto;
+        /* min-height:auto면 두 칸이 내용 높이(실측 3557px)까지 늘어 칸 안 스크롤이 생기지 않는다. */
+        min-height: 0;
+        flex: 1 0 24rem;
+      }
+
+      /* 칸 안의 절대 위치 요소가 칸 스크롤 밖으로 빠져 본문까지 늘리지 않게(상세 칸 +1469px 실측) */
+      [data-aligned-frame="true"]
+        .content-frame-body
+        :is(
+          .content-split-main,
+          .content-split-aside,
+          .help-request-list,
+          .help-request-conversation
+        ) {
+        position: relative;
+      }
+
+      /*
+       * 두 칸 화면은 본문이 아니라 각 칸이 스크롤하므로 본문은 막대 자리를 비우지 않는다.
+       * 목록 칸은 막대를 두 칸 사이 틈에 두어 긴 목록에서도 카드 끝이 그대로다. 상세 칸은 바탕을 칠한
+       * 판이라(소식) 비키면 판이 끝선 밖으로 나가므로(+10px 실측) 막대를 판 안쪽에 둔다.
+       */
+      [data-aligned-frame="true"]
+        .content-frame-body:has(
+          > :is(.content-split, .help-request-split),
+          > [role="tabpanel"]:not([hidden]) > .content-split
+        ) {
+        margin-inline-end: calc(var(--content-frame-focus-room) * -1);
+        scrollbar-gutter: auto;
+      }
+
+      /* 목록 칸도 초점 테두리 여유를 사방에 두고, 막대는 오른쪽 틈에 둔다. */
+      [data-aligned-frame="true"]
+        :is(.content-frame-body, .content-frame-body > [role="tabpanel"])
+        > .content-split
+        > .content-split-main {
+        margin: calc(var(--content-frame-focus-room) * -1);
+        margin-inline-end: calc(
+          (var(--content-frame-focus-room) + var(--content-frame-scrollbar, 0px)) * -1
+        );
+        padding: var(--content-frame-focus-room);
+        scrollbar-gutter: stable;
+      }
+
+      /*
+       * 도움 목록: 카드 그림자용 3px 여백을 초점 여유(8px)로 넓히고 같은 만큼 바깥으로 비켜 카드가
+       * 끝선에서 시작하게 한다(+3px 실측).
+       */
+      [data-aligned-frame="true"] .content-frame-body > .help-request-split > .help-request-list {
+        margin: calc(var(--content-frame-focus-room) * -1);
+        margin-inline-end: calc(
+          (var(--content-frame-focus-room) + var(--content-frame-scrollbar, 0px)) * -1
+        );
+        /* help-request-layout.css의 padding(층 밖 CSS라 components 층보다 우선)을 이기려면 !important */
+        padding: var(--content-frame-focus-room) !important;
+        scrollbar-gutter: stable;
+        /* 다른 칸과 같은 얇은 막대 — 기본 막대(15px)면 비킨 폭(10px)과 5px 어긋난다(간격 29px 실측). */
+        scrollbar-width: thin;
+      }
+    }
+
+    .content-action-bar {
+      position: static;
+      margin-top: auto;
+      padding: 16px 0 0;
+    }
+
+    /* 학생 확인 띠는 카드 밖 오른쪽 칸에 홀로 놓인다 — 흰 바탕이 네모로 잘리고 글자가 가장자리에 붙던 것을
+       본문 카드와 같은 둥근 카드로 맞춘다(2026-10-04 화면 검수). 교사 패널 안의 띠는 카드 안이라 그대로 둔다. */
+    [data-student-detail-actions] .content-action-bar {
+      margin-top: 0;
+      padding: 16px 18px;
+      border: 1px solid var(--color-app-border);
+      border-radius: 1.25rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    /* 칸 맨 아래에 붙어 위가 비어 보이던 것을 본문 제목 높이(칸 맨 위)로 올린다(2026-10-04 사용자 선택).
+       질문 창은 카드 아래에 열린다. 목록 옆 미리보기(embedded)와 휴대폰 고정 띠는 그대로.
+       감싼 div의 mt-auto·pt-4는 utilities 층이라 components 층에서 이기려면 !important가 필요하다. */
+    [data-content-detail="page"] [data-student-detail-actions] {
+      gap: 12px;
+    }
+
+    [data-content-detail="page"] [data-student-detail-actions] > [data-detail-action-bar] {
+      order: -1;
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+  }
+}

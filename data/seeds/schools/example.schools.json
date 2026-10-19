@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "items": [
+    {
+      "edu_office_code": "B10",
+      "school_code": "7010123",
+      "school_name": "우리학교",
+      "school_kind": "high",
+      "region_name": "서울특별시",
+      "edu_office_name": "서울특별시교육청"
+    }
+  ]
+}

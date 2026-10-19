@@ -1,0 +1,260 @@
+@layer components {
+  [data-schedule-kind="exam"] {
+    --schedule-ink: #2b6149;
+    --schedule-soft: #e2eee7;
+  }
+  [data-schedule-kind="task"] {
+    --schedule-ink: #805f26;
+    --schedule-soft: #f6eedd;
+  }
+  [data-schedule-kind="event"] {
+    --schedule-ink: #4d6474;
+    --schedule-soft: #e6ecf0;
+  }
+  [data-schedule-kind="school"] {
+    --schedule-ink: #6b5b8a;
+    --schedule-soft: #eeebf4;
+  }
+  [data-theme="dark"] [data-schedule-kind="exam"] {
+    --schedule-ink: #a5d1b8;
+    --schedule-soft: #243c31;
+  }
+  [data-theme="dark"] [data-schedule-kind="task"] {
+    --schedule-ink: #e0c482;
+    --schedule-soft: #3c3424;
+  }
+  [data-theme="dark"] [data-schedule-kind="event"] {
+    --schedule-ink: #b0c8d8;
+    --schedule-soft: #2b3740;
+  }
+  [data-theme="dark"] [data-schedule-kind="school"] {
+    --schedule-ink: #cbbde2;
+    --schedule-soft: #383047;
+  }
+  .schedule-kind-chip {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 7px;
+    background: var(--schedule-soft);
+    padding: 4px 8px;
+    color: var(--schedule-ink);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+  .schedule-agenda-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border-inline-start: 4px solid var(--schedule-ink);
+    padding: 18px 14px;
+  }
+  .schedule-agenda-countdown {
+    display: flex;
+    min-width: 52px;
+    flex: none;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2px;
+    color: var(--schedule-ink);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.3;
+  }
+  .schedule-agenda-countdown.is-near {
+    color: var(--color-danger);
+  }
+  .schedule-agenda-date {
+    margin-top: 5px;
+    color: var(--color-app-muted);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+  .schedule-kind-dot {
+    width: 5px;
+    height: 5px;
+    flex: none;
+    border-radius: 100%;
+    background: var(--schedule-ink);
+  }
+  .schedule-holiday-line {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 2px;
+    color: var(--color-calendar-holiday);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .schedule-holiday-line::after {
+    height: 1px;
+    min-width: 16px;
+    flex: 1;
+    background: currentColor;
+    opacity: 0.35;
+    content: "";
+  }
+  .schedule-calendar-holiday {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    white-space: normal;
+    line-height: 1.35;
+  }
+  .schedule-month-cell .schedule-month-title {
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+  .schedule-week-day[aria-pressed="true"] {
+    outline: 2px solid #2b6149;
+    outline-offset: -2px;
+  }
+  .schedule-month-cell[aria-selected="true"] {
+    outline: 2px solid #2b6149;
+    outline-offset: -2px;
+  }
+}
+
+@media (max-width: 1279px) {
+  .schedule-calendar-pair[data-calendar-view="week"] > .content-split-main {
+    display: none;
+  }
+  [data-feature-surface="schedules-calendar"][data-calendar-view="month"] .schedule-week-strip,
+  [data-feature-surface="schedules-calendar"][data-calendar-view="month"]
+    .schedule-week-navigation {
+    display: none;
+  }
+}
+
+/*
+ * PC 달력은 스크롤 없이 한 화면에 다 보여야 한다(2026-09-28 사용자). 달력 구역을 본문의 보이는 높이에
+ * 맞추고 6주 칸이 그 안에서 줄어든다. 아래 일정 목록은 본문 스크롤로 본다.
+ * (그전에는 두 칸이 고정 높이 692px라 본문 623px(1440×900)보다 커서 마지막 주가 잘렸다.)
+ */
+@media (min-width: 1280px) and (min-height: 640px) {
+  [data-aligned-frame="true"] .content-frame-body > [data-feature-surface="schedules-calendar"] {
+    display: flex;
+    height: 100%;
+    min-height: 24rem;
+    flex: none;
+    flex-direction: column;
+  }
+  [data-feature-surface="schedules-calendar"] > .schedule-calendar-pair {
+    height: auto;
+    min-height: 0;
+    flex: 1 1 0;
+  }
+}
+
+/*
+ * 달력 칸은 한 화면에 맞춰 스스로 스크롤하지 않는다. 두 칸의 스크롤 가두기(overscroll-behavior: contain,
+ * content-frame.css)가 남아 있으면 달력·상세 위에서 굴린 휠이 멈춰 아래 일정 목록으로 내려갈 수 없었다
+ * (1440×900 실측: 본문에 379px가 남았는데 0px 이동). 휠이 본문으로 이어지게 한다.
+ */
+[data-feature-surface="schedules-calendar"]
+  .schedule-calendar-pair
+  > :is(.content-split-main, .content-split-aside) {
+  overscroll-behavior: auto;
+}
+
+/*
+ * 좁은 화면 월 보기: 달력 판을 보이는 높이(schedule-calendar.tsx가 잰 값)에 맞추고 6주 칸을 줄인다.
+ * 단 날짜 칸은 누르는 칸이라 44px 아래로 줄이지 않는다(2026-10-04 사용자 결정 — 1024×768에서 37.8px,
+ * 375×667에서 41.8px였다). 그런 낮은 화면에서는 판이 그만큼 길어지고 본문이 조금 스크롤한다.
+ */
+@media (max-width: 1279px) {
+  [data-feature-surface="schedules-calendar"][data-calendar-view="month"] .schedule-month-panel {
+    display: flex;
+    min-height: var(--schedule-month-visible-height, auto);
+    flex-direction: column;
+  }
+  [data-feature-surface="schedules-calendar"][data-calendar-view="month"]
+    [data-schedule-month-calendar] {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+  [data-feature-surface="schedules-calendar"][data-calendar-view="month"] .schedule-month-grid {
+    display: grid;
+    flex: 1;
+    grid-template-rows: auto repeat(6, minmax(44px, 1fr));
+    gap: 2px;
+  }
+  [data-feature-surface="schedules-calendar"][data-calendar-view="month"] .schedule-month-week {
+    min-height: 0;
+    margin-top: 0;
+  }
+  [data-feature-surface="schedules-calendar"][data-calendar-view="month"] .schedule-month-cell {
+    min-height: 44px;
+  }
+  /* 칸이 낮아져도 일정 있는 날이 보이게, 제목 대신 "● 개수"를 날짜 오른쪽 위에 둔다(1024px 칸 38px 실측). */
+  [data-feature-surface="schedules-calendar"][data-calendar-view="month"] .schedule-month-events {
+    display: none;
+  }
+  [data-feature-surface="schedules-calendar"][data-calendar-view="month"] .schedule-month-count {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    display: flex;
+    margin-top: 0;
+  }
+}
+
+@media (min-width: 1280px) {
+  .schedule-calendar-pair > .content-split-main {
+    overflow: hidden;
+  }
+  .schedule-month-panel,
+  [data-schedule-month-calendar] {
+    display: flex;
+    height: 100%;
+    min-height: 0;
+    flex-direction: column;
+  }
+  .schedule-month-grid {
+    display: grid;
+    min-height: 0;
+    flex: 1;
+    grid-template-rows: auto repeat(6, minmax(0, 1fr));
+    gap: 4px;
+  }
+  .schedule-month-week {
+    min-height: 0;
+    margin-top: 0;
+  }
+  .schedule-month-cell {
+    min-height: 0;
+    padding: 5px;
+  }
+  .schedule-month-cell .schedule-calendar-holiday,
+  .schedule-month-cell .schedule-month-title,
+  .schedule-month-events > span {
+    overflow: hidden;
+    padding-block: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 15px;
+  }
+  .schedule-month-cell .schedule-calendar-holiday {
+    margin-top: 0;
+  }
+  .schedule-month-cell .schedule-month-title {
+    display: -webkit-box;
+    overflow-wrap: anywhere;
+    white-space: normal;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+  .schedule-month-events {
+    margin-top: 2px;
+  }
+  .schedule-month-events > :not(:last-child) {
+    margin-bottom: 0;
+  }
+}

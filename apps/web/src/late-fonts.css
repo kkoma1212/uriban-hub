@@ -1,0 +1,7 @@
+/*
+ * 첫 화면 CSS 예산(check-build-output.mjs) 밖에서 늦게 불러오는 글꼴.
+ * - Pretendard Variable: 본문(styles.css --font-sans 첫 순서).
+ * - Gaegu 700: 칠판 글씨 전용(features/home/chalkboard.tsx). 2026-09-27 확정 시안.
+ */
+@import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
+@import "@fontsource/gaegu/700.css";
