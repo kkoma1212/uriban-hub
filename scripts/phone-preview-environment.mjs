@@ -4,7 +4,7 @@ import { APP_ENVIRONMENT_KEYS } from "../apps/api/dist/config/environment.js";
 // 인터넷에 열린 미리보기에는 API가 읽는 설정과 Windows에서 Node를 돌리는 데 필요한 시스템 값만 넘긴다
 // (총검수 I4-02, 2026-10-03). 다른 역할의 DB 비밀번호·셸 변수처럼 목록 밖의 값은 넘기지 않는다.
 const apiKeys = new Set(APP_ENVIRONMENT_KEYS);
-const systemKeys = new Set(
+export const systemKeys = new Set(
   [
     "SystemRoot",
     "windir",

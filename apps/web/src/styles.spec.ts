@@ -305,6 +305,15 @@ describe("global visual contracts", () => {
     );
   });
 
+  it("describes shared links with a title, description and an absolute https image", () => {
+    expect(indexHtml).toContain(
+      '<meta property="og:title" content="우리반 허브 — 중·고 학급 공지 확인 앱" />',
+    );
+    expect(indexHtml).toMatch(/<meta\s+name="description"\s+content="[^"]{20,}"/u);
+    // 카톡 미리보기는 상대 주소 그림을 읽지 못한다.
+    expect(indexHtml).toMatch(/<meta\s+property="og:image"\s+content="https:\/\/[^"]+\.png"/u);
+  });
+
   it("initializes appearance before the app without an inline script", () => {
     expect(indexHtml).toContain('<meta name="color-scheme" content="light dark" />');
     expect(indexHtml).toContain('<script src="/theme-init.mjs"></script>');

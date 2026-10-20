@@ -110,7 +110,8 @@ export function SignupApprovalForm({
                   : ""}
               </>
             )}{" "}
-            번호는 10분 동안 유효하고, 5회 틀리면 새 번호가 필요해요.
+            번호는 {waitingForTeacherApproval ? "48시간" : "10분"} 동안 유효하고, 5회 틀리면 새
+            번호가 필요해요.
           </p>
           <label className="auth-label" htmlFor="signup-approval-code">
             {waitingForTeacherApproval ? "교사 승인번호" : "가입 인증번호"}

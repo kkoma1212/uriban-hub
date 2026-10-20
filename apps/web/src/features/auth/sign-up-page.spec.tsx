@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen, waitFor, within } from "@testing-librar
 import { MemoryRouter, Route, Routes } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+import { clearPendingInviteCode, storePendingInviteCode } from "../../lib/invite-link";
 import { SignUpPage } from "./sign-up-page";
 vi.mock("../legal/use-consent-documents", () => ({
   useConsentDocuments: () => ({
@@ -165,6 +166,28 @@ describe("SignUpPage", () => {
       });
     },
   );
+
+  it("pre-selects student for a class QR invite and still lets a teacher change it", () => {
+    storePendingInviteCode("ABCDEFGH");
+    try {
+      renderSignUpPage();
+      expect(screen.getByRole("radio", { name: /학생/ })).toBeChecked();
+      expect(
+        screen.getByText("반 초대로 들어와 학생을 미리 골랐어요. 선생님이면 바꿔 주세요."),
+      ).toBeVisible();
+      fireEvent.click(screen.getByRole("radio", { name: /선생님/ }));
+      expect(screen.getByRole("radio", { name: /선생님/ })).toBeChecked();
+    } finally {
+      clearPendingInviteCode();
+    }
+  });
+
+  it("leaves the account type unselected without a class invite", () => {
+    clearPendingInviteCode();
+    renderSignUpPage();
+    expect(screen.getByRole("radio", { name: /학생/ })).not.toBeChecked();
+    expect(screen.queryByText(/반 초대로 들어와/)).not.toBeInTheDocument();
+  });
 
   it("shows a closed notice instead of guardian consent while under-14 signup is closed (P-025)", async () => {
     signUpOptions.under14Open = false;

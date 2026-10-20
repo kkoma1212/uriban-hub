@@ -52,7 +52,7 @@ export class SmtpVerificationMailer implements VerificationMailer {
         title: "이메일을 확인해 주세요",
         paragraphs: [
           "우리반 허브 이메일 확인을 완료하려면 아래 버튼을 눌러 주세요.",
-          "이 링크는 24시간 동안 한 번만 사용할 수 있습니다.",
+          "이 링크는 24시간 동안 한 번만 쓸 수 있어요.",
         ],
         action: { label: "이메일 확인하기", url: link },
       }),

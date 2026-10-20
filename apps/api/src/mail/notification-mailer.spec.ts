@@ -62,6 +62,20 @@ describe("account and membership notifications", () => {
     expect(message.text).toContain("비밀번호는 메일로 보내지 않습니다");
   });
 
+  it("shows a found account id in its own escaped box and omits the box when no account exists", async () => {
+    const h = harness();
+    await h.mailer.sendAccountRecoveryEmail("a&b@example.invalid", true);
+    await h.mailer.sendAccountRecoveryEmail("missing@example.invalid", false);
+    const found = h.sendMail.mock.calls[0]![0] as { text: string; html: string };
+    const missing = h.sendMail.mock.calls[1]![0] as { text: string; html: string };
+    expect(found.html).toContain("내 아이디");
+    expect(found.html).toContain("a&amp;b@example.invalid");
+    expect(found.html).not.toContain("a&b@example.invalid");
+    expect(found.text).toContain("내 아이디: a&b@example.invalid");
+    expect(missing.html).not.toContain("내 아이디");
+    expect(missing.text).not.toContain("missing@example.invalid");
+  });
+
   it("limits class mail to the class and status without recipient lists or free-text reasons", async () => {
     const h = harness();
     await h.mailer.sendClassJoinRequestEmail("teacher@example.invalid", "1반 <script>");
@@ -70,8 +84,26 @@ describe("account and membership notifications", () => {
     const student = h.sendMail.mock.calls[1]![0] as { text: string; to: string };
     expect(teacher.html).toContain("1반 &lt;script&gt;");
     expect(teacher.html).toContain("/members/manage?tab=pending");
-    expect(student.text).toContain("반 참여가 승인되었습니다");
+    expect(student.text).toContain("반 참여가 승인됐어요");
     expect(student.text).not.toContain(teacher.to);
+  });
+
+  it("tells an administrator a teacher is waiting without naming the applicant or linking this host", async () => {
+    const h = harness();
+    await expect(h.mailer.sendTeacherApprovalWaitingEmail("owner@example.invalid")).resolves.toBe(
+      "sent",
+    );
+    const message = h.sendMail.mock.calls[0]![0] as {
+      html: string;
+      subject: string;
+      text: string;
+      to: string;
+    };
+    expect(message.to).toBe("owner@example.invalid");
+    expect(message.subject).toBe("[우리반 허브] 승인을 기다리는 선생님이 있어요");
+    expect(message.text).toContain("'승인 대기'");
+    expect(message.html).not.toContain("https://classhub.example");
+    expect(message.text).not.toMatch(/@/u);
   });
 
   it("returns a delivery result without throwing private SMTP errors", async () => {

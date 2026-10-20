@@ -739,3 +739,42 @@ describe("school research final submission guard", () => {
     },
   );
 });
+
+describe("TeacherClassCreatePage under-14 notice", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it.each([
+    ["middle", 1, false, true],
+    ["middle", 2, false, true],
+    ["middle", 3, false, false],
+    ["elementary", 6, false, true],
+    ["high", 1, false, false],
+    ["middle", 1, true, false],
+  ] as const)(
+    "warns about a %s grade %i class only while under-14 signup is closed (open=%s)",
+    async (schoolKind, grade, under14Open, warned) => {
+      vi.spyOn(auth, "getBootstrap").mockResolvedValue(createClassBootstrap);
+      const options = vi
+        .spyOn(auth, "getSignUpOptions")
+        .mockResolvedValue({ birth_date_required: false, under_14_signup: under14Open });
+      vi.spyOn(auth, "searchSchools").mockResolvedValue({
+        schools: [{ ...SCHOOL, school_kind: schoolKind, school_name: "테스트학교" }],
+      } as Awaited<ReturnType<typeof auth.searchSchools>>);
+      renderPage();
+      await screen.findByRole("heading", { name: "반 만들기" });
+      fireEvent.change(screen.getByLabelText("학교 이름"), { target: { value: "테스트" } });
+      fireEvent.click(screen.getByRole("button", { name: "학교 검색" }));
+      fireEvent.click(await screen.findByRole("button", { name: /테스트학교/ }));
+      fireEvent.change(screen.getByLabelText("학년"), { target: { value: String(grade) } });
+      // 고등학교는 설정을 읽지 않는다. 초등·중학교는 처음 고른 1학년에서 한 번만 읽는다.
+      if (schoolKind === "high") expect(options).not.toHaveBeenCalled();
+      else await waitFor(() => expect(options).toHaveBeenCalledOnce());
+      if (warned) expect(await screen.findByText(/대부분 만 14세 미만/)).toBeVisible();
+      else expect(screen.queryByText(/대부분 만 14세 미만/)).not.toBeInTheDocument();
+      // 안내일 뿐 반 만들기는 막지 않는다.
+      expect(screen.getByRole("button", { name: "반 만들기" })).toBeEnabled();
+    },
+  );
+});

@@ -1,5 +1,5 @@
 import { CheckCheck, LoaderCircle, MessagesSquare, RefreshCw } from "lucide-react";
-import { useEffect, useId, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type MouseEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { ApiRequestError, getBootstrap } from "../../api/auth";
 import { AUTHENTICATED_CLIENT_STATE_CLEARED_EVENT } from "../../lib/authenticated-client-state";
@@ -46,7 +46,8 @@ function HelpRequestRow({
   const [error, setError] = useState<string>();
   const navigate = useNavigate();
   const lifetime = useRef({ mounted: false, epoch: 0, busy: false });
-  useEffect(() => {
+  // 그려지는 순간 켠다. useEffect는 그린 뒤에 돌아 그 사이 누른 '처리 완료'가 사라졌다(10-20 부하 재현 18/288).
+  useLayoutEffect(() => {
     lifetime.current.mounted = true;
     const invalidate = () => {
       lifetime.current.mounted = false;

@@ -28,6 +28,7 @@
     "web:build:production": "node scripts/build-web-deployment.mjs --mode production",
     "web:changes": "node scripts/build-web-deployment.mjs changes",
     "web:deployed": "node scripts/build-web-deployment.mjs mark-deployed",
+    "admin-remote:web": "node scripts/build-web-deployment.mjs --admin-remote",
     "server:release": "node scripts/build-server-release.mjs build",
     "server:deployed": "node scripts/build-server-release.mjs mark-deployed",
     "docs:read": "node scripts/project-records.mjs read",

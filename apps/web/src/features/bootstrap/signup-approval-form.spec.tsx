@@ -33,6 +33,7 @@ describe("post-registration approval", () => {
     });
     render(<SignupApprovalForm onApproved={onApproved} signupRole="teacher" emailVerified />);
     expect(screen.getByText(/관리자가 선생님임을 확인/)).toBeVisible();
+    expect(screen.getByText(/48시간 동안 유효/)).toBeVisible();
     expect(
       screen.queryByRole("button", { name: "인증번호 메일 다시 보내기" }),
     ).not.toBeInTheDocument();
@@ -55,6 +56,7 @@ describe("post-registration approval", () => {
   it("asks for the emailed code after signup and rejects an incomplete code locally", async () => {
     render(<SignupApprovalForm onApproved={vi.fn()} signupRole="student" />);
     expect(screen.getByText(/가입한 이메일로 보낸 6자리 인증번호/)).toBeVisible();
+    expect(screen.getByText(/10분 동안 유효/)).toBeVisible();
     fireEvent.click(screen.getByRole("button", { name: "가입 인증 완료" }));
     expect(await screen.findByRole("alert")).toHaveTextContent("6자리");
     expect(confirmSignupApproval).not.toHaveBeenCalled();

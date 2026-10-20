@@ -84,7 +84,7 @@ const approval = (engine: Engine, changes: Row = {}): Row => ({
 
 // Real Kysely dialect compilation and Maria row codec; scripted connection only.
 // These transaction events do not claim actual DB persistence or concurrency verification.
-function harness(engine: Engine, steps: Step[], allowed = true) {
+function harness(engine: Engine, steps: Step[], allowed = true, notifications?: unknown) {
   const queries: CompiledQuery[] = [],
     events: string[] = [];
   class Driver extends DummyDriver {
@@ -155,6 +155,7 @@ function harness(engine: Engine, steps: Step[], allowed = true) {
     engine === "mariadb"
       ? new ConfigService<AppEnvironment, true>({ DATABASE_ENGINE: engine })
       : undefined,
+    notifications as never,
   );
   return { service, queries, events, steps, rateLimiter };
 }
@@ -196,6 +197,93 @@ describe.each(["postgres", "mariadb"] as const)("signup authority separation on 
         approvalCodeDigest(config.emailHmacKey, email, role, "123456", userId, "email"),
       );
       expect(h.events).toContain("commit");
+    },
+  );
+
+  const emailVerificationSteps = (role: "student" | "teacher"): Step[] => [
+    select("users", [user(engine, { signup_role: role, email_verified_at: null })]),
+    select("admin_signup_approvals", [approval(engine, { issued_by_admin_account_id: null })]),
+    write("admin_signup_approvals", "update"),
+    write("users", "update"),
+    write("admin_signup_approval_events", "insert into"),
+  ];
+
+  it("mails each active account manager once a verified teacher starts waiting", async () => {
+    const mailer = { sendTeacherApprovalWaitingEmail: vi.fn(async () => "sent") };
+    const h = harness(
+      engine,
+      [
+        ...emailVerificationSteps("teacher"),
+        select("admin_accounts", [
+          { email_normalized: "owner@example.invalid" },
+          { email_normalized: "manager@example.invalid" },
+        ]),
+      ],
+      true,
+      mailer,
+    );
+    await expect(h.service.redeem(userId, "123456", requestId)).resolves.toEqual({
+      next_action: "BOOTSTRAP",
+      signup_approved: false,
+    });
+    expect(h.steps).toHaveLength(0);
+    // The lookup runs after the redemption commits, so a mail problem cannot undo it.
+    expect(h.events.indexOf("commit")).toBeLessThan(h.events.indexOf("select:admin_accounts"));
+    const lookup = h.queries.at(-1)!;
+    expect(lookup.sql).toMatch(/admin_account_roles/u);
+    expect(lookup.parameters).toEqual(["active", "super_admin", "account_manager"]);
+    expect(mailer.sendTeacherApprovalWaitingEmail.mock.calls).toEqual([
+      ["owner@example.invalid"],
+      ["manager@example.invalid"],
+    ]);
+  });
+
+  it.each(["student email verification", "administrator approval"] as const)(
+    "does not mail administrators after %s",
+    async (kind) => {
+      const mailer = { sendTeacherApprovalWaitingEmail: vi.fn(async () => "sent") };
+      const h = harness(
+        engine,
+        kind === "administrator approval"
+          ? successSteps(engine, "teacher")
+          : emailVerificationSteps("student"),
+        true,
+        mailer,
+      );
+      await expect(h.service.redeem(userId, "123456", requestId)).resolves.toMatchObject({
+        signup_approved: true,
+      });
+      expect(h.queries.some((query) => query.sql.includes("admin_accounts"))).toBe(false);
+      expect(mailer.sendTeacherApprovalWaitingEmail).not.toHaveBeenCalled();
+    },
+  );
+
+  it.each(["lookup", "mail"] as const)(
+    "keeps the committed verification when the administrator %s fails",
+    async (failure) => {
+      const mailer = {
+        sendTeacherApprovalWaitingEmail: vi.fn(async () => {
+          throw new Error("private SMTP reply");
+        }),
+      };
+      const h = harness(
+        engine,
+        [
+          ...emailVerificationSteps("teacher"),
+          failure === "lookup"
+            ? { table: "admin_accounts", kind: "select", error: new Error("private DB reply") }
+            : select("admin_accounts", [{ email_normalized: "owner@example.invalid" }]),
+        ],
+        true,
+        mailer,
+      );
+      await expect(h.service.redeem(userId, "123456", requestId)).resolves.toEqual({
+        next_action: "BOOTSTRAP",
+        signup_approved: false,
+      });
+      expect(mailer.sendTeacherApprovalWaitingEmail).toHaveBeenCalledTimes(
+        failure === "mail" ? 1 : 0,
+      );
     },
   );
 

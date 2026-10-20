@@ -1,11 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle2, Eye, EyeOff, LoaderCircle, LogIn } from "lucide-react";
+import { CheckCircle2, Eye, EyeOff, LoaderCircle, LogIn, QrCode } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import { z } from "zod";
 
 import { ApiRequestError, login } from "../../api/auth";
+import { readPendingInviteCode } from "../../lib/invite-link";
 import { AlertDialog } from "../layout/alert-dialog";
 import { AuthShell, LoginMobileHeader } from "./auth-shell";
 import { useRequestCooldown } from "./request-cooldown";
@@ -59,6 +60,9 @@ export function LoginPage(): React.JSX.Element {
     state?.signupRequested === true && z.email().safeParse(state.signupEmail).success
       ? state.signupEmail!
       : "";
+  // 담임 QR(/join)로 들어온 학생은 로그인 화면에서 처음 멈춘다. 초대가 확인됐고 처음이면 가입하면 된다고
+  // 알려 화면 사이를 헤매지 않게 한다(ux2 2026-10-15).
+  const [invitePending] = useState(() => readPendingInviteCode() !== null);
   const [showPassword, setShowPassword] = useState(false);
   const [submitError, setSubmitError] = useState<string>();
   const [showAttemptNotice, setShowAttemptNotice] = useState(false);
@@ -119,6 +123,23 @@ export function LoginPage(): React.JSX.Element {
         <h1 className="app-page-title">로그인</h1>
         <p className="app-page-description">가입한 이메일로 들어와요.</p>
       </header>
+
+      {invitePending && state?.signupRequested !== true ? (
+        <div
+          className="mb-5 flex gap-3 rounded-2xl border border-role-border bg-role-soft px-4 py-4 text-sm leading-6 text-app-text"
+          data-invite-pending="true"
+          role="status"
+        >
+          <QrCode aria-hidden="true" className="mt-0.5 shrink-0 text-role-primary" size={20} />
+          <div>
+            <p className="font-bold">반 초대를 확인했어요.</p>
+            <p className="mt-1">
+              처음이면 아래 &lsquo;선생님·학생 가입&rsquo;에서 학생으로 가입하고, 계정이 있으면
+              로그인해 주세요. 이 창에서 이어 가면 반 참여 화면에 초대 코드가 미리 채워져요.
+            </p>
+          </div>
+        </div>
+      ) : null}
 
       {state?.signupRequested === true ? (
         <div

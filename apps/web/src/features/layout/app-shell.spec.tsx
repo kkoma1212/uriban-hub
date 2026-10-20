@@ -434,9 +434,10 @@ describe("shared product app shell", () => {
     const footer = screen.getByRole("contentinfo", { name: "서비스 정보" });
     expect(within(footer).getByText("© 2026 우리반 허브")).toBeInTheDocument();
     expect(within(footer).queryByText(/제작·운영/u)).not.toBeInTheDocument();
-    expect(
-      within(footer).getByRole("link", { name: "문의 uribanhub@naver.com" }),
-    ).toHaveAttribute("href", "mailto:uribanhub@naver.com");
+    expect(within(footer).getByRole("link", { name: "문의 uribanhub@naver.com" })).toHaveAttribute(
+      "href",
+      "mailto:uribanhub@naver.com",
+    );
     expect(
       within(footer).getByRole("link", { name: "이용약관 전문 보기 (새 탭)" }),
     ).toHaveAttribute("href", "/legal/terms");

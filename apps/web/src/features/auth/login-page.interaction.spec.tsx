@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 // Provider discovery/buttons have their own integration spec; these cases isolate password/MFA requests.
 vi.mock("./social-login-buttons", () => ({ SocialLoginButtons: () => null }));
 
+import { clearPendingInviteCode, storePendingInviteCode } from "../../lib/invite-link";
 import { LoginPage } from "./login-page";
 
 describe("LoginPage interaction states", () => {
@@ -297,5 +298,30 @@ describe("LoginPage interaction states", () => {
     );
     expect(screen.queryByText("학생 · 확인과 준비")).not.toBeInTheDocument();
     expect(screen.queryByText("교사 · 집계와 관리")).not.toBeInTheDocument();
+  });
+
+  it("tells a student who scanned a class QR that the invite is kept and how to start", () => {
+    storePendingInviteCode("ABCDEFGH");
+    try {
+      render(
+        <MemoryRouter>
+          <LoginPage />
+        </MemoryRouter>,
+      );
+      expect(screen.getByRole("status")).toHaveTextContent("반 초대를 확인했어요.");
+      expect(screen.getByRole("status")).toHaveTextContent("학생으로 가입");
+    } finally {
+      clearPendingInviteCode();
+    }
+  });
+
+  it("shows no invite notice without a pending class invite", () => {
+    clearPendingInviteCode();
+    render(
+      <MemoryRouter>
+        <LoginPage />
+      </MemoryRouter>,
+    );
+    expect(screen.queryByText("반 초대를 확인했어요.")).not.toBeInTheDocument();
   });
 });

@@ -8,6 +8,7 @@ import {
   mkdirSync,
   readdirSync,
   readFileSync,
+  renameSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
@@ -20,6 +21,7 @@ const runtime = resolve(root, ".local-runtime/web-deployment");
 const qaOutput = resolve(root, ".local-runtime/qa-web");
 const qaProductionOutput = resolve(root, ".local-runtime/qa-web-production");
 const qaAdminOutput = resolve(root, ".local-runtime/qa-admin-web");
+const adminRemoteOutput = resolve(root, ".local-runtime/admin-remote-web");
 const changesPath = resolve(root, "OPERATIONS/web-deployment/changes.json");
 const manifestPath = resolve(runtime, "manifest.json");
 const deployedPath = resolve(runtime, "deployed.json");
@@ -190,6 +192,20 @@ if (process.argv[2] === "mark-deployed") {
       productionFiles: Object.keys(productionFiles).length,
       adminDirectory: ".local-runtime/qa-admin-web",
       adminFiles: Object.keys(adminFiles).length,
+    }),
+  );
+} else if (process.argv[2] === "--admin-remote") {
+  // 관리자 원격 접속(T-ADMIN-REMOTE)의 PC 관리자 프로그램이 내주는 관리자 화면. 루트 Web/은 건드리지 않는다.
+  // 검사를 통과한 새 빌드만 바꿔 끼워, 빌드가 실패해도 켜져 있는 관리자 프로그램의 화면은 남는다.
+  const stage = `${adminRemoteOutput}-stage`;
+  rmSync(stage, { recursive: true, force: true });
+  const files = buildVerifiedStage("production", stage, "admin");
+  rmSync(adminRemoteOutput, { recursive: true, force: true });
+  renameSync(stage, adminRemoteOutput);
+  console.log(
+    JSON.stringify({
+      directory: ".local-runtime/admin-remote-web",
+      files: Object.keys(files).length,
     }),
   );
 } else {

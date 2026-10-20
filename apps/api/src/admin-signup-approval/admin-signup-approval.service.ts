@@ -26,6 +26,7 @@ import {
   issueAdminSignupApprovalCode,
   normalizeApprovalEmail,
   ADMIN_SIGNUP_APPROVAL_TTL_MS,
+  SIGNUP_EMAIL_CODE_TTL_MS,
   ADMIN_SIGNUP_APPROVAL_MAX_ATTEMPTS,
   matchesApprovalCode,
   type AdminSignupApprovalRole,
@@ -146,7 +147,9 @@ export class AdminSignupApprovalService {
       createPrivacySafeDigest(secret, "admin-signup-approval-email", normalized),
       "base64url",
     );
-    const expiresAt = new Date(Date.now() + ADMIN_SIGNUP_APPROVAL_TTL_MS);
+    const expiresAt = new Date(
+      Date.now() + (adminId === null ? SIGNUP_EMAIL_CODE_TTL_MS : ADMIN_SIGNUP_APPROVAL_TTL_MS),
+    );
     const row = await this.database.transaction().execute(async (transaction) => {
       // Both engines use the same users -> approval lock order as redemption.
       const account = await transaction

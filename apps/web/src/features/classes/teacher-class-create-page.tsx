@@ -15,6 +15,7 @@ import {
   ApiRequestError,
   createClass,
   getBootstrap,
+  getSignUpOptions,
   logout,
   searchSchools,
   type BootstrapResponse,
@@ -130,6 +131,21 @@ export function TeacherClassCreatePage(): React.JSX.Element {
   const schoolSearchGenerationRef = useRef(0);
   const classDetailsHeadingRef = useRef<HTMLHeadingElement>(null);
   const schoolChosenByUserRef = useRef(false);
+  // 만 14세 미만 가입이 닫혀 있으면(P-025②) 초등·중1·중2 반은 학생 대부분이 가입하지 못한다.
+  // 반을 만든 뒤가 아니라 만들 때 알린다(ux2 2026-10-15). 그런 학년을 고를 때만 설정을 한 번 읽고,
+  // 못 읽으면 안내만 빠진다.
+  const mostStudentsUnder14 =
+    selectedSchool?.school_kind === "elementary" ||
+    (selectedSchool?.school_kind === "middle" && grade <= 2);
+  const [under14SignupClosed, setUnder14SignupClosed] = useState<boolean>();
+  useEffect(() => {
+    if (!mostStudentsUnder14 || under14SignupClosed !== undefined) return;
+    const controller = new AbortController();
+    void getSignUpOptions(controller.signal)
+      .then((options) => setUnder14SignupClosed(options.under_14_signup === false))
+      .catch(() => undefined);
+    return () => controller.abort();
+  }, [mostStudentsUnder14, under14SignupClosed]);
 
   useEffect(() => {
     if (selectedSchool !== undefined && schoolChosenByUserRef.current && !createOutcomeUnknown) {
@@ -619,6 +635,16 @@ export function TeacherClassCreatePage(): React.JSX.Element {
                 ))}
               </select>
             </label>
+            {under14SignupClosed === true && mostStudentsUnder14 ? (
+              <p
+                className="col-span-2 rounded-2xl border border-warning-border bg-warning-surface px-4 py-3 text-sm leading-6 text-warning-text"
+                data-under-14-notice="true"
+                role="status"
+              >
+                이 학년 학생은 대부분 만 14세 미만이라 지금은 가입할 수 없어요. 반은 만들 수 있지만
+                만 14세가 지난 학생만 참여할 수 있어요.
+              </p>
+            ) : null}
             <label className="col-span-2 grid gap-2 text-sm font-bold text-app-text sm:col-span-1">
               반 이름
               <input

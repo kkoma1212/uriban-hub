@@ -12,6 +12,7 @@ import {
   signUp,
 } from "../../api/auth";
 import { ageRouteForBirthDate, isAcceptableBirthDate } from "../../lib/birth-date";
+import { readPendingInviteCode } from "../../lib/invite-link";
 import { PageHeader } from "../layout/page-header";
 import { useConsentDocuments } from "../legal/use-consent-documents";
 import { AuthShell, LoginMobileHeader } from "./auth-shell";
@@ -67,6 +68,8 @@ export function SignUpPage(): React.JSX.Element {
   const [isGuardianRequesting, setIsGuardianRequesting] = useState(false);
   const [isGuardianChecking, setIsGuardianChecking] = useState(false);
   const submissionPending = useRef(false);
+  // 담임 QR로 들어왔으면 거의 학생이다. 미리 골라 두되 선생님이면 바꿀 수 있다(ux2 2026-10-15).
+  const [invitedByClass] = useState(() => readPendingInviteCode() !== null);
   const {
     clearErrors,
     formState: { errors, isSubmitting },
@@ -87,7 +90,7 @@ export function SignUpPage(): React.JSX.Element {
       guardian_email: "",
       password: "",
       privacy: false,
-      role: undefined,
+      role: invitedByClass ? "student" : undefined,
       terms: false,
     },
     // 생년월일을 받는지는 서버 설정을 읽은 뒤에 정해진다 — 검사 규칙도 그때의 값을 쓴다.
@@ -511,6 +514,16 @@ export function SignUpPage(): React.JSX.Element {
         {(step === 2 || step === 4) && !legal.ready && !legal.error && (
           <p role="status" className="text-sm text-app-muted">
             동의 대상 문서를 확인하고 있어요.
+          </p>
+        )}
+
+        {step === 1 && invitedByClass && (
+          <p
+            className="rounded-2xl border border-role-border bg-role-soft px-4 py-3 text-sm leading-6 text-app-text"
+            data-invite-pending="true"
+            role="status"
+          >
+            반 초대로 들어와 학생을 미리 골랐어요. 선생님이면 바꿔 주세요.
           </p>
         )}
 

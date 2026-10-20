@@ -288,6 +288,35 @@ describe("AdminSignupApprovalService issue contract", () => {
     },
   );
 
+  it.each([
+    ["administrator approval", "admin-1", new Date(), 48 * 60 * 60 * 1000],
+    ["email verification", null, null, 10 * 60 * 1000],
+  ] as const)(
+    "gives the %s code its own lifetime",
+    async (_kind, adminId, emailVerifiedAt, lifetimeMs) => {
+      const d = databaseDouble();
+      d.select.executeTakeFirst.mockResolvedValueOnce({
+        user_id: "1",
+        signup_role: "teacher",
+        signup_approved_at: null,
+        email_verified_at: emailVerifiedAt,
+        is_active: true,
+      });
+      const before = Date.now();
+      await new AdminSignupApprovalService(
+        d.db,
+        {
+          get: (key: string) => (key === "DATABASE_ENGINE" ? "postgres" : "test-email-hmac-key"),
+        } as never,
+        undefined,
+        { consumeAll: vi.fn().mockResolvedValue({ allowed: true }) } as never,
+      ).issue("teacher@example.invalid", "teacher", adminId, "request");
+      const expiresAt = (d.insertValues[0]?.expires_at as Date).getTime();
+      expect(expiresAt).toBeGreaterThanOrEqual(before + lifetimeMs);
+      expect(expiresAt).toBeLessThanOrEqual(Date.now() + lifetimeMs);
+    },
+  );
+
   it.each(["student", null])(
     "rejects teacher issuance for stored role %s before revoking a valid code",
     async (signup_role) => {

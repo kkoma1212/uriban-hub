@@ -1,7 +1,11 @@
 import { createHmac, randomInt, timingSafeEqual } from "node:crypto";
 
 export const ADMIN_SIGNUP_APPROVAL_CODE_DIGITS = 6;
-export const ADMIN_SIGNUP_APPROVAL_TTL_MS = 10 * 60 * 1000;
+// The email code is typed right after it is sent. The administrator's teacher approval code waits
+// until the teacher opens that mail, so it lasts 48 hours (user decision 2026-10-20); 6 digits and
+// 5 attempts keep a guess at 5 in 1,000,000.
+export const SIGNUP_EMAIL_CODE_TTL_MS = 10 * 60 * 1000;
+export const ADMIN_SIGNUP_APPROVAL_TTL_MS = 48 * 60 * 60 * 1000;
 export const ADMIN_SIGNUP_APPROVAL_MAX_ATTEMPTS = 5;
 
 export type AdminSignupApprovalRole = "teacher" | "student";

@@ -28,6 +28,7 @@ export interface NotificationMailer {
     details: { code: string; role: SignupMailRole; expiresAt: Date },
   ): Promise<MailDeliveryStatus>;
   sendAccountRecoveryEmail(email: string, accountExists: boolean): Promise<MailDeliveryStatus>;
+  sendTeacherApprovalWaitingEmail(adminEmail: string): Promise<MailDeliveryStatus>;
   sendClassJoinRequestedEmail(email: string, className: string): Promise<MailDeliveryStatus>;
   sendClassJoinRequestEmail(email: string, className: string): Promise<MailDeliveryStatus>;
   sendMembershipStatusEmail(
@@ -39,10 +40,10 @@ export interface NotificationMailer {
 
 const ROLE_LABELS: Record<SignupMailRole, string> = { student: "학생", teacher: "선생님" };
 const MEMBERSHIP_MESSAGES: Record<MembershipMailStatus, string> = {
-  approved: "반 참여가 승인되었습니다. 로그인해 우리 반 화면을 확인해 주세요.",
-  rejected: "반 참여 요청이 승인되지 않았습니다. 필요한 경우 선생님에게 확인해 주세요.",
-  removed: "반 참여 상태가 변경되었습니다. 로그인해 현재 상태를 확인해 주세요.",
-  rejoin_allowed: "반에 다시 참여할 수 있습니다. 로그인해 반 참여 요청을 진행해 주세요.",
+  approved: "반 참여가 승인됐어요. 로그인해서 우리 반 화면을 확인해 보세요.",
+  rejected: "반 참여 요청이 승인되지 않았어요. 궁금하면 선생님께 물어보세요.",
+  removed: "반 참여 상태가 바뀌었어요. 로그인해서 지금 상태를 확인해 주세요.",
+  rejoin_allowed: "이제 반에 다시 참여할 수 있어요. 로그인해서 반 참여를 다시 요청해 주세요.",
 };
 
 /** Call after the domain transaction commits. No mail failure changes that result. */
@@ -86,8 +87,8 @@ export class SmtpNotificationMailer implements NotificationMailer {
       title: template.title,
       paragraphs: [
         ...template.introduction.split(/\r?\n/u).filter(Boolean),
-        `${ROLE_LABELS[details.role]} 계정의 가입 인증번호입니다.`,
-        `사용 기한은 ${expiration}(한국 시간)이며 한 번만 사용할 수 있습니다. 새 번호를 발급받으면 이전 번호는 사용할 수 없습니다.`,
+        `${ROLE_LABELS[details.role]} 계정 가입 인증번호예요.`,
+        `${expiration}(한국 시간)까지 한 번만 쓸 수 있어요. 번호를 새로 받으면 이 번호는 더 이상 쓸 수 없어요.`,
       ],
       code: details.code,
       action: this.action(template.button_label, "/login"),
@@ -100,34 +101,46 @@ export class SmtpNotificationMailer implements NotificationMailer {
       title: "아이디 찾기 안내",
       paragraphs: accountExists
         ? [
-            `우리반 허브에 가입한 아이디는 ${email}입니다.`,
-            "비밀번호를 잊었다면 로그인 화면의 비밀번호 찾기에서 재설정 링크를 요청해 주세요.",
+            "우리반 허브 아이디를 찾았어요.",
+            "비밀번호가 기억나지 않으면 로그인 화면의 '비밀번호 찾기'에서 새로 정할 수 있어요.",
           ]
         : [
-            "이 이메일로 사용할 수 있는 우리반 허브 계정을 확인하지 못했습니다.",
-            "가입할 때 다른 이메일을 사용했는지 확인하거나 학교 관리자에게 문의해 주세요.",
+            "이 이메일로 쓸 수 있는 우리반 허브 계정을 찾지 못했어요.",
+            "가입할 때 다른 이메일을 쓰지 않았는지 확인해 보고, 그래도 모르겠으면 학교 관리자에게 물어봐 주세요.",
           ],
+      ...(accountExists ? { highlight: { label: "내 아이디", value: email } } : {}),
       action: this.action("로그인 화면 열기", "/login"),
+    });
+  }
+
+  // No applicant name or address: the admin console lists them, and this mail leaves the system.
+  // No button either, because the admin console lives on a separate host from this app origin.
+  sendTeacherApprovalWaitingEmail(adminEmail: string): Promise<MailDeliveryStatus> {
+    return this.deliver(adminEmail, {
+      title: "승인을 기다리는 선생님이 있어요",
+      paragraphs: [
+        "선생님 한 분이 이메일 인증을 마치고 교사 승인을 기다리고 있어요.",
+        "관리자 화면의 사람 목록에서 '승인 대기'를 골라 교사인지 확인한 뒤 승인번호를 보내 주세요.",
+      ],
+      note: "개인정보를 지키기 위해 이 메일에는 가입자 정보를 적지 않았어요.",
     });
   }
 
   sendClassJoinRequestedEmail(email: string, className: string): Promise<MailDeliveryStatus> {
     return this.deliver(email, {
-      title: "반 참여 요청을 접수했습니다",
-      paragraphs: [
-        `${className} 반 참여 요청을 접수했습니다.`,
-        "선생님이 확인한 뒤 승인 여부가 결정됩니다. 현재 상태는 로그인 후 확인할 수 있습니다.",
-      ],
+      title: "반 참여 요청이 접수됐어요",
+      paragraphs: ["선생님이 확인한 뒤 승인 여부를 정해요. 지금 상태는 로그인해서 볼 수 있어요."],
+      highlight: { label: "참여를 요청한 반", value: className },
       action: this.action("참여 상태 확인하기", "/login"),
     });
   }
 
   sendClassJoinRequestEmail(email: string, className: string): Promise<MailDeliveryStatus> {
     return this.deliver(email, {
-      title: "확인할 반 참여 요청이 있습니다",
+      title: "확인할 반 참여 요청이 있어요",
       paragraphs: [
-        `${className}에 새로운 반 참여 요청이 접수되었습니다.`,
-        "로그인 후 학생 관리에서 요청자를 확인하고 승인 여부를 결정해 주세요.",
+        `${className}에 새 참여 요청이 들어왔어요.`,
+        "로그인한 뒤 학생 관리에서 요청한 사람을 확인하고 승인할지 정해 주세요.",
       ],
       action: this.action("학생 관리 열기", "/members/manage?tab=pending"),
     });
@@ -139,8 +152,9 @@ export class SmtpNotificationMailer implements NotificationMailer {
     status: MembershipMailStatus,
   ): Promise<MailDeliveryStatus> {
     return this.deliver(email, {
-      title: "반 참여 상태를 안내합니다",
-      paragraphs: [className, MEMBERSHIP_MESSAGES[status]],
+      title: "반 참여 상태 알림",
+      paragraphs: [MEMBERSHIP_MESSAGES[status]],
+      highlight: { label: "반", value: className },
       action: this.action("참여 상태 확인하기", "/login"),
     });
   }

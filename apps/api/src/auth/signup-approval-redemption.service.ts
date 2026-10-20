@@ -11,6 +11,11 @@ import { RateLimitedException } from "../common/rate-limit/rate-limit.errors.js"
 import type { RedisRateLimiter } from "../common/rate-limit/redis-rate-limiter.js";
 import type { AppEnvironment } from "../config/environment.js";
 import { DATABASE, type ClassHubDatabase } from "../database/database.module.js";
+import {
+  NOTIFICATION_MAILER,
+  notificationDelivery,
+  type NotificationMailer,
+} from "../mail/notification-mailer.js";
 import { createPrivacySafeDigest } from "./auth-crypto.js";
 import { AccountUnavailableException, SignupApprovalInvalidException } from "./auth.errors.js";
 import { AUTH_CONFIG, AUTH_RATE_LIMITER } from "./auth.tokens.js";
@@ -33,6 +38,7 @@ export class SignupApprovalRedemptionService {
     @Inject(AUTH_CONFIG) private readonly config: AuthConfig,
     @Inject(AUTH_RATE_LIMITER) private readonly rateLimiter: RedisRateLimiter,
     @Optional() @Inject(ConfigService) environment?: ConfigService<AppEnvironment, true>,
+    @Optional() @Inject(NOTIFICATION_MAILER) private readonly notifications?: NotificationMailer,
   ) {
     this.mariaDb = environment?.get("DATABASE_ENGINE", { infer: true }) === "mariadb";
     this.database = this.mariaDb ? database.withPlugin(createAuthMariaRowCodec()) : database;
@@ -99,7 +105,8 @@ export class SignupApprovalRedemptionService {
         .executeTakeFirst();
       if (user === undefined || !user.is_active || user.deleted_at !== null)
         throw new AccountUnavailableException();
-      if (user.signup_approved_at !== null) return { signupApproved: true };
+      if (user.signup_approved_at !== null)
+        return { signupApproved: true, teacherNowWaiting: false };
       const role = user.signup_role;
       if (role !== "student" && role !== "teacher")
         throw new BadRequestException({
@@ -205,9 +212,36 @@ export class SignupApprovalRedemptionService {
       });
       // "approved" records a successfully consumed code; its issuer identifies
       // email verification versus administrative approval in the existing audit schema.
-      return { signupApproved };
+      return { signupApproved, teacherNowWaiting: role === "teacher" && !signupApproved };
     });
     if (result === null) throw new SignupApprovalInvalidException();
+    if (result.teacherNowWaiting) await this.notifyAccountManagers();
     return { next_action: "BOOTSTRAP" as const, signup_approved: result.signupApproved };
+  }
+
+  // A verified teacher waits for an administrator's code, and nothing else tells the
+  // administrator (ux2 2026-10-15). Runs after commit: no mail outcome changes the redemption.
+  private async notifyAccountManagers() {
+    const mailer = this.notifications;
+    if (mailer === undefined) return;
+    try {
+      const managers = await this.database
+        .selectFrom("admin_accounts as account")
+        .innerJoin("admin_account_roles as granted", "granted.admin_account_id", "account.id")
+        .select("account.email_normalized")
+        .distinct()
+        .where("account.status", "=", "active")
+        .where("granted.role", "in", ["super_admin", "account_manager"])
+        .execute();
+      await Promise.all(
+        managers.map((manager) =>
+          notificationDelivery(() =>
+            mailer.sendTeacherApprovalWaitingEmail(manager.email_normalized),
+          ),
+        ),
+      );
+    } catch {
+      // The lookup is best effort too; the admin console still counts waiting teachers.
+    }
   }
 }

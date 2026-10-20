@@ -372,13 +372,15 @@ await runGroup(selected, {});
 /*
  * 공유 런타임도 루트 Web/(공개 미리보기)이 아니라 검사용 빌드를 내보낸다. 미리보기 빌드는
  * /admin 을 빼므로 관리자 화면 QA 만 production 검사 빌드로 따로 띄운다(2026-09-25).
+ * 10-07 T-ADMIN-SPLIT부터 관리자 화면은 별도 빌드(qa-admin-web)라, 관리자 QA 에는 같은 DB 를
+ * 쓰는 관리자 프로그램(API_SURFACE=admin)의 주소를 넘긴다.
  */
 const adminHostBased = hostBased.filter((name) => name.startsWith("admin-"));
 const hostRuntimes = [
-  [hostBased.filter((name) => !name.startsWith("admin-")), "qa-web"],
-  [adminHostBased, "qa-web-production"],
+  [hostBased.filter((name) => !name.startsWith("admin-")), "qa-web", null],
+  [adminHostBased, "qa-web-production", "qa-admin-web"],
 ];
-for (const [names, webDirectory] of hostRuntimes) {
+for (const [names, webDirectory, adminWebDirectory] of hostRuntimes) {
   if (names.length === 0) continue;
   /*
    * 이 부류는 자기 서버를 안 띄우고 `CLASSHUB_APP_ORIGIN` 으로 받는다. 하나만 띄워
@@ -390,17 +392,25 @@ for (const [names, webDirectory] of hostRuntimes) {
   let runtime;
   try {
     runtime = await startNormalSyntheticRuntime({
-      adminWebEnabled: webDirectory === "qa-web-production",
+      adminWebEnabled: adminWebDirectory !== null,
       port: 0,
       webRoot: join(repositoryRoot, ".local-runtime", webDirectory),
     });
-    process.stdout.write(`\n공유 런타임 (${webDirectory}): ${runtime.appOrigin}\n`);
+    const appOrigin =
+      adminWebDirectory === null
+        ? runtime.appOrigin
+        : (
+            await runtime.startAdminSurface({
+              webRoot: join(repositoryRoot, ".local-runtime", adminWebDirectory),
+            })
+          ).appOrigin;
+    process.stdout.write(`\n공유 런타임 (${adminWebDirectory ?? webDirectory}): ${appOrigin}\n`);
     /*
      * 이 부류는 순수 `.mjs`이고 TypeScript 런타임을 직접 불러오지 않는다. 불필요한
      * tsx 로더를 자식에 붙이면 Windows Edge의 CDP 기동이 시간초과되는 것을
      * 2026-09-04에 재현했다. TypeScript 하네스를 쓰는 자기 서버 부류만 로더를 유지한다.
      */
-    await runGroup(names, { CLASSHUB_APP_ORIGIN: runtime.appOrigin }, { typescriptLoader: false });
+    await runGroup(names, { CLASSHUB_APP_ORIGIN: appOrigin }, { typescriptLoader: false });
   } finally {
     await runtime?.stop?.();
   }
