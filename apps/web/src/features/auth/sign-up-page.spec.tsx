@@ -372,7 +372,13 @@ describe("SignUpPage", () => {
     expect(error).toHaveAttribute("id", "sign-up-display-name-error");
     expect(error).toHaveAttribute("role", "alert");
     expect(displayName).toHaveAttribute("aria-invalid", "true");
-    expect(displayName).toHaveAttribute("aria-describedby", "sign-up-display-name-error");
+    expect(displayName).toHaveAttribute(
+      "aria-describedby",
+      "sign-up-display-name-help sign-up-display-name-error",
+    );
+    expect(
+      screen.getByText("선생님이 반에서 따로 정하지 않으면 이 이름이 보여요."),
+    ).toHaveAttribute("id", "sign-up-display-name-help");
     expect(screen.getByRole("button", { name: "비밀번호 보기" })).toHaveClass("ui-icon-button");
     expect(screen.queryByLabelText("필수 항목 모두 동의")).not.toBeInTheDocument();
     expect(fetchMock).not.toHaveBeenCalled();
@@ -483,7 +489,7 @@ describe("SignUpPage", () => {
 
     expect(screen.queryByLabelText("가입 승인번호")).not.toBeInTheDocument();
     expect(
-      screen.getByText("가입한 이메일로 받은 6자리 인증번호로 가입을 완료해요."),
+      screen.getByText("가입할 이메일로 받은 6자리 인증번호로 가입을 완료해요."),
     ).toBeInTheDocument();
 
     clickNext();
@@ -500,6 +506,12 @@ describe("SignUpPage", () => {
     await selectOver14();
     const password = screen.getByLabelText("비밀번호");
     expect(screen.queryByRole("status", { name: /비밀번호 안전 등급/u })).not.toBeInTheDocument();
+    // 등급이 보이기 전에는 '참고용' 문장도 없다(첫 사용 점검 18).
+    const rules = document.getElementById("sign-up-password-rules");
+    expect(rules).not.toHaveTextContent("안전 등급은 참고용이에요.");
+    expect(screen.getByRole("button", { name: "비밀번호 복사" })).toHaveTextContent(
+      "비밀번호 복사",
+    );
 
     for (const [value, label, color] of [
       ["short", "위험", "text-danger-text"],
@@ -512,6 +524,7 @@ describe("SignUpPage", () => {
       expect(grade).toHaveClass("text-xs", color);
       expect(grade).toHaveAttribute("title", expect.stringContaining("문자와 숫자"));
       expect(grade).toBeInTheDocument();
+      expect(rules).toHaveTextContent("안전 등급은 참고용이에요.");
       expect(password).toHaveAttribute(
         "aria-describedby",
         "sign-up-password-rules sign-up-password-strength",

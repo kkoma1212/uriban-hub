@@ -255,6 +255,11 @@ describe("TeacherHomeDashboard", () => {
       "href",
       "/updates?create=notice",
     );
+    // 2026-10-22 사용자 A안: 학생 칠판은 일반 공지를 올리지 않으므로 '아직 안 본 것만'이라 하지 않는다.
+    expect(
+      within(chalkboard).getByText("학생 칠판에는 중요·바뀐 공지와 안 챙긴 준비물만 올라가요"),
+    ).toBeVisible();
+    expect(within(chalkboard).queryByText(/아직 안 본 것만/u)).not.toBeInTheDocument();
 
     // 2026-09-27 A안: 옛 업무 흐름·한눈에 보기 대신 소식 흐름(왼쪽)과 처리할 일·오늘 정보(오른쪽).
     expect(screen.queryByRole("region", { name: "한눈에 보기" })).not.toBeInTheDocument();
@@ -423,7 +428,7 @@ describe("TeacherHomeDashboard", () => {
     );
     // 실제 처리할 일(가입 대기)은 그대로 보인다.
     const panel = document.querySelector("[data-teacher-tasks-panel]") as HTMLElement;
-    expect(within(panel).getByRole("link", { name: "가입 요청 2건" })).toHaveAttribute(
+    expect(within(panel).getByRole("link", { name: "참여 요청 2건" })).toHaveAttribute(
       "href",
       "/members/manage",
     );
@@ -454,7 +459,7 @@ describe("TeacherHomeDashboard", () => {
     );
 
     const panel = document.querySelector("[data-teacher-tasks-panel]") as HTMLElement;
-    expect(within(panel).getByRole("link", { name: "가입 요청 1건" })).toBeVisible();
+    expect(within(panel).getByRole("link", { name: "참여 요청 1건" })).toBeVisible();
     const feed = document.querySelector('[data-home-news-feed="teacher"]') as HTMLElement;
     expect(within(feed).getAllByText("확인 현황은 글에서 볼 수 있어요")).toHaveLength(2);
   });

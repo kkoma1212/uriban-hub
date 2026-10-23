@@ -35,7 +35,7 @@ describe("TeacherTaskStrip", () => {
     ).toEqual([
       ["출결 확인2건", "/attendance"],
       ["도움 요청1건", "/help-requests"],
-      ["가입 요청1건", "/members/manage"],
+      ["참여 요청1건", "/members/manage"],
       ["기간별 확인 현황", "/updates/followups"],
     ]);
   });
@@ -79,7 +79,7 @@ it("출결과 가입 수가 확인되지 않으면 PC에서 처리할 일이 없
     "href",
     "/attendance",
   );
-  expect(screen.getByRole("link", { name: "가입 요청 수 확인 불가 · 목록 보기" })).toHaveAttribute(
+  expect(screen.getByRole("link", { name: "참여 요청 수 확인 불가 · 목록 보기" })).toHaveAttribute(
     "href",
     "/members/manage",
   );
@@ -107,7 +107,7 @@ describe.each([TeacherTaskStrip, TeacherTasksPanel])(
         "href",
         "/attendance",
       );
-      expect(screen.getByRole("link", { name: /가입 요청\s*3건/ })).toHaveAttribute(
+      expect(screen.getByRole("link", { name: /참여 요청\s*3건/ })).toHaveAttribute(
         "href",
         "/members/manage",
       );
@@ -120,7 +120,7 @@ describe.each([TeacherTaskStrip, TeacherTasksPanel])(
           <Component home={home(2, null)} helpRequestCount={0} />
         </MemoryRouter>,
       );
-      expect(screen.getByRole("link", { name: "가입 요청 수 확인 불가 · 목록 보기" })).toHaveClass(
+      expect(screen.getByRole("link", { name: "참여 요청 수 확인 불가 · 목록 보기" })).toHaveClass(
         "min-h-11",
       );
       expect(screen.getByRole("link", { name: /출결 확인\s*2건/ })).toHaveAttribute(
@@ -206,5 +206,37 @@ describe("모바일 처리할 일 성공0건 안내", () => {
         name: status === "loading" ? "도움 요청 확인 중…" : "도움 요청 수 확인 불가 · 목록 보기",
       }),
     ).toHaveAttribute("href", "/help-requests");
+  });
+});
+
+// 2026-10-21 첫 사용 점검: 빈 반 교사 홈은 칠판 쓰기만 권해서 첫 학생을 부르는 길이 보이지 않았다.
+describe.each([TeacherTaskStrip, TeacherTasksPanel])("빈 반의 학생 초대 안내", (Component) => {
+  const withStudents = (active: number | undefined, pending: number | null) =>
+    ({ ...home(0, pending), active_student_count: active }) as HomeResponse;
+  const inviteLink = () =>
+    screen.queryByRole("link", { name: "아직 학생이 없어요 · 학생 초대하기" });
+
+  it("승인 학생도 참여 요청도 없으면 초대 코드가 있는 반 관리로 잇는다", () => {
+    render(
+      <MemoryRouter>
+        <Component home={withStudents(0, 0)} helpRequestCount={0} />
+      </MemoryRouter>,
+    );
+    expect(inviteLink()).toHaveAttribute("href", "/class/manage");
+    expect(inviteLink()).toHaveClass("min-h-11");
+  });
+
+  it.each([
+    ["승인 학생이 있으면", 3, 0],
+    ["참여 요청이 기다리면", 0, 1],
+    ["학생 수를 모르면", undefined, 0],
+    ["요청 수를 모르면", 0, null],
+  ] as const)("%s 보이지 않는다", (_case, active, pending) => {
+    render(
+      <MemoryRouter>
+        <Component home={withStudents(active, pending)} helpRequestCount={0} />
+      </MemoryRouter>,
+    );
+    expect(inviteLink()).not.toBeInTheDocument();
   });
 });

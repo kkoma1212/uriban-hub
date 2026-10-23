@@ -335,6 +335,8 @@ export function useModalIsolation({
       environment.baseFallbackFocus = layer.fallbackFocusTo;
       environment.previousBodyOverflow = document.body.style.overflow;
       document.body.style.overflow = "hidden";
+      // styles.css의 html[data-modal-open] 참고: 스크롤 막대 자리는 막이 덮지 못해 html 바탕으로 칠한다.
+      document.documentElement.setAttribute("data-modal-open", "");
       const Observer = document.defaultView?.MutationObserver;
       if (Observer !== undefined) {
         environment.observer = new Observer(() => {
@@ -425,6 +427,7 @@ export function useModalIsolation({
       environment.observer?.disconnect();
       environment.observer = null;
       document.body.style.overflow = environment.previousBodyOverflow;
+      document.documentElement.removeAttribute("data-modal-open");
       synchronizeBodySiblings(document, environment);
       restoreFocusAfterLastLayer(document, environment, layer);
       environment.baseReturnFocus = null;

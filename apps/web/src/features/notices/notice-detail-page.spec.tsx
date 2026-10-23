@@ -261,11 +261,85 @@ describe("NoticeDetailPage", () => {
     );
     expect(new Headers(patchCall?.[1]?.headers).get("If-Match")).toBe('"4"');
     expect(JSON.parse(String(patchCall?.[1]?.body))).toMatchObject({ is_important: false });
+    // 오타 수정을 고르지 않으면 요청에 싣지 않는다(서버는 지금처럼 판을 올린다).
+    expect(JSON.parse(String(patchCall?.[1]?.body))).not.toHaveProperty("minor_edit");
     expect(
       within(document.querySelector("[data-detail-backbar]") as HTMLElement).getByRole("link", {
         name: "소식",
       }),
     ).toHaveAttribute("href", "/notices");
+  });
+
+  // 오타 수정 처리(2026-10-22 사용자 결정).
+  it("saves a teacher-marked typo fix and says student confirmations stay", async () => {
+    const fetchMock = renderDetail();
+    const base = fetchMock.getMockImplementation()!;
+    fetchMock.mockImplementation((input, init) =>
+      requestUrl(input) === "/api/v1/notices/17" && init?.method === "PATCH"
+        ? Promise.resolve(
+            jsonResponse(
+              { ...notice, content: "금요일까지 수행평가를 제출해 주세요!", row_version: "5" },
+              200,
+              { ETag: '"5"' },
+            ),
+          )
+        : base(input, init),
+    );
+    fireEvent.click(await screen.findByRole("button", { name: "내용 수정" }));
+    fireEvent.change(screen.getByRole("textbox", { name: "공지 내용" }), {
+      target: { value: "금요일까지 수행평가를 제출해 주세요!" },
+    });
+    const option = screen.getByRole("checkbox", { name: /오타·띄어쓰기만 고쳤어요/u });
+    expect(option).not.toBeChecked();
+    fireEvent.click(option);
+    fireEvent.click(screen.getByRole("button", { name: "수정 저장" }));
+    expect(
+      await screen.findByText("오타 수정으로 저장했어요. 학생들의 기존 확인 기록은 그대로예요."),
+    ).toBeVisible();
+    const patchCall = fetchMock.mock.calls.find(
+      ([input, init]) => requestUrl(input) === "/api/v1/notices/17" && init?.method === "PATCH",
+    );
+    expect(JSON.parse(String(patchCall?.[1]?.body))).toMatchObject({ minor_edit: true });
+
+    // 다시 열면 꺼진 상태로 시작한다.
+    fireEvent.click(screen.getByRole("button", { name: "내용 수정" }));
+    expect(screen.getByRole("checkbox", { name: /오타·띄어쓰기만 고쳤어요/u })).not.toBeChecked();
+  });
+
+  it("keeps the edit open with the server's reason when a typo fix is refused", async () => {
+    const fetchMock = renderDetail();
+    const base = fetchMock.getMockImplementation()!;
+    const reason =
+      "바뀐 글자가 5자를 넘거나 숫자(날짜·시간·개수)가 바뀌어 오타 수정으로 저장할 수 없어요. '오타만 고쳤어요'를 끄고 저장하면 학생들이 다시 확인해요.";
+    fetchMock.mockImplementation((input, init) =>
+      requestUrl(input) === "/api/v1/notices/17" && init?.method === "PATCH"
+        ? Promise.resolve(
+            jsonResponse(
+              { error: { code: "MINOR_EDIT_NOT_ALLOWED", message: reason, request_id: "r" } },
+              400,
+            ),
+          )
+        : base(input, init),
+    );
+    fireEvent.click(await screen.findByRole("button", { name: "내용 수정" }));
+    fireEvent.change(screen.getByRole("textbox", { name: "공지 내용" }), {
+      target: { value: "토요일까지 수행평가를 3번 제출해 주세요." },
+    });
+    const option = screen.getByRole("checkbox", { name: /오타·띄어쓰기만 고쳤어요/u });
+    fireEvent.click(option);
+    fireEvent.click(screen.getByRole("button", { name: "수정 저장" }));
+    // 저장 단추가 화면 아래에 붙어 있어, 이유는 고른 선택 바로 아래에 보이고 초점이 그리로 간다.
+    const refusal = await screen.findByText(reason);
+    expect(refusal).toHaveAttribute("role", "alert");
+    expect(option.closest("div")).toContainElement(refusal);
+    await waitFor(() => expect(option).toHaveFocus());
+    expect(option).toHaveAttribute("aria-invalid", "true");
+    expect(screen.getByRole("textbox", { name: "공지 내용" })).toHaveValue(
+      "토요일까지 수행평가를 3번 제출해 주세요.",
+    );
+    // 선택을 끄면 이유도 사라진다.
+    fireEvent.click(option);
+    expect(screen.queryByText(reason)).not.toBeInTheDocument();
   });
 
   it("returns a regular notice to the unified notice list", async () => {
@@ -375,7 +449,7 @@ describe("NoticeDetailPage", () => {
     expect(screen.queryByRole("button", { name: "내용 수정" })).not.toBeInTheDocument();
     expect(screen.queryByText("학생 확인 현황")).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "최신 내용 다시 확인" }));
-    expect(await screen.findByText("현재 공지를 확인했습니다.")).toBeVisible();
+    expect(await screen.findByText("현재 공지를 확인했어요.")).toBeVisible();
     const confirmCall = fetchMock.mock.calls.find(
       ([input, init]) =>
         requestUrl(input) === "/api/v1/notices/17/confirmation" && init?.method === "PUT",

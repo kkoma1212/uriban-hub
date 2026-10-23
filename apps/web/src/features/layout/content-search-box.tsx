@@ -1,5 +1,5 @@
 import { Search, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 /*
  * 공지·준비물 목록 위에 놓는 검색창.
@@ -35,7 +35,8 @@ export function ContentSearchBox({
    */
   const emitted = useRef<string | undefined>(searchTerm);
 
-  useEffect(() => {
+  // 그려지는 순간 맞춘다. useEffect는 그린 뒤에 돌아 그 사이 친 검색어를 지워 버렸다(10-21 부하 재현 — 일정 11/480).
+  useLayoutEffect(() => {
     emitted.current = searchTerm;
     setValue(searchTerm ?? "");
   }, [searchTerm]);

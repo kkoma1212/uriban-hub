@@ -40,6 +40,7 @@ import {
   InAppReminderResponseDto,
 } from "../in-app-reminders/in-app-reminders.openapi.js";
 import type { InAppReminderResult } from "../in-app-reminders/in-app-reminders.types.js";
+import { MemberPhotoPresenceReader } from "../profile-photos/member-photo-presence.js";
 import {
   ConfirmNoticeDto,
   CreateNoticeDto,
@@ -72,7 +73,10 @@ const ETAG_RESPONSE_HEADERS = {
 @ApiTags("notices")
 @Controller("notices")
 export class NoticesController {
-  constructor(private readonly noticesService: NoticesService) {}
+  constructor(
+    private readonly noticesService: NoticesService,
+    private readonly photos: MemberPhotoPresenceReader,
+  ) {}
 
   @Get()
   @UseGuards(AuthenticatedSessionGuard)
@@ -175,18 +179,29 @@ export class NoticesController {
     description: "선택 상태 학생 목록과 전체 상태별 수",
     type: NoticeConfirmationsResponseDto,
   })
-  listConfirmations(
+  async listConfirmations(
     @Param("id") id: string,
     @Query() query: ListNoticeConfirmationsQueryDto,
     @Req() request: AuthenticatedFastifyRequest,
   ): Promise<ListNoticeConfirmationsResult> {
     const session = getAuthenticatedSession(request);
-    return this.noticesService.listConfirmations({
+    const result = await this.noticesService.listConfirmations({
       actorUserId: session.userId,
       ...(query.cursor === undefined ? {} : { cursor: query.cursor }),
       noticeId: id,
       state: query.state,
     });
+    const withPhoto = await this.photos.memberIdsWithPhoto(
+      session,
+      result.items.map((item) => item.member_id),
+    );
+    return {
+      ...result,
+      items: result.items.map((item) => ({
+        ...item,
+        has_profile_photo: withPhoto.has(item.member_id),
+      })),
+    };
   }
 
   @Put(":id/confirmation")
@@ -255,6 +270,7 @@ export class NoticesController {
       content: body.content,
       ifMatch,
       isImportant: body.is_important,
+      minorEdit: body.minor_edit,
       noticeId: id,
       requestId: request.id,
       title: body.title,

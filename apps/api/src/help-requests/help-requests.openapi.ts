@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 class HelpRequestTargetResponseDto {
   @ApiProperty({ pattern: "^[1-9][0-9]*$", type: String })
@@ -14,6 +14,12 @@ class HelpRequestTargetResponseDto {
 class HelpRequestStudentResponseDto {
   @ApiProperty({ type: String })
   display_name!: string;
+
+  @ApiPropertyOptional({
+    description: "대화 응답에만. 지금 사진을 받을 수 있으면 true",
+    type: Boolean,
+  })
+  has_profile_photo?: boolean;
 
   @ApiProperty({ pattern: "^[1-9][0-9]*$", type: String })
   member_id!: string;
@@ -95,4 +101,10 @@ export class HelpRequestThreadResponseDto {
 
   @ApiProperty({ type: HelpRequestItemResponseDto })
   request!: HelpRequestItemResponseDto;
+
+  @ApiPropertyOptional({
+    description: "학생이 받는 대화에만. 현재 반 담임 사진을 지금 받을 수 있으면 true",
+    type: Boolean,
+  })
+  teacher_has_profile_photo?: boolean;
 }

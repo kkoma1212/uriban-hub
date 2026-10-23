@@ -309,6 +309,13 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* 확인 창이 열려 페이지 스크롤을 막아도 위 규칙 때문에 막대 자리가 남는데, 화면 전체 막(fixed)은 그 자리를
+   칠하지 못한다(2026-10-22 실측: 1440 너비에서 막 1425px, 넓혀도 잘림). 그 자리는 html 바탕이 칠하므로
+   창이 열린 동안만 막을 씌운 바탕과 비슷한 색으로 바꾼다. 막 진하기가 창마다 40~60%라 가운데 값을 쓴다. */
+html[data-modal-open] {
+  background: color-mix(in srgb, var(--color-app-canvas) 50%, #020617);
+}
+
 body {
   margin: 0;
   min-width: 0;

@@ -25,6 +25,8 @@ import {
   type AuthenticatedFastifyRequest,
 } from "../auth/authenticated-request.js";
 import { AuthenticatedSessionGuard } from "../auth/authenticated-session.guard.js";
+import { MemberPhotoPresenceReader } from "../profile-photos/member-photo-presence.js";
+import type { ProfilePhotoActor } from "../profile-photos/profile-photo.types.js";
 import {
   CreateHelpRequestDto,
   ListHelpRequestsQueryDto,
@@ -49,7 +51,10 @@ const ID_PARAM = { name: "id", schema: { pattern: "^[1-9][0-9]*$", type: "string
 @ApiTags("help-requests")
 @Controller("help-requests")
 export class HelpRequestsController {
-  constructor(private readonly helpRequests: HelpRequestsService) {}
+  constructor(
+    private readonly helpRequests: HelpRequestsService,
+    private readonly photos: MemberPhotoPresenceReader,
+  ) {}
 
   @Get()
   @UseGuards(AuthenticatedSessionGuard)
@@ -99,7 +104,10 @@ export class HelpRequestsController {
     @Req() request: AuthenticatedFastifyRequest,
   ): Promise<HelpRequestThread> {
     const session = getAuthenticatedSession(request);
-    return this.helpRequests.startGeneral({ actorUserId: session.userId, body: body.body });
+    return this.withParticipantPhoto(
+      session,
+      this.helpRequests.startGeneral({ actorUserId: session.userId, body: body.body }),
+    );
   }
 
   @Get(":id/messages")
@@ -112,7 +120,7 @@ export class HelpRequestsController {
     @Req() request: AuthenticatedFastifyRequest,
   ): Promise<HelpRequestThread> {
     const session = getAuthenticatedSession(request);
-    return this.helpRequests.thread(session.userId, id);
+    return this.withParticipantPhoto(session, this.helpRequests.thread(session.userId, id));
   }
 
   @Post(":id/messages")
@@ -128,11 +136,14 @@ export class HelpRequestsController {
     @Req() request: AuthenticatedFastifyRequest,
   ): Promise<HelpRequestThread> {
     const session = getAuthenticatedSession(request);
-    return this.helpRequests.send({
-      actorUserId: session.userId,
-      body: body.body,
-      helpRequestId: id,
-    });
+    return this.withParticipantPhoto(
+      session,
+      this.helpRequests.send({
+        actorUserId: session.userId,
+        body: body.body,
+        helpRequestId: id,
+      }),
+    );
   }
 
   @Post(":id/withdraw")
@@ -172,5 +183,30 @@ export class HelpRequestsController {
       helpRequestId: id,
       reply: body.reply,
     });
+  }
+
+  /**
+   * 대화를 돌려주는 경로에서 상대의 '사진 있음'을 붙인다 — 화면이 이 응답으로 대화를 바꾼다.
+   * 담임이 받는 대화는 학생(student)에, 학생이 받는 대화(student가 null)는 담임 사진 여부를 붙인다.
+   */
+  private async withParticipantPhoto(
+    actor: ProfilePhotoActor,
+    pending: Promise<HelpRequestThread>,
+  ): Promise<HelpRequestThread> {
+    const thread = await pending;
+    const student = thread.request.student;
+    if (student === null)
+      return {
+        ...thread,
+        teacher_has_profile_photo: await this.photos.classTeacherHasPhoto(actor),
+      };
+    const withPhoto = await this.photos.memberIdsWithPhoto(actor, [student.member_id]);
+    return {
+      ...thread,
+      request: {
+        ...thread.request,
+        student: { ...student, has_profile_photo: withPhoto.has(student.member_id) },
+      },
+    };
   }
 }

@@ -274,7 +274,7 @@ describe.sequential(
           .where("revoked_at", "is", null)
           .execute(),
       ).toHaveLength(0);
-      await expectNotice(actor.email, "계정 비밀번호가 변경되었습니다");
+      await expectNotice(actor.email, "계정 비밀번호가 바뀌었어요");
       expect((await changePassword(actor)).statusCode).toBe(401);
       expect(await messages(actor.email, 1)).toHaveLength(1);
     });
@@ -300,7 +300,7 @@ describe.sequential(
         next_action: "LOGIN",
         password_reset: true,
       });
-      await expectNotice(actor.email, "재설정되었습니다");
+      await expectNotice(actor.email, "비밀번호가 새로 정해졌어요");
       await expect(service.confirmReset(token, nextPassword, metadata())).rejects.toThrow();
       expect(await messages(actor.email, 1)).toHaveLength(1);
     });
@@ -330,7 +330,10 @@ describe.sequential(
             anchorId,
             randomUUID(),
           );
-        await expectNotice(actor.email, active ? "계정이 다시 활성화" : "계정 이용이 정지");
+        await expectNotice(
+          actor.email,
+          active ? "계정을 다시 쓸 수 있게 됐어요" : "계정 이용이 정지",
+        );
       },
     );
     it("stops second-factor checks after 10 failures an hour and mails the administrator once (total audit C1-04)", async () => {
@@ -360,14 +363,14 @@ describe.sequential(
       await expect(
         auth.stepUp(await adminSession(target), initialPassword, wrongCode, metadata()),
       ).rejects.toMatchObject({ status: 429 });
-      await expectNotice(target.email, "2단계 확인이 1시간 안에 여러 번 틀렸습니다");
+      await expectNotice(target.email, "2단계 확인이 1시간 안에 여러 번 틀렸어요");
     });
     it("notifies administrator password change without mailing the new password or reviving other sessions", async () => {
       const target = await admin(),
         session = await adminSession(target);
       await adminSession(target);
       await app.get(AdminAuthService).changePassword(session, nextAdminPassword, metadata());
-      await expectNotice(target.email, "관리자 계정 비밀번호가 변경");
+      await expectNotice(target.email, "관리자 계정 비밀번호가 바뀌었어요");
       const sessions = await database
         .selectFrom("admin_sessions")
         .select("id")
@@ -424,7 +427,7 @@ describe.sequential(
         secret = decodeBase32(started.setup.manualKey);
       await expect(service.completeTotp("invalid", "000000", metadata())).rejects.toThrow();
       await service.completeTotp(challenge, totpCodeAt(secret, Date.now()), metadata());
-      await expectNotice(target.email, "2단계 인증 등록이 완료");
+      await expectNotice(target.email, "2단계 인증이 등록됐어요");
       await expect(
         service.completeTotp(challenge, totpCodeAt(secret, Date.now()), metadata()),
       ).rejects.toThrow();

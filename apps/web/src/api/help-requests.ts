@@ -13,7 +13,13 @@ export interface HelpRequestItem {
   message: string | null;
   reply: string | null;
   status: "open" | "resolved" | "withdrawn";
-  student: { display_name: string; member_id: string; student_number: number | null } | null;
+  /** has_profile_photo는 대화 응답에만, 지금 사진을 받을 수 있는지(2026-10-23~). false면 요청하지 않는다. */
+  student: {
+    display_name: string;
+    has_profile_photo?: boolean;
+    member_id: string;
+    student_number: number | null;
+  } | null;
   /** 글과 무관한 대화(general)는 null이다. */
   target: { id: string; kind: HelpRequestTargetKind; title: string } | null;
 }
@@ -28,6 +34,8 @@ export interface HelpMessage {
 export interface HelpThread {
   messages: HelpMessage[];
   request: HelpRequestItem;
+  /** 학생이 받는 대화에만, 담임 사진을 지금 받을 수 있는지(2026-10-23~). false면 요청하지 않는다. */
+  teacher_has_profile_photo?: boolean;
 }
 
 /** 대화 메시지 한 개의 길이(API·DB와 같다). */

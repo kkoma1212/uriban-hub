@@ -16,7 +16,7 @@ import {
   Vote,
   type LucideIcon,
 } from "lucide-react";
-import { Fragment, createContext, useContext } from "react";
+import { Fragment, createContext, useContext, useRef } from "react";
 import { Link, useLocation } from "react-router";
 
 import { useNavigationCapabilities } from "../../lib/navigation-capabilities";
@@ -25,6 +25,7 @@ import { SystemStateBanner } from "./system-state-banner";
 import { AppBreadcrumb, AppFooter } from "./app-chrome";
 import { routeMetadataForPath } from "./app-route-metadata";
 import { BrandSymbol } from "./brand-symbol";
+import { RailMoreHint, useRailHasMoreBelow } from "./rail-more-hint";
 import { useAttendancePendingCount } from "./use-attendance-pending-count";
 import { useOpenHelpRequestCount } from "./use-open-help-request-count";
 
@@ -443,6 +444,9 @@ function PrimaryNavigation({
   const desktop = layout === "desktop";
   const responsive = layout === "responsive";
   const responsiveLayout = `${role}-${layout}`;
+  const navigationRef = useRef<HTMLElement>(null);
+  // 교사 메뉴에 먼저 붙이고 2026-10-22 사용자 결정으로 학생 메뉴에도 맞췄다(T-UI-PARITY).
+  const railHasMoreBelow = useRailHasMoreBelow(navigationRef, desktop);
   const navigationItems = desktop
     ? role === "teacher"
       ? [
@@ -550,6 +554,7 @@ function PrimaryNavigation({
       data-app-role={role}
       data-app-shell-layout={`${responsiveLayout}-navigation`}
       data-primary-navigation-layout={responsiveLayout}
+      ref={navigationRef}
     >
       {desktop || responsive ? (
         <div
@@ -684,6 +689,7 @@ function PrimaryNavigation({
           );
         })}
       </div>
+      {railHasMoreBelow ? <RailMoreHint /> : null}
     </nav>
   );
 }

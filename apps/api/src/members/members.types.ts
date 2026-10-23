@@ -7,6 +7,8 @@ export interface MemberListItem {
   display_name: string;
   display_name_in_class: string | null;
   email_masked?: string;
+  /** 목록에만. 지금 사진을 받을 수 있으면 true — 화면은 true일 때만 사진을 요청한다. */
+  has_profile_photo?: boolean;
   id: string;
   requested_at: string | null;
   row_version: string;

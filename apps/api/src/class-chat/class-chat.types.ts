@@ -4,6 +4,8 @@ export type ClassChatRole = "student" | "teacher";
 export type ClassChatBlockedReason = "closed" | "night" | "muted";
 
 export interface ClassChatAuthor {
+  /** 대화 상태의 메시지 작성자에만. 지금 사진을 받을 수 있으면 true — 화면은 true일 때만 사진을 요청한다. */
+  has_profile_photo?: boolean;
   member_id: string;
   name: string;
   role: ClassChatRole;

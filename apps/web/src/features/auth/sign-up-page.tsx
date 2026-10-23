@@ -438,7 +438,7 @@ export function SignUpPage(): React.JSX.Element {
         description={
           socialRequested
             ? "빠른 로그인으로 가입해도 연령 확인과 필수 동의가 필요해요."
-            : "가입한 이메일로 받은 6자리 인증번호로 가입을 완료해요."
+            : "가입할 이메일로 받은 6자리 인증번호로 가입을 완료해요."
         }
         eyebrow="우리반 허브"
         title="가입"

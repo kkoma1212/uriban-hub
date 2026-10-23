@@ -320,6 +320,83 @@ describe("HelpThreadPage", () => {
     expect(calls).toContain("POST /api/v1/help-requests/5/withdraw");
   });
 
+  // 2026-10-23: 학생 쪽 담임 사진도 같은 방식. 표시가 없는 옛 응답(undefined)은 예전처럼 요청한다.
+  it.each([
+    [true, ["/api/v1/profile-photos/current-class-teacher?class_id=1"]],
+    [false, []],
+    [undefined, ["/api/v1/profile-photos/current-class-teacher?class_id=1"]],
+  ])(
+    "학생은 서버가 담임 사진 있음(%s)이라 할 때만 담임 사진을 요청한다",
+    async (hasPhoto, sources) => {
+      mockApi((url) => {
+        if (url === "/api/v1/bootstrap")
+          return json({
+            ...bootstrap("student"),
+            allowed_actions: ["VIEW_CLASS", "USE_PROFILE_PHOTOS"],
+          });
+        return json({
+          ...thread({ kind: "general", target: null }, [message("1", "teacher", "답변이에요")]),
+          ...(hasPhoto === undefined ? {} : { teacher_has_profile_photo: hasPhoto }),
+        });
+      });
+      try {
+        renderAt("/help-requests/5");
+        expect(await screen.findByText("답변이에요")).toBeVisible();
+        await waitFor(() =>
+          expect(
+            [...document.querySelectorAll("[data-help-group] img")].map((img) =>
+              img.getAttribute("src"),
+            ),
+          ).toEqual(sources),
+        );
+      } finally {
+        clearAuthenticatedClientState();
+      }
+    },
+  );
+
+  // 첫 사용 점검 19번: 사진 없는 학생의 사진을 요청해 404가 생기던 것. true 쪽이 사진 칸이 켜졌음을 보여 준다.
+  it.each([
+    [true, ["/api/v1/profile-photos/members/2"]],
+    [false, []],
+  ])("담임은 서버가 학생 사진 있음(%s)이라 할 때만 사진을 요청한다", async (hasPhoto, sources) => {
+    mockApi((url) => {
+      if (url === "/api/v1/bootstrap")
+        return json({
+          ...bootstrap("teacher"),
+          allowed_actions: ["VIEW_CLASS", "MANAGE_CLASS", "USE_PROFILE_PHOTOS"],
+        });
+      return json(
+        thread(
+          {
+            kind: "general",
+            student: {
+              display_name: "학생가",
+              has_profile_photo: hasPhoto,
+              member_id: "2",
+              student_number: 1,
+            },
+            target: null,
+          },
+          [message("1", "student", "질문 있어요")],
+        ),
+      );
+    });
+    try {
+      renderAt("/help-requests/5");
+      expect(await screen.findByText("질문 있어요")).toBeVisible();
+      await waitFor(() =>
+        expect(
+          [...document.querySelectorAll("[data-help-group] img")].map((img) =>
+            img.getAttribute("src"),
+          ),
+        ).toEqual(sources),
+      );
+    } finally {
+      clearAuthenticatedClientState();
+    }
+  });
+
   it("담임은 학생 이름을 보고 대화를 끝낸 뒤 메시지를 보내 다시 연다", async () => {
     const calls: string[] = [];
     let status: HelpRequestItem["status"] = "open";

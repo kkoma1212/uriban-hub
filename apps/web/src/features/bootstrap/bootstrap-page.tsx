@@ -7,7 +7,6 @@ import {
   KeyRound,
   RefreshCw,
   School,
-  Trash2,
   UserRoundCog,
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -84,7 +83,7 @@ const destinationCopy: Record<BootstrapDestination, DestinationCopy> = {
   ENTER_INVITE_CODE: {
     eyebrow: "반 참여",
     title: "반에 참여해 주세요",
-    description: "선생님에게 받은 8자리 반 초대 코드를 입력하면 반 참여 요청을 보냅니다.",
+    description: "선생님에게 받은 8자리 반 초대 코드를 입력하면 반 참여 요청을 보내요.",
   },
 };
 
@@ -481,7 +480,7 @@ export function BootstrapPage(): React.JSX.Element {
     ? {
         eyebrow: "교사 승인 대기",
         title: "관리자 승인을 기다리고 있어요",
-        description: "이메일 인증을 마쳤어요. 관리자의 교사 확인과 승인이 필요합니다.",
+        description: "이메일 인증을 마쳤어요. 관리자가 선생님임을 확인하고 승인해야 해요.",
       }
     : destinationCopy[bootstrap.destination];
 
@@ -504,14 +503,25 @@ export function BootstrapPage(): React.JSX.Element {
       <section className="mt-5 rounded-shell border border-app-border bg-app-surface-raised p-5 shadow-card sm:p-6">
         {bootstrap.destination === "MEMBERSHIP_PENDING" || waitingForTeacherApproval ? (
           <div className="rounded-2xl border border-role-border bg-role-soft p-4">
+            {/* 코드를 잘못 넣어 다른 반에 요청했을 때 되돌리는 길을 알려 준다(2026-10-21 첫 사용 점검 11).
+                요청한 반은 아래 '현재 반' 상자에 학교와 함께 보인다. */}
+            {bootstrap.destination === "MEMBERSHIP_PENDING" &&
+            bootstrap.current_class !== null &&
+            bootstrap.allowed_actions.includes("CANCEL_MEMBERSHIP_REQUEST") ? (
+              <p className="mb-2 break-keep text-sm leading-6 text-app-text">
+                다른 반이면 아래 ‘반 참여 요청 취소’를 눌러 주세요.
+              </p>
+            ) : null}
             <p className="break-keep text-sm leading-6 text-app-text">
               {waitingForTeacherApproval
-                ? "관리자 승인 뒤 반을 만들 수 있어요. 승인이 끝났는지 여기서 확인해 주세요."
+                ? "관리자가 확인하면 가입한 이메일로 승인번호를 보내요. 다른 기기에서 번호를 입력했다면 여기서 승인 상태를 확인해 주세요."
                 : "승인이 끝났는지 확인해 주세요. 승인되면 홈으로 이동합니다."}
             </p>
+            {/* 교사 승인은 아래 승인번호 입력으로만 끝나므로, 그 확인 단추와 겹치지 않게 보조 단추로 둔다
+                (2026-10-21 첫 사용 점검: 진한 주 단추 두 개). */}
             <button
               aria-busy={bootstrapLoading}
-              className="ui-button ui-button-primary mt-3 min-h-12 w-full rounded-2xl"
+              className={`ui-button ${waitingForTeacherApproval ? "ui-button-secondary" : "ui-button-primary"} mt-3 min-h-12 w-full rounded-2xl`}
               disabled={bootstrapLoading || transitioningMembership || joining || loggingOut}
               onClick={() => void loadBootstrap()}
               type="button"
@@ -530,6 +540,7 @@ export function BootstrapPage(): React.JSX.Element {
           <SignupApprovalForm
             onApproved={loadBootstrap}
             signupRole={bootstrap.account.signup_role ?? null}
+            emailMasked={bootstrap.account.email_masked}
             emailVerified={bootstrap.account.email_verified}
           />
         ) : null}
@@ -637,7 +648,9 @@ export function BootstrapPage(): React.JSX.Element {
         {bootstrap.current_class === null ? null : (
           <div className="mt-4 rounded-2xl bg-app-surface-muted px-4 py-3">
             <p className="text-sm font-bold text-app-muted">현재 반</p>
-            <p className="mt-1 font-black text-app-text">{bootstrap.current_class.name}</p>
+            <p className="mt-1 font-black text-app-text">
+              {bootstrap.current_class.school_name} · {bootstrap.current_class.name}
+            </p>
           </div>
         )}
 
@@ -738,20 +751,6 @@ export function BootstrapPage(): React.JSX.Element {
           </Link>
         ) : null}
 
-        {bootstrap.allowed_actions.includes("DELETE_ACCOUNT") ? (
-          <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 p-4">
-            <p className="break-keep text-sm leading-6 text-rose-900">
-              더 이상 서비스를 사용하지 않으려면 계정 삭제 결과를 확인한 뒤 직접 진행할 수 있어요.
-            </p>
-            <Link
-              className="ui-button ui-button-danger mt-3 w-full rounded-2xl text-sm"
-              to="/account/deletion"
-            >
-              <Trash2 aria-hidden="true" size={17} /> 계정 삭제 알아보기
-            </Link>
-          </div>
-        ) : null}
-
         {bootstrap.last_membership_status === null ? null : (
           <div className="mt-4 rounded-2xl border border-app-border px-4 py-4 text-sm text-app-muted">
             최근 반 참여 상태:{" "}
@@ -774,8 +773,19 @@ export function BootstrapPage(): React.JSX.Element {
           </p>
         )}
 
-        <div className="mt-6 flex items-center justify-between gap-4 border-t border-app-border pt-4">
-          <p className="text-xs font-medium text-app-muted">기준일 {bootstrap.server_today}</p>
+        {/* 막 가입한 사람에게 빨간 삭제 상자가 크게 보여 놀라게 했다(2026-10-21 첫 사용 점검 7).
+            삭제 경로는 그대로 두고 화면 끝의 작은 글자 링크로 둔다. */}
+        {bootstrap.allowed_actions.includes("DELETE_ACCOUNT") ? (
+          <Link
+            className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-app-muted underline decoration-app-border underline-offset-4 hover:text-app-text"
+            to="/account/deletion"
+          >
+            계정 삭제 알아보기
+          </Link>
+        ) : null}
+
+        {/* 화면 끝 '기준일'은 이 화면에서 쓰임이 없어 처음 쓰는 사람에게 뜻 모를 날짜였다(첫 사용 점검 18). */}
+        <div className="mt-6 flex items-center justify-end gap-4 border-t border-app-border pt-4">
           <button
             aria-busy={loggingOut}
             className="ui-button ui-button-secondary text-sm"

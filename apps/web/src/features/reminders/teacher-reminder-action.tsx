@@ -1,5 +1,5 @@
 import { BellRing, CheckCircle2, LoaderCircle, RotateCcw } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { ApiRequestError } from "../../api/auth";
@@ -95,7 +95,8 @@ export function TeacherReminderAction({
   const displayedRequestedAt =
     result?.contentRevision === contentRevision ? result.response.created_at : lastRequestedAt;
 
-  useEffect(() => {
+  // 그려지는 순간 정리한다. useEffect는 그린 뒤에 돌아 그 사이 누른 '다시 알려주기'의 창 열기를 닫아 버렸다(10-21 부하 재현 3/120).
+  useLayoutEffect(() => {
     const pending = readIdempotentCreateAttempt(storageKey, isReminderRequest);
     attemptRef.current = pending;
     setResult(undefined);

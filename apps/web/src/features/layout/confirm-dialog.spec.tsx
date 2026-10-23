@@ -200,12 +200,15 @@ describe("ConfirmDialog", () => {
     expect(screen.getByRole("dialog", { name: "바깥 확인" })).toBeInTheDocument();
     await waitFor(() => expect(innerTrigger).toHaveFocus());
     expect(document.body).toHaveStyle({ overflow: "hidden" });
+    // 스크롤 막대 자리 색(styles.css html[data-modal-open])도 마지막 창이 닫힐 때까지 유지한다.
+    expect(document.documentElement).toHaveAttribute("data-modal-open");
     expect(view.container).toHaveAttribute("inert");
 
     fireEvent.keyDown(document, { key: "Escape" });
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     await waitFor(() => expect(outerTrigger).toHaveFocus());
     expect(document.body).not.toHaveStyle({ overflow: "hidden" });
+    expect(document.documentElement).not.toHaveAttribute("data-modal-open");
     expect(view.container).not.toHaveAttribute("inert");
   });
 

@@ -42,6 +42,8 @@ export type BootstrapAllowedAction = (typeof BOOTSTRAP_ALLOWED_ACTIONS)[number];
 export interface BootstrapResult {
   account: {
     display_name: string;
+    /** 본인 메일의 앞 두 글자만 보이게 가린 값(예: st***@example.com). 서버는 늘 채운다. */
+    email_masked?: string;
     email_verified: boolean;
     is_active: boolean;
     signup_role?: "student" | "teacher" | null;

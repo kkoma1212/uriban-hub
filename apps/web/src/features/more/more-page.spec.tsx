@@ -82,6 +82,7 @@ describe("MorePage", () => {
       "/past-classes",
       "/class/manage",
       "/settings",
+      "https://kkoma1212.github.io/uriban-hub-site/updates.html",
     ]);
   });
 
@@ -210,6 +211,25 @@ describe("MorePage", () => {
     );
   });
 
+  // 2026-10-23 사용자 결정: 업데이트 소식은 소개 사이트에만 쓰고 앱은 새 창으로 연다.
+  it.each(["teacher", "student"] as const)(
+    "opens the intro site's update notes in a new window for a %s",
+    async (role) => {
+      mockBootstrap(bootstrapFixture(role, ["VIEW_CLASS"]));
+      renderPage();
+
+      const moreNavigation = await screen.findByRole("navigation", { name: "더보기 메뉴" });
+      const updates = within(moreNavigation).getByRole("link", { name: /업데이트 소식/u });
+      expect(updates).toHaveAttribute(
+        "href",
+        "https://kkoma1212.github.io/uriban-hub-site/updates.html",
+      );
+      expect(updates).toHaveAttribute("target", "_blank");
+      expect(updates).toHaveAttribute("rel", "noreferrer");
+      expect(updates).toHaveAccessibleName(/새 창으로 열려요/u);
+    },
+  );
+
   it("hides 반 활동 when polls and elections are both off (A3-03)", async () => {
     mockBootstrap(bootstrapFixture("student", ["VIEW_CLASS"]));
     renderPage();
@@ -251,7 +271,8 @@ describe("MorePage", () => {
     expect(
       within(moreNavigation).getByRole("link", { name: /선생님께 물어보기/u }),
     ).toHaveAttribute("href", "/help-requests/ask");
-    expect(within(moreNavigation).getAllByRole("link")).toHaveLength(7);
+    // 7개 메뉴 + 업데이트 소식(소개 사이트, 새 창).
+    expect(within(moreNavigation).getAllByRole("link")).toHaveLength(8);
   });
 });
 

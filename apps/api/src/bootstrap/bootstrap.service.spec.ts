@@ -43,6 +43,7 @@ function state(overrides: Record<string, unknown> = {}) {
     temporary_password_must_change: 0,
     deleted_at: null,
     display_name: "합성 교사",
+    email_normalized: "synthetic.teacher@example.invalid",
     email_verified_at: null,
     is_active: 1,
     signup_approved_at: approvedAt,
@@ -94,6 +95,9 @@ describe("BootstrapService database dialect boundary", () => {
     const result = await maria.service.getForUser(userId);
     await expect(postgres.service.getForUser(userId)).resolves.toEqual(result);
     expect(result.account.is_active).toBe(true);
+    // 본인에게도 전체 주소는 보내지 않는다(첫 사용 점검 18: 번호를 보낸 곳 안내).
+    expect(result.account.email_masked).toBe("sy***@example.invalid");
+    expect(JSON.stringify(result)).not.toContain("synthetic.teacher");
     expect(result.teacher_profile?.temporary_password_must_change).toBe(false);
     expect(result.destination).toBe("HOME");
     expect(result.allowed_actions).not.toContain("MANAGE_DUTY_ROSTERS");

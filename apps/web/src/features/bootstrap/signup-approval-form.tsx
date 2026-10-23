@@ -1,16 +1,24 @@
 import { useState } from "react";
 import { useLocation } from "react-router";
-import { confirmSignupApproval, confirmSignupRole, resendSignupApproval } from "../../api/auth";
+import {
+  ApiRequestError,
+  confirmSignupApproval,
+  confirmSignupRole,
+  resendSignupApproval,
+} from "../../api/auth";
 import { clearRequestCooldown } from "../../lib/request-cooldown";
 import { useRequestCooldown } from "../auth/request-cooldown";
 
 export function SignupApprovalForm({
   onApproved,
   signupRole,
+  emailMasked,
   emailVerified = false,
 }: {
   onApproved: () => Promise<void>;
   signupRole: "student" | "teacher" | null;
+  /** 번호를 보낸 메일(앞 두 글자만 보이게 가린 값). 어디서 찾을지·주소를 잘못 넣었는지 알게 한다. */
+  emailMasked?: string | undefined;
   emailVerified?: boolean;
 }): React.JSX.Element {
   const { pathname } = useLocation();
@@ -56,9 +64,7 @@ export function SignupApprovalForm({
       setCode("");
       await onApproved();
     } catch (requestError) {
-      setError(
-        requestError instanceof Error ? requestError.message : "승인번호를 확인하지 못했어요.",
-      );
+      setError(codeErrorMessage(requestError, waitingForTeacherApproval));
     } finally {
       setBusy(false);
     }
@@ -96,15 +102,20 @@ export function SignupApprovalForm({
       ) : (
         <>
           <p className="text-sm leading-6 text-app-muted" id="signup-approval-help">
+            {/* 번호를 보낸 메일 주소가 안 보였다(2026-10-21 첫 사용 점검 18). */}
+            {emailMasked === undefined ? null : (
+              <span className="mb-1 block font-bold text-app-text">받는 메일: {emailMasked}</span>
+            )}
             {waitingForTeacherApproval ? (
               <>
-                이메일 인증을 마쳤어요. 관리자가 선생님임을 확인한 뒤 발급한 6자리 교사 승인번호를
-                입력해 주세요. 승인 전에는 반을 만들거나 참여할 수 없어요.
+                이메일 인증을 마쳤어요. 관리자가 선생님임을 확인한 뒤 이메일로 보낸 6자리 교사
+                승인번호를 입력해 주세요. 승인 전에는 반을 만들거나 참여할 수 없어요.
               </>
             ) : (
               <>
-                가입한 이메일로 보낸 6자리 인증번호를 입력해 주세요. 메일이 보이지 않으면 스팸함을
-                확인하거나 다시 보내기를 눌러 주세요.
+                {/* 화면 제목 설명('가입한 이메일로 보낸 6자리 번호로…')과 같은 문장이 반복됐다
+                    (2026-10-21 첫 사용 점검 18). */}
+                메일이 보이지 않으면 스팸함을 확인하거나 다시 보내기를 눌러 주세요.
                 {signupRole === "teacher"
                   ? " 선생님은 이메일 인증 후 별도 관리자 승인이 필요해요."
                   : ""}
@@ -128,7 +139,7 @@ export function SignupApprovalForm({
             // 두지 않는다(총검수 B3-09).
             onChange={(event) => setCode(event.target.value.replace(/[^0-9]/gu, "").slice(0, 6))}
             pattern="[0-9]{6}"
-            placeholder="6자리 인증번호"
+            placeholder={waitingForTeacherApproval ? "6자리 승인번호" : "6자리 인증번호"}
             value={code}
           />
         </>
@@ -184,4 +195,17 @@ export function SignupApprovalForm({
       )}
     </form>
   );
+}
+
+// 메일 인증번호와 교사 승인번호는 같은 확인 경로라 서버 문구가 '관리자에게 새 번호를 요청'으로 같다.
+// 메일 인증 단계의 학생·선생님은 관리자가 아니라 다시 보내기로 새 번호를 받으므로 그 안내로 바꾼다
+// (2026-10-21 첫 사용 점검에서 발견).
+function codeErrorMessage(failure: unknown, waitingForTeacherApproval: boolean): string {
+  if (
+    !waitingForTeacherApproval &&
+    failure instanceof ApiRequestError &&
+    failure.code === "SIGNUP_APPROVAL_INVALID"
+  )
+    return "인증번호가 맞지 않거나 만료됐어요. 메일의 번호를 다시 확인하거나 아래 '인증번호 메일 다시 보내기'로 새 번호를 받아 주세요.";
+  return failure instanceof Error ? failure.message : "승인번호를 확인하지 못했어요.";
 }

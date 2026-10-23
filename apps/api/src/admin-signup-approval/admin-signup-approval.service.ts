@@ -322,7 +322,13 @@ export class AdminSignupApprovalService {
       mailer === undefined
         ? "failed"
         : await notificationDelivery(() =>
-            mailer.sendSignupApprovalEmail(normalized, { code, role, expiresAt: row.expires_at }),
+            mailer.sendSignupApprovalEmail(normalized, {
+              code,
+              role,
+              expiresAt: row.expires_at,
+              // 위 거래 안의 purpose와 같은 규칙: 관리자가 보내면 승인번호, 스스로 받으면 메일 인증번호.
+              purpose: adminId === null ? "email" : "approval",
+            }),
           );
     return {
       id: String(row.id),

@@ -5,6 +5,8 @@ export interface ServiceMailContent {
   highlight?: { label: string; value: string };
   action?: { label: string; url: string };
   code?: string;
+  /** 번호 상자와 글자본에 붙는 이름. 화면이 부르는 이름과 같아야 한다(기본 '인증번호'). */
+  codeLabel?: string;
   note?: string;
 }
 
@@ -61,8 +63,8 @@ function highlightBox(highlight: { label: string; value: string }): string {
 }
 
 // letter-spacing은 마지막 글자 뒤에도 붙으므로 같은 폭을 왼쪽에 채워 숫자를 가운데에 둔다.
-function codeChalkboard(code: string): string {
-  return `<table ${TABLE} width="100%" style="margin:6px 0 20px"><tr><td align="center" style="background:${COLOR.board};border:5px solid ${COLOR.wood};border-radius:14px;padding:12px 10px 16px"><div style="font-size:12px;line-height:1.4;font-weight:700;letter-spacing:1px;color:${COLOR.chalkSoft}">인증번호</div><div style="font-size:34px;line-height:1.35;font-weight:800;letter-spacing:10px;padding-left:10px;color:${COLOR.chalk};font-family:${MONO}">${escapeHtml(code)}</div><table ${TABLE} align="center" width="64"><tr><td height="5" style="height:5px;line-height:5px;font-size:0;background:${COLOR.yellow};border-radius:5px">&nbsp;</td></tr></table></td></tr></table>`;
+function codeChalkboard(code: string, label: string): string {
+  return `<table ${TABLE} width="100%" style="margin:6px 0 20px"><tr><td align="center" style="background:${COLOR.board};border:5px solid ${COLOR.wood};border-radius:14px;padding:12px 10px 16px"><div style="font-size:12px;line-height:1.4;font-weight:700;letter-spacing:1px;color:${COLOR.chalkSoft}">${escapeHtml(label)}</div><div style="font-size:34px;line-height:1.35;font-weight:800;letter-spacing:10px;padding-left:10px;color:${COLOR.chalk};font-family:${MONO}">${escapeHtml(code)}</div><table ${TABLE} align="center" width="64"><tr><td height="5" style="height:5px;line-height:5px;font-size:0;background:${COLOR.yellow};border-radius:5px">&nbsp;</td></tr></table></td></tr></table>`;
 }
 
 function actionButton(action: { label: string; url: string }): string {
@@ -73,6 +75,7 @@ function actionButton(action: { label: string; url: string }): string {
 /** A single email layout; values are escaped and credentials are never included. */
 export function serviceMail(content: ServiceMailContent): { text: string; html: string } {
   const note = content.note ?? "직접 요청하지 않았다면 이 메일은 무시해도 괜찮아요.";
+  const codeLabel = content.codeLabel ?? "인증번호";
   const paragraphs = content.paragraphs
     .map(
       (paragraph) =>
@@ -83,7 +86,7 @@ export function serviceMail(content: ServiceMailContent): { text: string; html: 
     `<h1 style="margin:0 0 16px;font-size:22px;line-height:1.45;font-weight:800;color:${COLOR.ink}">${escapeHtml(content.title)}</h1>`,
     paragraphs,
     content.highlight === undefined ? "" : highlightBox(content.highlight),
-    content.code === undefined ? "" : codeChalkboard(content.code),
+    content.code === undefined ? "" : codeChalkboard(content.code, codeLabel),
     content.action === undefined ? "" : actionButton(content.action),
   ].join("");
   return {
@@ -94,7 +97,7 @@ export function serviceMail(content: ServiceMailContent): { text: string; html: 
       ...(content.highlight === undefined
         ? []
         : [`${content.highlight.label}: ${content.highlight.value}`]),
-      ...(content.code === undefined ? [] : [`확인번호: ${content.code}`]),
+      ...(content.code === undefined ? [] : [`${codeLabel}: ${content.code}`]),
       ...(content.action === undefined ? [] : [`${content.action.label}: ${content.action.url}`]),
       note,
     ].join("\n\n"),

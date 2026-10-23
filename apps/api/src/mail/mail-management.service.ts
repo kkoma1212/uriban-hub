@@ -20,9 +20,9 @@ export interface SignupMailTemplate {
 
 export const DEFAULT_SIGNUP_MAIL_TEMPLATE: Readonly<SignupMailTemplate> = {
   title: "회원가입 이메일 인증번호",
-  introduction:
-    "가입한 이메일로 로그인한 뒤 아래 6자리 인증번호를 입력해 주세요.",
-  footer: "직접 요청하지 않았다면 이 메일은 무시해도 괜찮아요. 인증번호는 다른 사람에게 알려 주지 마세요.",
+  introduction: "가입한 이메일로 로그인한 뒤 아래 6자리 인증번호를 입력해 주세요.",
+  footer:
+    "직접 요청하지 않았다면 이 메일은 무시해도 괜찮아요. 인증번호는 다른 사람에게 알려 주지 마세요.",
   button_label: "인증번호 입력하기",
 };
 

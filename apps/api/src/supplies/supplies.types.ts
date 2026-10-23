@@ -106,6 +106,8 @@ export interface UpdateSupplyCommand {
   category: SupplyCategory | undefined;
   description: string | null | undefined;
   ifMatch: string | string[] | undefined;
+  /** 오타 수정으로 저장(판 유지). 판단 기준은 content-edits/minor-edit.ts */
+  minorEdit: boolean | undefined;
   neededOn: string | undefined;
   requestId: string;
   supplyId: string;

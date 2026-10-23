@@ -795,6 +795,70 @@ describe("notices HTTP contract", () => {
     });
   });
 
+  // 오타 수정 처리(2026-10-22 사용자 결정): 교사가 고른 작은 수정은 판을 올리지 않는다.
+  it("saves a teacher-marked typo fix on the same revision and refuses digit changes", async () => {
+    const notice = await seedNotice(fixture, {
+      content: "내일 체육복 챙겨 오세오",
+      title: "체육 준비",
+    });
+    const student = fixture.students[0];
+    const confirmed = await app.inject({
+      method: "PUT",
+      url: `/api/v1/notices/${notice.id}/confirmation`,
+      headers: student.headers,
+      payload: { content_revision: 1 },
+    });
+    expect(confirmed.statusCode).toBe(200);
+    const patch = (rowVersion: number, payload: Record<string, unknown>) =>
+      app.inject({
+        method: "PATCH",
+        url: `/api/v1/notices/${notice.id}`,
+        headers: { ...fixture.teacher.headers, "if-match": `"${rowVersion}"` },
+        payload,
+      });
+
+    expectError(
+      await patch(1, { content: "3일 체육복 챙겨 오세요", minor_edit: true }),
+      400,
+      "MINOR_EDIT_NOT_ALLOWED",
+    );
+    expect(
+      await database
+        .selectFrom("notices")
+        .select(["content", "row_version"])
+        .where("id", "=", notice.id)
+        .executeTakeFirstOrThrow(),
+    ).toEqual({ content: "내일 체육복 챙겨 오세오", row_version: "1" });
+
+    const typo = await patch(1, { content: "내일 체육복 챙겨 오세요", minor_edit: true });
+    expect(typo.statusCode).toBe(200);
+    expect(typo.json()).toMatchObject({
+      content: "내일 체육복 챙겨 오세요",
+      content_revision: "1",
+      row_version: "2",
+    });
+    const studentDetail = await app.inject({
+      method: "GET",
+      url: `/api/v1/notices/${notice.id}`,
+      headers: student.headers,
+    });
+    expect(studentDetail.json()).toMatchObject({
+      confirmation_state: "confirmed",
+      content: "내일 체육복 챙겨 오세요",
+    });
+    const audit = await database
+      .selectFrom("audit_logs")
+      .selectAll()
+      .where("action", "=", "notice.updated")
+      .where("target_id", "=", notice.id)
+      .executeTakeFirstOrThrow();
+    expect(audit.before_json).toEqual({ content_revision: "1" });
+    expect(audit.after_json).toEqual({ content_revision: "1" });
+
+    const normal = await patch(2, { content: "내일 체육복을 챙겨 오세요" });
+    expect(normal.json()).toMatchObject({ content_revision: "2", row_version: "3" });
+  });
+
   it("confirms explicitly, keeps timestamps on repeat and importance change, then requires reconfirmation", async () => {
     const notice = await seedNotice(fixture, { is_important: true });
     const student = fixture.students[0];

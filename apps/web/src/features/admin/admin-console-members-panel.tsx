@@ -1,5 +1,5 @@
 import { LoaderCircle, Search, UserRoundCog, UsersRound } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type * as React from "react";
 
 import {
@@ -66,7 +66,8 @@ function MemberEditor({
   const applyButton = useRef<HTMLButtonElement>(null);
   const reasonRequired = status !== undefined && status !== "approved";
 
-  useEffect(() => {
+  // 그려지는 순간 맞춘다. useEffect는 그린 뒤에 돌아 그 사이 고른 상태를 첫 값으로 되돌렸다(10-21 부하 재현).
+  useLayoutEffect(() => {
     setStatus(allowedStatuses[0]);
     setReason("");
   }, [allowedStatuses]);

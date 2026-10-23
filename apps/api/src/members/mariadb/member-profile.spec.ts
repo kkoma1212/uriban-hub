@@ -507,8 +507,10 @@ describe("MariaDB teacher member reads", () => {
     }
     expect(JSON.stringify(result)).not.toContain("private-name");
   });
+  // 2026-10-22 사용자 결정: 관리자 규칙으로 합쳐 아이디 전체가 드러나지 않는다(예전 "a***@…").
   it.each([
-    ["a@example.invalid", "a***@example.invalid"],
+    ["a@example.invalid", "***@example.invalid"],
+    ["ab@example.invalid", "a***@example.invalid"],
     ["bad", "***"],
     ["@example.invalid", "***"],
   ])("masks pending address %s", async (email_normalized, email_masked) => {

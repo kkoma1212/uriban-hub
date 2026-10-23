@@ -14,6 +14,14 @@ export class BootstrapAccountResponseDto {
   @ApiProperty({ maxLength: 20, minLength: 2, type: String })
   display_name!: string;
 
+  @ApiProperty({
+    description:
+      "본인 메일의 앞 두 글자만 보이게 가린 값(예: st***@example.com). 인증번호를 보낸 곳 안내용.",
+    required: false,
+    type: String,
+  })
+  email_masked?: string;
+
   @ApiProperty({ type: Boolean })
   email_verified!: boolean;
 

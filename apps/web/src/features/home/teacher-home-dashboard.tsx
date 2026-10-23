@@ -143,8 +143,10 @@ export function TeacherHomeDashboard({
             }
             footer={
               <span className="flex min-w-0 flex-wrap items-center justify-end gap-2">
+                {/* 학생 칠판은 일반 공지를 올리지 않는다(chalkboard.tsx studentChalkLines, 09-27 확정 시안).
+                    '아직 안 본 것만'이라 적었더니 일반 공지도 뜬다고 믿게 됐다(2026-10-21 첫 사용 점검, 사용자 A안). */}
                 <span className="min-w-0 break-keep text-right [overflow-wrap:anywhere]">
-                  학생 칠판에는 각자 아직 안 본 것만 보여요
+                  학생 칠판에는 중요·바뀐 공지와 안 챙긴 준비물만 올라가요
                 </span>
                 <Link
                   className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-xl bg-[var(--color-chalk-text)] px-3 text-sm font-bold text-[var(--color-chalk-board)] transition-opacity hover:opacity-90"

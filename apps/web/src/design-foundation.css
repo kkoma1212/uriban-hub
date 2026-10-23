@@ -228,6 +228,24 @@
   scrollbar-width: thin;
 }
 
+/* rail-more-hint.tsx: 낮은 화면에서 메뉴 아래쪽이 가려졌다는 표시. 메뉴 길이를 늘리지 않게 위로 겹친다. */
+.app-rail-more-hint {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.25rem;
+  height: 2.75rem;
+  margin-top: -2.75rem;
+  padding-bottom: 0.25rem;
+  pointer-events: none;
+  color: var(--color-shell-rail-muted);
+  background: linear-gradient(to bottom, transparent, var(--color-shell-rail) 55%);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
 .app-rail-header {
   margin-bottom: 0.75rem;
   padding-bottom: 1rem;

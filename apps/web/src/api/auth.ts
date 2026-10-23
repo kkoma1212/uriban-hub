@@ -164,6 +164,8 @@ export interface BootstrapResponse {
   session_context?: string;
   account: {
     display_name: string;
+    /** 본인 메일의 앞 두 글자만 보이게 가린 값(예: st***@example.com). */
+    email_masked?: string;
     email_verified: boolean;
     is_active: boolean;
     signup_role?: "student" | "teacher" | null;
@@ -224,6 +226,8 @@ export interface MemberListItem {
   display_name: string;
   display_name_in_class: string | null;
   email_masked?: string;
+  /** 지금 사진을 받을 수 있는지(2026-10-23~). false면 사진을 요청하지 않는다. */
+  has_profile_photo?: boolean;
   id: string;
   requested_at: string | null;
   row_version: string;

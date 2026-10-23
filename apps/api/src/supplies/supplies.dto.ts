@@ -122,6 +122,15 @@ export class UpdateSupplyDto {
   @IsDateString({ strict: true, strictSeparator: true })
   needed_on?: string;
 
+  @ApiPropertyOptional({
+    description:
+      "true면 오타·띄어쓰기 수정으로 보고 판을 올리지 않아 학생 재확인을 요구하지 않습니다. 제목·설명에서 바뀐 글자가 5자 이하이고 숫자가 그대로이며 날짜·종류가 그대로일 때만 받습니다.",
+    type: Boolean,
+  })
+  @ValidateIf((_object, value: unknown) => value !== undefined)
+  @IsBoolean()
+  minor_edit?: boolean;
+
   @ApiPropertyOptional({ maxLength: 100, minLength: 1, type: String })
   @Transform(trimText)
   @ValidateIf((_object, value: unknown) => value !== undefined)

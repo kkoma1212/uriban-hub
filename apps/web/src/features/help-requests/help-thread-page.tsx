@@ -471,8 +471,15 @@ export function HelpThreadPanel({
   // T-PHOTO: 교사는 학생 구성원 사진, 학생은 현재 반 담임 사진. 꺼져 있으면 null(첫 글자).
   let participantPhotoUrl: string | null = null;
   if (role === "teacher")
-    participantPhotoUrl = optionalMemberProfilePhotoUrl(profilePhotosEnabled, student?.member_id);
-  else if (profilePhotosEnabled && profilePhotoClassId !== null) {
+    participantPhotoUrl = optionalMemberProfilePhotoUrl(
+      profilePhotosEnabled && student?.has_profile_photo !== false,
+      student?.member_id,
+    );
+  else if (
+    profilePhotosEnabled &&
+    profilePhotoClassId !== null &&
+    thread.teacher_has_profile_photo !== false
+  ) {
     try {
       participantPhotoUrl = currentClassTeacherPhotoUrl(profilePhotoClassId);
     } catch {

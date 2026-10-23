@@ -18,7 +18,7 @@ import {
 import type { AppEnvironment } from "../config/environment.js";
 import { DATABASE, type ClassHubDatabase } from "../database/database.module.js";
 import type { AdminSessionKind } from "./admin-directory.dto.js";
-import { maskEmail } from "./admin-directory.service.js";
+import { maskEmail } from "../common/privacy/mask-email.js";
 import { adminError } from "./admin-error.js";
 
 export const ADMIN_USER_SESSION_PAGE_SIZE = 30;

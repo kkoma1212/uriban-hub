@@ -73,6 +73,12 @@ export class NoticeConfirmationMemberResponseDto {
   @ApiProperty({ maxLength: 20, minLength: 2, type: String })
   display_name!: string;
 
+  @ApiPropertyOptional({
+    description: "지금 사진을 받을 수 있으면 true(사진 기능이 꺼져 있으면 false)",
+    type: Boolean,
+  })
+  has_profile_photo?: boolean;
+
   @ApiProperty({ example: "1", pattern: "^[1-9][0-9]*$", type: String })
   member_id!: string;
 

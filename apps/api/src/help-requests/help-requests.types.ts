@@ -13,8 +13,16 @@ export interface HelpRequestItem {
   message: string | null;
   reply: string | null;
   status: HelpRequestStatus;
-  /** 교사에게만 채운다. 학생은 자기 요청만 받으므로 null이다. */
-  student: { display_name: string; member_id: string; student_number: number | null } | null;
+  /**
+   * 교사에게만 채운다. 학생은 자기 요청만 받으므로 null이다. has_profile_photo는 대화 응답에만 —
+   * 지금 사진을 받을 수 있으면 true이고, 화면은 true일 때만 사진을 요청한다.
+   */
+  student: {
+    display_name: string;
+    has_profile_photo?: boolean;
+    member_id: string;
+    student_number: number | null;
+  } | null;
   /** 글과 무관한 대화(general)는 null이다. */
   target: { id: string; kind: HelpRequestTargetKind; title: string } | null;
 }
@@ -30,6 +38,8 @@ export interface HelpRequestThread {
   /** 오래된 것부터. 요청의 첫 설명(message)·예전 답변(reply)은 request에 따로 있다. */
   messages: HelpRequestMessage[];
   request: HelpRequestItem;
+  /** 학생이 받는 대화에만. 현재 반 담임 사진을 지금 받을 수 있으면 true — 화면은 true일 때만 요청한다. */
+  teacher_has_profile_photo?: boolean;
 }
 
 export interface SendHelpMessageCommand {

@@ -265,6 +265,19 @@ export class UpdateAdminTermsVersionStatusDto {
   reason!: string;
 }
 
+/** 시범 판정 지표: 한국 날짜 기간(처음·끝 포함). 둘 다 없으면 오늘까지 최근 30일. */
+export class AdminReconfirmReportQueryDto {
+  @ApiPropertyOptional({ example: "2026-10-01", format: "date", type: String })
+  @IsOptional()
+  @Matches(/^\d{4}-\d{2}-\d{2}$/u)
+  from?: string;
+
+  @ApiPropertyOptional({ example: "2026-10-31", format: "date", type: String })
+  @IsOptional()
+  @Matches(/^\d{4}-\d{2}-\d{2}$/u)
+  to?: string;
+}
+
 export class ListAdminTermsConsentsQueryDto {
   @IsIn(["terms", "privacy"]) consent_type!: "terms" | "privacy";
   @Transform(trimText)

@@ -6,6 +6,8 @@ export const NOTIFICATION_MAILER = Symbol("NOTIFICATION_MAILER");
 /** "sent" means SMTP accepted the message, not that it reached the inbox. */
 export type MailDeliveryStatus = "failed" | "sent";
 export type SignupMailRole = "student" | "teacher";
+/** "email": 가입자가 스스로 받는 메일 인증번호. "approval": 관리자가 확인 뒤 보내는 승인번호. */
+export type SignupCodePurpose = "approval" | "email";
 export type MembershipMailStatus = "approved" | "rejected" | "removed" | "rejoin_allowed";
 
 export async function notificationDelivery(
@@ -25,7 +27,7 @@ export interface NotificationMailer {
   ): Promise<MailDeliveryStatus>;
   sendSignupApprovalEmail(
     email: string,
-    details: { code: string; role: SignupMailRole; expiresAt: Date },
+    details: { code: string; role: SignupMailRole; expiresAt: Date; purpose: SignupCodePurpose },
   ): Promise<MailDeliveryStatus>;
   sendAccountRecoveryEmail(email: string, accountExists: boolean): Promise<MailDeliveryStatus>;
   sendTeacherApprovalWaitingEmail(adminEmail: string): Promise<MailDeliveryStatus>;
@@ -72,7 +74,7 @@ export class SmtpNotificationMailer implements NotificationMailer {
 
   async sendSignupApprovalEmail(
     email: string,
-    details: { code: string; role: SignupMailRole; expiresAt: Date },
+    details: { code: string; role: SignupMailRole; expiresAt: Date; purpose: SignupCodePurpose },
   ): Promise<MailDeliveryStatus> {
     if (!/^[0-9]{6}$/u.test(details.code) || !Number.isFinite(details.expiresAt.getTime())) {
       return Promise.resolve("failed");
@@ -82,15 +84,35 @@ export class SmtpNotificationMailer implements NotificationMailer {
       timeStyle: "short",
       timeZone: "Asia/Seoul",
     }).format(details.expiresAt);
+    const oneUse = `${expiration}(한국 시간)까지 한 번만 쓸 수 있어요. 번호를 새로 받으면 이 번호는 더 이상 쓸 수 없어요.`;
+    // 관리자가 보내는 번호는 화면이 '교사 승인번호'라 부르는데 메일은 '가입 인증번호'라 해서 헷갈렸다
+    // (2026-10-21 첫 사용 점검). 관리자가 고치는 가입 인증 메일 틀(template)은 쓰지 않는다.
+    if (details.purpose === "approval") {
+      const label = details.role === "teacher" ? "교사 승인번호" : "가입 승인번호";
+      return this.deliver(email, {
+        title: `${label} 안내`,
+        paragraphs: [
+          details.role === "teacher"
+            ? "관리자가 선생님임을 확인했어요. 로그인한 뒤 아래 6자리 교사 승인번호를 입력하면 반을 만들 수 있어요."
+            : "관리자가 가입을 확인했어요. 로그인한 뒤 아래 6자리 가입 승인번호를 입력해 주세요.",
+          oneUse,
+        ],
+        code: details.code,
+        codeLabel: label,
+        action: this.action("로그인하기", "/login"),
+        note: "승인번호는 다른 사람에게 알려 주지 마세요. 직접 가입하지 않았다면 이 메일은 무시해도 괜찮아요.",
+      });
+    }
     const template = (await this.options.management?.template()) ?? DEFAULT_SIGNUP_MAIL_TEMPLATE;
     return this.deliver(email, {
       title: template.title,
       paragraphs: [
         ...template.introduction.split(/\r?\n/u).filter(Boolean),
         `${ROLE_LABELS[details.role]} 계정 가입 인증번호예요.`,
-        `${expiration}(한국 시간)까지 한 번만 쓸 수 있어요. 번호를 새로 받으면 이 번호는 더 이상 쓸 수 없어요.`,
+        oneUse,
       ],
       code: details.code,
+      codeLabel: "인증번호",
       action: this.action(template.button_label, "/login"),
       note: template.footer,
     });

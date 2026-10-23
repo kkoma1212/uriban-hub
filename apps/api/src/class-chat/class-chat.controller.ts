@@ -27,6 +27,8 @@ import {
   type AuthenticatedFastifyRequest,
 } from "../auth/authenticated-request.js";
 import { AuthenticatedSessionGuard } from "../auth/authenticated-session.guard.js";
+import { MemberPhotoPresenceReader } from "../profile-photos/member-photo-presence.js";
+import type { ProfilePhotoActor } from "../profile-photos/profile-photo.types.js";
 import {
   ClassChatStateQueryDto,
   MuteClassChatMemberDto,
@@ -53,7 +55,10 @@ function idOrNotFound(value: string): string {
 @ApiTags("class-chat")
 @Controller("class-chat")
 export class ClassChatController {
-  constructor(private readonly classChat: ClassChatService) {}
+  constructor(
+    private readonly classChat: ClassChatService,
+    private readonly photos: MemberPhotoPresenceReader,
+  ) {}
 
   @Get()
   @UseGuards(AuthenticatedSessionGuard)
@@ -63,7 +68,8 @@ export class ClassChatController {
     @Query() query: ClassChatStateQueryDto,
     @Req() request: AuthenticatedFastifyRequest,
   ): Promise<ClassChatState> {
-    return this.classChat.state(getAuthenticatedSession(request).userId, query.after);
+    const session = getAuthenticatedSession(request);
+    return this.withAuthorPhotos(session, this.classChat.state(session.userId, query.after));
   }
 
   @Post("messages")
@@ -77,7 +83,8 @@ export class ClassChatController {
     @Body() body: SendClassChatMessageDto,
     @Req() request: AuthenticatedFastifyRequest,
   ): Promise<ClassChatState> {
-    return this.classChat.send(getAuthenticatedSession(request).userId, body.body);
+    const session = getAuthenticatedSession(request);
+    return this.withAuthorPhotos(session, this.classChat.send(session.userId, body.body));
   }
 
   @Post("messages/:id/hide")
@@ -91,7 +98,8 @@ export class ClassChatController {
     @Param("id") id: string,
     @Req() request: AuthenticatedFastifyRequest,
   ): Promise<ClassChatState> {
-    return this.classChat.hide(getAuthenticatedSession(request).userId, idOrNotFound(id));
+    const session = getAuthenticatedSession(request);
+    return this.withAuthorPhotos(session, this.classChat.hide(session.userId, idOrNotFound(id)));
   }
 
   @Post("messages/:id/report")
@@ -148,7 +156,8 @@ export class ClassChatController {
     @Body() body: UpdateClassChatRoomDto,
     @Req() request: AuthenticatedFastifyRequest,
   ): Promise<ClassChatState> {
-    return this.classChat.setRoom(getAuthenticatedSession(request).userId, body.is_open);
+    const session = getAuthenticatedSession(request);
+    return this.withAuthorPhotos(session, this.classChat.setRoom(session.userId, body.is_open));
   }
 
   @Put("mutes/:memberId")
@@ -183,5 +192,24 @@ export class ClassChatController {
     @Req() request: AuthenticatedFastifyRequest,
   ): Promise<void> {
     await this.classChat.unmute(getAuthenticatedSession(request).userId, idOrNotFound(memberId));
+  }
+
+  /** 대화 상태를 돌려주는 모든 경로에서 작성자마다 '사진 있음'을 붙인다(화면이 이 응답으로 상태를 바꾼다). */
+  private async withAuthorPhotos(
+    actor: ProfilePhotoActor,
+    pending: Promise<ClassChatState>,
+  ): Promise<ClassChatState> {
+    const result = await pending;
+    const withPhoto = await this.photos.memberIdsWithPhoto(
+      actor,
+      result.messages.map((message) => message.author.member_id),
+    );
+    return {
+      ...result,
+      messages: result.messages.map((message) => ({
+        ...message,
+        author: { ...message.author, has_profile_photo: withPhoto.has(message.author.member_id) },
+      })),
+    };
   }
 }

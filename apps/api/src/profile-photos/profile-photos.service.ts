@@ -32,7 +32,31 @@ export function classProfilePhotoQuery(
   target: ClassPhotoTarget,
 ) {
   if (actor.currentClassId === null) throw new ProfilePhotoNotFoundException();
-  let query = database
+  let query = visibleClassPhotos(database, actor.userId, actor.currentClassId).select([
+    "photo.image_bytes",
+    "photo.photo_version",
+  ]);
+  if ("memberId" in target) {
+    if (
+      !/^[1-9][0-9]{0,18}$/u.test(target.memberId) ||
+      BigInt(target.memberId) > 9223372036854775807n
+    )
+      throw new ProfilePhotoNotFoundException();
+    query = query.where("target.id", "=", target.memberId);
+  } else query = query.where("target.role", "=", "teacher");
+  return query;
+}
+
+/**
+ * 보는 사람이 현재 반에서 볼 수 있는 구성원 사진. 사진 조회와 목록의 '사진 있음'(member-photo-presence)이
+ * 같은 조건을 쓰도록 한곳에 둔다 — 조건이 갈라지면 '있음'인데 사진이 안 나오는 요청이 다시 생긴다.
+ */
+export function visibleClassPhotos(
+  database: ClassHubDatabase,
+  viewerUserId: string,
+  classId: string,
+) {
+  return database
     .selectFrom("user_profile_photos as photo")
     .innerJoin("class_members as target", "target.user_id", "photo.user_id")
     .innerJoin("class_members as viewer", "viewer.class_id", "target.class_id")
@@ -41,9 +65,8 @@ export function classProfilePhotoQuery(
     .innerJoin("users as viewer_account", "viewer_account.id", "viewer.user_id")
     .leftJoin("teacher_profiles as target_teacher", "target_teacher.user_id", "target.user_id")
     .leftJoin("teacher_profiles as viewer_teacher", "viewer_teacher.user_id", "viewer.user_id")
-    .select(["photo.image_bytes", "photo.photo_version"])
-    .where("viewer.user_id", "=", actor.userId)
-    .where("viewer.class_id", "=", actor.currentClassId)
+    .where("viewer.user_id", "=", viewerUserId)
+    .where("viewer.class_id", "=", classId)
     .where("viewer.status", "=", "approved")
     .where("target.status", "=", "approved")
     .where("classroom.status", "=", "active")
@@ -71,15 +94,6 @@ export function classProfilePhotoQuery(
         ]),
       ]),
     );
-  if ("memberId" in target) {
-    if (
-      !/^[1-9][0-9]{0,18}$/u.test(target.memberId) ||
-      BigInt(target.memberId) > 9223372036854775807n
-    )
-      throw new ProfilePhotoNotFoundException();
-    query = query.where("target.id", "=", target.memberId);
-  } else query = query.where("target.role", "=", "teacher");
-  return query;
 }
 
 function state(version: string | null): ProfilePhotoState {

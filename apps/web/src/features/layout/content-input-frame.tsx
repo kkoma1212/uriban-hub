@@ -2,6 +2,7 @@ import { Check, LoaderCircle } from "lucide-react";
 import { useId, useLayoutEffect, useRef, type HTMLAttributes, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
+import { RichText } from "../details/rich-text";
 import { useModalIsolation } from "./use-modal-isolation";
 import "./content-input-frame.css";
 
@@ -103,6 +104,8 @@ export interface ContentInputPreviewProps {
   audienceLabel?: string | undefined;
   important?: boolean;
   boardMessage?: string | undefined;
+  /** 공지 본문의 **굵게**·==형광펜==을 그린다(T-RICHTEXT). 투표 설명 등은 글자 그대로. */
+  richContent?: boolean;
 }
 
 /** Read-only rendering of the home chalkboard and the student's news card. */
@@ -114,7 +117,9 @@ export function ContentInputPreview({
   audienceLabel,
   important = false,
   boardMessage,
+  richContent = false,
 }: ContentInputPreviewProps): React.JSX.Element {
+  const trimmedContent = content?.trim();
   return (
     <div className="content-input-student-preview">
       <p className="content-input-preview-label">학생에게 이렇게 보여요</p>
@@ -141,7 +146,13 @@ export function ContentInputPreview({
         </div>
         <h3>{title.trim() || "제목을 적어 주세요"}</h3>
         <p className="content-input-post-content">
-          {content?.trim() || "작성한 내용이 여기에 보여요."}
+          {!trimmedContent ? (
+            "작성한 내용이 여기에 보여요."
+          ) : richContent ? (
+            <RichText text={trimmedContent} />
+          ) : (
+            trimmedContent
+          )}
         </p>
         {dateLabel ? <p className="content-input-post-date">{dateLabel}</p> : null}
         <p className="content-input-post-footer">

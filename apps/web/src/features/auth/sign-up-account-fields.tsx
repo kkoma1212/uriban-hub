@@ -63,9 +63,12 @@ export function SignUpAccountFields({
           기본 이름
         </label>
         <input
-          aria-describedby={
-            errors.display_name === undefined ? undefined : "sign-up-display-name-error"
-          }
+          aria-describedby={[
+            "sign-up-display-name-help",
+            errors.display_name === undefined ? null : "sign-up-display-name-error",
+          ]
+            .filter(Boolean)
+            .join(" ")}
           aria-invalid={errors.display_name === undefined ? undefined : true}
           autoComplete="nickname"
           className="auth-input"
@@ -75,6 +78,15 @@ export function SignUpAccountFields({
           }
           {...register("display_name")}
         />
+        {/* 칸 이름 '기본 이름'은 예시 글이 지워지면 뜻을 알 수 없었다(2026-10-21 첫 사용 점검 18). */}
+        <p
+          className="mt-2 break-keep text-sm leading-6 text-app-muted"
+          id="sign-up-display-name-help"
+        >
+          {role === "teacher"
+            ? "학생에게 보이는 선생님 이름이에요."
+            : "선생님이 반에서 따로 정하지 않으면 이 이름이 보여요."}
+        </p>
         <FieldError id="sign-up-display-name-error" message={errors.display_name?.message} />
       </div>
 
@@ -129,7 +141,9 @@ export function SignUpAccountFields({
               id="sign-up-password-rules"
             >
               문자와 숫자를 모두 포함해 6자 이상 입력해 주세요. 길이 상한은 없으며 한글·공백·기호도
-              사용할 수 있어요. 안전 등급은 참고용이에요.
+              사용할 수 있어요.
+              {/* 등급이 보이기 전에는 무엇을 말하는지 알 수 없었다(2026-10-21 첫 사용 점검 18). */}
+              {strengthPresentation === null ? null : " 안전 등급은 참고용이에요."}
             </p>
             <FieldError id="sign-up-password-error" message={errors.password?.message} />
           </div>

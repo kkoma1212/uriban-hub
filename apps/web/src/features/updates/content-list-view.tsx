@@ -18,6 +18,7 @@ import { listSupplyChecks } from "../../api/supplies";
 import { ContentSearchBox } from "../layout/content-search-box";
 import type { ContentPageSnapshot } from "../layout/content-pagination";
 import { HighlightMatch, searchExcerpt } from "../layout/highlight-match";
+import { stripRichText } from "../../lib/rich-text";
 
 export const CONTENT_DESKTOP_QUERY = "(min-width: 1280px)";
 
@@ -263,6 +264,7 @@ export function ContentPostCard({
 }: {
   to: string;
   state?: unknown;
+  // body는 공지 본문의 **굵게**·==형광펜== 기호를 포함할 수 있다 — 발췌에는 기호를 뺀 글자만 쓴다(아래).
   onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
   linkRef?: Ref<HTMLAnchorElement>;
   selected?: boolean | undefined;
@@ -278,6 +280,7 @@ export function ContentPostCard({
   footer?: ReactNode;
   meta?: ReactNode;
 }): React.JSX.Element {
+  const excerpt = body ? stripRichText(body) : body;
   return (
     <Link
       to={to}
@@ -312,17 +315,17 @@ export function ContentPostCard({
           {past ? <span className="ml-2 font-medium">날짜 지남</span> : null}
         </time>
       ) : null}
-      {body ? (
+      {excerpt ? (
         <p
           data-content-excerpt
           className={
             "mt-2 whitespace-pre-wrap break-words text-sm leading-6 text-app-muted " +
-            (term !== undefined && body.toLowerCase().includes(term.toLowerCase())
+            (term !== undefined && excerpt.toLowerCase().includes(term.toLowerCase())
               ? "line-clamp-4"
               : "line-clamp-2")
           }
         >
-          <HighlightMatch text={searchExcerpt(body, term, 0)} term={term} />
+          <HighlightMatch text={searchExcerpt(excerpt, term, 0)} term={term} />
         </p>
       ) : null}
       <span

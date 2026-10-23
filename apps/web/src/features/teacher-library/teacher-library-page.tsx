@@ -11,6 +11,7 @@ import {
 } from "../../api/teacher-library";
 import { AppShell, AppShellBar } from "../layout/app-shell";
 import { AsyncStatePanel } from "../layout/async-state";
+import { RichText } from "../details/rich-text";
 import { ConfirmDialog } from "../layout/confirm-dialog";
 import { ContentSearchBox } from "../layout/content-search-box";
 import { PageHeader } from "../layout/page-header";
@@ -223,7 +224,7 @@ export function TeacherLibraryPage(): React.JSX.Element {
                           </strong>
                         </summary>
                         <p className="mt-3 whitespace-pre-wrap break-words text-sm text-app-text">
-                          {item.body ?? "내용 없음"}
+                          {item.body === null ? "내용 없음" : <RichText text={item.body} />}
                         </p>
                       </details>
                       <div className="mt-3 flex flex-wrap gap-2">

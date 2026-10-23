@@ -239,3 +239,31 @@ describe("초대 코드 오류의 입력칸 가까운 피드백", () => {
     ).toHaveLength(1);
   });
 });
+
+// 2026-10-21 첫 사용 점검: 승인 대기 교사 화면에 진한 주 단추가 둘이었고, 승인번호를 어떻게 받는지 안내가 없었다.
+describe("teacher waiting for administrator approval", () => {
+  afterEach(() => vi.restoreAllMocks());
+  it("says the code arrives by email and keeps the code confirmation as the only primary action", async () => {
+    vi.spyOn(globalThis, "fetch").mockImplementation(async (input) => {
+      if (input === "/api/v1/public/system-state")
+        return response({ maintenance: false, announcement: null });
+      return response({
+        ...initial,
+        account: { ...initial.account, display_name: "검수 교사", signup_role: "teacher" },
+        allowed_actions: ["CONFIRM_SIGNUP_APPROVAL", "LOGOUT", "DELETE_ACCOUNT"],
+        destination: "SIGNUP_APPROVAL_REQUIRED",
+      });
+    });
+    render(
+      <MemoryRouter initialEntries={["/bootstrap"]}>
+        <BootstrapPage />
+      </MemoryRouter>,
+    );
+    const statusCheck = await screen.findByRole("button", { name: "승인 상태 확인" });
+    expect(statusCheck).toHaveClass("ui-button-secondary");
+    expect(statusCheck).not.toHaveClass("ui-button-primary");
+    expect(screen.getByRole("button", { name: "교사 승인 확인" })).toHaveClass("ui-button-primary");
+    expect(screen.getByText(/가입한 이메일로 승인번호를 보내요/u)).toBeVisible();
+    expect(screen.getByLabelText("교사 승인번호")).toHaveAttribute("placeholder", "6자리 승인번호");
+  });
+});

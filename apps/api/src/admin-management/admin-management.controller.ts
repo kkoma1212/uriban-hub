@@ -43,8 +43,10 @@ import { AdminManagementService } from "./admin-management.service.js";
 import { AdminOperationsService } from "./admin-operations.service.js";
 import { AdminSessionsService } from "./admin-sessions.service.js";
 import { AdminOverviewService } from "./admin-overview.service.js";
+import { AdminReconfirmReportService } from "./admin-reconfirm-report.service.js";
 import { AdminUsersService } from "./admin-users.service.js";
 import {
+  AdminReconfirmReportQueryDto,
   AdminSystemStateKey,
   CreateAdminTermsVersionDto,
   ListAdminAuditQueryDto,
@@ -76,6 +78,7 @@ export class AdminManagementController {
     private readonly operations: AdminOperationsService,
     private readonly sessions: AdminSessionsService,
     private readonly clientErrors: ClientErrorStore,
+    private readonly reconfirm: AdminReconfirmReportService,
   ) {}
   /** 첫 화면 한눈에 보기: 숫자만 돌려주므로 모든 관리자 역할이 본다. */
   @Get("overview")
@@ -108,6 +111,12 @@ export class AdminManagementController {
   @RequireAdminRoles("super_admin", "account_manager", "support")
   listClassActivity(@Query() query: ListAdminClassActivityQueryDto) {
     return this.activity.listClassActivity(query);
+  }
+  /** 시범 판정 지표: 고친 공지·준비물을 24시간 안에 다시 확인한 학생 수(숫자만, 학생 정보 없음). */
+  @Get("reconfirm-report")
+  @RequireAdminRoles("super_admin", "account_manager", "support")
+  reconfirmReport(@Query() query: AdminReconfirmReportQueryDto) {
+    return this.reconfirm.report(query);
   }
   @Get("users")
   @RecordAdminAccess("users.list", "user")

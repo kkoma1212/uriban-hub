@@ -84,6 +84,12 @@ export class MemberListItemResponseDto {
   @ApiPropertyOptional({ type: String })
   email_masked?: string;
 
+  @ApiPropertyOptional({
+    description: "목록에만. 지금 사진을 받을 수 있으면 true(사진 기능이 꺼져 있으면 false)",
+    type: Boolean,
+  })
+  has_profile_photo?: boolean;
+
   @ApiProperty({ pattern: "^[1-9][0-9]*$", type: String })
   id!: string;
 

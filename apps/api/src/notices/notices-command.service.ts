@@ -12,6 +12,8 @@ import { mariaDbDateBinding, mariaDbInsertId } from "../common/database/mariadb-
 import type { AppEnvironment } from "../config/environment.js";
 import { parseRequiredIfMatch, ResourceVersionChangedException } from "../common/http/if-match.js";
 import { ContentAudiencesService } from "../content-audiences/content-audiences.service.js";
+import { isMinorTextEdit } from "../content-edits/minor-edit.js";
+import { MinorEditNotAllowedException } from "../content-edits/minor-edit.errors.js";
 import { DATABASE, type ClassHubDatabase } from "../database/database.module.js";
 import { PushOutbox } from "../push-subscriptions/push-outbox.js";
 import { InAppRemindersService } from "../in-app-reminders/in-app-reminders.service.js";
@@ -282,10 +284,22 @@ export class NoticesCommandService {
       const contentChanged = nextContent !== notice.content;
       const importanceChanged = nextIsImportant !== notice.is_important;
       const categoryChanged = nextCategory !== notice.category;
-      const contentRevisionChanged = titleChanged || contentChanged;
-      if (!contentRevisionChanged && !importanceChanged && !categoryChanged) {
+      const textChanged = titleChanged || contentChanged;
+      if (!textChanged && !importanceChanged && !categoryChanged) {
         return noticeItemView(notice);
       }
+      // 오타 수정은 판을 올리지 않아 학생 확인이 그대로 남는다(2026-10-22 사용자 결정).
+      const minorEdit = command.minorEdit === true && textChanged;
+      if (
+        minorEdit &&
+        !isMinorTextEdit([
+          [notice.title, nextTitle],
+          [notice.content, nextContent],
+        ])
+      ) {
+        throw new MinorEditNotAllowedException("text");
+      }
+      const contentRevisionChanged = textChanged && !minorEdit;
 
       const now = new Date();
       const mutation = transaction
@@ -326,7 +340,8 @@ export class NoticesCommandService {
 
       const before: Record<string, boolean | string> = {};
       const after: Record<string, boolean | string> = {};
-      if (contentRevisionChanged) {
+      // 오타 수정은 같은 판 번호를 앞뒤에 남겨 표시한다. 감사 JSON 키 허용목록(0043)에 새 키를 더하지 않으려는 것.
+      if (contentRevisionChanged || minorEdit) {
         before.content_revision = notice.content_revision;
         after.content_revision = updated.content_revision;
       }

@@ -4,6 +4,7 @@ import { sql } from "kysely";
 
 import { UnauthenticatedException } from "../auth/auth.errors.js";
 import { ResourceVersionChangedException } from "../common/http/if-match.js";
+import { maskEmail } from "../common/privacy/mask-email.js";
 import { DATABASE, type ClassHubDatabase } from "../database/database.module.js";
 import {
   NOTIFICATION_MAILER,
@@ -41,14 +42,6 @@ const MAX_DATABASE_ID = 9_223_372_036_854_775_807n;
 interface MemberStatusNotification {
   className: string;
   email: string | null;
-}
-
-function maskEmail(email: string): string {
-  const separator = email.lastIndexOf("@");
-  if (separator < 1) return "***";
-  const local = email.slice(0, separator);
-  const domain = email.slice(separator + 1);
-  return `${local.slice(0, Math.min(2, local.length))}***@${domain}`;
 }
 
 function isActiveAccount(account: { deleted_at: Date | null; is_active: boolean }): boolean {

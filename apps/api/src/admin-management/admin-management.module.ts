@@ -9,6 +9,7 @@ import { AdminManagementService } from "./admin-management.service.js";
 import { AdminOperationsService } from "./admin-operations.service.js";
 import { AdminSessionsService } from "./admin-sessions.service.js";
 import { AdminOverviewService } from "./admin-overview.service.js";
+import { AdminReconfirmReportService } from "./admin-reconfirm-report.service.js";
 import { AdminUsersService } from "./admin-users.service.js";
 @Module({
   imports: [AdminAuthModule, AuthModule, ClientErrorsModule],
@@ -19,6 +20,7 @@ import { AdminUsersService } from "./admin-users.service.js";
     AdminManagementService,
     AdminOperationsService,
     AdminOverviewService,
+    AdminReconfirmReportService,
     AdminSessionsService,
     AdminUsersService,
   ],

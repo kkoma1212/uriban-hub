@@ -310,6 +310,9 @@ describe("LoginPage interaction states", () => {
       );
       expect(screen.getByRole("status")).toHaveTextContent("반 초대를 확인했어요.");
       expect(screen.getByRole("status")).toHaveTextContent("학생으로 가입");
+      expect(
+        within(screen.getByRole("status")).getByRole("link", { name: "학생으로 가입하기" }),
+      ).toHaveAttribute("href", "/sign-up");
     } finally {
       clearPendingInviteCode();
     }

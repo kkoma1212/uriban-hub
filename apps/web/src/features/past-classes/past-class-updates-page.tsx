@@ -9,6 +9,8 @@ import {
   type PastClassSummary,
 } from "../../api/past-classes";
 import type { UpdateItem, UpdatesFilter } from "../../api/updates";
+import { ClassRecordsDownload } from "../class-records/class-records-download";
+import { RichText } from "../details/rich-text";
 import { AppShell, AppShellBar } from "../layout/app-shell";
 import { AsyncStatePanel } from "../layout/async-state";
 import { ContentSearchBox } from "../layout/content-search-box";
@@ -119,6 +121,11 @@ export function PastClassUpdatesPage(): React.JSX.Element {
         />
       ) : (
         <>
+          {summary?.role === "teacher" ? (
+            <div className="mb-4">
+              <ClassRecordsDownload pastClassId={classId} />
+            </div>
+          ) : null}
           <div aria-label="소식 종류" className="mb-3 flex flex-wrap gap-2" role="group">
             {FILTERS.map((option) => (
               <button
@@ -185,7 +192,11 @@ export function PastClassUpdatesPage(): React.JSX.Element {
                         </strong>
                       </summary>
                       <p className="mt-3 whitespace-pre-wrap break-words text-sm text-app-text">
-                        {item.content === null || item.content === "" ? "내용 없음" : item.content}
+                        {item.content === null || item.content === "" ? (
+                          "내용 없음"
+                        ) : (
+                          <RichText text={item.content} />
+                        )}
                       </p>
                     </details>
                   </li>

@@ -25,6 +25,7 @@ describe("account and membership notifications", () => {
         code: "001234",
         role: "student",
         expiresAt: new Date("2030-01-01T00:10:00Z"),
+        purpose: "email",
       }),
     ).resolves.toBe("sent");
     const message = h.sendMail.mock.calls[0]![0] as { text: string; html: string; subject: string };
@@ -36,6 +37,42 @@ describe("account and membership notifications", () => {
     expect(message.html).toContain("https://classhub.example/login");
   });
 
+  // 2026-10-21 첫 사용 점검: 화면은 '교사 승인번호'라 부르는데 관리자가 보낸 메일은 '가입 인증번호',
+  // 글자본은 '확인번호'라고 불렀다. 메일도 화면과 같은 이름을 쓴다.
+  it("names an administrator-issued teacher code the way the screen does", async () => {
+    const h = harness();
+    await h.mailer.sendSignupApprovalEmail("teacher@example.invalid", {
+      code: "246810",
+      role: "teacher",
+      expiresAt: new Date("2030-01-03T00:00:00Z"),
+      purpose: "approval",
+    });
+    const message = h.sendMail.mock.calls[0]![0] as { text: string; html: string; subject: string };
+    expect(message.subject).toContain("교사 승인번호");
+    expect(message.text).toContain("교사 승인번호: 246810");
+    expect(message.html).toContain(">교사 승인번호</div>");
+    expect(message.text).toContain("관리자가 선생님임을 확인했어요");
+    for (const part of [message.text, message.html, message.subject]) {
+      expect(part).not.toContain("인증번호");
+      expect(part).not.toContain("확인번호");
+    }
+  });
+
+  it("labels a self-service email code as an 인증번호 in both the HTML and the text part", async () => {
+    const h = harness();
+    await h.mailer.sendSignupApprovalEmail("student@example.invalid", {
+      code: "135790",
+      role: "student",
+      expiresAt: new Date("2030-01-01T00:10:00Z"),
+      purpose: "email",
+    });
+    const message = h.sendMail.mock.calls[0]![0] as { text: string; html: string };
+    expect(message.text).toContain("인증번호: 135790");
+    expect(message.html).toContain(">인증번호</div>");
+    expect(message.text).not.toContain("확인번호");
+    expect(message.text).not.toContain("승인번호");
+  });
+
   it("does not generate replacement digits or transmit malformed approval codes", async () => {
     const h = harness();
     await expect(
@@ -43,6 +80,7 @@ describe("account and membership notifications", () => {
         code: "12345",
         role: "student",
         expiresAt: new Date("2030-01-01"),
+        purpose: "email",
       }),
     ).resolves.toBe("failed");
     expect(h.sendMail).not.toHaveBeenCalled();

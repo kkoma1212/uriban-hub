@@ -603,6 +603,62 @@ describe("supplies HTTP contract", () => {
     );
   });
 
+  // 오타 수정 처리(2026-10-22 사용자 결정): 날짜·종류는 늘 재확인, 작은 글자 수정만 판 유지.
+  it("keeps the revision for a teacher-marked typo fix but never for a date change", async () => {
+    const supply = await seedSupply(fixture, { description: "실내화 챙기기", title: "실내화" });
+    const student = fixture.students[0];
+    const checked = await app.inject({
+      method: "PUT",
+      url: `/api/v1/supplies/${supply.id}/check`,
+      headers: student.headers,
+      payload: { content_revision: 1, is_checked: true },
+    });
+    expect(checked.statusCode).toBe(200);
+    const patch = (rowVersion: number, payload: Record<string, unknown>) =>
+      app.inject({
+        method: "PATCH",
+        url: `/api/v1/supplies/${supply.id}`,
+        headers: { ...fixture.teacher.headers, "if-match": `"${rowVersion}"` },
+        payload,
+      });
+
+    const teacherDetail = await app.inject({
+      method: "GET",
+      url: `/api/v1/supplies/${supply.id}`,
+      headers: fixture.teacher.headers,
+    });
+    const neededOn = teacherDetail.json().needed_on as string;
+    const nextDay = new Date(Date.parse(`${neededOn}T00:00:00Z`) + 86_400_000)
+      .toISOString()
+      .slice(0, 10);
+    expectError(
+      await patch(1, { needed_on: nextDay, minor_edit: true }),
+      400,
+      "MINOR_EDIT_NOT_ALLOWED",
+    );
+
+    const typo = await patch(1, { description: "실내화 챙겨 오기", minor_edit: true });
+    expect(typo.statusCode).toBe(200);
+    expect(typo.json()).toMatchObject({ content_revision: "1", row_version: "2" });
+    const detail = await app.inject({
+      method: "GET",
+      url: `/api/v1/supplies/${supply.id}`,
+      headers: student.headers,
+    });
+    expect(detail.json()).toMatchObject({ check_state: "checked", content_revision: "1" });
+    const audit = await database
+      .selectFrom("audit_logs")
+      .selectAll()
+      .where("action", "=", "supply.updated")
+      .where("target_id", "=", supply.id)
+      .executeTakeFirstOrThrow();
+    expect(audit.before_json).toEqual({ content_revision: "1" });
+    expect(audit.after_json).toEqual({ content_revision: "1" });
+
+    const normal = await patch(2, { description: "실내화와 물통 챙겨 오기" });
+    expect(normal.json()).toMatchObject({ content_revision: "2", row_version: "3" });
+  });
+
   it("sets, repeats, unsets, and revision-checks the desired student state", async () => {
     const supply = await seedSupply(fixture);
     const student = fixture.students[0];

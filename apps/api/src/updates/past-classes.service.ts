@@ -88,15 +88,20 @@ export class PastClassesService {
     classId: string,
     query: Omit<ListUpdatesQuery, "actorUserId">,
   ): Promise<ListUpdatesResult> {
+    const context = await this.getContext(actorUserId, classId);
+    return this.updates.listForContext(context, query, { recentSuppliesOnly: false });
+  }
+
+  /** 위의 '볼 수 있는 조건'을 통과한 지난 반의 내 구성원 정보. 반 기록 내려받기도 같은 조건을 쓴다. */
+  async getContext(actorUserId: string, classId: string): Promise<NoticeAccessContext> {
     if (!isPositiveId(classId)) throw new PastClassNotFoundException();
     const [row] = await this.readPastClasses(actorUserId, classId);
     if (row === undefined) throw new PastClassNotFoundException();
-    const context: NoticeAccessContext = {
+    return {
       classId: row.class_id,
       memberId: row.member_id,
       role: row.role as NoticeAccessContext["role"],
     };
-    return this.updates.listForContext(context, query, { recentSuppliesOnly: false });
   }
 
   private async readPastClasses(

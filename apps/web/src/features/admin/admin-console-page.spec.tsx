@@ -154,6 +154,7 @@ describe("AdminConsolePage", () => {
       "학교·반 목록",
       "선생님·학생 목록",
       "반 활동 현황",
+      "재확인 지표",
       "승인번호",
       "계정 관리",
       "관리자 계정",
@@ -644,8 +645,10 @@ describe("AdminConsolePage", () => {
       screen.getByText("운영 관리자", { selector: ".admin-account-name" }),
     ).toBeInTheDocument();
     const tablist = screen.getByRole("tablist");
-    expect(within(tablist).getAllByRole("tab")).toHaveLength(6);
+    expect(within(tablist).getAllByRole("tab")).toHaveLength(7);
     expect(within(tablist).getByRole("tab", { name: "반 활동 현황" })).toBeVisible();
+    // 재확인 지표는 숫자만이라 반 활동 현황과 같은 역할이 본다(2026-10-22).
+    expect(within(tablist).getByRole("tab", { name: "재확인 지표" })).toBeVisible();
     expect(within(tablist).getByRole("tab", { name: "학교·반 목록" })).toBeVisible();
     expect(within(tablist).getByRole("tab", { name: "한눈에 보기" })).toBeVisible();
     expect(within(tablist).getByRole("tab", { name: "계정 관리" })).toBeVisible();

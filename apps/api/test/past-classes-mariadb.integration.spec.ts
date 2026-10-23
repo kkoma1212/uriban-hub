@@ -4,6 +4,10 @@ import { createMariaDbDatabase, createMysql2MariaDbPool, type DB } from "@classh
 import { ConfigService } from "@nestjs/config";
 import { Kysely, MysqlDialect, sql } from "kysely";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import {
+  ClassRecordsRoleInsufficientException,
+  ClassRecordsService,
+} from "../src/class-records/class-records.service.js";
 import type { AppEnvironment } from "../src/config/environment.js";
 import { includeMemberInClassWideContent } from "../src/content-audiences/class-wide-recipients.js";
 import { ContentAudiencesService } from "../src/content-audiences/content-audiences.service.js";
@@ -37,6 +41,7 @@ describe.runIf(configPath !== undefined)("past classes on an owned TLS MariaDB",
   let admin: Kysely<DB>;
   let app: Kysely<DB>;
   let pastClasses: PastClassesService;
+  let records: ClassRecordsService;
   const updatesOf = (userId: string, classId: string, search?: string) =>
     pastClasses.listUpdates(userId, classId, {
       filter: "all",
@@ -143,6 +148,12 @@ describe.runIf(configPath !== undefined)("past classes on an owned TLS MariaDB",
       config,
     );
     pastClasses = new PastClassesService(app, updates, config);
+    records = new ClassRecordsService(
+      app,
+      new NoticesAccessService(app, config),
+      pastClasses,
+      new ConfigService<AppEnvironment, true>({ DATABASE_ENGINE: "mariadb", POLLS_ENABLED: true }),
+    );
   });
 
   afterAll(async () => {
@@ -210,6 +221,59 @@ describe.runIf(configPath !== undefined)("past classes on an owned TLS MariaDB",
     for (const bad of ["0", "-1", "abc", "1 OR 1=1", "99999999999999999999"]) {
       await expect(updatesOf("1", bad)).rejects.toBeInstanceOf(PastClassNotFoundException);
     }
+  });
+
+  // 2026-10-23 사용자 결정 '선생님이 쓴 글만': 반 기록 CSV가 운영과 같은 MariaDB에서 날짜·시각·참거짓을
+  // 바르게 읽고(UTC 저장 → 한국 시각), 학생 이름·학생이 쓴 글·지운 글을 넣지 않으며, 담임만 받는다.
+  it("반 기록 CSV — 지난 반은 그 반 담임만, 선생님이 쓴 글만 한국 시각으로", async () => {
+    await sql
+      .raw(
+        `
+      INSERT INTO notices (id,class_id,title,content,created_by_member_id,audience_mode,is_important,created_at,published_at,updated_at,updated_by_member_id) VALUES
+        (14,1,'고친 공지','내용',1,'legacy_class',TRUE,'2025-10-01 00:30:00','2025-10-01 00:30:00','2025-10-02 05:15:00',1),
+        (15,1,'학생이 쓴 글','내용',2,'legacy_class',FALSE,'2025-10-01 01:00:00','2025-10-01 01:00:00','2025-10-01 01:00:00',NULL);
+      INSERT INTO schedules (id,class_id,title,subject,schedule_type,due_date,created_by_member_id,created_at,updated_at) VALUES
+        (90,1,'중간고사','국어','exam','2025-10-30',1,'2025-10-01 03:00:00','2025-10-01 03:00:00');
+      INSERT INTO polls (id,class_id,created_by_member_id,title,option_count,closes_at,closed_at,created_at) VALUES
+        (91,1,1,'체험학습 장소',2,'2025-10-03 03:00:00','2025-10-02 03:00:00','2025-10-01 03:00:00');
+      INSERT INTO poll_options (id,poll_id,position,label) VALUES (92,91,1,'과학관'),(93,91,2,'미술관');
+      INSERT INTO poll_votes (poll_id,class_id,option_id,member_id) VALUES (91,1,93,2),(91,1,93,4);
+    `,
+      )
+      .execute(admin);
+    const csv = await records.pastClassCsv("1", "1");
+    const rows = csv.slice(1).trimEnd().split("\r\n");
+    expect(rows).toContain(
+      '"공지","고친 공지","내용","","반 전체","2025-10-01 09:30","2025-10-02 14:15","중요"',
+    );
+    expect(rows).toContain(
+      '"일정(시험)","중간고사","","2025-10-30","반 전체","2025-10-01 12:00","","과목: 국어"',
+    );
+    expect(rows).toContain(
+      '"투표","체험학습 장소","","2025-10-02 12:00","반 전체","2025-10-01 12:00","","1) 과학관 0표 / 2) 미술관 2표 · 참여 2명 · 일찍 마감"',
+    );
+    // 올린 시각 순 — 지운 공지(13)·학생이 쓴 글(15)은 빠진다.
+    expect(rows.filter((row) => row.startsWith('"공지"')).map((row) => row.split(",")[1])).toEqual([
+      '"고친 공지"',
+      '"반 전체 공지"',
+      '"학생가만 받은 공지"',
+      '"다른 학생만 받은 공지"',
+    ]);
+    expect(rows).toContainEqual(expect.stringMatching(/^"준비물","200일 전 준비물",""/u));
+    expect(csv).not.toMatch(/학생이 쓴 글|지운 공지|현재 반 공지|학생가","|학생나|학생다/u);
+    // 학생·남의 반 교사·임시 비밀번호 교사는 받지 못한다.
+    await expect(records.pastClassCsv("2", "1")).rejects.toBeInstanceOf(
+      ClassRecordsRoleInsufficientException,
+    );
+    await expect(records.pastClassCsv("9", "1")).rejects.toBeInstanceOf(PastClassNotFoundException);
+    await expect(records.pastClassCsv("5", "5")).rejects.toBeInstanceOf(PastClassNotFoundException);
+    // 지금 반은 현재 반 조건으로 — 2반 담임은 2반 글만, 지금 반 학생은 받지 못한다.
+    const current = await records.currentClassCsv("9");
+    expect(current).toContain('"현재 반 공지"');
+    expect(current).not.toContain("고친 공지");
+    await expect(records.currentClassCsv("2")).rejects.toBeInstanceOf(
+      ClassRecordsRoleInsufficientException,
+    );
   });
 
   // 2026-10-02 사용자 결정(P-025①): 늦게 승인된 학생을 기존 '반 전체' 글 받는 사람에 넣는 SQL이

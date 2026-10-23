@@ -101,6 +101,12 @@ function fixtureRows(call: Call, context: Record<string, unknown>): Rows {
   const { sql: statement, parameters } = call;
   if (statement.includes("`profile`.`temporary_password_must_change`")) return [context];
   if (statement.includes("as `server_today`")) return [{ server_today: today }];
+  // 교사 홈의 학생 수는 상태별로 묶어 한 번에 센다(대기 2명·승인 5명).
+  if (statement.includes("group by `member`.`status`"))
+    return [
+      { status: "pending", count: "2" },
+      { status: "approved", count: "5" },
+    ];
   if (statement.includes("as `count`")) return [{ count: "2" }];
   if (statement.includes("from `notices` as `followup_notice`"))
     return [
@@ -361,6 +367,7 @@ describe("HomeService native MariaDB facade", () => {
     expect(result.server_today).toBe(today);
     expect(result.pending_member_count).toBeNull();
     expect(result.teacher_followups).toBeNull();
+    expect(result).not.toHaveProperty("active_student_count");
     expect(result.meal).toEqual({
       status: "ok",
       data: {
@@ -472,10 +479,22 @@ describe("HomeService native MariaDB facade", () => {
       expect(sql).toContain("INTERVAL 7 DAY");
     }
   });
+  it("counts zero pending and zero approved students for a class without student rows", async () => {
+    const h = boundary("teacher", {
+      reply: (call, fallback) => (call.sql.includes("group by `member`.`status`") ? [] : fallback),
+    });
+    const result = await h.service.getForUser(actor);
+    expect(result.pending_member_count).toBe(0);
+    expect(result.active_student_count).toBe(0);
+    const counted = selects(h).find((call) => call.sql.includes("group by `member`.`status`"));
+    expect(counted?.sql).toContain("`member`.`status` in (?, ?)");
+    expect(counted?.parameters).toEqual(expect.arrayContaining(["pending", "approved"]));
+  });
   it("preserves teacher pending counts and prioritized followups including excluded audiences", async () => {
     const h = boundary("teacher", { attendance: true });
     const result = await h.service.getForUser(actor);
     expect(result.pending_member_count).toBe(2);
+    expect(result.active_student_count).toBe(5);
     expect(result.teacher_followups).toEqual({
       status: "ok",
       data: [

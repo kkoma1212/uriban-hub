@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import type { NoticeWriteRequest } from "../../api/notices";
 import type { ContentAudienceRequest } from "../../api/content-audiences";
 import { codePointLength } from "../../lib/text";
+import { RichTextButtons, RichTextFieldTools } from "../details/rich-text";
 import { ContentFormActionBar } from "../layout/content-form-action-bar";
 import {
   ContentInputFrame,
@@ -81,6 +82,11 @@ export function NoticeForm({
   const titleInputRef = useRef<HTMLInputElement>(null);
   const contentInputRef = useRef<HTMLTextAreaElement>(null);
   const audienceRef = useRef<HTMLDivElement>(null);
+  // 손으로 쓸 때와 [굵게][형광펜] 단추가 같은 길로 본문을 바꾼다.
+  function changeContent(value: string): void {
+    setContent(value);
+    if (validationError?.field === "content") setValidationError(undefined);
+  }
 
   useEffect(() => {
     if (focusTitleOnMount) titleInputRef.current?.focus();
@@ -199,6 +205,7 @@ export function NoticeForm({
         kind={category === "performance" ? "수행평가 공지" : "공지"}
         title={title}
         content={content}
+        richContent
         important={isImportant}
         boardMessage={isImportant ? undefined : "일반 공지는 소식에서 볼 수 있어요."}
         audienceLabel={inputAudienceLabel(audience)}
@@ -241,6 +248,11 @@ export function NoticeForm({
             role="region"
             footer={
               <>
+                <RichTextButtons
+                  disabled={busy || locked}
+                  onChange={changeContent}
+                  textareaRef={contentInputRef}
+                />
                 {onLoadPrevious === undefined ? null : (
                   <button disabled={busy || locked} onClick={onLoadPrevious} type="button">
                     <History aria-hidden="true" size={15} />
@@ -299,10 +311,7 @@ export function NoticeForm({
               className="content-input-textarea"
               disabled={busy || locked}
               id={contentId}
-              onChange={(event) => {
-                setContent(event.target.value);
-                if (validationError?.field === "content") setValidationError(undefined);
-              }}
+              onChange={(event) => changeContent(event.target.value)}
               placeholder="학생들이 꼭 알아야할 내용을 적어주세요"
               ref={contentInputRef}
               required
@@ -437,10 +446,7 @@ export function NoticeForm({
             className="ui-input min-h-48 resize-y py-3 leading-7"
             disabled={busy || locked}
             id={contentId}
-            onChange={(event) => {
-              setContent(event.target.value);
-              if (validationError?.field === "content") setValidationError(undefined);
-            }}
+            onChange={(event) => changeContent(event.target.value)}
             placeholder="학생들이 꼭 알아야할 내용을 적어주세요"
             ref={contentInputRef}
             required
@@ -451,6 +457,13 @@ export function NoticeForm({
             <p id={contentHintId}>필수 · 1~2,000자</p>
             <p>{codePointLength(content.trim()).toLocaleString("ko-KR")} / 2,000자</p>
           </div>
+          {/* 이 양식(공지 수정)에는 오른쪽 미리보기가 없어, 서식이 있을 때만 학생에게 보일 모습을 보여 준다. */}
+          <RichTextFieldTools
+            disabled={busy || locked}
+            onChange={changeContent}
+            textareaRef={contentInputRef}
+            value={content}
+          />
           {validationError?.field === "content" ? validationMessage : null}
         </div>
 

@@ -150,9 +150,10 @@ export async function updateSupply(
   supplyId: string,
   request: SupplyWriteRequest,
   etag: string,
+  { minorEdit = false }: { minorEdit?: boolean } = {},
 ): Promise<SupplyEntityResponse> {
   const { audience: _immutableAudience, ...mutableRequest } = request;
-  const body = JSON.stringify(mutableRequest);
+  const body = JSON.stringify(minorEdit ? { ...mutableRequest, minor_edit: true } : mutableRequest);
   return withCsrfRecovery(
     ({ apiFetch, csrfToken }) =>
       apiFetch(`/api/v1/supplies/${encodeURIComponent(supplyId)}`, {

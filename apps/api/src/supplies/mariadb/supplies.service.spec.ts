@@ -100,6 +100,7 @@ const updateCommand = (extra: Partial<UpdateSupplyCommand> = {}): UpdateSupplyCo
   title: undefined,
   category: undefined,
   description: undefined,
+  minorEdit: undefined,
   neededOn: undefined,
   requestId: command().requestId,
   ...extra,

@@ -17,6 +17,7 @@ import { UpdatesService } from "./updates.service.js";
   controllers: [UpdatesController, PastClassesController],
   providers: [UpdatesService, PastClassesService],
   // 홈의 '아직 안 본 것' 숫자가 소식 탭과 같은 기준을 쓰도록(2026-10-03 총검수 B2-01).
-  exports: [UpdatesService],
+  // 지난 반 조건은 반 기록 내려받기(ClassRecordsModule)도 같이 쓴다.
+  exports: [UpdatesService, PastClassesService],
 })
 export class UpdatesModule {}

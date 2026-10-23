@@ -422,8 +422,8 @@ export function NoticeConfirmationsPanel({
       </div>
 
       <p className="mt-3 text-xs leading-5 text-app-muted">
-        노란색은 선생님이 글을 고친 뒤 아직 다시 확인하지 않은 학생이에요. 알약을 누르면 이름이
-        보여요.
+        노란색은 선생님이 글을 고친 뒤 아직 다시 확인하지 않은 학생이에요. 위 단추를 누르면 그
+        상태인 학생 이름이 보여요.
       </p>
 
       {TAB_ORDER.map((state) => (
@@ -506,7 +506,10 @@ export function NoticeConfirmationsPanel({
                     {profilePhotosEnabled ? (
                       <Avatar
                         name={member.display_name}
-                        photoUrl={optionalMemberProfilePhotoUrl(true, member.member_id)}
+                        photoUrl={optionalMemberProfilePhotoUrl(
+                          member.has_profile_photo !== false,
+                          member.member_id,
+                        )}
                         size={20}
                       />
                     ) : null}

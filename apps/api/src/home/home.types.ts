@@ -124,6 +124,8 @@ export interface HomeBirthday {
 }
 
 export interface HomeResult {
+  /** 교사만: 승인된 학생 수(반 관리와 같은 기준). */
+  active_student_count?: number;
   attendance?: HomeCard<HomeAttendanceData>;
   /** 생년월일 칸이 설치된 환경에서만. 오늘 생일이고 알리기를 켠 학생. */
   birthdays?: HomeCard<HomeBirthday[]>;

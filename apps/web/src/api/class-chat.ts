@@ -6,6 +6,8 @@ export type ClassChatBlockedReason = "closed" | "night" | "muted";
 export type ClassChatMuteDuration = "10m" | "1h" | "today";
 
 export interface ClassChatAuthor {
+  /** 대화 상태의 작성자에만, 지금 사진을 받을 수 있는지(2026-10-23~). false면 사진을 요청하지 않는다. */
+  has_profile_photo?: boolean;
   member_id: string;
   name: string;
   role: ClassChatRole;

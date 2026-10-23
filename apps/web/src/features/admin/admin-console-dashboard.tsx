@@ -10,6 +10,7 @@ import {
   type AdminPersonRow,
 } from "../../api/admin-directory";
 import { adminOverviewServiceLabel, type AdminOverview } from "../../api/admin-overview";
+import { saveBlobAsFile } from "../../lib/save-blob";
 import { adminErrorMessage, formatDateTime, LoadState } from "./admin-console-shared";
 
 export type DashboardTarget =
@@ -148,14 +149,10 @@ function downloadTrendCsv(trend: AdminActivityTrend): void {
     "날짜,새 가입,새 활동",
     ...trend.series.map((point) => `${point.date},${point.signups},${point.activity}`),
   ];
-  const url = URL.createObjectURL(
+  saveBlobAsFile(
     new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" }),
+    `uriban-hub-daily-${trend.from}_${trend.to}.csv`,
   );
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = `uriban-hub-daily-${trend.from}_${trend.to}.csv`;
-  anchor.click();
-  URL.revokeObjectURL(url);
 }
 
 /** 기간 추이: 최근 7·30일 하루마다 새 가입·새 활동(모든 반 합계). CSV로 받을 수 있다. */

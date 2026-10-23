@@ -1,7 +1,7 @@
 {
   "$comment": "역할 경계 검토를 거친 엔드포인트 목록. 이 파일은 어느 라우트가 교사 전용인지 주장하지 않는다 — 목록에 없는 라우트가 나타나면 CI를 멈추는 덫일 뿐이다. 갱신: pnpm verify:route-inventory --update",
   "generated_from": "packages/api-client/openapi/openapi.json",
-  "route_count": 200,
+  "route_count": 203,
   "routes": [
     "DELETE /api/v1/account/profile-photo",
     "DELETE /api/v1/class-chat/mutes/{memberId}",
@@ -30,6 +30,7 @@
     "GET /api/v1/admin/operations-status",
     "GET /api/v1/admin/overview",
     "GET /api/v1/admin/people",
+    "GET /api/v1/admin/reconfirm-report",
     "GET /api/v1/admin/sessions",
     "GET /api/v1/admin/signup-approvals",
     "GET /api/v1/admin/signup-approvals/account",
@@ -49,6 +50,7 @@
     "GET /api/v1/class-chat/reports",
     "GET /api/v1/classes/current",
     "GET /api/v1/classes/current/invite-code",
+    "GET /api/v1/classes/current/records.csv",
     "GET /api/v1/elections",
     "GET /api/v1/elections/current",
     "GET /api/v1/elections/{electionId}",
@@ -71,6 +73,7 @@
     "GET /api/v1/notices/{id}",
     "GET /api/v1/notices/{id}/confirmations",
     "GET /api/v1/past-classes",
+    "GET /api/v1/past-classes/{classId}/records.csv",
     "GET /api/v1/past-classes/{classId}/updates",
     "GET /api/v1/polls",
     "GET /api/v1/polls/{pollId}",

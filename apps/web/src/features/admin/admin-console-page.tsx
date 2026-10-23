@@ -11,6 +11,7 @@ import {
   Mail,
   MessageSquareText,
   RefreshCw,
+  RotateCcw,
   School,
   ServerCog,
   ShieldAlert,
@@ -48,6 +49,7 @@ import { ConfirmDialog } from "../layout/confirm-dialog";
 import { InquiriesPanel, type InquiryWorkState } from "./admin-console-inquiries-panel";
 import { MembersPanel } from "./admin-console-members-panel";
 import { PeoplePanel } from "./admin-console-people-panel";
+import { ReconfirmReportPanel } from "./admin-console-reconfirm-panel";
 import { OperationsPanel } from "./admin-console-operations-panel";
 import { SessionsPanel } from "./admin-console-sessions-panel";
 import { OverviewPanel } from "./admin-console-overview-panel";
@@ -63,6 +65,7 @@ type ConsoleTab =
   | "audit"
   | "classes"
   | "class_activity"
+  | "reconfirm_report"
   | "inquiries"
   | "members"
   | "system"
@@ -103,6 +106,12 @@ const TABS: ReadonlyArray<{
     icon: ChartColumn,
     id: "class_activity",
     label: "반 활동 현황",
+    roles: ["super_admin", "account_manager", "support"],
+  },
+  {
+    icon: RotateCcw,
+    id: "reconfirm_report",
+    label: "재확인 지표",
     roles: ["super_admin", "account_manager", "support"],
   },
   { icon: FileKey2, id: "approvals", label: "승인번호", roles: ["super_admin", "account_manager"] },
@@ -159,7 +168,7 @@ const TABS: ReadonlyArray<{
 ];
 // 왼쪽 메뉴 묶음(2026-09-30, LEXI 관리자처럼 기능 성격별). 권한 밖 항목·빈 묶음은 보이지 않는다.
 const MENU_GROUPS: ReadonlyArray<{ label: string; ids: readonly ConsoleTab[] }> = [
-  { label: "운영", ids: ["overview", "classes", "people", "class_activity"] },
+  { label: "운영", ids: ["overview", "classes", "people", "class_activity", "reconfirm_report"] },
   { label: "가입·계정", ids: ["approvals", "members", "accounts", "mail"] },
   { label: "소통", ids: ["inquiries"] },
   { label: "보안·시스템", ids: ["audit", "sessions", "system", "operations", "request_limits"] },
@@ -349,6 +358,7 @@ export function AdminConsolePage(): React.JSX.Element {
   if (activeTab === "classes") panel = <ClassesPanel />;
   if (activeTab === "people") panel = <PeoplePanel />;
   if (activeTab === "class_activity") panel = <ClassActivityPanel />;
+  if (activeTab === "reconfirm_report") panel = <ReconfirmReportPanel />;
   if (activeTab === "operations") panel = <OperationsPanel />;
   if (activeTab === "sessions")
     panel = <SessionsPanel canRevoke={session?.account.roles.includes("super_admin") === true} />;

@@ -6,6 +6,7 @@ import { Kysely, MysqlDialect, sql } from "kysely";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import type { AppEnvironment } from "../src/config/environment.js";
 import type { RedisRateLimiter } from "../src/common/rate-limit/redis-rate-limiter.js";
+import { MemberPhotoPresenceReader } from "../src/profile-photos/member-photo-presence.js";
 import { deleteAccountProfilePhotoIfInstalled } from "../src/profile-photos/profile-photo-deletion.js";
 import { ProfilePhotoNotFoundException } from "../src/profile-photos/profile-photo.errors.js";
 import { ProfilePhotoImageService } from "../src/profile-photos/profile-photo-image.service.js";
@@ -432,5 +433,82 @@ describe.runIf(configPath !== undefined)("profile photos on an owned TLS MariaDB
       await expect(photos.getClassImage(teacher, { memberId })).rejects.toMatchObject({
         status: 404,
       });
+  });
+
+  // 첫 사용 점검 19번(2026-10-23): 목록의 '사진 있음'이 사진 조회와 어긋나면 404 요청이 다시 생기거나 사진이 사라진다.
+  it("목록의 '사진 있음'은 상황마다 사진 조회가 실제로 내주는 구성원과 같다", async () => {
+    const reader = new MemberPhotoPresenceReader(
+      app,
+      new ConfigService<AppEnvironment, true>({ PROFILE_PHOTOS_ENABLED: true }),
+    );
+    await photos.updateOwn(teacher, await pngBase64("#123456"));
+    await photos.updateOwn(student, await pngBase64("#abcdef"));
+    await admin
+      .insertInto("user_profile_photos")
+      .values({
+        user_id: "4",
+        photo_version: "00000000-0000-4000-8000-000000000004",
+        image_bytes: Buffer.alloc(10, 4),
+      } as never)
+      .execute();
+    const memberIds = ["1", "2", "3", "4", "9"];
+    const served = async (viewer: ReturnType<typeof actor>) => {
+      const ids: string[] = [];
+      for (const memberId of memberIds)
+        await photos.getClassImage(viewer, { memberId }).then(
+          () => ids.push(memberId),
+          (error: unknown) => {
+            if (!(error instanceof ProfilePhotoNotFoundException)) throw error;
+          },
+        );
+      return ids;
+    };
+    const viewers = [teacher, student, actor("3", "3"), actor("4", "4"), otherClassTeacher];
+    const servesTeacher = (viewer: ReturnType<typeof actor>) =>
+      photos.getClassImage(viewer, { teacher: true }).then(
+        () => true,
+        (error: unknown) => {
+          if (!(error instanceof ProfilePhotoNotFoundException)) throw error;
+          return false;
+        },
+      );
+    const sameAsServed = async () => {
+      for (const viewer of [...viewers, actor("9", "9", "1")]) {
+        expect([...(await reader.memberIdsWithPhoto(viewer, memberIds))].sort()).toEqual(
+          await served(viewer),
+        );
+        // 학생 도움 대화의 '담임 사진 있음'(2026-10-23)도 담임 사진 경로와 같아야 한다.
+        expect(await reader.classTeacherHasPhoto(viewer)).toBe(await servesTeacher(viewer));
+      }
+    };
+
+    // 평소: 담임은 자기와 사진 올린 학생만 '있음'(사진 없는 학생·나간 학생·다른 반은 없음).
+    expect([...(await reader.memberIdsWithPhoto(teacher, memberIds))].sort()).toEqual(["1", "2"]);
+    expect(await reader.classTeacherHasPhoto(student)).toBe(true);
+    expect(await reader.classTeacherHasPhoto(otherClassTeacher)).toBe(false);
+    await sameAsServed();
+    const situations = [
+      [
+        "UPDATE classes SET status='suspended',suspended_at=UTC_TIMESTAMP(6),suspended_reason='synthetic',suspended_by_operator_id=1 WHERE id=1",
+        "UPDATE classes SET status='active',suspended_at=NULL,suspended_reason=NULL,suspended_by_operator_id=NULL WHERE id=1",
+      ],
+      [
+        "UPDATE teacher_profiles SET temporary_password_must_change=TRUE,temporary_password_expires_at=UTC_TIMESTAMP(6)+INTERVAL 1 DAY WHERE user_id=1",
+        "UPDATE teacher_profiles SET temporary_password_must_change=FALSE,temporary_password_expires_at=NULL WHERE user_id=1",
+      ],
+      ["UPDATE users SET is_active=FALSE WHERE id=2", "UPDATE users SET is_active=TRUE WHERE id=2"],
+      [
+        "UPDATE class_members SET status='pending',student_number=NULL WHERE id=2",
+        "UPDATE class_members SET status='approved',student_number=1 WHERE id=2",
+      ],
+    ] as const;
+    for (const [change, restore] of situations) {
+      await sql.raw(change).execute(admin);
+      try {
+        await sameAsServed();
+      } finally {
+        await sql.raw(restore).execute(admin);
+      }
+    }
   });
 });

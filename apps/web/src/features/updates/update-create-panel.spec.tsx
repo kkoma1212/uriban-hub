@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { MemoryRouter, useLocation } from "react-router";
 import { useState } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -38,6 +38,9 @@ function renderPanel(initialKind?: "notice" | "supply" | "homework"): void {
 
 describe("UpdateCreatePanel", () => {
   afterEach(() => {
+    // 먼저 내린다. 남아 있던 초안 저장 효과가 내리는 순간 돌면 지운 저장소에 앞 시험 제목을 다시 써
+    // 다음 시험 단추 이름이 바뀌었다(10-21 부하 재현 — 자동 정리가 이 정리보다 늦게 돈다).
+    cleanup();
     window.sessionStorage.clear();
     vi.restoreAllMocks();
     vi.unstubAllGlobals();

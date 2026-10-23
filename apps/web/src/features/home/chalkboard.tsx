@@ -179,12 +179,14 @@ export function Chalkboard({
             오늘은 {birthdays.join(", ")}의 생일이에요
           </p>
         )}
-        {/* 기본은 3줄 높이. 성공한 빈 칠판만 모바일·태블릿에서 여백을 줄인다. 실제 안내·생일·오류·PC는 기존 높이를 유지한다. */}
+        {/* 기본은 3줄 높이. 성공한 빈 칠판만 모바일·태블릿에서 여백을 줄인다. 실제 안내·생일·오류·PC는 기존 높이를 유지한다.
+            단, 세로가 낮은 PC(760px 이하 — 1366×657 노트북)에서는 빈 칠판이 화면의 40%를 차지해 오늘 정보가 잘렸다
+            → 그때만 빈 칠판도 줄인다(2026-10-23 사용자 B안, 교사·학생 홈 공통). */}
         <div
           className={
             "mt-3 " +
             (compactEmpty && lines.length === 0 && birthdays.length === 0
-              ? "min-h-[4.75rem] sm:min-h-[5.5rem] xl:min-h-[9.25rem]"
+              ? "min-h-[4.75rem] sm:min-h-[5.5rem] xl:min-h-[9.25rem] xl:[@media(max-height:760px)]:min-h-[4.75rem]"
               : "min-h-[9.25rem]")
           }
           data-chalk-body

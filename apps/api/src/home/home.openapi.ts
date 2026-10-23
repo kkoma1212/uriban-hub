@@ -374,6 +374,13 @@ export class HomeResponseDto implements HomeResult {
   pending_member_count!: number | null;
 
   @ApiPropertyOptional({
+    description: "교사만: 승인된 학생 수(반 관리와 같은 기준). 학생 홈에는 없다.",
+    minimum: 0,
+    type: Number,
+  })
+  active_student_count?: number;
+
+  @ApiPropertyOptional({
     description:
       "학생만: 소식 탭 '안 한 것'과 같은 기준의 남은 공지·준비물 수(투표 제외). 셀 수 없으면 null.",
     minimum: 0,

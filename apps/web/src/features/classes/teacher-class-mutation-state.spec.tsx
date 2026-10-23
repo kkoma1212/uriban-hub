@@ -252,6 +252,8 @@ describe("teacher class mutation state", () => {
     const firstConfirm = confirmDialog("반 초대 코드를 재발급할까요?", "반 초대 코드 재발급");
     fireEvent.click(firstConfirm);
     fireEvent.click(firstConfirm);
+    // 처리 중에는 '새 코드' 단추가 잠기므로 초점은 페이지 맨 앞이 아니라 초대 칸 제목으로 간다(2026-10-22).
+    expect(screen.getByRole("heading", { level: 2, name: "학생 초대" })).toHaveFocus();
 
     expect(
       await screen.findByText(/반 초대 코드 재발급 요청이 저장됐는지 확인하지 못했어요/u),
@@ -261,7 +263,7 @@ describe("teacher class mutation state", () => {
     fireEvent.click(confirmDialog("반 초대 코드 재발급 결과를 다시 확인할까요?", "결과 다시 확인"));
 
     expect(await screen.findByText("JKMNPQRS")).toBeVisible();
-    expect(await screen.findByText("반 초대 코드를 재발급했습니다.")).toBeVisible();
+    expect(await screen.findByText("반 초대 코드를 재발급했어요.")).toBeVisible();
     expect(submittedKeys).toHaveLength(2);
     expect(new Set(submittedKeys).size).toBe(1);
     expect(window.sessionStorage.length).toBe(0);

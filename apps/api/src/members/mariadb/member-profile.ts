@@ -8,6 +8,7 @@ import { sql, type Kysely, type Transaction } from "kysely";
 import { UnauthenticatedException } from "../../auth/auth.errors.js";
 import { ERROR_CODES } from "../../common/errors/error-codes.js";
 import { ResourceVersionChangedException } from "../../common/http/if-match.js";
+import { maskEmail } from "../../common/privacy/mask-email.js";
 import { isAllowedPlainText } from "../../common/validation/text-validation.js";
 import {
   ClassSuspendedException,
@@ -116,11 +117,7 @@ function item(row: MemberRow): MemberListItem {
   };
   if (row.status === "pending") {
     if (typeof row.email_normalized !== "string") throw internal();
-    const separator = row.email_normalized.lastIndexOf("@");
-    result.email_masked =
-      separator < 1
-        ? "***"
-        : `${row.email_normalized.slice(0, Math.min(2, separator))}***@${row.email_normalized.slice(separator + 1)}`;
+    result.email_masked = maskEmail(row.email_normalized);
   }
   return result;
 }

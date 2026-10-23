@@ -12,6 +12,8 @@ import { readDatabaseKstToday } from "../common/date/database-kst-clock.js";
 import { databaseDate } from "../common/date/kst-date.js";
 import { parseRequiredIfMatch, ResourceVersionChangedException } from "../common/http/if-match.js";
 import { ContentAudiencesService } from "../content-audiences/content-audiences.service.js";
+import { isMinorTextEdit } from "../content-edits/minor-edit.js";
+import { MinorEditNotAllowedException } from "../content-edits/minor-edit.errors.js";
 import { DATABASE, type ClassHubDatabase } from "../database/database.module.js";
 import { PushOutbox } from "../push-subscriptions/push-outbox.js";
 import { InAppRemindersService } from "../in-app-reminders/in-app-reminders.service.js";
@@ -275,13 +277,28 @@ export class SuppliesCommandService {
       if (!titleChanged && !descriptionChanged && !neededOnChanged && !categoryChanged) {
         return supplyItemView(supply);
       }
+      // 오타 수정은 판을 올리지 않아 학생 확인이 그대로 남는다(2026-10-22 사용자 결정).
+      // 날짜·종류는 할 일이 달라지는 변화라 오타 수정으로 받지 않는다.
+      const minorEdit = command.minorEdit === true;
+      if (minorEdit && (neededOnChanged || categoryChanged)) {
+        throw new MinorEditNotAllowedException("schedule");
+      }
+      if (
+        minorEdit &&
+        !isMinorTextEdit([
+          [supply.title, nextTitle],
+          [supply.description ?? "", nextDescription ?? ""],
+        ])
+      ) {
+        throw new MinorEditNotAllowedException("text");
+      }
 
       const now = new Date();
       const mutation = transaction
         .updateTable("supplies")
         .set({
           ...(categoryChanged ? { category: nextCategory } : {}),
-          content_revision: sql`content_revision + 1`,
+          ...(minorEdit ? {} : { content_revision: sql`content_revision + 1` }),
           ...(descriptionChanged ? { description: nextDescription } : {}),
           ...(neededOnChanged ? { needed_on: supplyDate(nextNeededOn, this.engine) } : {}),
           row_version: sql`row_version + 1`,
@@ -354,7 +371,8 @@ export class SuppliesCommandService {
         })
         .execute();
 
-      revised = { classId: actor.classId, title: updated.title };
+      // 오타 수정은 같은 판 번호가 앞뒤에 남아 감사 기록에서 구별된다(수정 재확인 푸시도 없음).
+      if (!minorEdit) revised = { classId: actor.classId, title: updated.title };
       return supplyItemView(updated);
     });
     if (revised && this.pushOutbox) {

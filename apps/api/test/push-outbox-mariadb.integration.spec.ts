@@ -4,6 +4,7 @@ import { createMariaDbDatabase, createMysql2MariaDbPool, type DB } from "@classh
 import { ConfigService } from "@nestjs/config";
 import { Kysely, MysqlDialect, sql } from "kysely";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
+import { AdminReconfirmReportService } from "../src/admin-management/admin-reconfirm-report.service.js";
 import type { AppEnvironment } from "../src/config/environment.js";
 import { readMariaDbNoticeConfirmations } from "../src/notices/notices-confirmations.mariadb.js";
 import { PushOutbox } from "../src/push-subscriptions/push-outbox.js";
@@ -362,5 +363,77 @@ describe.runIf(configPath !== undefined)("push delivery outbox on an owned TLS M
       sql`UPDATE push_deliveries SET deliver_after = UTC_TIMESTAMP(6)`,
     ])
       await expect(statement.execute(app)).rejects.toThrow();
+  });
+
+  // 시범 판정 지표(2026-10-22): MariaDB 전용 SQL(감사 JSON 판 번호·시간 더하기·번호 비교)과
+  // 시간대 없는 UTC 글자 시각(dateStrings)을 같은 기준으로 세는지 본다. 시각은 모두 UTC.
+  it("재확인 지표를 MariaDB에서도 마지막 수정 기준으로 센다", async () => {
+    // 운영 앱 계정은 감사 기록·학교·반을 읽는다(db/mariadb/permissions/0039_current_runtime_acl.sql).
+    // 이 격리 묶음의 시험 계정에는 그 권한이 없어 같은 읽기 권한만 준다.
+    const target = JSON.parse(await readFile(configPath!, "utf8"));
+    for (const table of ["audit_logs", "schools", "classes"])
+      await sql
+        .raw(`GRANT SELECT ON \`${target.database}\`.${table} TO 'push_outbox_qa_app'@'localhost'`)
+        .execute(admin);
+    await sql
+      .raw(
+        `
+      INSERT INTO notices (id,class_id,title,content,created_by_member_id,content_revision) VALUES
+        (60,1,'지표 공지','세 번째 내용',1,3);
+      INSERT INTO notice_reads (class_id,notice_id,member_id,first_confirmed_at,confirmed_at,confirmed_revision) VALUES
+        (1,60,2,'2026-10-20 01:00:00.000000','2026-10-20 03:30:00.000000',3),
+        (1,60,3,'2026-10-20 01:00:00.000000','2026-10-21 04:00:00.000000',3),
+        (1,60,4,'2026-10-20 05:00:00.000000','2026-10-20 05:00:00.000000',3);
+      INSERT INTO supplies (id,class_id,title,needed_on,created_by_member_id,content_revision) VALUES
+        (70,1,'지표 준비물',CURRENT_DATE,1,2);
+      INSERT INTO supply_checks (class_id,supply_id,member_id,is_checked,checked_at,unchecked_at,confirmed_revision,created_at) VALUES
+        (1,70,2,TRUE,'2026-10-20 06:00:00.000000',NULL,2,'2026-10-20 01:00:00.000000'),
+        (1,70,3,TRUE,'2026-10-20 01:00:00.000000',NULL,1,'2026-10-20 01:00:00.000000');
+      INSERT INTO audit_logs (class_id,actor_user_id,actor_member_id,actor_display_name_snapshot,actor_role_snapshot,action,target_type,target_id,before_json,after_json,request_id,created_at) VALUES
+        (1,1,1,'합성 교사','teacher','notice.updated','notice','60','{"content_revision":"1"}','{"content_revision":"2"}',UUID(),'2026-10-20 02:00:00.000000'),
+        (1,1,1,'합성 교사','teacher','notice.updated','notice','60','{"content_revision":"2"}','{"content_revision":"3"}',UUID(),'2026-10-20 03:00:00.000000'),
+        (1,1,1,'합성 교사','teacher','notice.updated','notice','60','{"content_revision":"3"}','{"content_revision":"3"}',UUID(),'2026-10-20 04:00:00.000000'),
+        (1,1,1,'합성 교사','teacher','supply.updated','supply','70','{"content_revision":"1"}','{"content_revision":"2"}',UUID(),'2026-10-20 05:00:00.000000');
+    `,
+      )
+      .execute(admin);
+    const report = await new AdminReconfirmReportService(app, config).report({
+      from: "2026-10-20",
+      to: "2026-10-20",
+    });
+    // 학생 2는 30분 뒤, 학생 3은 25시간 뒤 재확인. 학생 4는 수정 뒤 처음 확인이라 대상이 아니다.
+    // 판 2 수정은 앞선 수정이라 제외 수로만, 판 3→3 오타 수정은 아예 세지 않는다.
+    expect(report.events).toEqual([
+      {
+        class_id: "1",
+        kind: "notice",
+        item_id: "60",
+        revision: "3",
+        revised_at: "2026-10-20T03:00:00.000Z",
+        eligible: 2,
+        reconfirmed_within_window: 1,
+        reconfirmed_total: 2,
+      },
+      {
+        class_id: "1",
+        kind: "supply",
+        item_id: "70",
+        revision: "2",
+        revised_at: "2026-10-20T05:00:00.000Z",
+        eligible: 2,
+        reconfirmed_within_window: 1,
+        reconfirmed_total: 1,
+      },
+    ]);
+    expect(report.classes).toEqual([
+      expect.objectContaining({
+        id: "1",
+        name: "합성 1반",
+        school_name: "합성 학교",
+        revisions: 2,
+        earlier_revisions_excluded: 1,
+        eligible: 4,
+      }),
+    ]);
   });
 });

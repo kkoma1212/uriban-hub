@@ -693,6 +693,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/classes/current/records.csv": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** 현재 반에서 선생님이 쓴 공지·준비물·숙제·일정·투표 CSV(담임만) */
+    get: operations["ClassRecordsController_currentClass"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/past-classes/{classId}/records.csv": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** 지난 반(종료 후 365일 이내)의 선생님이 쓴 글 CSV(그 반 담임만) */
+    get: operations["ClassRecordsController_pastClass"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/meals/today": {
     parameters: {
       query?: never;
@@ -2552,6 +2586,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/admin/reconfirm-report": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["AdminManagementController_reconfirmReport"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/admin/users": {
     parameters: {
       query?: never;
@@ -3119,6 +3169,8 @@ export interface components {
     };
     BootstrapAccountResponseDto: {
       display_name: string;
+      /** @description 본인 메일의 앞 두 글자만 보이게 가린 값(예: st***@example.com). 인증번호를 보낸 곳 안내용. */
+      email_masked?: string;
       email_verified: boolean;
       is_active: boolean;
       /** @enum {string|null} */
@@ -3362,6 +3414,8 @@ export interface components {
       display_name: string;
       display_name_in_class: string | null;
       email_masked?: string;
+      /** @description 목록에만. 지금 사진을 받을 수 있으면 true(사진 기능이 꺼져 있으면 false) */
+      has_profile_photo?: boolean;
       id: string;
       /** Format: date-time */
       requested_at: string | null;
@@ -3396,6 +3450,8 @@ export interface components {
     };
     HelpRequestStudentResponseDto: {
       display_name: string;
+      /** @description 대화 응답에만. 지금 사진을 받을 수 있으면 true */
+      has_profile_photo?: boolean;
       member_id: string;
       student_number: number | null;
     };
@@ -3454,6 +3510,8 @@ export interface components {
       /** @description 오래된 것부터 최근 200개. 첫 설명·예전 답변은 request.message·reply */
       messages: components["schemas"]["HelpRequestMessageResponseDto"][];
       request: components["schemas"]["HelpRequestItemResponseDto"];
+      /** @description 학생이 받는 대화에만. 현재 반 담임 사진을 지금 받을 수 있으면 true */
+      teacher_has_profile_photo?: boolean;
     };
     ResolveHelpRequestDto: {
       reply: string | null;
@@ -3744,6 +3802,8 @@ export interface components {
             status: "error";
           };
       pending_member_count: number | null;
+      /** @description 교사만: 승인된 학생 수(반 관리와 같은 기준). 학생 홈에는 없다. */
+      active_student_count?: number;
       /** @description 학생만: 소식 탭 '안 한 것'과 같은 기준의 남은 공지·준비물 수(투표 제외). 셀 수 없으면 null. */
       unresolved_count?: number | null;
       polls?:
@@ -3903,6 +3963,8 @@ export interface components {
       /** @enum {string} */
       confirmation_state: "confirmed" | "modified_unconfirmed" | "unread";
       display_name: string;
+      /** @description 지금 사진을 받을 수 있으면 true(사진 기능이 꺼져 있으면 false) */
+      has_profile_photo?: boolean;
       /** @example 1 */
       member_id: string;
       student_number: number | null;
@@ -3940,6 +4002,8 @@ export interface components {
       category?: "general" | "performance";
       content?: string;
       is_important?: boolean;
+      /** @description true면 오타·띄어쓰기 수정으로 보고 판을 올리지 않아 학생 재확인을 요구하지 않습니다. 제목·본문에서 바뀐 글자가 5자 이하이고 숫자가 그대로일 때만 받습니다. */
+      minor_edit?: boolean;
       title?: string;
     };
     DeleteNoticeDto: {
@@ -4231,6 +4295,8 @@ export interface components {
        * @example 2026-07-15
        */
       needed_on?: string;
+      /** @description true면 오타·띄어쓰기 수정으로 보고 판을 올리지 않아 학생 재확인을 요구하지 않습니다. 제목·설명에서 바뀐 글자가 5자 이하이고 숫자가 그대로이며 날짜·종류가 그대로일 때만 받습니다. */
+      minor_edit?: boolean;
       title?: string;
     };
     DeleteSupplyDto: {
@@ -4614,6 +4680,8 @@ export interface components {
       muted_until: string | null;
     };
     ClassChatAuthorResponseDto: {
+      /** @description 대화 상태의 메시지 작성자에만. 지금 사진을 받을 수 있으면 true */
+      has_profile_photo?: boolean;
       member_id: string;
       name: string;
       /** @enum {string} */
@@ -6244,6 +6312,55 @@ export interface operations {
         };
         content?: never;
       };
+      401: components["responses"]["UnauthenticatedError"];
+      403: components["responses"]["ForbiddenError"];
+      500: components["responses"]["InternalServerError"];
+    };
+  };
+  ClassRecordsController_currentClass: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description UTF-8 BOM CSV */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "text/csv": string;
+        };
+      };
+      401: components["responses"]["UnauthenticatedError"];
+      403: components["responses"]["ForbiddenError"];
+      500: components["responses"]["InternalServerError"];
+    };
+  };
+  ClassRecordsController_pastClass: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        classId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description UTF-8 BOM CSV */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "text/csv": string;
+        };
+      };
+      400: components["responses"]["BadRequestError"];
       401: components["responses"]["UnauthenticatedError"];
       403: components["responses"]["ForbiddenError"];
       500: components["responses"]["InternalServerError"];
@@ -10067,6 +10184,30 @@ export interface operations {
       query?: {
         days?: 7 | 30;
         page?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      400: components["responses"]["BadRequestError"];
+      401: components["responses"]["UnauthenticatedError"];
+      403: components["responses"]["ForbiddenError"];
+      500: components["responses"]["InternalServerError"];
+    };
+  };
+  AdminManagementController_reconfirmReport: {
+    parameters: {
+      query?: {
+        from?: string;
+        to?: string;
       };
       header?: never;
       path?: never;

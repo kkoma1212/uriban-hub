@@ -90,7 +90,7 @@ describe("HomePage refresh state", () => {
     const tasksCard = screen.getByRole("region", { name: "처리할 일" });
     expect(tasksCard).toBeVisible();
     expect(screen.queryByRole("region", { name: "오늘 출결 연락" })).not.toBeInTheDocument();
-    expect(screen.queryByText("가입 요청")).not.toBeInTheDocument();
+    expect(screen.queryByText("참여 요청")).not.toBeInTheDocument();
 
     const refreshButton = screen.getByRole("button", { name: "홈 새로고침" });
     fireEvent.click(refreshButton);
@@ -104,7 +104,7 @@ describe("HomePage refresh state", () => {
     expect(document.querySelectorAll("[data-teacher-home-section]")).toHaveLength(1);
     expect(screen.getByRole("region", { name: "처리할 일" })).toBe(tasksCard);
     expect(screen.queryByRole("region", { name: "오늘 출결 연락" })).not.toBeInTheDocument();
-    expect(screen.queryByText("가입 요청")).not.toBeInTheDocument();
+    expect(screen.queryByText("참여 요청")).not.toBeInTheDocument();
     expect(screen.getByRole("status")).toHaveTextContent("홈을 새로고침하는 중입니다.");
 
     await act(async () => {
@@ -159,7 +159,7 @@ describe("HomePage refresh state", () => {
     expect(retryButton).not.toHaveClass("ui-button-danger");
     fireEvent.click(retryButton);
     const tasks = await screen.findByRole("region", { name: "처리할 일" });
-    expect(tasks).toHaveTextContent("가입 요청2");
+    expect(tasks).toHaveTextContent("참여 요청2");
     await waitFor(() => expect(screen.queryByRole("alert")).not.toBeInTheDocument());
     expect(homeRequestCount).toBe(3);
   });

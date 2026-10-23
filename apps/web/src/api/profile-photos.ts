@@ -67,7 +67,11 @@ export function memberProfilePhotoUrl(memberId: string): string {
     throw new TypeError("올바르지 않은 반 구성원입니다.");
   return "/api/v1/profile-photos/members/" + memberId;
 }
-/** 목록 화면용: 사진 기능이 꺼졌거나 구성원 번호가 올바르지 않으면 주소 없이(이름 첫 글자) 둔다. */
+/**
+ * 목록 화면용: 사진 기능이 꺼졌거나 구성원 번호가 올바르지 않으면 주소 없이(이름 첫 글자) 둔다.
+ * 목록 응답의 has_profile_photo가 false면 enabled를 false로 넘겨 404 요청을 만들지 않는다(첫 사용 점검 19번).
+ * 표시가 없는 옛 응답(undefined)은 예전처럼 요청한다 — 그래서 호출부는 `!== false`로 비교한다.
+ */
 export function optionalMemberProfilePhotoUrl(
   enabled: boolean,
   memberId: string | null | undefined,

@@ -1,6 +1,7 @@
 import { Inject, Injectable, ServiceUnavailableException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 
+import { maskEmail } from "../common/privacy/mask-email.js";
 import { UnauthenticatedException } from "../auth/auth.errors.js";
 import { readDatabaseKstToday } from "../common/date/database-kst-clock.js";
 import type { AppEnvironment } from "../config/environment.js";
@@ -61,6 +62,7 @@ export class BootstrapService {
         "teacher_profiles.temporary_password_must_change",
         "users.deleted_at",
         "users.display_name",
+        "users.email_normalized",
         "users.email_verified_at",
         "users.is_active",
         "users.signup_approved_at",
@@ -131,6 +133,8 @@ export class BootstrapService {
     return {
       account: {
         display_name: state.display_name,
+        // 인증번호·승인번호를 어느 메일로 보냈는지 본인이 알아보게 앞 두 글자만 보인다(2026-10-21 첫 사용 점검 18).
+        email_masked: maskEmail(state.email_normalized),
         email_verified: state.email_verified_at !== null,
         is_active: state.is_active,
         signup_role:

@@ -328,6 +328,28 @@ describe("MemberManagementPage", () => {
     expect(rosterNames()).toEqual(["김도윤", "김서윤", "박다은", "홍예준"]);
   });
 
+  it("requests roster photos only for students the server marks as having one", async () => {
+    // 첫 사용 점검 19번: 사진 없는 학생마다 404 요청이 생기던 것. 표시가 없는 옛 응답은 예전처럼 요청한다.
+    bootstrapFixture.allowed_actions.push("USE_PROFILE_PHOTOS");
+    try {
+      renderApprovedRoster([
+        { ...approvedStudent("3", "홍예준", 1), has_profile_photo: true },
+        { ...approvedStudent("4", "김서윤", 2), has_profile_photo: false },
+        approvedStudent("5", "박다은", 3),
+      ]);
+      await screen.findByRole("link", { name: "박다은 학생 정보 보기" });
+      await waitFor(() =>
+        expect(
+          [...document.querySelectorAll("[data-member-roster-row] img")].map((img) =>
+            img.getAttribute("src"),
+          ),
+        ).toEqual(["/api/v1/profile-photos/members/3", "/api/v1/profile-photos/members/5"]),
+      );
+    } finally {
+      bootstrapFixture.allowed_actions.pop();
+    }
+  });
+
   it("keeps the pending queue in server order without a search box", async () => {
     renderPendingMember();
     fireEvent.click(await screen.findByRole("button", { name: "테스트 학생 승인 정보 입력" }));
@@ -445,7 +467,7 @@ describe("MemberManagementPage", () => {
       }),
     );
     expect(new Headers(approvalCalls[0]?.[1]?.headers).get("X-CSRF-Token")).toBe("test-csrf-token");
-    expect(await screen.findByText("테스트 학생 학생을 승인했습니다.")).toBeInTheDocument();
+    expect(await screen.findByText("테스트 학생 학생을 승인했어요.")).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: "학생들에게 공지 쓰기" })).not.toBeInTheDocument();
   });
 

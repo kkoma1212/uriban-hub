@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import type { SupplyCategory, SupplyWriteRequest } from "../../api/supplies";
 import type { ContentAudienceRequest } from "../../api/content-audiences";
 import { codePointLength } from "../../lib/text";
+import { RichTextButtons, RichTextFieldTools } from "../details/rich-text";
 import { ContentFormActionBar } from "../layout/content-form-action-bar";
 import {
   ContentInputFrame,
@@ -119,6 +120,11 @@ export function SupplyForm({
   const publishButtonRef = useRef<HTMLButtonElement>(null);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
+  // 손으로 쓸 때와 [굵게][형광펜] 단추가 같은 길로 설명을 바꾼다.
+  function changeDescription(value: string): void {
+    setDescription(value);
+    if (validationError?.field === "description") setValidationError(undefined);
+  }
   const neededOnInputRef = useRef<HTMLInputElement>(null);
   const audienceRef = useRef<HTMLDivElement>(null);
 
@@ -251,6 +257,7 @@ export function SupplyForm({
         kind={activeCategory.label}
         title={title}
         content={description.trim() || "별도 설명 없음"}
+        richContent
         dateLabel={dateLabel}
         audienceLabel={inputAudienceLabel(audience)}
       />
@@ -310,6 +317,11 @@ export function SupplyForm({
             role="region"
             footer={
               <>
+                <RichTextButtons
+                  disabled={busy || locked}
+                  onChange={changeDescription}
+                  textareaRef={descriptionInputRef}
+                />
                 {onLoadPrevious === undefined ? null : (
                   <button disabled={busy || locked} onClick={onLoadPrevious} type="button">
                     <History aria-hidden="true" size={15} />
@@ -353,10 +365,7 @@ export function SupplyForm({
               className="content-input-textarea"
               disabled={busy || locked}
               id={descriptionId}
-              onChange={(event) => {
-                setDescription(event.target.value);
-                if (validationError?.field === "description") setValidationError(undefined);
-              }}
+              onChange={(event) => changeDescription(event.target.value)}
               placeholder="학생들이 빠뜨리지 않도록 필요한 내용을 적어 주세요."
               ref={descriptionInputRef}
               value={description}
@@ -571,10 +580,7 @@ export function SupplyForm({
             className="ui-input min-h-32 resize-y py-3 leading-6"
             disabled={busy || locked}
             id={descriptionId}
-            onChange={(event) => {
-              setDescription(event.target.value);
-              if (validationError?.field === "description") setValidationError(undefined);
-            }}
+            onChange={(event) => changeDescription(event.target.value)}
             placeholder="학생들이 빠뜨리지 않도록 필요한 내용을 적어 주세요."
             ref={descriptionInputRef}
             rows={4}
@@ -583,6 +589,13 @@ export function SupplyForm({
           <p className="mt-2 text-right text-xs font-medium text-app-muted">
             {codePointLength(description.trim())} / 500자
           </p>
+          {/* 준비물·숙제 수정 양식에는 오른쪽 미리보기가 없어, 서식이 있을 때만 학생에게 보일 모습을 보여 준다. */}
+          <RichTextFieldTools
+            disabled={busy || locked}
+            onChange={changeDescription}
+            textareaRef={descriptionInputRef}
+            value={description}
+          />
         </div>
 
         <div>

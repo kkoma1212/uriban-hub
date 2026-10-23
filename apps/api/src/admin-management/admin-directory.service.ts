@@ -10,6 +10,7 @@ import {
   mariaDbId,
   mariaDbNullable,
 } from "../common/database/mariadb-values.js";
+import { maskEmail } from "../common/privacy/mask-email.js";
 import type { AppEnvironment } from "../config/environment.js";
 import { DATABASE, type ClassHubDatabase } from "../database/database.module.js";
 import type {
@@ -72,15 +73,6 @@ const mariaClassCodec = createMariaDbRowCodec({
   signup_approved_at: mariaDbNullable(mariaDbDateTime),
   last_login_at: mariaDbNullable(mariaDbDateTime),
 });
-
-/** "abcd@example.com" → "ab***@example.com": 누구인지 짐작만 되게, 전체 주소는 보내지 않는다. */
-export function maskEmail(email: string): string {
-  const at = email.lastIndexOf("@");
-  if (at <= 0) return "***";
-  const local = Array.from(email.slice(0, at));
-  const visible = local.slice(0, Math.min(2, local.length - 1)).join("");
-  return `${visible}***${email.slice(at)}`;
-}
 
 const toIso = (value: unknown): string => new Date(value as string | Date).toISOString();
 

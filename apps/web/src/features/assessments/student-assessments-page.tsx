@@ -17,6 +17,7 @@ import {
   type StudentAssessmentItem,
 } from "../../api/student-assessments";
 import { AppShell } from "../layout/app-shell";
+import { saveBlobAsFile } from "../../lib/save-blob";
 import { ContentFrameBody, ContentFrameHeader } from "../layout/content-frame";
 import { studentOnlyAccessRedirect } from "../layout/access-redirect-notice";
 // 편집 화면은 열 때만 받는다. 목록에서는 편집·자동저장 코드를 내려받지 않는다.
@@ -276,18 +277,7 @@ export function StudentAssessmentsPage(): React.JSX.Element {
     setExporting(true);
     setError(undefined);
     try {
-      const blob = await exportStudentAssessmentsCsv();
-      const url = URL.createObjectURL(blob);
-      const anchor = document.createElement("a");
-      anchor.href = url;
-      anchor.download = "나의-평가.csv";
-      anchor.rel = "noopener";
-      document.body.append(anchor);
-      anchor.click();
-      anchor.remove();
-      // Some browsers start the download asynchronously, so revoking in the same task
-      // cancels it before the blob is read.
-      window.setTimeout(() => URL.revokeObjectURL(url), 10_000);
+      saveBlobAsFile(await exportStudentAssessmentsCsv(), "나의-평가.csv");
     } catch (requestError) {
       if (requestError instanceof ApiRequestError && requestError.status === 401) {
         leaveForLogin();

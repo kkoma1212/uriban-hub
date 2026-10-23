@@ -1848,6 +1848,90 @@
         ]
       }
     },
+    "/api/v1/classes/current/records.csv": {
+      "get": {
+        "operationId": "ClassRecordsController_currentClass",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "UTF-8 BOM CSV",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthenticatedError"
+          },
+          "403": {
+            "$ref": "#/components/responses/ForbiddenError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        },
+        "summary": "현재 반에서 선생님이 쓴 공지·준비물·숙제·일정·투표 CSV(담임만)",
+        "tags": [
+          "class-records"
+        ],
+        "security": [
+          {
+            "classhubSession": []
+          }
+        ]
+      }
+    },
+    "/api/v1/past-classes/{classId}/records.csv": {
+      "get": {
+        "operationId": "ClassRecordsController_pastClass",
+        "parameters": [
+          {
+            "name": "classId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "UTF-8 BOM CSV",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthenticatedError"
+          },
+          "403": {
+            "$ref": "#/components/responses/ForbiddenError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        },
+        "summary": "지난 반(종료 후 365일 이내)의 선생님이 쓴 글 CSV(그 반 담임만)",
+        "tags": [
+          "class-records"
+        ],
+        "security": [
+          {
+            "classhubSession": []
+          }
+        ]
+      }
+    },
     "/api/v1/meals/today": {
       "get": {
         "operationId": "MealsController_today",
@@ -9650,6 +9734,58 @@
         ]
       }
     },
+    "/api/v1/admin/reconfirm-report": {
+      "get": {
+        "operationId": "AdminManagementController_reconfirmReport",
+        "parameters": [
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "date",
+              "example": "2026-10-01",
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "date",
+              "example": "2026-10-31",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthenticatedError"
+          },
+          "403": {
+            "$ref": "#/components/responses/ForbiddenError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        },
+        "tags": [
+          "admin-management"
+        ],
+        "security": [
+          {
+            "classhubAdminSession": []
+          }
+        ]
+      }
+    },
     "/api/v1/admin/users": {
       "get": {
         "operationId": "AdminManagementController_listUsers",
@@ -11276,6 +11412,10 @@
             "maxLength": 20,
             "minLength": 2
           },
+          "email_masked": {
+            "type": "string",
+            "description": "본인 메일의 앞 두 글자만 보이게 가린 값(예: st***@example.com). 인증번호를 보낸 곳 안내용."
+          },
           "email_verified": {
             "type": "boolean"
           },
@@ -12006,6 +12146,10 @@
           "email_masked": {
             "type": "string"
           },
+          "has_profile_photo": {
+            "type": "boolean",
+            "description": "목록에만. 지금 사진을 받을 수 있으면 true(사진 기능이 꺼져 있으면 false)"
+          },
           "id": {
             "type": "string",
             "pattern": "^[1-9][0-9]*$"
@@ -12148,6 +12292,10 @@
         "properties": {
           "display_name": {
             "type": "string"
+          },
+          "has_profile_photo": {
+            "type": "boolean",
+            "description": "대화 응답에만. 지금 사진을 받을 수 있으면 true"
           },
           "member_id": {
             "type": "string",
@@ -12370,6 +12518,10 @@
           },
           "request": {
             "$ref": "#/components/schemas/HelpRequestItemResponseDto"
+          },
+          "teacher_has_profile_photo": {
+            "type": "boolean",
+            "description": "학생이 받는 대화에만. 현재 반 담임 사진을 지금 받을 수 있으면 true"
           }
         },
         "required": [
@@ -13253,6 +13405,11 @@
             "minimum": 0,
             "nullable": true
           },
+          "active_student_count": {
+            "type": "number",
+            "description": "교사만: 승인된 학생 수(반 관리와 같은 기준). 학생 홈에는 없다.",
+            "minimum": 0
+          },
           "unresolved_count": {
             "type": "number",
             "description": "학생만: 소식 탭 '안 한 것'과 같은 기준의 남은 공지·준비물 수(투표 제외). 셀 수 없으면 null.",
@@ -13840,6 +13997,10 @@
             "maxLength": 20,
             "minLength": 2
           },
+          "has_profile_photo": {
+            "type": "boolean",
+            "description": "지금 사진을 받을 수 있으면 true(사진 기능이 꺼져 있으면 false)"
+          },
           "member_id": {
             "type": "string",
             "example": "1",
@@ -13957,6 +14118,10 @@
           },
           "is_important": {
             "type": "boolean"
+          },
+          "minor_edit": {
+            "type": "boolean",
+            "description": "true면 오타·띄어쓰기 수정으로 보고 판을 올리지 않아 학생 재확인을 요구하지 않습니다. 제목·본문에서 바뀐 글자가 5자 이하이고 숫자가 그대로일 때만 받습니다."
           },
           "title": {
             "type": "string",
@@ -14795,6 +14960,10 @@
             "type": "string",
             "example": "2026-07-15",
             "format": "date"
+          },
+          "minor_edit": {
+            "type": "boolean",
+            "description": "true면 오타·띄어쓰기 수정으로 보고 판을 올리지 않아 학생 재확인을 요구하지 않습니다. 제목·설명에서 바뀐 글자가 5자 이하이고 숫자가 그대로이며 날짜·종류가 그대로일 때만 받습니다."
           },
           "title": {
             "type": "string",
@@ -16089,6 +16258,10 @@
       "ClassChatAuthorResponseDto": {
         "type": "object",
         "properties": {
+          "has_profile_photo": {
+            "type": "boolean",
+            "description": "대화 상태의 메시지 작성자에만. 지금 사진을 받을 수 있으면 true"
+          },
           "member_id": {
             "type": "string",
             "pattern": "^[1-9][0-9]*$"

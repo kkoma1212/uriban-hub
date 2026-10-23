@@ -11,7 +11,7 @@ import {
   ListAdminClassesQueryDto,
   ListAdminPeopleQueryDto,
 } from "./admin-directory.dto.js";
-import { maskEmail } from "./admin-directory.service.js";
+import { maskEmail } from "../common/privacy/mask-email.js";
 import { summarizeDevice } from "./admin-sessions.service.js";
 import { AdminManagementController } from "./admin-management.controller.js";
 import {

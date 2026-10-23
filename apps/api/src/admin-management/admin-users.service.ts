@@ -31,7 +31,7 @@ import {
 } from "../mail/security-change-mailer.js";
 import { PASSWORD_RESET_MAILER } from "../auth/auth.tokens.js";
 import type { PasswordResetMailer } from "../mail/password-reset-mailer.js";
-import { maskEmail } from "./admin-directory.service.js";
+import { maskEmail } from "../common/privacy/mask-email.js";
 import { adminError } from "./admin-error.js";
 
 const mariaUserListCodec = createMariaDbRowCodec({

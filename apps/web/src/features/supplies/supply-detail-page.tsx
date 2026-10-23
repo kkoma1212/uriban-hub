@@ -19,6 +19,8 @@ import {
   StudentDetailActions,
   type EmbeddedDetailProps,
 } from "../details/content-detail-frame";
+import { MinorEditOption } from "../details/minor-edit-option";
+import { RichText } from "../details/rich-text";
 import { AsyncStatePanel } from "../layout/async-state";
 import { ConfirmDialog } from "../layout/confirm-dialog";
 import { itemListEntryKey } from "../layout/item-list-history";
@@ -66,6 +68,8 @@ export function SupplyDetailPage({
   const [entity, setEntity] = useState<SupplyEntityResponse>();
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
+  const [minorEdit, setMinorEdit] = useState(false);
+  const [minorEditError, setMinorEditError] = useState<string>();
   const [saving, setSaving] = useState(false);
   const [checkingDesired, setCheckingDesired] = useState<boolean>();
   const [deleting, setDeleting] = useState(false);
@@ -193,16 +197,19 @@ export function SupplyDetailPage({
     if (supplyId === undefined || entity === undefined) return;
     setSaving(true);
     setError(undefined);
+    setMinorEditError(undefined);
     setNotice(undefined);
     try {
-      const updated = await updateSupply(supplyId, request, entity.etag);
+      const updated = await updateSupply(supplyId, request, entity.etag, { minorEdit });
       setEntity(updated);
       restoreEditFocusRef.current = true;
       setEditing(false);
       setNotice(
-        updated.item.content_revision === entity.item.content_revision
+        updated.item.row_version === entity.item.row_version
           ? `변경된 내용이 없어 기존 ${kindName} 내용을 그대로 유지했습니다.`
-          : `${kindName} 내용을 수정했습니다. 학생들은 최신 내용을 다시 확인하게 됩니다.`,
+          : updated.item.content_revision === entity.item.content_revision
+            ? "오타 수정으로 저장했어요. 학생들의 기존 확인 기록은 그대로예요."
+            : `${kindName} 내용을 수정했습니다. 학생들은 최신 내용을 다시 확인하게 됩니다.`,
       );
     } catch (requestError) {
       if (
@@ -225,6 +232,11 @@ export function SupplyDetailPage({
         );
       } else if (requestError instanceof ApiRequestError && requestError.status === 401) {
         void navigate("/login", { replace: true });
+      } else if (
+        requestError instanceof ApiRequestError &&
+        requestError.code === "MINOR_EDIT_NOT_ALLOWED"
+      ) {
+        setMinorEditError(requestError.message);
       } else {
         setError(
           requestError instanceof Error
@@ -444,6 +456,8 @@ export function SupplyDetailPage({
               disabled={mutationBusy}
               onClick={() => {
                 setEditing(!editing);
+                setMinorEdit(false);
+                setMinorEditError(undefined);
                 setError(undefined);
                 setNotice(undefined);
               }}
@@ -523,7 +537,11 @@ export function SupplyDetailPage({
             상세 설명
           </h2>
           <p className="whitespace-pre-wrap break-words text-[15.5px] leading-[1.75] text-app-text">
-            {item.description ?? "별도로 등록된 설명이 없어요. 제목과 날짜를 확인해 주세요."}
+            {item.description === null ? (
+              "별도로 등록된 설명이 없어요. 제목과 날짜를 확인해 주세요."
+            ) : (
+              <RichText text={item.description} />
+            )}
           </p>
         </section>
         <dl className="mt-5 divide-y divide-app-border border-t border-app-border text-sm">
@@ -555,6 +573,16 @@ export function SupplyDetailPage({
             <p className="mt-2 break-keep text-sm leading-6 text-app-muted">
               제목·설명·날짜가 실제로 바뀌면 학생에게 재확인이 필요해요.
             </p>
+            <MinorEditOption
+              checked={minorEdit}
+              disabled={mutationBusy}
+              error={minorEditError}
+              onChange={(checked) => {
+                setMinorEdit(checked);
+                setMinorEditError(undefined);
+              }}
+              scheduleNote
+            />
             <div className="mt-5">
               <SupplyForm
                 busy={mutationBusy}

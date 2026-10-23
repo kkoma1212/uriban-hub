@@ -1,6 +1,11 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 class ClassChatAuthorResponseDto {
+  @ApiPropertyOptional({
+    description: "대화 상태의 메시지 작성자에만. 지금 사진을 받을 수 있으면 true",
+    type: Boolean,
+  })
+  has_profile_photo?: boolean;
   @ApiProperty({ pattern: "^[1-9][0-9]*$", type: String }) member_id!: string;
   @ApiProperty() name!: string;
   @ApiProperty({ enum: ["student", "teacher"] }) role!: "student" | "teacher";

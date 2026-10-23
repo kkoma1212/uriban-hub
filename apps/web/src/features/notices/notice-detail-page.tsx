@@ -19,11 +19,13 @@ import {
   StudentDetailActions,
   type EmbeddedDetailProps,
 } from "../details/content-detail-frame";
+import { MinorEditOption } from "../details/minor-edit-option";
 import { AsyncStatePanel } from "../layout/async-state";
 import { ConfirmDialog } from "../layout/confirm-dialog";
 import { itemListEntryKey } from "../layout/item-list-history";
 import { noticeListEntryKey } from "./notice-list-history";
 import { NoticeConfirmationsPanel } from "./notice-confirmations-panel";
+import { RichText } from "../details/rich-text";
 import { NoticeForm } from "./notice-form";
 import { formatNoticeDateTime } from "./notice-format";
 import { StudentNoticeConfirmation } from "./student-notice-confirmation";
@@ -57,6 +59,8 @@ export function NoticeDetailPage({
   const [entity, setEntity] = useState<NoticeEntityResponse>();
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
+  const [minorEdit, setMinorEdit] = useState(false);
+  const [minorEditError, setMinorEditError] = useState<string>();
   const [saving, setSaving] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -240,16 +244,21 @@ export function NoticeDetailPage({
     const generation = renderedRequestGeneration;
     setSaving(true);
     setError(undefined);
+    setMinorEditError(undefined);
     setNotice(undefined);
     try {
       const previous = entity.item;
-      const updated = await updateNotice(noticeId, request, entity.etag);
+      const updated = await updateNotice(noticeId, request, entity.etag, { minorEdit });
       if (!isCurrentRequest(noticeId, generation)) return;
       setEntity(updated);
       restoreEditFocusRef.current = true;
       setEditing(false);
+      const textChanged =
+        updated.item.title !== previous.title || updated.item.content !== previous.content;
       if (updated.item.row_version === previous.row_version) {
         setNotice("변경된 내용이 없어 기존 공지를 그대로 유지했습니다.");
+      } else if (textChanged && updated.item.content_revision === previous.content_revision) {
+        setNotice("오타 수정으로 저장했어요. 학생들의 기존 확인 기록은 그대로예요.");
       } else if (updated.item.content_revision === previous.content_revision) {
         setNotice("중요 표시를 변경했습니다. 학생들의 기존 확인 기록은 유지됩니다.");
       } else {
@@ -279,6 +288,11 @@ export function NoticeDetailPage({
         );
       } else if (requestError instanceof ApiRequestError && requestError.status === 401) {
         void navigate("/login", { replace: true });
+      } else if (
+        requestError instanceof ApiRequestError &&
+        requestError.code === "MINOR_EDIT_NOT_ALLOWED"
+      ) {
+        setMinorEditError(requestError.message);
       } else {
         setError(
           requestError instanceof Error ? requestError.message : "공지를 수정하지 못했습니다.",
@@ -311,7 +325,7 @@ export function NoticeDetailPage({
               item: { ...current.item, confirmation_state: result.confirmation_state },
             },
       );
-      setNotice("현재 공지를 확인했습니다.");
+      setNotice("현재 공지를 확인했어요.");
     } catch (requestError) {
       if (!isCurrentRequest(noticeId, generation)) return;
       if (
@@ -495,6 +509,8 @@ export function NoticeDetailPage({
               disabled={mutationBusy}
               onClick={() => {
                 setEditing(!editing);
+                setMinorEdit(false);
+                setMinorEditError(undefined);
                 setError(undefined);
                 setNotice(undefined);
               }}
@@ -583,7 +599,7 @@ export function NoticeDetailPage({
             공지 내용
           </h2>
           <p className="whitespace-pre-wrap break-words text-[15.5px] leading-[1.75] text-app-text">
-            {item.content}
+            <RichText text={item.content} />
           </p>
         </section>
         {teacher ? (
@@ -609,6 +625,15 @@ export function NoticeDetailPage({
             <p className="mt-2 break-keep text-sm leading-6 text-app-muted">
               제목·본문을 바꾸면 재확인이 필요하고, 중요 표시만 바꾸면 기존 확인은 유지돼요.
             </p>
+            <MinorEditOption
+              checked={minorEdit}
+              disabled={mutationBusy}
+              error={minorEditError}
+              onChange={(checked) => {
+                setMinorEdit(checked);
+                setMinorEditError(undefined);
+              }}
+            />
             <div className="mt-5">
               <NoticeForm
                 busy={mutationBusy}

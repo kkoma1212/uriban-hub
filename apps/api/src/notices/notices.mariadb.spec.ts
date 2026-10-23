@@ -150,6 +150,7 @@ const updateCommand: UpdateNoticeCommand = {
   category: undefined,
   content: undefined,
   isImportant: undefined,
+  minorEdit: undefined,
   title: undefined,
 };
 const createCommand: CreateNoticeCommand = {

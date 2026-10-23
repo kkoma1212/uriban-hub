@@ -622,7 +622,10 @@ export function ClassChatPanel({
                     <Avatar
                       className="help-avatar-small"
                       name={first.author.name}
-                      photoUrl={optionalMemberProfilePhotoUrl(true, first.author.member_id)}
+                      photoUrl={optionalMemberProfilePhotoUrl(
+                        first.author.has_profile_photo !== false,
+                        first.author.member_id,
+                      )}
                       size={28}
                     />
                   ) : (

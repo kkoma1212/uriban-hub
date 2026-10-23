@@ -223,7 +223,9 @@ export function HelpRequestsPage(): React.JSX.Element {
     let active = true;
     setItems(undefined);
     setError(undefined);
-    setTeacherAuthorised(false);
+    // 이미 확인한 교사 표시는 다시 불러오는 동안 지우지 않는다 — 지우면 화면 틀이 메뉴 없는 모양으로 바뀌어
+    // 본문이 다시 만들어지고 방금 누른 보기 범위 단추와 초점이 사라진다(T-SHELL-REMOUNT와 같은 모양).
+    // 역할이 바뀌었으면 아래 확인이 다른 화면으로 보낸다.
     void (async () => {
       const bootstrap = await getBootstrap();
       if (!active) return;

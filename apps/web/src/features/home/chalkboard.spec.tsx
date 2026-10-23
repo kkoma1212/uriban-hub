@@ -158,7 +158,7 @@ describe("teacherChalkLines", () => {
 });
 
 describe("빈 칠판 축소 조건", () => {
-  it("성공한 빈 판만 모바일·태블릿 여백을 줄이고 PC·나무틀·분필은 유지한다", () => {
+  it("성공한 빈 판만 모바일·태블릿·낮은 PC 여백을 줄이고 PC·나무틀·분필은 유지한다", () => {
     render(
       <MemoryRouter>
         <Chalkboard
@@ -175,6 +175,8 @@ describe("빈 칠판 축소 조건", () => {
       "min-h-[4.75rem]",
       "sm:min-h-[5.5rem]",
       "xl:min-h-[9.25rem]",
+      // 세로 760px 이하 PC(노트북)에서는 빈 칠판도 줄인다(2026-10-23 사용자 B안).
+      "xl:[@media(max-height:760px)]:min-h-[4.75rem]",
     );
     expect(board).toHaveClass("bg-[var(--color-chalk-frame)]");
     expect(screen.getByText("칠판에 올릴 중요한 안내는 없어요").getAttribute("style")).toContain(

@@ -272,8 +272,8 @@ export function MemberManagementPage(): React.JSX.Element {
       await load(activeTab);
       setNotice(
         (result.warnings.includes("EXPECTED_STUDENT_COUNT_EXCEEDED")
-          ? `${result.member.display_name} 학생을 승인했습니다. 예상 학생 수를 초과했습니다.`
-          : `${result.member.display_name} 학생을 승인했습니다.`) +
+          ? `${result.member.display_name} 학생을 승인했어요. 예상 학생 수를 넘었어요.`
+          : `${result.member.display_name} 학생을 승인했어요.`) +
           (result.email_delivery_status === "failed"
             ? " 안내 메일을 보내지 못했어요. 학생에게 결과를 알려 주세요."
             : ""),
@@ -637,7 +637,10 @@ export function MemberManagementPage(): React.JSX.Element {
                       {profilePhotosEnabled ? (
                         <Avatar
                           name={member.display_name}
-                          photoUrl={optionalMemberProfilePhotoUrl(true, member.id)}
+                          photoUrl={optionalMemberProfilePhotoUrl(
+                            member.has_profile_photo !== false,
+                            member.id,
+                          )}
                           size={30}
                         />
                       ) : null}

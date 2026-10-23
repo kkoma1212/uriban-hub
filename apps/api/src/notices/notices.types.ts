@@ -37,6 +37,8 @@ export interface NoticeConfirmationResult {
 export interface NoticeConfirmationMemberItem {
   confirmation_state: NoticeConfirmationState;
   display_name: string;
+  /** 지금 사진을 받을 수 있으면 true — 화면은 true일 때만 사진을 요청한다. 컨트롤러가 붙인다. */
+  has_profile_photo?: boolean;
   member_id: string;
   student_number: number | null;
 }
@@ -93,6 +95,8 @@ export interface UpdateNoticeCommand {
   content: string | undefined;
   ifMatch: string | string[] | undefined;
   isImportant: boolean | undefined;
+  /** 오타 수정으로 저장(판 유지). 판단 기준은 content-edits/minor-edit.ts */
+  minorEdit: boolean | undefined;
   noticeId: string;
   requestId: string;
   title: string | undefined;

@@ -49,6 +49,8 @@ export interface NoticeConfirmationResponse {
 export interface NoticeConfirmationMember {
   confirmation_state: NoticeConfirmationState;
   display_name: string;
+  /** 지금 사진을 받을 수 있는지(2026-10-23~). false면 사진을 요청하지 않는다. */
+  has_profile_photo?: boolean;
   member_id: string;
   student_number: number | null;
 }
@@ -138,9 +140,10 @@ export async function updateNotice(
   noticeId: string,
   request: NoticeWriteRequest,
   etag: string,
+  { minorEdit = false }: { minorEdit?: boolean } = {},
 ): Promise<NoticeEntityResponse> {
   const { audience: _immutableAudience, ...mutableRequest } = request;
-  const body = JSON.stringify(mutableRequest);
+  const body = JSON.stringify(minorEdit ? { ...mutableRequest, minor_edit: true } : mutableRequest);
   return withCsrfRecovery(
     ({ apiFetch, csrfToken }) =>
       apiFetch(`/api/v1/notices/${encodeURIComponent(noticeId)}`, {

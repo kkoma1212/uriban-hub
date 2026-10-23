@@ -104,6 +104,49 @@ export async function getAdminActivityTrend(days: AdminActivityDays): Promise<Ad
   return parseResponse(response);
 }
 
+/** 시범 판정 지표: 고친 공지·준비물의 재확인 수(숫자만, 학생 이름·번호 없음). */
+export interface AdminReconfirmCounts {
+  earlier_revisions_excluded: number;
+  eligible: number;
+  reconfirmed_total: number;
+  reconfirmed_within_window: number;
+  revisions: number;
+}
+
+export interface AdminReconfirmReport {
+  classes: Array<AdminReconfirmCounts & { id: string; name: string; school_name: string }>;
+  events: Array<{
+    class_id: string;
+    eligible: number;
+    item_id: string;
+    kind: "notice" | "supply";
+    reconfirmed_total: number;
+    reconfirmed_within_window: number;
+    revised_at: string;
+    revision: string;
+  }>;
+  /** 한국 날짜 YYYY-MM-DD(처음·끝 포함) */
+  from: string;
+  to: string;
+  totals: AdminReconfirmCounts;
+  window_hours: number;
+}
+
+export async function getAdminReconfirmReport(period: {
+  from?: string;
+  to?: string;
+}): Promise<AdminReconfirmReport> {
+  const params = new URLSearchParams();
+  if (period.from) params.set("from", period.from);
+  if (period.to) params.set("to", period.to);
+  const query = params.toString();
+  const response = await apiFetch(
+    `/api/v1/admin/reconfirm-report${query === "" ? "" : `?${query}`}`,
+    { credentials: "include" },
+  );
+  return parseResponse(response);
+}
+
 export type AdminPersonRole = "teacher" | "student";
 export type AdminPersonStatus = "active" | "pending" | "inactive";
 

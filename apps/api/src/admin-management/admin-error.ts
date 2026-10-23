@@ -23,6 +23,8 @@ export const ADMIN_ERROR_MESSAGES: Readonly<Record<string, string>> = Object.fre
   ADMIN_MEMBER_CLASS_NOT_ACTIVE: "운영 중인 반이 아니라 구성원 상태를 바꿀 수 없어요.",
   ADMIN_MEMBER_FILTER_REQUIRED: "찾을 조건을 하나 이상 넣어 주세요.",
   ADMIN_MEMBER_REASON_REQUIRED: "사유를 적어 주세요.",
+  ADMIN_REPORT_PERIOD_INVALID:
+    "기간은 실제 날짜로, 시작일이 끝날보다 늦지 않게, 120일 이내로 골라 주세요.",
   ADMIN_MEMBER_STATUS_TRANSITION_INVALID:
     "지금 구성원 상태에서는 그렇게 바꿀 수 없어요. 새로고침한 뒤 다시 확인해 주세요.",
   ADMIN_SESSION_NOT_FOUND: "이미 끝났거나 없는 세션이에요.",

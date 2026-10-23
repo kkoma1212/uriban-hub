@@ -33,7 +33,8 @@ export function PasswordCopyButton({
         type="button"
       >
         {copied ? <Check aria-hidden size={16} /> : <Copy aria-hidden size={16} />}
-        복사
+        {/* '복사'만으로는 무엇을 복사하는지 몰랐다(2026-10-21 첫 사용 점검 18). */}
+        {label} 복사
       </button>
       <span className="text-sm text-app-muted" role="status">
         {notice}

@@ -104,7 +104,8 @@ describe("AdminLoginPage", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: "비밀번호 확인" }));
     expect(await screen.findByLabelText("6자리 인증번호")).toBeVisible();
-    expect(screen.getByLabelText("6자리 인증번호")).toHaveFocus();
+    // 초점은 그린 뒤 도는 효과에서 옮겨져, 바쁠 때는 입력칸이 보인 다음 차례에 따라온다.
+    await waitFor(() => expect(screen.getByLabelText("6자리 인증번호")).toHaveFocus());
     expect(JSON.parse(String(fetchMock.mock.calls[0]?.[1]?.body))).toEqual({
       email: "admin@classhub.local",
       password: "test-admin-password",
@@ -158,7 +159,8 @@ describe("AdminLoginPage", () => {
     expect(await screen.findByText("GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ")).toBeVisible();
     expect(screen.getByRole("img", { name: "관리자 인증 앱 등록 QR 코드" })).toBeVisible();
     expect(screen.getByRole("button", { name: "설정 키 복사" })).toBeVisible();
-    expect(screen.getByRole("button", { name: "설정 키 복사" })).toHaveFocus();
+    // 위와 같은 이유로 초점 이동은 기다려서 확인한다.
+    await waitFor(() => expect(screen.getByRole("button", { name: "설정 키 복사" })).toHaveFocus());
     expect(screen.queryByLabelText("비밀번호")).not.toBeInTheDocument();
     expect(fetchMock.mock.calls[0]?.[0]).toBe("/api/v1/admin/auth/login");
     expect(JSON.parse(String(fetchMock.mock.calls[0]?.[1]?.body))).toEqual({
@@ -385,7 +387,7 @@ it.each(["duration", "absolute", "shared-longer"])(
         `약 ${expectedSeconds - 1}초 뒤`,
       );
       expect(document.querySelector("[data-admin-login-wait]")).toHaveAttribute("aria-live", "off");
-      expect(document.body).not.toHaveTextContent("회 시도가 남았어요");
+      expect(document.body).not.toHaveTextContent("짧은 시간에");
       fireEvent.submit(screen.getByLabelText("비밀번호").closest("form")!);
       expect(fetchMock).toHaveBeenCalledOnce();
       await act(async () => {

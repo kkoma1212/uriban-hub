@@ -271,6 +271,40 @@ describe("SupplyDetailPage", () => {
     expect(editButton).toHaveFocus();
   });
 
+  // 오타 수정 처리(2026-10-22 사용자 결정).
+  it("sends a teacher-marked typo fix and says student checks stay", async () => {
+    const fetchMock = renderDetail();
+    const base = fetchMock.getMockImplementation()!;
+    fetchMock.mockImplementation((input, init) =>
+      requestUrl(input) === "/api/v1/supplies/17" && init?.method === "PATCH"
+        ? Promise.resolve(
+            jsonResponse(
+              { ...supply, description: "자와 컴퍼스를 함께 가져와요.", row_version: "5" },
+              200,
+              { ETag: '"5"' },
+            ),
+          )
+        : base(input, init),
+    );
+    fireEvent.click(await screen.findByRole("button", { name: "내용 수정" }));
+    expect(screen.getByText(/날짜나 종류를 바꾸면 늘 다시 확인받아요/u)).toBeVisible();
+    fireEvent.change(screen.getByRole("textbox", { name: /설명/u }), {
+      target: { value: "자와 컴퍼스를 함께 가져와요." },
+    });
+    fireEvent.click(screen.getByRole("checkbox", { name: /오타·띄어쓰기만 고쳤어요/u }));
+    fireEvent.click(screen.getByRole("button", { name: "수정 저장" }));
+    expect(
+      await screen.findByText("오타 수정으로 저장했어요. 학생들의 기존 확인 기록은 그대로예요."),
+    ).toBeVisible();
+    const patchCall = fetchMock.mock.calls.find(
+      ([input, init]) => requestUrl(input) === "/api/v1/supplies/17" && init?.method === "PATCH",
+    );
+    expect(JSON.parse(String(patchCall?.[1]?.body))).toMatchObject({
+      description: "자와 컴퍼스를 함께 가져와요.",
+      minor_edit: true,
+    });
+  });
+
   it("focuses the async status heading only when the follow-up anchor is present", async () => {
     renderDetail("teacher", { hash: "#supply-check-status" });
 

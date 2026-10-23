@@ -262,6 +262,7 @@ export class SuppliesController {
       category: body.category,
       description: body.description,
       ifMatch,
+      minorEdit: body.minor_edit,
       neededOn: body.needed_on,
       requestId: request.id,
       supplyId: id,

@@ -172,6 +172,11 @@ describe("TeacherClassArchivePage", () => {
     expect(screen.getByText(/개인정보가 없는 최소한의 반 기록/u)).toBeVisible();
     expect(screen.getByText(/반에 연결하지 않은 개인 평가는 자체 보관 기한/u)).toBeVisible();
     expect(screen.getByText("선생님과 학생의 이 반 활동은 즉시 종료됩니다.")).toBeVisible();
+    // 종료 전에 반 기록을 받아 둘 수 있고, 종료 뒤에는 지난 반에서 받는다는 안내.
+    expect(
+      screen.getByText(/종료 후에도 365일이 지나기 전까지 ‘지난 반’에서 내려받을/u),
+    ).toBeVisible();
+    expect(screen.getByRole("button", { name: "반 기록 CSV 받기" })).toBeEnabled();
     expect(
       screen.getByText(/종료 당시 승인된 구성원은 종료 후 365일이 지나기 전까지/u),
     ).toBeVisible();

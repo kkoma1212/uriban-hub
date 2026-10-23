@@ -8,6 +8,7 @@ import { AuditLogsModule } from "./audit-logs/audit-logs.module.js";
 import { PublicSystemStateModule } from "./system-state/system-state.module.js";
 import { BootstrapModule } from "./bootstrap/bootstrap.module.js";
 import { ClassesModule } from "./classes/classes.module.js";
+import { ClassRecordsModule } from "./class-records/class-records.module.js";
 import { ClientErrorsModule } from "./client-errors/client-errors.module.js";
 import { LoggingModule } from "./common/logging/logging.module.js";
 import { loadEnvironment, type AppEnvironment } from "./config/environment.js";
@@ -88,6 +89,7 @@ export class AppModule {
             PublicSystemStateModule,
             BootstrapModule,
             ClassesModule,
+            ClassRecordsModule,
             MealsModule,
             MembershipModule,
             MembersModule,

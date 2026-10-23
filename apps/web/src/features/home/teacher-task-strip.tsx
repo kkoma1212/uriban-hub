@@ -41,6 +41,23 @@ function FollowupsEntry(): React.JSX.Element {
   );
 }
 
+/**
+ * 승인 학생도 참여 요청도 없는 반이면 초대 코드·QR이 있는 반 관리로 이끈다. 빈 반 교사 홈은 칠판 쓰기만
+ * 권해서 첫 학생을 부르는 길이 보이지 않았다(2026-10-21 첫 사용 점검). 수를 모르면 보이지 않는다.
+ */
+function StudentInviteEntry({ home }: { home: HomeResponse }): React.JSX.Element | null {
+  if (home.active_student_count !== 0 || home.pending_member_count !== 0) return null;
+  return (
+    <Link
+      className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-bold text-role-primary hover:bg-app-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2"
+      data-student-invite-entry
+      to="/class/manage"
+    >
+      아직 학생이 없어요 · 학생 초대하기
+    </Link>
+  );
+}
+
 function knownCount(value: number | null | undefined): number | undefined {
   return typeof value === "number" && Number.isSafeInteger(value) && value >= 0 ? value : undefined;
 }
@@ -74,7 +91,7 @@ function UnconfirmedTaskEntries({ home }: { home: HomeResponse }): React.JSX.Ele
           className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-app-muted"
           to="/members/manage"
         >
-          가입 요청 수 확인 불가 · 목록 보기
+          참여 요청 수 확인 불가 · 목록 보기
         </Link>
       ) : null}
     </>
@@ -144,13 +161,14 @@ export function TeacherTaskStrip({
       ))}
       <UnconfirmedTaskEntries home={home} />
       <HelpRequestNotice state={helpRequestState} />
+      <StudentInviteEntry home={home} />
       <FollowupsEntry />
     </nav>
   );
 }
 
 const TASK_TITLES: Record<string, string> = {
-  가입: "가입 요청",
+  가입: "참여 요청",
   도움: "도움 요청",
   출결: "출결 연락 미확인",
 };
@@ -208,6 +226,7 @@ export function TeacherTasksPanel({
       )}
       <UnconfirmedTaskEntries home={home} />
       <HelpRequestNotice state={helpRequestState} />
+      <StudentInviteEntry home={home} />
       <div className="mt-3 border-t border-app-border pt-2">
         <FollowupsEntry />
       </div>

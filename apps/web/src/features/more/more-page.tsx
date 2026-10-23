@@ -2,6 +2,7 @@ import {
   Backpack,
   CalendarRange,
   ChevronRight,
+  ExternalLink,
   History,
   LoaderCircle,
   MessageCircleMore,
@@ -11,6 +12,7 @@ import {
   Settings,
   Settings2,
   Soup,
+  Sparkles,
   Vote,
   type LucideIcon,
 } from "lucide-react";
@@ -215,6 +217,10 @@ const TILE_COLUMNS: Record<number, string> = {
 const FOCUS_RING =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-role-primary focus-visible:ring-offset-2";
 
+// 2026-10-23 사용자 결정: 업데이트 소식은 소개 사이트 한 곳에만 쓰고 앱은 그 페이지를 새 창으로 연다
+// (소식을 더할 때 앱을 다시 빌드하지 않도록).
+const UPDATES_PAGE_URL = "https://kkoma1212.github.io/uriban-hub-site/updates.html";
+
 function isVisible(bootstrap: BootstrapResponse, destination: MoreDestination): boolean {
   return (
     destination.actions === undefined ||
@@ -293,6 +299,29 @@ function MoreRow({
       </span>
       <ChevronRight aria-hidden="true" className="shrink-0 text-app-muted" size={18} />
     </Link>
+  );
+}
+
+function UpdatesRow(): React.JSX.Element {
+  return (
+    <a
+      className={`flex min-h-14 items-center gap-3 px-4 py-2.5 text-app-text transition hover:bg-role-soft ${FOCUS_RING}`}
+      data-more-row="updates"
+      href={UPDATES_PAGE_URL}
+      rel="noreferrer"
+      target="_blank"
+    >
+      <span className="shrink-0 text-role-primary">
+        <Sparkles aria-hidden="true" size={20} />
+      </span>
+      <span className="min-w-0 flex-1">
+        <strong className="block text-[0.95rem] font-extrabold">업데이트 소식</strong>
+        <span className="mt-0.5 block break-keep text-xs text-app-muted">
+          앱에서 바뀐 점 · 새 창으로 열려요
+        </span>
+      </span>
+      <ExternalLink aria-hidden="true" className="shrink-0 text-app-muted" size={18} />
+    </a>
   );
 }
 
@@ -454,6 +483,7 @@ export function MorePage(): React.JSX.Element {
               {byPlacement("row").map((destination) => (
                 <MoreRow destination={destination} key={destination.to} />
               ))}
+              <UpdatesRow />
             </div>
           </section>
         </nav>

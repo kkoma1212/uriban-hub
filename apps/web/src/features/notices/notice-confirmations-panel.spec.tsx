@@ -2,6 +2,11 @@ import { fireEvent, render, screen, waitFor, within } from "@testing-library/rea
 import { MemoryRouter } from "react-router";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import {
+  beginNavigationCapabilitiesRequest,
+  clearNavigationCapabilities,
+  rememberNavigationCapabilities,
+} from "../../lib/navigation-capabilities";
 import { NoticeConfirmationsPanel } from "./notice-confirmations-panel";
 
 function jsonResponse(body: unknown, status = 200): Response {
@@ -114,6 +119,76 @@ describe("NoticeConfirmationsPanel", () => {
       }
       unmount();
       vi.restoreAllMocks();
+    }
+  });
+
+  it("requests member photos only for students the server marks as having one", async () => {
+    // 첫 사용 점검 19번: 사진 없는 학생마다 404 요청이 생기던 것.
+    rememberNavigationCapabilities(beginNavigationCapabilitiesRequest(), {
+      allowed_actions: ["USE_PROFILE_PHOTOS"],
+      current_membership: {
+        class_id: "1",
+        display_name_in_class: null,
+        id: "1",
+        role: "teacher",
+        student_number: null,
+        status: "approved",
+      },
+    });
+    vi.spyOn(globalThis, "fetch").mockImplementation(() =>
+      Promise.resolve(
+        jsonResponse({
+          content_revision: "1",
+          counts: {
+            confirmed: 0,
+            excluded_member_count: 0,
+            modified_unconfirmed: 0,
+            reconfirmed: 0,
+            unread: 2,
+          },
+          items: [
+            {
+              confirmation_state: "unread",
+              display_name: "김하나",
+              has_profile_photo: true,
+              member_id: "31",
+              student_number: 1,
+            },
+            {
+              confirmation_state: "unread",
+              display_name: "이두리",
+              has_profile_photo: false,
+              member_id: "32",
+              student_number: 2,
+            },
+          ],
+          last_reminder_requested_at: null,
+          next_cursor: null,
+          server_today: "2026-09-23",
+        }),
+      ),
+    );
+    try {
+      render(
+        <MemoryRouter>
+          <NoticeConfirmationsPanel
+            contentRevision="1"
+            membershipId="membership-1"
+            noticeId="17"
+            onReloadContent={() => Promise.resolve()}
+            title="시험 범위 안내"
+            tone="latest"
+          />
+        </MemoryRouter>,
+      );
+      await screen.findByText(/이두리/u);
+      expect(
+        [...document.querySelectorAll("img")]
+          .map((img) => img.getAttribute("src"))
+          .filter((src) => src?.startsWith("/api/v1/profile-photos/")),
+      ).toEqual(["/api/v1/profile-photos/members/31"]);
+    } finally {
+      clearNavigationCapabilities();
     }
   });
 

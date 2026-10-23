@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
@@ -7,7 +7,7 @@ import { LoginPage } from "../features/auth/login-page";
 vi.mock("../features/auth/social-login-buttons", () => ({ SocialLoginButtons: () => null }));
 
 import { JoinInvitePage } from "../features/bootstrap/join-invite-page";
-import { InviteQrCode } from "../features/classes/invite-qr-code";
+import { InviteQrCode, InviteQrEnlargeButton } from "../features/classes/invite-qr-code";
 import {
   clearPendingInviteCode,
   inviteJoinUrl,
@@ -99,7 +99,21 @@ describe("InviteQrCode", () => {
     render(<InviteQrCode code="ABCD2345" />);
     const qr = screen.getByRole("img", { name: "반 참여 QR 코드" });
     await waitFor(() => expect(qr.querySelector("path")).not.toBeNull());
-    expect(screen.getByText(/초대 코드가 채워진 참여 화면이 열립니다/u)).toBeInTheDocument();
+    expect(screen.getByText(/초대 코드가 채워진 참여 화면이 열려요/u)).toBeInTheDocument();
+  });
+
+  it("QR을 창으로 크게 띄우고, 닫으면 크게 보기 단추로 초점을 돌려준다", async () => {
+    render(<InviteQrEnlargeButton code="ABCD2345" />);
+    const opener = screen.getByRole("button", { name: "QR 크게 보기" });
+    fireEvent.click(opener);
+    const dialog = screen.getByRole("dialog", { name: /반 참여 화면이 열려요/u });
+    const qr = within(dialog).getByRole("img", { name: "반 참여 QR 코드 크게 보기" });
+    await waitFor(() => expect(qr.querySelector("path")).not.toBeNull());
+    expect(within(dialog).getByText("ABCD2345")).toBeInTheDocument();
+    expect(within(dialog).getByRole("button", { name: "닫기" })).toHaveFocus();
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(opener).toHaveFocus();
   });
 });
 

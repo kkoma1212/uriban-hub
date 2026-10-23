@@ -27,7 +27,7 @@ const initial = {
 const pending = {
   ...initial,
   allowed_actions: ["CANCEL_MEMBERSHIP_REQUEST", "LOGOUT", "DELETE_ACCOUNT", "CHANGE_PASSWORD"],
-  current_class: { id: "10", name: "시험 반", status: "active" },
+  current_class: { id: "10", name: "시험 반", school_name: "시험 중학교", status: "active" },
   current_membership: {
     id: "30",
     class_id: "10",
@@ -67,6 +67,12 @@ describe("pending membership quota visibility", () => {
     expect(screen.queryByText(/총 3회/)).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "승인 상태 확인" })).toBeEnabled();
     expect(screen.getByRole("button", { name: "반 참여 요청 취소" })).toBeEnabled();
+    // 요청한 반은 학교와 함께 한 번만 보이고, 다른 반이면 취소하라고 알린다. 뜻 모를 '기준일'은 없다
+    // (첫 사용 점검 11·18).
+    expect(screen.getByText("다른 반이면 아래 ‘반 참여 요청 취소’를 눌러 주세요.")).toBeVisible();
+    expect(screen.getByText("시험 중학교 · 시험 반")).toBeVisible();
+    expect(screen.getAllByText(/시험 반/u)).toHaveLength(1);
+    expect(screen.queryByText(/기준일/u)).not.toBeInTheDocument();
   });
   it("keeps invite retry information and enforcement before successful membership", async () => {
     limiter.seconds = 60;

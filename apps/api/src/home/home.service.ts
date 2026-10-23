@@ -284,25 +284,33 @@ export class HomeService {
     }
 
     let pendingMemberCount: number | null = null;
+    let activeStudentCount: number | undefined;
     if (context.role === "teacher") {
       try {
-        const count = await database
+        // 승인 학생 수는 반 관리(classes.service)와 같은 기준이다. 빈 반 교사 홈에 학생 초대 안내를
+        // 보이려고 함께 센다(2026-10-21 첫 사용 점검). 상태별로 묶어 한 번만 조회한다.
+        const counts = await database
           .selectFrom("class_members as member")
           .innerJoin("users as account", "account.id", "member.user_id")
-          .select((expression) => expression.fn.countAll<string>().as("count"))
+          .select((expression) => ["member.status", expression.fn.countAll<string>().as("count")])
           .where("member.class_id", "=", context.classId)
           .where("member.role", "=", "student")
-          .where("member.status", "=", "pending")
+          .where("member.status", "in", ["pending", "approved"])
           .where("account.is_active", "=", true)
           .where("account.deleted_at", "is", null)
-          .executeTakeFirstOrThrow();
-        pendingMemberCount = Number(count.count);
+          .groupBy("member.status")
+          .execute();
+        const countFor = (status: string) =>
+          Number(counts.find((row) => row.status === status)?.count ?? 0);
+        pendingMemberCount = countFor("pending");
+        activeStudentCount = countFor("approved");
       } catch {
         throw new HomeUnavailableException();
       }
     }
 
     const home: HomeResult = {
+      ...(activeStudentCount === undefined ? {} : { active_student_count: activeStudentCount }),
       ...(attendance === undefined ? {} : { attendance }),
       ...(birthdays === undefined ? {} : { birthdays }),
       meal,

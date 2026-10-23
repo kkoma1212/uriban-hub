@@ -500,4 +500,39 @@ describe("ClassChatPage", () => {
       "/api/v1/class-chat/reports/7/resolve",
     ]);
   });
+
+  it("학생: 사진이 있다고 표시된 친구만 사진을 요청한다(첫 사용 점검 19번)", async () => {
+    mockApi("student", (call) => {
+      if (call.url === "/api/v1/bootstrap")
+        return json({
+          allowed_actions: ["VIEW_CLASS", "USE_CLASS_CHAT", "USE_PROFILE_PHOTOS"],
+          current_class: { id: "1", name: "1반", status: "active" },
+          current_membership: { class_id: "1", id: "3", role: "student", status: "approved" },
+          destination: "HOME",
+        });
+      if (call.url === "/api/v1/class-chat")
+        return json(
+          state("student", [
+            message("1", { author: { ...author("2", "학생가"), has_profile_photo: true } }),
+            message("2", { author: { ...author("4", "학생라"), has_profile_photo: false } }),
+            // 표시가 없는 옛 응답은 예전처럼 요청한다.
+            message("3", { author: author("5", "학생마") }),
+          ]),
+        );
+      return undefined;
+    });
+    try {
+      renderPage();
+      expect(await screen.findByText("메시지 3")).toBeVisible();
+      await waitFor(() =>
+        expect(
+          [...document.querySelectorAll("[data-class-chat-group] img")].map((img) =>
+            img.getAttribute("src"),
+          ),
+        ).toEqual(["/api/v1/profile-photos/members/2", "/api/v1/profile-photos/members/5"]),
+      );
+    } finally {
+      clearAuthenticatedClientState();
+    }
+  });
 });

@@ -13,6 +13,7 @@ import { SocialConnectionsPanel } from "./social-connections-panel";
 export function SocialConnectionsPage(): React.JSX.Element {
   const navigate = useNavigate();
   const [role, setRole] = useState<AppNavigationRole>();
+  const [roleChecked, setRoleChecked] = useState(false);
   useEffect(() => {
     let active = true;
     void getBootstrap()
@@ -22,10 +23,13 @@ export function SocialConnectionsPage(): React.JSX.Element {
           bootstrap.current_membership?.role ??
             (bootstrap.teacher_profile === null ? "student" : "teacher"),
         );
+        setRoleChecked(true);
       })
       .catch((error: unknown) => {
-        if (active && error instanceof ApiRequestError && error.status === 401)
+        if (!active) return;
+        if (error instanceof ApiRequestError && error.status === 401)
           void navigate("/login", { replace: true });
+        else setRoleChecked(true);
       });
     return () => {
       active = false;
@@ -40,7 +44,9 @@ export function SocialConnectionsPage(): React.JSX.Element {
         eyebrow="내 계정"
         title="빠른 로그인 연결"
       />
-      <SocialConnectionsPanel />
+      {/* 역할이 정해지면 AppShell이 본문을 사이드바 격자로 옮기며 다시 만든다. 그 전에 패널을 그리면 먼저 누른
+          해제 결과 안내가 지워지므로(T-SHELL-REMOUNT, 2026-10-21 재현) bootstrap 조회가 끝난 뒤에 그린다. */}
+      {roleChecked ? <SocialConnectionsPanel /> : null}
     </AppShell>
   );
 }

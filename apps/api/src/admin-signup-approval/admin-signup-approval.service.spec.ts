@@ -283,6 +283,7 @@ describe("AdminSignupApprovalService issue contract", () => {
         code: result.code,
         role: "teacher",
         expiresAt: result.expiresAt,
+        purpose: "approval",
       });
       expect(database.transaction).toHaveBeenCalledOnce();
     },

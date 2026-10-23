@@ -44,13 +44,14 @@ import {
 } from "../../lib/idempotent-create";
 import { codePointLength } from "../../lib/text";
 import { AUTHENTICATED_CLIENT_STATE_CLEARED_EVENT } from "../../lib/authenticated-client-state";
+import { ClassRecordsDownload } from "../class-records/class-records-download";
 import { teacherOnlyAccessRedirect } from "../layout/access-redirect-notice";
 import { AppShell } from "../layout/app-shell";
 import { AsyncStatePanel } from "../layout/async-state";
 import { ConfirmDialog } from "../layout/confirm-dialog";
 import { ContentFrameBody, ContentFrameHeader } from "../layout/content-frame";
 import { AppearanceControl } from "../theme";
-import { InviteQrCode } from "./invite-qr-code";
+import { InviteQrCode, InviteQrEnlargeButton } from "./invite-qr-code";
 import { DetailsGrid, SchoolDetailsPanel } from "./school-details-panel";
 
 function formatDateTime(value: string): string {
@@ -121,6 +122,7 @@ export function TeacherClassManagementPage(): React.JSX.Element {
   const classNameInputRef = useRef<HTMLInputElement>(null);
   const editButtonRef = useRef<HTMLButtonElement>(null);
   const rotateButtonRef = useRef<HTMLButtonElement>(null);
+  const inviteHeadingRef = useRef<HTMLHeadingElement>(null);
   const wasEditingRef = useRef(false);
   const rotatingRef = useRef(false);
   const savingRef = useRef(false);
@@ -366,7 +368,7 @@ export function TeacherClassManagementPage(): React.JSX.Element {
       rotateAttemptRef.current = undefined;
       setRotateOutcomeUnknown(false);
       setInvite(nextInvite);
-      setNotice("반 초대 코드를 재발급했습니다.");
+      setNotice("반 초대 코드를 재발급했어요.");
     } catch (requestError) {
       if (!isCurrent()) return;
       if (isMutationOutcomeUnknown(requestError)) {
@@ -549,21 +551,36 @@ export function TeacherClassManagementPage(): React.JSX.Element {
           data-class-management-overview="true"
         >
           <div className="min-w-0">
-            <h2 className="mb-2 text-[13px] font-bold text-app-muted">학생 초대</h2>
+            <h2
+              className="mb-2 text-[13px] font-bold text-app-muted"
+              ref={inviteHeadingRef}
+              tabIndex={-1}
+            >
+              학생 초대
+            </h2>
             <section aria-label="학생 초대" className="content-card p-3.5 sm:p-[18px]">
               <div className="flex min-w-0 items-center gap-2 sm:gap-4">
                 {expired ? null : <InviteQrCode code={invite.invite_code.code} compact />}
                 <div className="min-w-0 flex-1">
-                  <code className="block break-all text-[26px] font-extrabold leading-tight tracking-[0.06em] text-role-primary">
+                  {/* 만료 코드가 큰 글씨로 그대로 보이고 복사도 돼 지난 코드를 나눠 줄 수 있었다
+                      (2026-10-21 첫 사용 점검). 흐리게 긋고 복사를 막아 '새 코드'로 이끈다. */}
+                  <code
+                    className={`block break-all text-[26px] font-extrabold leading-tight tracking-[0.06em] ${expired ? "text-app-muted line-through" : "text-role-primary"}`}
+                  >
                     {invite.invite_code.code}
                   </code>
-                  <p className="mt-1 text-xs leading-5 text-app-muted">
-                    {expired ? "만료된 초대 코드예요" : "학생이 앱에서 이 코드를 넣어요"}
+                  <p
+                    className={`mt-1 text-xs leading-5 ${expired ? "font-bold text-danger-text" : "text-app-muted"}`}
+                  >
+                    {expired
+                      ? "만료된 코드예요. 학생에게 주지 말고 '새 코드'를 눌러 주세요"
+                      : "학생이 앱에서 이 코드를 넣어요"}
                   </p>
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     <button
                       aria-live="polite"
                       className="ui-button ui-button-secondary min-h-11 px-2 text-sm sm:px-3"
+                      disabled={expired}
                       onClick={() => void copyInviteCode()}
                       type="button"
                     >
@@ -574,6 +591,7 @@ export function TeacherClassManagementPage(): React.JSX.Element {
                       )}
                       {copied ? "복사됨" : "코드 복사"}
                     </button>
+                    {expired ? null : <InviteQrEnlargeButton code={invite.invite_code.code} />}
                     <button
                       aria-busy={rotating}
                       aria-label={
@@ -597,7 +615,8 @@ export function TeacherClassManagementPage(): React.JSX.Element {
               </div>
               <p className="mt-3 flex items-start gap-2 text-xs leading-5 text-app-muted">
                 <CalendarClock aria-hidden="true" className="mt-0.5 shrink-0" size={16} />
-                {formatDateTime(invite.invite_code.expires_at)}까지 쓸 수 있어요.
+                {formatDateTime(invite.invite_code.expires_at)}
+                {expired ? "에 만료됐어요." : "까지 쓸 수 있어요."}
               </p>
               <Link
                 className="ui-button ui-button-primary mt-3 min-h-11 text-sm"
@@ -860,6 +879,10 @@ export function TeacherClassManagementPage(): React.JSX.Element {
             </div>
           </div>
         </details>
+        {/* 학기 중에도 '반 운영 종료' 화면까지 가지 않고 받게(2026-10-23 사용자 선택). */}
+        <div className="mt-[18px]">
+          <ClassRecordsDownload />
+        </div>
         <Link
           aria-label="반 운영 종료 알아보기"
           className="mt-[18px] block rounded-2xl border border-rose-200 bg-app-surface p-4"
@@ -886,6 +909,9 @@ export function TeacherClassManagementPage(): React.JSX.Element {
             setRotateDialogOpen(false);
             void rotateInviteCode();
           }}
+          // 재발급을 누르면 '새 코드' 단추가 처리 중에 잠겨 초점을 돌려받지 못하고 페이지 맨 앞
+          // '본문으로 건너뛰기'로 갔다(2026-10-22 실측). 그때는 초대 칸 제목으로 돌려보낸다.
+          fallbackFocusTo={inviteHeadingRef.current}
           open={rotateDialogOpen}
           returnFocusTo={rotateButtonRef.current}
           title={

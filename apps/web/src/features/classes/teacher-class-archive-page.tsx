@@ -1,5 +1,5 @@
 import { Archive, LoaderCircle, RefreshCw, ShieldAlert } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
 import {
@@ -15,6 +15,7 @@ import {
   clearAuthenticatedClientState,
 } from "../../lib/authenticated-client-state";
 import { listPastClasses } from "../../api/past-classes";
+import { ClassRecordsDownload } from "../class-records/class-records-download";
 import { AppShell } from "../layout/app-shell";
 import { AsyncStatePanel } from "../layout/async-state";
 import { ConfirmDialog } from "../layout/confirm-dialog";
@@ -107,7 +108,8 @@ export function TeacherClassArchivePage(): React.JSX.Element {
     };
   }, [loadAttempt, navigate]);
 
-  useEffect(() => {
+  // 그려지는 순간 초점을 준다. useEffect는 그린 뒤에 돌아 오류 안내가 보이는데 초점은 본문에 있는 틈이 생겼다(10-21 부하 재현 4/100).
+  useLayoutEffect(() => {
     if (submissionError !== undefined) submissionErrorRef.current?.focus();
   }, [submissionError]);
 
@@ -289,6 +291,10 @@ export function TeacherClassArchivePage(): React.JSX.Element {
               종료 당시 승인된 구성원은 종료 후 365일이 지나기 전까지 ‘지난 반’에서 소식을 읽기
               전용으로 볼 수 있습니다. 교사는 활성 교사 계정이어야 합니다.
             </li>
+            <li>
+              선생님이 쓴 반 기록은 아래에서 지금 내려받을 수 있고, 종료 후에도 365일이 지나기
+              전까지 ‘지난 반’에서 내려받을 수 있습니다.
+            </li>
             <li>승인을 기다리는 반 참여 요청은 취소되고 현재 반 초대 코드는 즉시 폐기됩니다.</li>
             <li>앱에서 반을 복원하는 기능은 제공하지 않습니다.</li>
             <li>
@@ -300,6 +306,10 @@ export function TeacherClassArchivePage(): React.JSX.Element {
               삭제됩니다. 반에 연결하지 않은 개인 평가는 자체 보관 기한을 따릅니다.
             </li>
           </ul>
+        </div>
+
+        <div className="mt-4">
+          <ClassRecordsDownload />
         </div>
 
         <form className="mt-6 space-y-4" noValidate onSubmit={reviewArchive}>

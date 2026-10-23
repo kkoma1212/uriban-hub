@@ -199,6 +199,46 @@ describe("HelpRequestsPage", () => {
     expect(screen.queryByRole("button", { name: "처리 완료" })).not.toBeInTheDocument();
   });
 
+  it("보기 범위를 바꿔도 교사 메뉴 틀을 유지해 누른 단추와 초점이 그대로 남는다", async () => {
+    let bootstrapCalls = 0;
+    let releaseBootstrap!: () => void;
+    const laterBootstrap = new Promise<void>((resolve) => {
+      releaseBootstrap = resolve;
+    });
+    mockApi(async (url) => {
+      if (url === "/api/v1/bootstrap") {
+        bootstrapCalls += 1;
+        if (bootstrapCalls > 1) await laterBootstrap;
+        return json(teacherBootstrap);
+      }
+      return json({
+        items: [
+          item({
+            status: "resolved",
+            student: { display_name: "학생가", member_id: "2", student_number: 1 },
+          }),
+        ],
+      });
+    });
+    const { container } = render(
+      <MemoryRouter>
+        <HelpRequestsPage />
+      </MemoryRouter>,
+    );
+    expect(await screen.findByText("처리할 도움 요청이 없어요.")).toBeVisible();
+    expect(container.querySelector('[data-app-role="teacher"]')).not.toBeNull();
+    const closed = screen.getByRole("button", { name: "끝남" });
+    closed.focus();
+    fireEvent.click(closed);
+    // 역할 확인이 다시 끝나기 전에도 같은 틀이어야 한다 — 틀이 바뀌면 본문이 다시 만들어져 단추·초점이 사라진다.
+    expect(container.querySelector('[data-app-role="teacher"]')).not.toBeNull();
+    expect(closed).toBeInTheDocument();
+    expect(closed).toHaveFocus();
+    await act(async () => releaseBootstrap());
+    expect(await screen.findByText("1번 학생가")).toBeVisible();
+    expect(closed).toHaveAttribute("aria-pressed", "true");
+  });
+
   it("학생은 목록을 불러오지 않고 자기 질문 화면으로 간다(총검수 B1-07·B2-05)", async () => {
     const fetchMock = mockApi(() =>
       json({

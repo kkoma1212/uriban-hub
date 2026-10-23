@@ -9,6 +9,7 @@ import { ApiRequestError, login } from "../../api/auth";
 import { readPendingInviteCode } from "../../lib/invite-link";
 import { AlertDialog } from "../layout/alert-dialog";
 import { AuthShell, LoginMobileHeader } from "./auth-shell";
+import { LoginAutoRetryNotice, useLoginAutoRetry } from "./login-auto-retry";
 import { useRequestCooldown } from "./request-cooldown";
 import { SocialLoginButtons } from "./social-login-buttons";
 import { SocialUnlinkedNotice } from "./social-unlinked-notice";
@@ -81,7 +82,20 @@ export function LoginPage(): React.JSX.Element {
     resolver: zodResolver(loginSchema),
   });
 
-  const submit = handleSubmit(async (values) => {
+  const autoRetry = useLoginAutoRetry();
+  // '자동 재시도 멈추기'를 누르면 그 단추가 사라지므로 초점을 로그인 단추로 돌려준다(다시 그린 뒤 — 그 전엔 잠겨 있다).
+  // 1분 한도(429)로 아직 대기 중이면 로그인 단추가 잠겨 있으니 이메일 칸으로 보낸다.
+  const focusSubmitAfterCancel = useRef(false);
+  useEffect(() => {
+    if (autoRetry.pending || !focusSubmitAfterCancel.current) return;
+    focusSubmitAfterCancel.current = false;
+    const submitButton = submitButtonRef.current;
+    if (submitButton !== null && !submitButton.disabled) submitButton.focus();
+    else document.getElementById("login-email")?.focus();
+  }, [autoRetry.pending]);
+
+  /** 손으로 누른 제출과 자동 재시도가 같은 길을 쓴다. retriesSoFar는 이미 자동으로 다시 보낸 횟수. */
+  async function attemptLogin(values: LoginForm, retriesSoFar: number): Promise<void> {
     setSubmitError(undefined);
     setShowAttemptNotice(false);
 
@@ -89,6 +103,9 @@ export function LoginPage(): React.JSX.Element {
       await login({ email: values.email.trim().toLowerCase(), password: values.password });
       void navigate("/bootstrap", { replace: true });
     } catch (error) {
+      if (autoRetry.schedule(error, retriesSoFar, () => attemptLogin(values, retriesSoFar + 1)))
+        return;
+
       if (error instanceof ApiRequestError && error.code === "INVALID_CREDENTIALS") {
         setShowAttemptNotice(true);
         setSubmitError("이메일 또는 비밀번호를 확인해 주세요.");
@@ -107,9 +124,23 @@ export function LoginPage(): React.JSX.Element {
         return;
       }
 
+      // 자동 재시도를 다 쓰고도 서버가 바쁘면, 서버의 일반 문구 대신 무엇을 하면 되는지 알린다.
+      if (error instanceof ApiRequestError && error.code === "SERVICE_UNAVAILABLE") {
+        setSubmitError("지금 로그인하는 사람이 많아 들어가지 못했어요. 잠시 뒤 다시 눌러 주세요.");
+        return;
+      }
+
       setSubmitError(error instanceof Error ? error.message : "로그인하지 못했습니다.");
     }
+  }
+
+  const submit = handleSubmit((values) => {
+    autoRetry.cancel();
+    return attemptLogin(values, 0);
   });
+  // 입력을 고치면 예전 값으로 예약한 재시도를 지운다.
+  const cancelAutoRetryOnEdit = { onChange: autoRetry.cancel };
+  const busy = isSubmitting || autoRetry.running;
 
   return (
     <AuthShell
@@ -134,9 +165,17 @@ export function LoginPage(): React.JSX.Element {
           <div>
             <p className="font-bold">반 초대를 확인했어요.</p>
             <p className="mt-1">
-              처음이면 아래 &lsquo;선생님·학생 가입&rsquo;에서 학생으로 가입하고, 계정이 있으면
-              로그인해 주세요. 이 창에서 이어 가면 반 참여 화면에 초대 코드가 미리 채워져요.
+              처음이면 학생으로 가입하고, 계정이 있으면 아래에서 로그인해 주세요. 이 창에서 이어
+              가면 반 참여 화면에 초대 코드가 미리 채워져요.
             </p>
+            {/* 휴대폰에서는 아래 가입 링크가 첫 화면 밖이라 QR로 처음 온 학생이 찾기 어려웠다
+                (2026-10-21 첫 사용 점검). */}
+            <Link
+              className="ui-button ui-button-secondary mt-3 min-h-11 w-full text-sm"
+              to="/sign-up"
+            >
+              학생으로 가입하기
+            </Link>
           </div>
         </div>
       ) : null}
@@ -193,8 +232,8 @@ export function LoginPage(): React.JSX.Element {
             id="login-email"
             inputMode="email"
             autoCapitalize="none"
-            placeholder="student@example.com"
-            {...register("email")}
+            placeholder="name@example.com"
+            {...register("email", cancelAutoRetryOnEdit)}
           />
           {errors.email?.message === undefined ? null : (
             <p
@@ -221,7 +260,7 @@ export function LoginPage(): React.JSX.Element {
               id="login-password"
               placeholder="비밀번호 입력"
               type={showPassword ? "text" : "password"}
-              {...register("password")}
+              {...register("password", cancelAutoRetryOnEdit)}
             />
             <button
               aria-label={showPassword ? "비밀번호 숨기기" : "비밀번호 보기"}
@@ -248,16 +287,18 @@ export function LoginPage(): React.JSX.Element {
         </div>
 
         <button
-          aria-busy={isSubmitting}
+          aria-busy={busy}
           className="ui-button ui-button-primary h-[3.375rem] w-full text-base"
-          disabled={isSubmitting || cooldownSeconds > 0}
+          disabled={busy || autoRetry.pending || cooldownSeconds > 0}
           ref={submitButtonRef}
           type="submit"
         >
-          {isSubmitting ? (
+          {busy ? (
             <>
               <LoaderCircle aria-hidden="true" className="animate-spin" size={19} /> 로그인 중
             </>
+          ) : autoRetry.pending ? (
+            <>{autoRetry.seconds}초 뒤 자동으로 다시 시도</>
           ) : cooldownSeconds > 0 ? (
             <>다시 시도까지 {cooldownSeconds}초</>
           ) : (
@@ -267,6 +308,16 @@ export function LoginPage(): React.JSX.Element {
           )}
         </button>
       </form>
+
+      {autoRetry.pending ? (
+        <LoginAutoRetryNotice
+          onCancel={() => {
+            focusSubmitAfterCancel.current = true;
+            autoRetry.cancel();
+          }}
+          seconds={autoRetry.seconds}
+        />
+      ) : null}
 
       {new URLSearchParams(location.search).get("social_error") === "signup_required" ? (
         <SocialUnlinkedNotice provider={providerFromQuery(location.search)} />

@@ -5,6 +5,7 @@ import { AuthModule } from "../auth/auth.module.js";
 import type { AppEnvironment } from "../config/environment.js";
 import { DATABASE, type ClassHubDatabase } from "../database/database.module.js";
 import { NOTIFICATION_MAILER, type NotificationMailer } from "../mail/notification-mailer.js";
+import { MemberPhotoPresenceReader } from "../profile-photos/member-photo-presence.js";
 import { MariaDbMembersService } from "./mariadb/members.service.js";
 import { MemberBirthDateReader } from "./member-birth-dates.js";
 import { MembersController } from "./members.controller.js";
@@ -31,6 +32,7 @@ export function createMembersService(
       useFactory: createMembersService,
     },
     MemberBirthDateReader,
+    MemberPhotoPresenceReader,
   ],
   exports: [MembersService],
 })

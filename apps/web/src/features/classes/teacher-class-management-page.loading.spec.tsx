@@ -205,7 +205,7 @@ describe("TeacherClassManagementPage loading shell", () => {
     expect(qr.parentElement).toHaveClass("p-1.5");
     expect(screen.getByRole("region", { name: "학생 초대" })).toHaveClass("p-3.5", "sm:p-[18px]");
     expect(qr.closest("figure")?.parentElement).toHaveClass("gap-2", "sm:gap-4");
-    for (const name of ["코드 복사", "새 코드 (반 초대 코드 재발급)"]) {
+    for (const name of ["코드 복사", "QR 크게 보기", "새 코드 (반 초대 코드 재발급)"]) {
       expect(screen.getByRole("button", { name })).toHaveClass("min-h-11", "px-2", "sm:px-3");
     }
     expect(
@@ -216,8 +216,82 @@ describe("TeacherClassManagementPage loading shell", () => {
         .getByRole("link", { name: "반 운영 종료 알아보기" })
         .closest("[data-class-management-overview]"),
     ).toBeNull();
+    // 학기 중에도 반 기록을 받을 수 있게 반 운영 종료 바로 위에 둔다(2026-10-23).
+    const download = screen.getByRole("button", { name: "반 기록 CSV 받기" });
+    expect(
+      download.compareDocumentPosition(
+        screen.getByRole("link", { name: "반 운영 종료 알아보기" }),
+      ) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
     expect(screen.queryByRole("heading", { name: /자리|모둠|당번/u })).not.toBeInTheDocument();
     for (const link of screen.getAllByRole("link"))
       expect(link.getAttribute("href")).not.toMatch(/^\/(seating|grouping|duty)(?:\/|$)/u);
+  });
+});
+
+// 2026-10-21 첫 사용 점검: 만료 코드가 큰 글씨로 그대로 보이고 '코드 복사'도 눌려 지난 코드를 나눠 줄 수 있었다.
+describe("TeacherClassManagementPage expired invite", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("strikes out an expired code, blocks copying it and points to issuing a new one", async () => {
+    vi.spyOn(globalThis, "fetch").mockImplementation((input) => {
+      const url = requestUrl(input);
+      if (url === "/api/v1/bootstrap") return Promise.resolve(jsonResponse(bootstrapFixture));
+      if (url === "/api/v1/classes/current") {
+        return Promise.resolve(
+          jsonResponse({
+            academic_year: 2026,
+            active_student_count: 3,
+            expected_student_count: 30,
+            grade: 2,
+            id: "41",
+            name: "상태 검수 1반",
+            role: "teacher",
+            row_version: "1",
+            school_address: "경기도 검수시",
+            school_homepage_url: null,
+            school_name: "검수고등학교",
+            school_phone_number: null,
+            status: "active",
+            teacher_display_name: "검수 교사",
+          }),
+        );
+      }
+      if (url === "/api/v1/classes/current/invite-code") {
+        return Promise.resolve(
+          jsonResponse({
+            class_id: "41",
+            invite_code: {
+              code: "OLDCODE1",
+              created_at: "2026-07-01T00:00:00.000Z",
+              expires_at: "2026-07-15T00:00:00.000Z",
+              id: "70",
+              status: "expired",
+            },
+          }),
+        );
+      }
+      throw new Error(`Unexpected URL: ${url}`);
+    });
+
+    render(
+      <MemoryRouter initialEntries={["/class/manage"]}>
+        <Routes>
+          <Route element={<TeacherClassManagementPage />} path="/class/manage" />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    const code = await screen.findByText("OLDCODE1");
+    expect(code).toHaveClass("line-through", "text-app-muted");
+    expect(screen.getByRole("button", { name: "코드 복사" })).toBeDisabled();
+    expect(screen.getByText(/만료된 코드예요\. 학생에게 주지 말고/u)).toBeVisible();
+    expect(screen.getByText(/에 만료됐어요\./u)).toBeVisible();
+    expect(screen.queryByText(/까지 쓸 수 있어요/u)).not.toBeInTheDocument();
+    expect(screen.queryByRole("img", { name: "반 참여 QR 코드" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "QR 크게 보기" })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "새 코드 (반 초대 코드 재발급)" })).toBeEnabled();
   });
 });

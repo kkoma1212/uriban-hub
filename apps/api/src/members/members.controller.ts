@@ -32,6 +32,7 @@ import {
   UpdateMemberProfileDto,
   UpdateMemberProfileResponseDto,
 } from "./members.dto.js";
+import { MemberPhotoPresenceReader } from "../profile-photos/member-photo-presence.js";
 import { MemberBirthDateReader } from "./member-birth-dates.js";
 import { MembersService } from "./members.service.js";
 import type {
@@ -55,6 +56,7 @@ export class MembersController {
   constructor(
     private readonly membersService: MembersService,
     private readonly birthDates: MemberBirthDateReader,
+    private readonly photos: MemberPhotoPresenceReader,
   ) {}
 
   @Get()
@@ -71,7 +73,17 @@ export class MembersController {
   ): Promise<ListMembersResult> {
     const session = getAuthenticatedSession(request);
     const result = await this.membersService.list(session.userId, query.status);
-    return { members: await this.birthDates.attach(result.members) };
+    const members = await this.birthDates.attach(result.members);
+    const withPhoto = await this.photos.memberIdsWithPhoto(
+      session,
+      members.map((member) => member.id),
+    );
+    return {
+      members: members.map((member) => ({
+        ...member,
+        has_profile_photo: withPhoto.has(member.id),
+      })),
+    };
   }
 
   @Get(":id/profile")

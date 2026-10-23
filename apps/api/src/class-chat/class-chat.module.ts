@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 
 import { AuthModule } from "../auth/auth.module.js";
+import { MemberPhotoPresenceReader } from "../profile-photos/member-photo-presence.js";
 import { ClassChatController } from "./class-chat.controller.js";
 import { ClassChatService } from "./class-chat.service.js";
 
@@ -11,6 +12,6 @@ import { ClassChatService } from "./class-chat.service.js";
 @Module({
   imports: [AuthModule],
   controllers: [ClassChatController],
-  providers: [ClassChatService],
+  providers: [ClassChatService, MemberPhotoPresenceReader],
 })
 export class ClassChatModule {}

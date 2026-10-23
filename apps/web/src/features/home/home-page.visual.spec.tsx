@@ -164,7 +164,7 @@ describe("HomePage visual language", () => {
     );
 
     const tasks = await screen.findByRole("region", { name: "처리할 일" });
-    expect(within(tasks).getByRole("link", { name: /가입 요청\s*2/u })).toHaveAttribute(
+    expect(within(tasks).getByRole("link", { name: /참여 요청\s*2/u })).toHaveAttribute(
       "href",
       "/members/manage",
     );

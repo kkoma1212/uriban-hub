@@ -135,6 +135,51 @@ describe("past classes (S1)", () => {
     );
   });
 
+  it("담임으로 있던 지난 반에서만 반 기록 내려받기를 보이고 그 반 주소로 받는다", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockImplementation(async (input) => {
+      const requested = url(input);
+      if (requested === "/api/v1/past-classes")
+        return json({
+          items: [pastClass("1", 2025), { ...pastClass("2", 2024), role: "student" }],
+        });
+      if (requested.endsWith("/records.csv")) return new Response("\uFEFF\r\n");
+      return json({
+        items: [],
+        next_cursor: null,
+        selected_audience_enabled: true,
+        server_today: "2026-09-26",
+      });
+    });
+    vi.spyOn(URL, "createObjectURL").mockImplementation(() => "blob:records");
+    vi.spyOn(URL, "revokeObjectURL").mockImplementation(() => undefined);
+    const click = vi
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(() => undefined);
+    const { unmount } = render(
+      <MemoryRouter initialEntries={["/past-classes/1"]}>
+        <Routes>
+          <Route element={<PastClassUpdatesPage />} path="/past-classes/:classId" />
+        </Routes>
+      </MemoryRouter>,
+    );
+    fireEvent.click(await screen.findByRole("button", { name: "반 기록 CSV 받기" }));
+    await waitFor(() => expect(click).toHaveBeenCalledTimes(1));
+    expect(fetchMock.mock.calls.map(([input]) => url(input))).toContain(
+      "/api/v1/past-classes/1/records.csv",
+    );
+    unmount();
+
+    render(
+      <MemoryRouter initialEntries={["/past-classes/2"]}>
+        <Routes>
+          <Route element={<PastClassUpdatesPage />} path="/past-classes/:classId" />
+        </Routes>
+      </MemoryRouter>,
+    );
+    expect(await screen.findByRole("heading", { name: "2024학년도 2학년 2반" })).toBeVisible();
+    expect(screen.queryByRole("button", { name: "반 기록 CSV 받기" })).not.toBeInTheDocument();
+  });
+
   it("shows a plain not-found state for an expired or foreign class", async () => {
     vi.spyOn(globalThis, "fetch").mockImplementation(async (input) =>
       url(input) === "/api/v1/past-classes"
